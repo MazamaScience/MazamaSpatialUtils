@@ -1,0 +1,3 @@
+findCountries  Find countries underneath a set of locations. Map and identify them.
+findStates     Find US states underneath a set of locations. Map and identify them.
+findTimezones  Find timezones underneath a set of locations. Map and identify them.
