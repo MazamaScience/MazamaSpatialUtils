@@ -33,7 +33,7 @@ convertNaturalEarthAdm1 <- function(nameOnly=FALSE) {
   url <- paste0('http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/cultural/ne_10m_admin_',
                 adm, '_',
                 level, '.zip')
-  
+
   filePath <- paste(dataDir,basename(url),sep='/')
   utils::download.file(url,filePath)
   # NOTE:  This zip file has no directory so extra subdirectory needs to be created
@@ -62,8 +62,9 @@ convertNaturalEarthAdm1 <- function(nameOnly=FALSE) {
   SPDF$stateName <- SPDF$name
   
   # Subset this dataframe to include only obviously useful columns
-  usefulColumns <- c('countryCode','countryName','stateCode','stateName','latitude','longitude','area',
-                     'postal','code_hasc','fips','gns_lang','gns_adm1')
+  usefulColumns <- c('countryCode','countryName','stateCode','stateName','latitude','longitude','area_sqkm',
+                     'postal','adm1_code','code_hasc','fips','gns_lang','gns_adm1')
+  # TODO:  Check that usefulColumns are actually found in the dataframe
   SPDF <- SPDF[,usefulColumns]
   
   # Rationalize units:
@@ -76,7 +77,7 @@ convertNaturalEarthAdm1 <- function(nameOnly=FALSE) {
   SPDF@data[SPDF@data == -90] <- NA
   
   # Group polygons with the same identifier (gns_adm1)
-  SPDF <- organizePolygons(SPDF, uniqueID='gns_adm1')  
+  SPDF <- organizePolygons(SPDF, uniqueID='adm1_code', sumColumns=c('area','area_sqkm'))  
   
   # Assign a name and save the data
   assign(datasetName,SPDF)

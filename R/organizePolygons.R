@@ -37,7 +37,7 @@ organizePolygons <- function(dataset, uniqueID, sumColumns=NULL) {
   }
   nonDups <- dataset[!dupMask,]
   
-  # Test if there are any rows that have a duplicated 'uniqueID' but has columns require summation
+  # Test if there are any rows that have non-duplicated data but no columns specified for summation
   if (any(duplicated(nonDups@data[,uniqueID])) && is.null(sumColumns)) {
     message(paste0('There are duplicated ',uniqueID,' rows with different values. ',
                    'Please specify columns to be summed. Returning original dataframe.'))
@@ -49,6 +49,7 @@ organizePolygons <- function(dataset, uniqueID, sumColumns=NULL) {
   
   # Group polygons based off the unique identifier
   for (i in seq_along(nonDups)) {
+    print(i)
     x <- nonDups@data[,uniqueID][i]
     allX <- which(dataset@data[,uniqueID] == x)
     

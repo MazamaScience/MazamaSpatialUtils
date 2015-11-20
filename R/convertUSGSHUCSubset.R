@@ -1,13 +1,13 @@
 #' @keywords datagen
 #' @export
-#' @title Convert USGS Hydrologic Unit Shapefile
+#' @title Convert USGS Hydrologic Unit Shapefile into smaller subsets
 #' @param nameOnly logical specifying whether to only return the name without creating the file
-#' @description A hydrologic unit shapefile is downloaded and converted to a 
-#' SpatialPolygonsDataFrame. The resulting file will be created in the data directory 
-#' which can be set with \code{setSpatialDataDir()}.
-#' @details The HUC250k dataset consists of 8-digit HUCs.
+#' @description Using the complete WBD dataset downloaded from ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/WBD/Shape/
+#' and simplified using mapshaper, this function subsets the complete set of polygons into smaller groupings based 
+#' on larger Hydrologic Units. Files are saved into a new folder in the data directory as .RData SpatialPolygonsDataFrame. 
+#' The data directory can be set using \code{setSpatialDataDir()}. 
 #' @return Name of the dataset being created.
-#' @references \url{http://water.usgs.gov/GIS/metadata/usgswrd/XML/huc250k.xml}
+#' @references \url{ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/WBD/Shape}
 #' @seealso setSpatialDataDir
 
 # This data was downloaded as a large zip file for all HUC levels from 
@@ -17,24 +17,25 @@
 # Spatial Data Directory must be set for this function to work. 
 
 
-dsnPath <- 'WBDNational'
-shpName <- 'WBDHU6'
-
-# Specify the name of the dataset and file being created
-datasetName <- 'USGSHUC6'
 
 
-convertUSGSHUC <- function(dsnPath, shpNames, datasetName, nameOnly=FALSE) {
+
+
+convertUSGSHUC8 <- function(nameOnly=FALSE) {
   
   # Use package internal data directory
   dataDir <- getSpatialDataDir()
   
- 
+  # Specify the name of the dataset and file being created
+  # TO DO: Change this to change with the level and sublevel of HUC created, to be the appropriate
+  # file name. 
+  datasetName <- 'USGSHUC6'
   
   if (nameOnly) return(datasetName)
 
   # Convert shapefile into SpatialPolygonsDataFrame
-  
+  dsnPath <- 'WBDNational'
+  shpName <- 'WBDHU8-ms'
   SPDF <- convertLayer(dsn=dsnPath,layerName=shpName)
 
   # Rationalize naming:
@@ -47,11 +48,11 @@ convertUSGSHUC <- function(dsnPath, shpNames, datasetName, nameOnly=FALSE) {
   # * latitude (decimal degrees N)
   
   #   names(SPDF)
-  #    [1] "SHAPE_AREA" "SOURCEFEAT" "AREASQKM"   "METASOURCE" "HUC6"       "SOURCEORIG" "LOADDATE"   "TNMID"     
-  #    [9] "GEODB_OID"  "OBJECTID"   "AREAACRES"  "GNIS_ID"    "NAME"       "SOURCEDATA" "STATES"     "SHAPE_LENG"       
-  
+  #    [1] "SHAPE_AREA" "SOURCEFEAT" "AREASQKM"   "METASOURCE" "SOURCEORIG" "HUC8"       "LOADDATE"   "TNMID"     
+  #    [9] "AREAACRES"  "GNIS_ID"    "NAME"       "SOURCEDATA" "STATES"     "SHAPE_LENG"
   # Subset this dataframe to include only obviously useful columns
-  usefulColumns <- c('AREASQKM', 'HUC6', 'NAME', 'STATES')
+  usefulColumns <- c('AREASQKM', 'HUC8', 'NAME', 'STATES')
+  
   SPDF <- SPDF[,usefulColumns]
   names(SPDF) <- c('area','HUC','HUCName', 'stateCode')
 
@@ -73,30 +74,30 @@ convertUSGSHUC <- function(dsnPath, shpNames, datasetName, nameOnly=FALSE) {
   SPDF$latitude <- lat  
   SPDF$countryCode <- 'US'
   SPDF$countryName <- 'United States'
-  # NOTE: Some HUCs already have single state names, importing these where existing.
-  if (stringr::str_length(SPDF@data$stateCode >=3)) {
-    SPDF@data$stateCode <- ''
-  } else {
-    SPDF@daata$stateCode <- SPDF@data$stateCode
-  }
-#   if (stringr::str_length(SPDF@data$stateCode)==2) {
-#     stateCode <- stateCode
-#   } 
-#   else {
-#     suppressWarnings(SPDF$stateCode <- getStateCode(lon, lat, countryCodes=c('US')))
-#   }
-  
-  # TODO: write if statement for HUCS that have more than one state code to use centroid to find state. 
- 
+  suppressWarnings(SPDF$stateCode <- getStateCode(lon, lat, countryCodes=c('US')))
   SPDF$stateName <- codeToState(SPDF$stateCode, SPDF$countryCode)
    
   # Assign a name and save the data
   assign(datasetName,SPDF)
+  
+  # QUESTION: why does save have a list command and c(datasetName) in it? 
   save(list=c(datasetName),file=paste0(dataDir,"/",datasetName, '.RData'))
   
-  # Clean up
-  unlink(filePath, force=TRUE)
-  unlink(dsnPath, recursive=TRUE, force=TRUE)
+  # Break into chunks based on HUC4
+  HUC4codes <- substr(SPDF@data$HUC, start = 0, stop =4)
+  HUC4codes <- sort(unique(HUC4codes))
+  
+  dir.create(paste0(dataDir, '/HUC8sByUniqueHUC4'))
+  for (i in 1:length(HUC4codes)) {
+    print(HUC4codes[[i]])
+    regex <- paste0('^', HUC4codes[[i]])
+    HUC4 <- SPDF[stringr::str_detect(SPDF@data$HUC, regex),]
+    # Save as HUC8_'HUC4code'
+    fileName <- paste0('HUC8_', HUC4codes[[i]])
+    save(HUC4, file=paste0(dataDir, '/', 'HUC8sByUniqueHUC4/', fileName, '.RData'))
+  }
+  
+  
   
   return(invisible(datasetName))
 }
