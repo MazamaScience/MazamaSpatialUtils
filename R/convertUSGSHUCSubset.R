@@ -1,11 +1,17 @@
 #' @keywords datagen
 #' @export
 #' @title Convert USGS Hydrologic Unit Shapefile into smaller subsets
+#' @param subsetBy character string which must be 2, 4, 6, 8 or 10. 
+#' @param toSubset character string which must be 4, 6, 8, 10 or 12. 
 #' @param nameOnly logical specifying whether to only return the name without creating the file
 #' @description Using the complete WBD dataset downloaded from ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/WBD/Shape/
 #' and simplified using mapshaper, this function subsets the complete set of polygons into smaller groupings based 
 #' on larger Hydrologic Units. Files are saved into a new folder in the data directory as .RData SpatialPolygonsDataFrame. 
 #' The data directory can be set using \code{setSpatialDataDir()}. 
+#' @note This function requires that the data be downloaded from the URL below and 
+#' simplified to a much smaller size using mapshaper software and the command 
+#' mapshaper filname.shp -simplify 2% -o 
+#' #TODO change this below - what should this function return? 
 #' @return Name of the dataset being created.
 #' @references \url{ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/WBD/Shape}
 #' @seealso setSpatialDataDir
@@ -21,21 +27,19 @@
 
 
 
-convertUSGSHUC8 <- function(nameOnly=FALSE) {
+convertUSGSHUCSubset <- function(subsetBy='4', toSubset = '8', nameOnly=FALSE) {
   
   # Use package internal data directory
   dataDir <- getSpatialDataDir()
   
   # Specify the name of the dataset and file being created
-  # TO DO: Change this to change with the level and sublevel of HUC created, to be the appropriate
-  # file name. 
-  datasetName <- 'USGSHUC6'
+  datasetName <- paste0('USGSHUC', toSubset) 
   
   if (nameOnly) return(datasetName)
 
   # Convert shapefile into SpatialPolygonsDataFrame
   dsnPath <- 'WBDNational'
-  shpName <- 'WBDHU8-ms'
+  shpName <- paste0('WBDHU', toSubset, '-ms')
   SPDF <- convertLayer(dsn=dsnPath,layerName=shpName)
 
   # Rationalize naming:
@@ -51,10 +55,11 @@ convertUSGSHUC8 <- function(nameOnly=FALSE) {
   #    [1] "SHAPE_AREA" "SOURCEFEAT" "AREASQKM"   "METASOURCE" "SOURCEORIG" "HUC8"       "LOADDATE"   "TNMID"     
   #    [9] "AREAACRES"  "GNIS_ID"    "NAME"       "SOURCEDATA" "STATES"     "SHAPE_LENG"
   # Subset this dataframe to include only obviously useful columns
-  usefulColumns <- c('AREASQKM', 'HUC8', 'NAME', 'STATES')
+  HUC <- paste0('HUC', toSubset)
+  usefulColumns <- c('AREASQKM', HUC, 'NAME', 'STATES')
   
   SPDF <- SPDF[,usefulColumns]
-  names(SPDF) <- c('area','HUC','HUCName', 'stateCode')
+  names(SPDF) <- c('area','HUC','HUCName', 'originalStateCode')
 
   # Change are from km^2 to m^2
   SPDF@data$area <- SPDF@data$area * 1000000
@@ -63,7 +68,7 @@ convertUSGSHUC8 <- function(nameOnly=FALSE) {
   SPDF <- organizePolygons(SPDF, uniqueID='HUC', sumColumns='area')
 
   
-  
+  print('adding new columns')
   # Calculate centroids to help add more metadata
   centroids <- rgeos::gCentroid(SPDF, byid=TRUE)
   lon <- sp::coordinates(centroids)[,1]
@@ -82,19 +87,20 @@ convertUSGSHUC8 <- function(nameOnly=FALSE) {
   
   # QUESTION: why does save have a list command and c(datasetName) in it? 
   save(list=c(datasetName),file=paste0(dataDir,"/",datasetName, '.RData'))
-  
+  print('creating subset huc codes')
   # Break into chunks based on HUC4
-  HUC4codes <- substr(SPDF@data$HUC, start = 0, stop =4)
-  HUC4codes <- sort(unique(HUC4codes))
-  
-  dir.create(paste0(dataDir, '/HUC8sByUniqueHUC4'))
-  for (i in 1:length(HUC4codes)) {
-    print(HUC4codes[[i]])
-    regex <- paste0('^', HUC4codes[[i]])
-    HUC4 <- SPDF[stringr::str_detect(SPDF@data$HUC, regex),]
+  subsetHUCcodes <- substr(SPDF@data$HUC, start = 0, stop = subsetBy)
+  subsetHUCcodes <- sort(unique(subsetHUCcodes))
+  print('creating a directory')
+  dir.create(paste0(dataDir, '/HUC', toSubset, 'sByUniqueHUC', subsetBy, '/'))
+  print('for loop to save files')
+  for (i in 1:length(subsetHUCcodes)) {
+    print(subsetHUCcodes[i])
+    regex <- paste0('^', subsetHUCcodes[i])
+    subsetHUC <- SPDF[stringr::str_detect(SPDF@data$HUC, regex),]
     # Save as HUC8_'HUC4code'
-    fileName <- paste0('HUC8_', HUC4codes[[i]])
-    save(HUC4, file=paste0(dataDir, '/', 'HUC8sByUniqueHUC4/', fileName, '.RData'))
+    fileName <- paste0('HUC', toSubset, '_', subsetHUCcodes[i])
+    save(subsetHUC, file=paste0(dataDir, '/HUC', toSubset, 'sByUniqueHUC', subsetBy, '/', fileName, '.RData'))
   }
   
   
