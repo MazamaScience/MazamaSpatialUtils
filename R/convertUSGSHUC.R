@@ -67,7 +67,9 @@ convertUSGSHUC <- function(level='8', nameOnly=FALSE) {
   # Group polygons with duplicated hydrologic unit codes
   SPDF <- organizePolygons(SPDF, uniqueID='HUC', sumColumns='area')
 
-  
+  # TODO:  Larger HUCs are centered in the US, while at smaller levels the entire
+  # TODO:  HUCs are in foreign countries (ie Canada). Find a way to eliminate smaller
+  # TODO:  HUCs whose 'allStateCode' is not a US State
 
   # Calculate centroids to help add more metadata
   centroids <- rgeos::gCentroid(SPDF, byid=TRUE)
@@ -79,7 +81,22 @@ convertUSGSHUC <- function(level='8', nameOnly=FALSE) {
   SPDF$latitude <- lat  
   SPDF$countryCode <- 'US'
   SPDF$countryName <- 'United States'
+  
+  #NOTE: this takes quite a long time. 
   suppressWarnings(SPDF$stateCode <- getStateCode(lon, lat, countryCodes=c('US')))
+   
+  # Hack to change missing stateCodes to the value from allStateCode
+  
+  for (i in 1:nrow(SPDF)){
+    if (is.na(SPDF@data$stateCode[i])){
+      SPDF@data$stateCode[i] <- SPDF@data$allStateCode[i]      
+    }
+    if (stringr::str_length(SPDF@data$stateCode[i]) > 2){
+      SPDF@data$stateCode[i] <- substr(SPDF@data$stateCode[i], start=1, stop=2)
+    }
+  }
+  
+  
   SPDF$stateName <- codeToState(SPDF$stateCode, SPDF$countryCode)
    
   # Assign a name and save the data

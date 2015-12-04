@@ -5,6 +5,7 @@
 #' @param lon vector of longitudes in decimal degrees
 #' @param lat vector of latitudes in decimal degrees
 #' @param SPDF object of class SpatialPolygonsDataFrame
+#' @param useBuffering logical flag specyfing the use of location buffering to find the nearest polygon if not target polygon is found
 #' @param verbose logical flag controlling detailed progress statements
 #' @description All locations are first converted to \code{SpatialPoints} objects.
 #' The \pkg{sp::over()} function is then used to determine which polygon from \code{SPDF}
@@ -24,7 +25,7 @@
 #' Missing or invalid values in the incoming \code{lon} or \code{lat} vectors result in \code{NA}s at
 #' those positions in the returned vector or data frame.
 #' @return Vector or dataframe of data.
-getSpatialData <- function(lon,lat,SPDF,verbose=FALSE) {
+getSpatialData <- function(lon,lat,SPDF,useBuffering=FALSE,verbose=FALSE) {
   
   # Sanity check -- same number of lats and lons and datetimes
   if ( length(lon) != length(lat) ) {
@@ -50,7 +51,7 @@ getSpatialData <- function(lon,lat,SPDF,verbose=FALSE) {
   
   # If NA points are found, increment radius until limit is reached or a country is found
   # If there are no NA points, this block is skipped
-  if (length(badPointsIndex) != 0) {
+  if ( (length(badPointsIndex) != 0) && useBuffering ) {
   
     if (verbose) print(paste0(length(badPointsIndex),' points were outside of all polygons -- begin buffering ...'))
 

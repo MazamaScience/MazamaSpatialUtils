@@ -4,14 +4,15 @@
 \alias{subsetHUC}
 \title{Subset pre-formatted HUC files into smaller groupings.}
 \usage{
-subsetHUC(SPDF, subsetHUC = NULL, stateCode = NULL, allStateCodes = NULL)
+subsetHUC(SPDF, parentHUCs = NULL, stateCodes = NULL,
+  allStateCodes = NULL)
 }
 \arguments{
 \item{SPDF}{a spatial polygons dataframe created using the convertUSGSHUC function}
 
-\item{subsetHUC}{a character string that specifies which HUC to subset by}
+\item{parentHUCs}{a character vector specifying one or more containing HUCs}
 
-\item{stateCode}{a character string specifying which state to subset by}
+\item{stateCodes}{a character vector specifying one or more containing states}
 
 \item{allStateCodes}{similar to stateCode, but will also include HUCs who touch the
 state but whose centroid is in a different state.}

@@ -2,8 +2,8 @@
 #' @export
 #' @title Subset pre-formatted HUC files into smaller groupings. 
 #' @param SPDF a spatial polygons dataframe created using the convertUSGSHUC function
-#' @param subsetHUC a character string that specifies which HUC to subset by
-#' @param stateCode a character string specifying which state to subset by
+#' @param parentHUCs a character vector specifying one or more containing HUCs
+#' @param stateCodes a character vector specifying one or more containing states
 #' @param allStateCodes similar to stateCode, but will also include HUCs who touch the 
 #' state but whose centroid is in a different state. 
 #' @description A SpatialPolygons Dataframe is broken into smaller pieces based on
@@ -16,10 +16,10 @@
 #' 
 
 
-subsetHUC <- function(SPDF, subsetHUC=NULL, stateCode=NULL, allStateCodes=NULL){
+subsetHUC <- function(SPDF, parentHUCs=NULL, stateCodes=NULL, allStateCodes=NULL){
   
   
-  #Check that names of SPDF have required fields
+  # Check that names of SPDF have required fields
   
   requiredFields <- c('stateCode', 'HUC', 'allStateCodes')
   missingFields <- setdiff(requiredFields, names(SPDF))
@@ -27,33 +27,36 @@ subsetHUC <- function(SPDF, subsetHUC=NULL, stateCode=NULL, allStateCodes=NULL){
     stop(paste0('Missing fields in SPDF: ',missingFields))
   }
   
-  
-  #subsest HUC by HUC code
-  
-  regex <- paste0('^', subsetHUC)
-  if (!is.null(subsetHUC)){
-    subsetHUC <- as.character(subsetHUC)
-    if (stringr::str_length(subsetHUC) > stringr::str_length(SPDF@data$HUC[1])){
-      print('Innapropriate subsetHUC level, please choose a level smaller than the original HUC level.')
-      stop 
-    } else{
-    HUCMask <- stringr::str_detect(SPDF@data$HUC, regex)
-    SPDF <- SPDF[HUCMask,]
+  # Identify HUC string partial matches to use as a mask 
+  if (!is.null(parentHUCs)) {
+    HUCMask <- rep(FALSE, nrow(SPDF))
+    for (HUC in parentHUCs){
+      regex <- paste0('^', HUC)
+      mask <- stringr::str_detect(SPDF@data$HUC, regex)
+      HUCMask <- HUCMask | mask
     }
+    SPDF <- SPDF[HUCMask,]
   }
- 
   
-  #Subset HUC by stateCode
-  if ( !is.null(stateCode) ){
-    stateMask <- SPDF@data$stateCode == stateCode
+  # Subset HUC by stateCode
+  if ( !is.null(stateCodes) ) {
+    stateMask <- rep(FALSE, nrow(SPDF))
+    for (stateCode in stateCodes) { 
+      stateMask <- stateMask | (SPDF@data$stateCode == stateCode)
+    }
     stateMask <- stateMask & !is.na(stateMask)
     SPDF <- SPDF[stateMask,]
   }
   
-  #SubsetHUC by allstateCodes
-  if (!is.null(allStateCodes)){
-    allStateMask <- stringr::str_detect(SPDF@data$allStateCodes, allStateCodes)
-    SPDF<- SPDF[allStateMask,]
+  
+  
+  # SubsetHUC by allstateCodes
+  if (!is.null(allStateCodes)) {
+    allStateCodesMask <- rep(FALSE, nrow(SPDF))
+    for (stateCode in allStateCodes) {
+      allStateCodesMask <- allStateCodesMask | stringr::str_detect(SPDF@data$allStateCodes, stateCode) 
+    }
+    SPDF<- SPDF[allStateCodesMask,]
   }
   
   

@@ -4,7 +4,7 @@
 \alias{getSpatialData}
 \title{Return Spatial Data Associated with a Set of Locations}
 \usage{
-getSpatialData(lon, lat, SPDF, verbose = FALSE)
+getSpatialData(lon, lat, SPDF, useBuffering = FALSE, verbose = FALSE)
 }
 \arguments{
 \item{lon}{vector of longitudes in decimal degrees}
@@ -12,6 +12,8 @@ getSpatialData(lon, lat, SPDF, verbose = FALSE)
 \item{lat}{vector of latitudes in decimal degrees}
 
 \item{SPDF}{object of class SpatialPolygonsDataFrame}
+
+\item{useBuffering}{logical flag specyfing the use of location buffering to find the nearest polygon if not target polygon is found}
 
 \item{verbose}{logical flag controlling detailed progress statements}
 }
