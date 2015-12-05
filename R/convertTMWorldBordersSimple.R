@@ -5,7 +5,7 @@
 #' @description Returns a SpatialPolygonsDataFrame for a simple world divisions
 #' @details A world borders shapefile is downloaded and converted to a 
 #' SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
-#' in the package \code{SpatialDataDir} which can be set with \code{setSpatialDataDir()}.
+#' in the package \code{SpatialDataDir} which is set with \code{setSpatialDataDir()}.
 #' 
 #' This shapefile is a greatly simplified version of the TMWorldBorders shapefile and is especially suited
 #' for spatial searches. This is the default dataset used in \code{getCountry()} and \code{getCountryCode()}.

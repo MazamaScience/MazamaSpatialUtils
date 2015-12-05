@@ -8,6 +8,9 @@
 #' @return An object of class \code{SpatialPolygonsDataFrame}
 convertLayer <- function(dsn="", layerName="") {
   
+  # readOGR does not interpret '~' so do that with dirname()
+  dsn <- path.expand(dsn)
+  
   # Use package internal data directory
   dataDir <- getSpatialDataDir()
   

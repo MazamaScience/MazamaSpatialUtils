@@ -4,7 +4,7 @@
 #' @param nameOnly logical specifying whether to only return the name without creating the file
 #' @description A world timezone shapefile is downloaded from \url{http://efele.net/maps/tz/world/}
 #' and converted to a SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
-#' in the package \code{SpatialDataDir} which can be set with \code{setSpatialDataDir()}.
+#' in the spatial data directory which is set with \code{setSpatialDataDir()}.
 #' @note
 #' The following list of timezones have polygons but the associated rows in the dataframe have no data.
 #' These timezones also have no \code{countryCode} assigned. We hope to rectify this in a future release.

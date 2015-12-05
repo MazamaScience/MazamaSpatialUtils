@@ -3,7 +3,7 @@
 #' @title Return HUCs at Specified Locations
 #' @param lon vector of longitudes in decimal degrees
 #' @param lat vector of latitudes in decimal degrees
-#' @param dataset name of spatial dataset to use
+#' @param SPDF spatial polygons dataset of HUCs
 #' @param HUCs vector of Hydrologic Unit Codes
 #' @param allData logical specifying whether to return a full dataframe
 #' @description Uses spatial comparison to determine which HUC polygons the 

@@ -18,7 +18,7 @@ Returns a SpatialPolygonsDataFrame for a 1st level administrative divisions
 \details{
 A state border shapefile is downloaded and converted to a
 SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
-in the package \code{SpatialDataDir} which can be set with \code{setSpatialDataDir()}.
+in the spatial data directory which is set with \code{setSpatialDataDir()}.
 
 Within the \pkg{MazamaSpatialUtils} package the phrase 'state' refers to administrative
 divisions beneath the level of the country or nation. This makes sense in the United 'States'. In

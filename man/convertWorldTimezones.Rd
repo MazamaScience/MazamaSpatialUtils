@@ -15,7 +15,7 @@ Name of the dataset being created.
 \description{
 A world timezone shapefile is downloaded from \url{http://efele.net/maps/tz/world/}
 and converted to a SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
-in the package \code{SpatialDataDir} which can be set with \code{setSpatialDataDir()}.
+in the spatial data directory which is set with \code{setSpatialDataDir()}.
 }
 \note{
 The following list of timezones have polygons but the associated rows in the dataframe have no data.

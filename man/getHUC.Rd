@@ -11,11 +11,11 @@ getHUC(lon, lat, SPDF, HUCs = NULL, allData = FALSE)
 
 \item{lat}{vector of latitudes in decimal degrees}
 
+\item{SPDF}{spatial polygons dataset of HUCs}
+
 \item{HUCs}{vector of Hydrologic Unit Codes}
 
 \item{allData}{logical specifying whether to return a full dataframe}
-
-\item{dataset}{name of spatial dataset to use}
 }
 \value{
 Vector of HUC identifiers.

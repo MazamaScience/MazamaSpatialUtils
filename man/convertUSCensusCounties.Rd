@@ -18,7 +18,7 @@ Returns a SpatialPolygonsDataFrame for a US county divisions
 \details{
 A US county borders shapefile is downloaded and converted to a
 SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
-in the package \code{SpatialDataDir} which can be set with \code{setSpatialDataDir()}.
+in the spatial data directory which is set with \code{setSpatialDataDir()}.
 }
 \references{
 \url{http://www2.census.gov/geo/tiger/GENZ2013}

@@ -4,7 +4,7 @@
 #' @param nameOnly logical specifying whether to only return the name without creating the file
 #' @description A world EEZ shapefile is downloaded and converted to a 
 #' SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
-#' in the package \code{SpatialDataDir} which can be set with \code{setSpatialDataDir()}.
+#' in the spatial data directory which is set with \code{setSpatialDataDir()}.
 #' @return Name of the dataset being created.
 #' @references \url{http://www.marineregions.org/downloads.php}
 #' @seealso setSpatialDataDir

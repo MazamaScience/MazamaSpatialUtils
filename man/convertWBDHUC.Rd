@@ -2,14 +2,17 @@
 % Please edit documentation in R/convertWBDHUC.R
 \name{convertWBDHUC}
 \alias{convertWBDHUC}
-\title{Convert Watershed Boundary Dataset Hydrologic Unit Shapefile}
+\title{Convert USGS Hydrologic Unit Shapefiles}
 \usage{
-convertWBDHUC(digit = 2, simplified = TRUE, nameOnly = FALSE)
+convertWBDHUC(dsnPath = NULL, level = 8, extension = "",
+  nameOnly = FALSE)
 }
 \arguments{
-\item{digit}{numeric value specifying which digit level huc to be converted -- defaults to 2}
+\item{dsnPath}{directory where the WBD HUC datasets are found}
 
-\item{simplified}{logical specifying whether to use the simplified HUC shapefile}
+\item{level}{character or integer which must be 2, 4, 6, 8, 10, 12 or 14}
+
+\item{extension}{character extsion associated with mapshaper simplified files}
 
 \item{nameOnly}{logical specifying whether to only return the name without creating the file}
 }
@@ -17,20 +20,37 @@ convertWBDHUC(digit = 2, simplified = TRUE, nameOnly = FALSE)
 Name of the dataset being created.
 }
 \description{
-Returns a SpatialPolygons Data Frame for hydrologic unit divisions
+Previously downloaded shapefiles from the USGS
+\href{http://nhd.usgs.gov/wbd.html}{Watershed Boundary Dataset} are converted to a
+SpatialPolygonsDataFrame with additional columns of data. The resulting file will be
+created in the spatial data directory which is set with \code{setSpatialDataDir()}.
 }
 \details{
-A hydrologic unit shapefile is converted to a SpatialPolygonsDataFrame. The
-resulting file will be created in the package \code{SpatialDataDir} which can be set
-with \code{setSpatialDataDir()}.
+The full WBD dataset can be downloaded from the USGS with the
+following command:
+\preformatted{
+curl ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/WBD/Shape/WBD_National.zip -O
+}
 
-Original data is downloaded from ftp://ftp.ftw.nrcs.usda.gov/wbd/ as a .gdb file.
-User must download QGIS to convert .gdb files to shapefiles. The shapefile directory must have
-the correct naming convention ('WBD_HUC_2' for 2-digit huc, and so on) and it must be in the
-internal data directory set by \code{setSpatialDataDir()}.
+Typically, the raw data will be simplified using the command line version of
+\href{https://github.com/mbloch/mapshaper}{mapshpaper}. (Installation instructions are
+found at this URL.)
+
+With mapshaper, you can reduce the number of vertices in the polygons, greatlyl improving
+the efficiency of spatial searches. Experimentation at the
+\href{http://www.mapshaper.org}{mapshaper website} show that a reduction to 1-2%
+of the original shapefile size still retains the recognizable shape of polygons, removing
+only the higher order "crenellations" in the polygons.
+
+An example use of mapshaper would be:
+\preformatted{
+mapshaper WBDHU2.shp --simplify 1% --o WBDHU2_01.shp
+}
+
+A full suite of \code{.shp, .shx, .dbf, .prj} files will be created for the new name \code{WBDHU2_02}.
 }
 \references{
-ftp://ftp.ftw.nrcs.usda.gov/wbd/
+\url{http://nhd.usgs.gov/wbd.html}
 }
 \seealso{
 setSpatialDataDir
