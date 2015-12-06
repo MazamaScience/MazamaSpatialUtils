@@ -143,9 +143,30 @@ convertWBDHUC <- function(dsnPath=NULL, level=8, extension="", nameOnly=FALSE) {
   # TODO:  HUCs whose 'allStateCode' is not a US State
 
   # Calculate centroids to help add more metadata
-  centroids <- rgeos::gCentroid(SPDF, byid=TRUE)
-  lon <- sp::coordinates(centroids)[,1]
-  lat <- sp::coordinates(centroids)[,2]
+  result <- try( {
+    centroids <- rgeos::gCentroid(SPDF, byid=TRUE)
+    lon <- sp::coordinates(centroids)[,1]
+    lat <- sp::coordinates(centroids)[,2]
+  }, silent=TRUE)
+  
+  # NOTE:  This failed for a simplified version of HU10 with:
+  # NOTE:
+  # NOTE:  Error in createPolygonsComment(p) : 
+  # NOTE:    rgeos_PolyCreateComment: orphaned hole, cannot find containing polygon for hole at index 147
+  # NOTE:
+  # NOTE:  If centroids don't work we'll just default to the center of the bbox for each polygon
+  
+  if ( class(result)[1] == "try-error" ) {
+    cat(paste0('NOTE: rgeos::gCentroid() failed with the following message. Using bbox() to calculate lon and lat.\n'))
+    cat(paste0(geterrmessage(),'\n'))
+    lon <- rep(as.numeric(NA), nrow(SPDF))
+    lat <- rep(as.numeric(NA), nrow(SPDF))
+    for (i in 1:nrow(SPDF)) {
+      bbox <- bbox(SPDF[i,])
+      lon[i] <- mean(bbox[1,])
+      lat[i] <- mean(bbox[2,])
+    }
+  }
   
   # Add more standard columns
   SPDF$longitude <- lon
