@@ -6,6 +6,7 @@
 #' @param dataset name of spatial dataset to use
 #' @param countryCodes vector of countryCodes
 #' @param allData logical specifying whether a full dataframe should be returned
+#' @param useBuffering logical flag specyfing the use of location buffering to find the nearest polygon if not target polygon is found
 #' @description Uses spatial comparison to determine which country polygons the 
 #'     locations fall into and returns the country code strings for those polygons.
 #'     
@@ -18,7 +19,7 @@
 #' @references \url{http://www.naturalearthdata.com/downloads/10m-cultural-vectors/}
 #' @seealso SimpleCountries
 #' @seealso getSpatialData
-getCountryCode <- function(lon, lat, dataset='SimpleCountries', countryCodes=NULL, allData=FALSE) {
+getCountryCode <- function(lon, lat, dataset='SimpleCountries', countryCodes=NULL, allData=FALSE, useBuffering=FALSE) {
   
   # Sanity check
   if (!exists(dataset)) {
@@ -30,7 +31,7 @@ getCountryCode <- function(lon, lat, dataset='SimpleCountries', countryCodes=NUL
   # Subset by country before searching
   if (!is.null(countryCodes)) SPDF <- SPDF[SPDF$countryCode %in% countryCodes,]
   
-  locationsDF <- getSpatialData(lon,lat,SPDF)
+  locationsDF <- getSpatialData(lon,lat,SPDF,useBuffering=useBuffering)
   
   if (allData) {
     

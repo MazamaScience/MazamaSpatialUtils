@@ -5,7 +5,7 @@
 \title{Return State ISO Codes at Specified Locations}
 \usage{
 getStateCode(lon, lat, dataset = "NaturalEarthAdm1", countryCodes = NULL,
-  allData = FALSE)
+  allData = FALSE, useBuffering = FALSE)
 }
 \arguments{
 \item{lon}{vector of longitudes in decimal degrees}
@@ -17,6 +17,8 @@ getStateCode(lon, lat, dataset = "NaturalEarthAdm1", countryCodes = NULL,
 \item{countryCodes}{vector of country codes}
 
 \item{allData}{logical specifying whether to return a full dataframe}
+
+\item{useBuffering}{logical flag specyfing the use of location buffering to find the nearest polygon if not target polygon is found}
 }
 \value{
 Vector of ISO-3166-2 alpha-2 state codes.

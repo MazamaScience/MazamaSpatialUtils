@@ -5,7 +5,7 @@
 \title{Return Olson Timezones at Specified Locations}
 \usage{
 getTimezone(lon, lat, dataset = "SimpleTimezones", countryCodes = NULL,
-  allData = FALSE)
+  allData = FALSE, useBuffering = FALSE)
 }
 \arguments{
 \item{lon}{vector of longitudes in decimal degrees}
@@ -17,6 +17,8 @@ getTimezone(lon, lat, dataset = "SimpleTimezones", countryCodes = NULL,
 \item{countryCodes}{vector of countryCodes}
 
 \item{allData}{logical specifying whether to return a full dataframe}
+
+\item{useBuffering}{logical flag specyfing the use of location buffering to find the nearest polygon if not target polygon is found}
 }
 \value{
 Vector of Olson timezones.

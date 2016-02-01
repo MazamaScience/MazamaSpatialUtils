@@ -38,6 +38,11 @@ with data from any dataset that uses standard ISO codes for countries or states.
 
 \strong{History}
 
+version 0.4.1 -- patch
+\itemize{
+  \item{Added \code{useBuffering} to get-Sate,CountryTimezone functions.}
+}
+
 version 0.3.2 -- patch
 \itemize{
   \item{getSpatialData() no longer fails on invliad/missing locations, now returns dataframe rows with all NA.}

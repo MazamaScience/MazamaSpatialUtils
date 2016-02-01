@@ -25,7 +25,7 @@
 #' Missing or invalid values in the incoming \code{lon} or \code{lat} vectors result in \code{NA}s at
 #' those positions in the returned vector or data frame.
 #' @return Vector or dataframe of data.
-getSpatialData <- function(lon,lat,SPDF,useBuffering=FALSE,verbose=FALSE) {
+getSpatialData <- function(lon, lat, SPDF, useBuffering=FALSE, verbose=FALSE) {
   
   # Sanity check -- same number of lats and lons and datetimes
   if ( length(lon) != length(lat) ) {

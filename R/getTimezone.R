@@ -6,6 +6,7 @@
 #' @param dataset name of spatial dataset to use
 #' @param countryCodes vector of countryCodes
 #' @param allData logical specifying whether to return a full dataframe
+#' @param useBuffering logical flag specyfing the use of location buffering to find the nearest polygon if not target polygon is found
 #' @description Uses spatial comparison to determine which timezone polygons the 
 #'     locations fall into and returns the Olson timezone strings for those polygons.
 #'     
@@ -21,7 +22,7 @@
 #' @references \url{http://efele.net/maps/tz/}
 #' @seealso SimpleTimezones
 #' @seealso getSpatialData
-getTimezone <- function(lon, lat, dataset="SimpleTimezones", countryCodes=NULL, allData=FALSE) {
+getTimezone <- function(lon, lat, dataset="SimpleTimezones", countryCodes=NULL, allData=FALSE, useBuffering=FALSE) {
   
   # Sanity check
   if (!exists(dataset)) {
@@ -33,7 +34,7 @@ getTimezone <- function(lon, lat, dataset="SimpleTimezones", countryCodes=NULL, 
   # Subset by country before searching
   if (!is.null(countryCodes)) SPDF <- SPDF[SPDF$countryCode %in% countryCodes,]
   
-  SPDF <- getSpatialData(lon,lat,SPDF)
+  SPDF <- getSpatialData(lon,lat,SPDF,useBuffering=useBuffering)
   
   if (allData) {
 
