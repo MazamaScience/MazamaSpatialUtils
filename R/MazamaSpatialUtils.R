@@ -33,6 +33,12 @@
 #' 
 #' \strong{History}
 #' 
+#' version 0.4.2 -- patch
+#' \itemize{
+#'   \item{Added \code{encoding} argument to converLayer().}
+#'   \item{Modified convertUSCensusCounties() to use \code{encoding='latin1'}.}
+#' }
+#'
 #' version 0.4.1 -- patch
 #' \itemize{
 #'   \item{Added \code{useBuffering} to get-Sate,CountryTimezone functions.}

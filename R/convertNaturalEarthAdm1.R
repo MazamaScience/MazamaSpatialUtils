@@ -43,7 +43,7 @@ convertNaturalEarthAdm1 <- function(nameOnly=FALSE) {
   # NOTE:  The 'adm' directory has been created
   dsnPath <- paste(dataDir,'adm',sep='/')
   shpName <- paste('ne', '10m_admin', adm, level, sep='_')
-  SPDF <- convertLayer(dsn=dsnPath,layerName=shpName)
+  SPDF <- convertLayer(dsn=dsnPath, layerName=shpName)
 
   # Rationalize naming:
   # * human readable full nouns with descriptive prefixes

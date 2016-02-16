@@ -32,7 +32,7 @@ convertUSCensusCounties <- function(nameOnly=FALSE) {
   # NOTE:  The 'counties' directory has been created
   dsnPath <- paste(dataDir,'counties',sep='/')
   shpName <- 'cb_2013_us_county_20m'
-  SPDF <- convertLayer(dsn=dsnPath,layerName=shpName)
+  SPDF <- convertLayer(dsn=dsnPath, layerName=shpName, encoding='latin1')
   
   # Rationalize naming:
   # * human readable full nouns with descriptive prefixes

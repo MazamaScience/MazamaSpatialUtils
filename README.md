@@ -1,6 +1,73 @@
 # MazamaSpatialUtils
 
-This R package contains a suite of conversion scripts to create internally standardized
-spatial polygons dataframes. Utility scripts use these datasets to return
-values such as country, state, timezone, watershed, etc. associated with a
-set of longitude/latitude pairs. (They also make cool maps.)
+``` This R package contains a suite of conversion scripts to create internally
+standardized spatial polygons dataframes. Utility scripts use these datasets to
+return values such as country, state, timezone, watershed, etc. associated with
+a set of longitude/latitude pairs. (They also make cool maps.)
+```
+
+## Background
+
+The MazamaSpatialUtils package was created by MazamaScience to regularize our
+work with spatial data. The sp, rgdal and maptools packages have made it much
+easier to work with spatial data found in shapefiles. Many sources of shapefile
+data are available and can be used to make beautfiul maps in R. Unfortunately,
+the data attached to these datasets, even when fairly complete, often lacks
+standardized identifiers such as the ISO 3166-1 alpha-2 encodings for countries.
+Maddeningly, even when these ISO codes are used, the dataframe column in which
+they are stored does not have a standardized name. It may be called ISO or ISO2
+or alpha or COUNTRY or any of a dozen other names we have seen.
+
+While many mapping packages provide ‘natural’ naming of countries, those who
+wish to develop operational, GIS-like systems need something that is both
+standardized and language-independent. The ISO 3166-1 alpha-2 encodings have
+emerged as the defacto standard for this sort of work. In similar fashion, ISO
+3166-2 alpha-2 encodings are aviailable for the next administrative level down –
+state/province/oblast, etc.. For timezones, the defacto standard is the set of
+Olson timezones used in all UNIX systems.
+
+The main goal of this package is to create an internally standardized set of
+spatial data that we can use in various projects. Along with two built-in
+datasets, this package provides ‘convert~’ functions for other spatial datasets
+that we currently use. These convert functions all follow the same recipe:
+
+ * download spatial data in shapefile format into a standard directory
+ * convert shapefile data into a sp SpatialPolygonsDataFrame
+ * modify the dataframe in the @data slot so that it adheres to package internal standards
+
+Other datasets can be added following the same procedure.
+
+The ‘package internal standards’ are very simple. Every spatial dataset will
+have at least one of the following, consistently named colums of data:
+
+ * countryCode – ISO 3166-1 alpha-2
+ * stateCode – ISO 3166-2 alpha-2
+ * timezone – Olson timezone
+
+If another column contains this data, that column must be renamed or
+duplicated with the internally standardized name. This simple level of
+consistency makes it posisble to generate maps for any data that is ISO encoded.
+It also makes it possible to create functions that return the country, state or
+timezone associated with a set of locations.
+
+
+## Installation
+
+The latest version of this package can be installed directly from github using
+the the **devtools** package which can be installed from CRAN.
+
+With devtools installed, you can install the MazamaSpatialUtils package with:
+
+``` devtools::install_github('mazamascience/MazamaSpatialUtils') ```
+
+
+## Examples
+
+The package vigentte 'Introduction to MazamaSpatialUtils' has numerous examples.
+
+
+----
+
+This project is supported by Mazama Science.
+
+

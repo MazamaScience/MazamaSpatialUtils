@@ -49,7 +49,7 @@ organizePolygons <- function(dataset, uniqueID, sumColumns=NULL) {
   
   # Group polygons based off the unique identifier
   for (i in seq_along(nonDups)) {
-    print(i)
+    ###print(i)
     x <- nonDups@data[,uniqueID][i]
     allX <- which(dataset@data[,uniqueID] == x)
     

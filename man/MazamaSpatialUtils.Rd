@@ -38,6 +38,12 @@ with data from any dataset that uses standard ISO codes for countries or states.
 
 \strong{History}
 
+version 0.4.2 -- patch
+\itemize{
+  \item{Added \code{encoding} argument to converLayer().}
+  \item{Modified convertUSCensusCounties() to use \code{encoding='latin1'}.}
+}
+
 version 0.4.1 -- patch
 \itemize{
   \item{Added \code{useBuffering} to get-Sate,CountryTimezone functions.}
