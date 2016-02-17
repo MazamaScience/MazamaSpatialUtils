@@ -31,6 +31,7 @@ convertWikipediaTimezoneTable <- function() {
   
   # Get the raw html from the url
   wikiDoc <- rvest::html(url)
+  ###wikiDoc <- rvest::read_html(url) # When rvest 0.3.x is default in more places.
   
   # Get a list of tables in the document
   tables <- rvest::html_nodes(wikiDoc, "table")
