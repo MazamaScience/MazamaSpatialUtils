@@ -33,6 +33,12 @@
 #' 
 #' \strong{History}
 #' 
+#' version 0.4.3 -- patch
+#' \itemize{
+#'   \item{Addition of convertHMSSmoke() function.}
+#'   \item{Shapefiles with no projection information are assigned "+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs".}
+#' }
+#'
 #' version 0.4.2 -- patch
 #' \itemize{
 #'   \item{Added \code{encoding} argument to converLayer().}
