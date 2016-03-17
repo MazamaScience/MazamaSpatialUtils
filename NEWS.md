@@ -11,7 +11,7 @@ set of longitude/latitude pairs. (They also make cool maps.)
 
 ## Version 0.4 -- Fire and Water
 
-### MazamaSpatialUtils 0.4.3
+### MazamaSpatialUtils 0.4.4
 
  * Fixed bugs/typos in `convertWBDHUC()` and `convertHMSSmoke()`.
 
