@@ -26,7 +26,7 @@ set of longitude/latitude pairs. (They also make cool maps.)
  * Added `encoding` argument to `convertLayer()`.
  * Modified `convertUSCensusCounties() to use `encoding='latin'`.
 
-## MazamaSpatialUtils 0.4.1
+### MazamaSpatialUtils 0.4.1
 
  * Added `useBuffering` arguent to `getState()`, `getCountry()` and `getTimezone()`.
 
