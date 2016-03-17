@@ -8,21 +8,20 @@
 #' \href{http://www.ospo.noaa.gov/Products/land/hms.html}{Hazard Mapping System} are converted to a 
 #' SpatialPolygonsDataFrame with additional columns of data. The resulting file will be
 #' created in the spatial data directory which is set with \code{setSpatialDataDir()}.
-#' @details The full WBD dataset can be downloaded from the USGS with the 
+#' @details The full set of archived HMS Smoke shapefiles can be downloaded from NOAA with the 
 #' following command:
+#' 
 #' \preformatted{
-#' wget ftp://satepsanone.nesdis.noaa.gov/FIRE/HMS/GIS/ARCHIVE/hms_smoke*
+#' wget -R '.zip' ftp://satepsanone.nesdis.noaa.gov/FIRE/HMS/GIS/ARCHIVE/hms_smoke*
 #' }
 #' 
+#' If no \code{datestamp} argument is used, all shapefiles in \code{dsnPath} will be converted.
+#' In this case, a vector of created dataset names is returned.
 #' @return Name of the dataset being created.
 #' @references \url{http://www.ospo.noaa.gov/Products/land/hms.html}
 #' @seealso setSpatialDataDir
 
-# TODO:  Convert missing state codes to state codes from allStateCode, with a note explaining 
-# TODO:  how and why. Figure out why it is printing all those numbers when it runs and change.  
-
-convertWBDHUC <- function(dsnPath=NULL, datestamp=strftime(Sys.Date(),"%Y%m%d","UTC"), 
-                          nameOnly=FALSE) {
+convertHMSSmoke <- function(dsnPath=NULL, datestamp=NULL, nameOnly=FALSE) {
   
   # Sanity check dsnPath
   if ( is.null(dsnPath) ) stop(paste0('Argument dsnPath must be specified.'))
@@ -31,15 +30,31 @@ convertWBDHUC <- function(dsnPath=NULL, datestamp=strftime(Sys.Date(),"%Y%m%d","
   # Use package internal data directory
   dataDir <- getSpatialDataDir()
   
-  # Specify the name of the dataset and file being created
-  datasetName <- paste0('HMSSmoke_', datestamp) 
+  if ( is.null(datestamp) ) {
+    
+    # Create a list of datestamps from files in the directory and call this function
+    # recursively with Recall(...).
+    shapefiles <- list.files('~/Data/HazardMappingSystem/',pattern='hms_smoke.*\\.shp')
+    datestamps <- stringr::str_sub(shapefiles,10,17)
+    for ( datestamp in datestamps ) {
+      Recall(dsnPath, datestamp) # 'Recall' is a placedholder for the name of the function in which it is called.
+    }
+    datasetNames <- paste0('HMSSmoke_',datestamps)
+    return(invisible(datasetNames))
+    
+  } else {
+    
+    # Specify the name of the dataset and file being created
+    datasetName <- paste0('HMSSmoke_', datestamp) 
+    if (nameOnly) return(datasetName)
+    
+  }
   
-  if (nameOnly) return(datasetName)
-
+  
   # Convert shapefile into SpatialPolygonsDataFrame
   layerName <- paste0('hms_smoke', datestamp)
   SPDF <- convertLayer(dsn=dsnPath, layerName=layerName)
-
+  
   # Calculate centroids to help add more metadata
   result <- try( {
     centroids <- rgeos::gCentroid(SPDF, byid=TRUE)
@@ -65,20 +80,22 @@ convertWBDHUC <- function(dsnPath=NULL, datestamp=strftime(Sys.Date(),"%Y%m%d","
   SPDF$longitude <- lon
   SPDF$latitude <- lat  
   SPDF$countryCode <- getCountryCode(lon, lat, useBuffering=TRUE)
+  if ( !exists('NaturalEarthAdm1') ) {
+    loadSpatialData('NaturalEarthAdm1')
+  }
   SPDF$stateCode <- getStateCode(lon, lat, countryCodes=unique(SPDF$countryCode), useBuffering=TRUE)
   SPDF$timezone <- getTimezone(lon, lat, useBuffering=TRUE)
   
   # Add POSIXct times to dataframe
-  SPDF@data$starttime <- lubridate::ymd_hm( paste0(datestamp,SPDF@data$Start) )
-  SPDF@data$endtime <- lubridate::ymd_hm( paste0(datestamp,SPDF@data$End) )
+  SPDF$starttime <- lubridate::ymd_hm( paste0(datestamp,SPDF@data$Start) )
+  SPDF$endtime <- lubridate::ymd_hm( paste0(datestamp,SPDF@data$End) )
   
   # Add numeric density to dataframe
-  SPDF@data$density <- as.numeric(SPDF@data$Density)
+  SPDF$density <- as.numeric(SPDF@data$Density)
   
   # Retain useful columns
   SPDF <- SPDF[,c('starttime','endtime','density','longitude','latitude','countryCode','stateCode','timezone')]
   
-
   # Assign a name and save the data
   assign(datasetName,SPDF)
   save(list=c(datasetName),file=paste0(dataDir,"/",datasetName, '.RData'))

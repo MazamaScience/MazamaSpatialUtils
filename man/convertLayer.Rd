@@ -18,7 +18,11 @@ An object of class \code{SpatialPolygonsDataFrame}
 }
 \description{
 Raw shapefiles are read in using the \code{rgdal::readOGR()} function from the \pkg{rgdal} package.
-Spatial data are reprojected onto a standard projection with \code{"+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs"} before being returned.
+Spatial data are reprojected onto a standard projection with
+\code{"+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs"} before being returned.
+
+If shapefiles have no projection information they are assumed to 'geographic' coordinates  and will be assigned
+\code{"+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs"} before being returned.
 }
 \keyword{internal}
 
