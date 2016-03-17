@@ -34,7 +34,7 @@ convertHMSSmoke <- function(dsnPath=NULL, datestamp=NULL, nameOnly=FALSE) {
     
     # Create a list of datestamps from files in the directory and call this function
     # recursively with Recall(...).
-    shapefiles <- list.files('~/Data/HazardMappingSystem/',pattern='hms_smoke.*\\.shp')
+    shapefiles <- list.files(dsnPath,pattern='hms_smoke.*\\.shp')
     datestamps <- stringr::str_sub(shapefiles,10,17)
     for ( datestamp in datestamps ) {
       Recall(dsnPath, datestamp) # 'Recall' is a placedholder for the name of the function in which it is called.
@@ -63,14 +63,13 @@ convertHMSSmoke <- function(dsnPath=NULL, datestamp=NULL, nameOnly=FALSE) {
   }, silent=TRUE)
   
   # NOTE:  If centroids don't work we'll just default to the center of the bbox for each polygon
-  
   if ( class(result)[1] == "try-error" ) {
     cat(paste0('NOTE: rgeos::gCentroid() failed with the following message. Using bbox() to calculate lon and lat.\n'))
     cat(paste0(geterrmessage(),'\n'))
     lon <- rep(as.numeric(NA), nrow(SPDF))
     lat <- rep(as.numeric(NA), nrow(SPDF))
     for (i in 1:nrow(SPDF)) {
-      bbox <- bbox(SPDF[i,])
+      bbox <- sp::bbox(SPDF[i,])
       lon[i] <- mean(bbox[1,])
       lat[i] <- mean(bbox[2,])
     }
@@ -87,8 +86,8 @@ convertHMSSmoke <- function(dsnPath=NULL, datestamp=NULL, nameOnly=FALSE) {
   SPDF$timezone <- getTimezone(lon, lat, useBuffering=TRUE)
   
   # Add POSIXct times to dataframe
-  SPDF$starttime <- lubridate::ymd_hm( paste0(datestamp,SPDF@data$Start) )
-  SPDF$endtime <- lubridate::ymd_hm( paste0(datestamp,SPDF@data$End) )
+  SPDF$starttime <- lubridate::ymd_hm( paste0(datestamp,SPDF$Start) )
+  SPDF$endtime <- lubridate::ymd_hm( paste0(datestamp,SPDF$End) )
   
   # Add numeric density to dataframe
   SPDF$density <- as.numeric(SPDF@data$Density)

@@ -13,6 +13,10 @@ set of longitude/latitude pairs. (They also make cool maps.)
 
 ### MazamaSpatialUtils 0.4.3
 
+ * Fixed bugs/typos in `convertWBDHUC()` and `convertHMSSmoke()`.
+
+### MazamaSpatialUtils 0.4.3
+
  * New conversion script for smoke data from the [NOAA Hazard Mapping Service](http://www.ospo.noaa.gov/Products/land/hms.html).
  * Shapefiles with no projection information are assigned `"+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs"`.
  * Added dependency on `lubridate` package,
