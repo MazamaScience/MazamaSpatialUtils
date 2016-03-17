@@ -37,7 +37,11 @@ convertHMSSmoke <- function(dsnPath=NULL, datestamp=NULL, nameOnly=FALSE) {
     shapefiles <- list.files(dsnPath,pattern='hms_smoke.*\\.shp')
     datestamps <- stringr::str_sub(shapefiles,10,17)
     for ( datestamp in datestamps ) {
-      Recall(dsnPath, datestamp) # 'Recall' is a placedholder for the name of the function in which it is called.
+      result <- try( Recall(dsnPath, datestamp), # 'Recall' is a placedholder for the name of the function in which it is called.
+                     silent=TRUE)
+      if ( class(result)[1] == "try-error" ) { 
+        cat(paste0(geterrmessage(),'\n'))
+      }
     }
     datasetNames <- paste0('HMSSmoke_',datestamps)
     return(invisible(datasetNames))
