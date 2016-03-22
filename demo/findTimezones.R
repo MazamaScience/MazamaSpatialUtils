@@ -21,7 +21,7 @@ timezoneMask <- SimpleTimezones@data$timezone %in% timezones
 # Plot the timezone polygons
 plot(SimpleTimezones[timezoneMask,],col='gray90',border='gray70')
 # Add countries from the 'maps' package
-map::map('world',add=TRUE,col='gray80')
+maps::map('world',add=TRUE,col='gray80')
 # Add our points in red
 points(lons,lats,pch=16,col='red')
 # Add text to the right
