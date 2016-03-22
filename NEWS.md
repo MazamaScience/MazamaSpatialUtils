@@ -11,16 +11,22 @@ set of longitude/latitude pairs. (They also make cool maps.)
 
 ## Version 0.4 -- Fire and Water
 
+### MazamaSpatialUtils 0.4.4
+
+ * Fixed bugs/typos in `convertWBDHUC()` and `convertHMSSmoke()`.
+
 ### MazamaSpatialUtils 0.4.3
 
- * new conversion script for smoke data from the [NOAA Hazard Mapping Service](http://www.ospo.noaa.gov/Products/land/hms.html)
+ * New conversion script for smoke data from the [NOAA Hazard Mapping Service](http://www.ospo.noaa.gov/Products/land/hms.html).
+ * Shapefiles with no projection information are assigned `"+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs"`.
+ * Added dependency on `lubridate` package,
 
 ### MazamaSpatialUtils 0.4.2
 
- * added `encoding` argument to `convertLayer()`
- * modified `convertUSCensusCounties() to use `encoding='latin'`
+ * Added `encoding` argument to `convertLayer()`.
+ * Modified `convertUSCensusCounties() to use `encoding='latin'`.
 
-## MazamaSpatialUtils 0.4.1
+### MazamaSpatialUtils 0.4.1
 
- * added `useBuffering` arguent to `getState()`, `getCountry()` and `getTimezone()`
+ * Added `useBuffering` arguent to `getState()`, `getCountry()` and `getTimezone()`.
 

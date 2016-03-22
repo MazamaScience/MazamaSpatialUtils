@@ -162,7 +162,7 @@ convertWBDHUC <- function(dsnPath=NULL, level=8, extension="", nameOnly=FALSE) {
     lon <- rep(as.numeric(NA), nrow(SPDF))
     lat <- rep(as.numeric(NA), nrow(SPDF))
     for (i in 1:nrow(SPDF)) {
-      bbox <- bbox(SPDF[i,])
+      bbox <- spLLbbox(SPDF[i,])
       lon[i] <- mean(bbox[1,])
       lat[i] <- mean(bbox[2,])
     }

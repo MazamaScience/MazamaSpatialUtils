@@ -38,6 +38,13 @@ with data from any dataset that uses standard ISO codes for countries or states.
 
 \strong{History}
 
+version 0.4.3 -- patch
+\itemize{
+  \item{Addition of convertHMSSmoke() function.}
+  \item{Shapefiles with no projection information are assigned "+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs".}
+  \item{Added dependency on \pkg{lubridate} package.}
+}
+
 version 0.4.2 -- patch
 \itemize{
   \item{Added \code{encoding} argument to converLayer().}

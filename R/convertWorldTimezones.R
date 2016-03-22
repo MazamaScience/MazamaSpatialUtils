@@ -49,7 +49,7 @@ convertWorldTimezones <- function(nameOnly=FALSE) {
   wikipediaTimezoneTable <- convertWikipediaTimezoneTable()
   
   # Merge the additional data onto the @data slot of the SPDF
-  SPDF@data <- dplyr::left_join(SPDF@data, wikipediaTimezoneTable)
+  SPDF@data <- dplyr::left_join(SPDF@data, wikipediaTimezoneTable, by="timezone")
   
   # Group polygons with the same identifier
   SPDF <- organizePolygons(SPDF, uniqueID='timezone')
