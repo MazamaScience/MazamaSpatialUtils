@@ -17,6 +17,8 @@
 #' 
 #' If no \code{datestamp} argument is used, all shapefiles in \code{dsnPath} will be converted.
 #' In this case, a vector of created dataset names is returned.
+#' @note Data files prior to August 13, 2007 do not contain the vital 'Density' column. For these
+#' files, \code{NA} will be used in the converted dataframes.
 #' @return Name of the dataset being created.
 #' @references \url{http://www.ospo.noaa.gov/Products/land/hms.html}
 #' @seealso setSpatialDataDir
@@ -94,7 +96,12 @@ convertHMSSmoke <- function(dsnPath=NULL, datestamp=NULL, nameOnly=FALSE) {
   SPDF$endtime <- lubridate::ymd_hm( paste0(datestamp,SPDF$End) )
   
   # Add numeric density to dataframe
-  SPDF$density <- as.numeric(SPDF@data$Density)
+  # NOTE:  data files prior to August 13, 2007 are missing the 'Density' column
+  if ('Density' %in% names(SPDF)) {
+    SPDF$density <- as.numeric(SPDF@data$Density)
+  } else {
+    SPDF$density <- as.numeric(NA)
+  }
   
   # Retain useful columns
   SPDF <- SPDF[,c('starttime','endtime','density','longitude','latitude','countryCode','stateCode','timezone')]

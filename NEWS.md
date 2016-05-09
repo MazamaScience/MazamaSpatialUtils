@@ -11,6 +11,9 @@ set of longitude/latitude pairs. (They also make cool maps.)
 
 ## Version 0.4 -- Fire and Water
 
+### MazamaSpatialUtils 0.4.5
+
+ * `convertHMSSmoke()` now handles shapefiles with now `Density` information.
 
 ### MazamaSpatialUtils 0.4.4
 

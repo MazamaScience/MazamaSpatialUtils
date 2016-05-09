@@ -33,6 +33,10 @@ wget -R '.zip' ftp://satepsanone.nesdis.noaa.gov/FIRE/HMS/GIS/ARCHIVE/hms_smoke*
 If no \code{datestamp} argument is used, all shapefiles in \code{dsnPath} will be converted.
 In this case, a vector of created dataset names is returned.
 }
+\note{
+Data files prior to August 13, 2007 do not contain the vital 'Density' column. For these
+files, \code{NA} will be used in the converted dataframes.
+}
 \references{
 \url{http://www.ospo.noaa.gov/Products/land/hms.html}
 }
