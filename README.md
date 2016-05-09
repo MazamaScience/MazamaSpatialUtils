@@ -52,12 +52,15 @@ timezone associated with a set of locations.
 
 ## Installation
 
-The latest version of this package can be installed directly from github using
-the the **devtools** package which can be installed from CRAN.
+This package is designed to be used with [R](https://cran.r-project.org) (>= 3.1.0)
+and [RStudio](http://rstudio.com) so make sure you have those installed first.
 
-With devtools installed, you can install the MazamaSpatialUtils package with:
+Users will want to install the **devtools** package to have access to latest versions 
+of some packages that are not yet available on CRAN.
 
-``` devtools::install_github('mazamascience/MazamaSpatialUtils') ```
+The following packages should be installed with devtools by typing the following at the RStudio console:
+
+``` devtools::install_github('mazamascience/MazamaSpatialUtils', build_vignettes=TRUE) ```
 
 
 ## Examples
