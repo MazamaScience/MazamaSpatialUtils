@@ -58,7 +58,7 @@ convertUSCensusCounties <- function(nameOnly=FALSE) {
   # Assume the relevant list is the first table and parse that into a dataframe
   StateTable <- rvest::html_table(tables[[1]])
   
-  # Given a row of country data, use the wikipedia table to find state code and name
+  # Given a row of county data, use the wikipedia table to find state code and name
   extractState <- function(row, col) {
     state <- StateTable[StateTable['Numeric code']==as.numeric(row['STATEFP']),]
     return(toString(state[col]))
