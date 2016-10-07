@@ -26,6 +26,11 @@ getHUC <- function(lon, lat, SPDF, HUCs=NULL, allData=FALSE) {
 #   # Use standard internal name (assumes pre-loaded dataset)
 #   SPDF <- get(dataset) 
 #   
+  # check if longitude and latitude falls in the right range
+  if(min(lon)< -180 | max(lon) > 180 | min(lat) < -90 | max(lat) > 90){
+    stop('Longitude or latitude is not specified in the correct range. Please try again.')
+  }
+  
   # Identify HUC string partial matches to use as a mask 
   if (!is.null(HUCs)){
     HUCMask <- rep(FALSE, nrow(SPDF))
