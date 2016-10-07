@@ -52,7 +52,7 @@ convertWorldTimezones <- function(nameOnly=FALSE) {
   SPDF@data <- dplyr::left_join(SPDF@data, wikipediaTimezoneTable, by="timezone")
   
   # Group polygons with the same identifier
-  SPDF <- organizePolygons(SPDF, uniqueID='timezone')
+  SPDF <- organizePolygons(SPDF, uniqueID='PID')
 
   # Assign a name and save the data
   assign(datasetName,SPDF)

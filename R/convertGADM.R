@@ -98,7 +98,7 @@ convertGADM <- function(countryCode=NULL, admLevel=0, nameOnly=FALSE) {
 
   # TODO:
   #   # Group polygons with the same identifier
-  SPDF <- organizePolygons(SPDF, uniqueID='timezone')
+  SPDF <- organizePolygons(SPDF, uniqueID='PID')
   
   # Assign a name and save the data
   assign(datasetName,SPDF)
