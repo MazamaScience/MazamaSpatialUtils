@@ -6,7 +6,7 @@
 #' @param dataset name of spatial dataset to use
 #' @param countryCodes vector of countryCodes
 #' @param allData logical specifying whether a full dataframe should be returned
-#' @param useBuffering logical flag specifying the use of location buffering to find the nearest polygon if not target polygon is found
+#' @param useBuffering logical flag specifying the use of location buffering to find the nearest polygon if no target polygon is found
 #' @description Uses spatial comparison to determine which country polygons the 
 #'     locations fall into and returns the country name for those polygons.
 #'     
@@ -44,15 +44,6 @@ getCountry <- function(lon, lat, dataset='SimpleCountries', countryCodes=NULL, a
     
     countryName <- locationsDF$countryName
     
-    # Sanity check -- missing countryName implies location over water  
-    badMask <- is.na(countryName)
-    if (sum(badMask) > 0) {
-      if(is.null(countryCodes)) {
-        warning(paste(sum(badMask),"locations appear to be over international waters and no country can be assigned"))
-      } else {
-        warning(paste(sum(badMask),"locations appear to be either over international waters or not in given countryCodes and no country can be assigned"))
-      }
-    }  
     
     return(countryName)
     

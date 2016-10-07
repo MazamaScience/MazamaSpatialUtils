@@ -48,15 +48,6 @@ getStateName <- function(lon, lat, dataset='NaturalEarthAdm1', countryCodes=NULL
     
     stateName <- locationsDF$stateName
     
-    # Sanity check -- missing stateCode implies location over water  
-    badMask <- is.na(stateName)
-    if (sum(badMask) > 0) {
-      if(is.null(countryCodes)) {
-        warning(paste(sum(badMask),"locations appear to be over international waters and no state can be assigned"))
-      } else {
-        warning(paste(sum(badMask),"locations appear to be either over international waters or not in given countryCodes and no state can be assigned"))
-      }
-    }  
     
     return(stateName)
     

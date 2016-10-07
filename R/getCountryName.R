@@ -44,15 +44,6 @@ getCountryName <- function(lon, lat, dataset='SimpleCountries', countryCodes=NUL
     
     countryName <- locationsDF$countryName
     
-    # Sanity check -- missing countryName implies location over water  
-    badMask <- is.na(countryName)
-    if (sum(badMask) > 0) {
-      if(is.null(countryCodes)) {
-        warning(paste(sum(badMask),"locations appear to be over international waters and no country can be assigned"))
-      } else {
-        warning(paste(sum(badMask),"locations appear to be either over international waters or not in given countryCodes and no country can be assigned"))
-      }
-    }  
     
     return(countryName)
     

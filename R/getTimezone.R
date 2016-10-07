@@ -46,16 +46,7 @@ getTimezone <- function(lon, lat, dataset="SimpleTimezones", countryCodes=NULL, 
   } else {
     
     timezone <- SPDF$timezone
-    
-    # Sanity check -- missing timezone implies location over water  
-    badMask <- is.na(timezone)
-    if (sum(badMask) > 0) {
-      if(is.null(countryCodes)) {
-        warning(paste(sum(badMask),"locations appear to be over international waters and no timezone can be assigned"))
-      } else {
-        warning(paste(sum(badMask),"locations appear to be either over international waters or not in given countryCodes and no timezone can be assigned"))
-      }
-    }  
+
     
     return(timezone)
     

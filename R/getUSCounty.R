@@ -47,16 +47,6 @@ getUSCounty <- function(lon, lat, dataset='USCensusCounties', stateCodes=NULL, a
     
     name <- locationsDF$countyName
     
-    # Sanity check -- missing county implies location outside the US 
-    badMask <- is.na(name)
-    if (sum(badMask) > 0) {
-      if(is.null(stateCodes)) {
-        warning(paste(sum(badMask),"locations appear to be over international waters or outside the US and no county can be assigned"))
-      } else {
-        warning(paste(sum(badMask),"locations appear to be either over international waters or not in given stateCodes and no county can be assigned"))
-      }
-    }  
-    
     return(name)
     
   }
