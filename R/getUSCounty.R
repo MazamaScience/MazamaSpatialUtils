@@ -28,7 +28,10 @@ getUSCounty <- function(lon, lat, dataset='USCensusCounties', stateCodes=NULL, a
   if (!exists(dataset)) {
     stop('Missing database. Please loadSpatialData("',dataset,'")',call.=FALSE)
   }
-  
+  # check if longitude and latitude falls in the right range
+  if(min(lon)< -180 | max(lon) > 180 | min(lat) < -90 | max(lat) > 90){
+  stop('Longitude or latitude is not specified in the correct range. Please try again.')
+  }
   SPDF <- get(dataset)
   
   # Subset by state before searching
@@ -43,16 +46,6 @@ getUSCounty <- function(lon, lat, dataset='USCensusCounties', stateCodes=NULL, a
   } else {
     
     name <- locationsDF$countyName
-    
-    # Sanity check -- missing county implies location outside the US 
-    badMask <- is.na(name)
-    if (sum(badMask) > 0) {
-      if(is.null(stateCodes)) {
-        warning(paste(sum(badMask),"locations appear to be over international waters or outside the US and no county can be assigned"))
-      } else {
-        warning(paste(sum(badMask),"locations appear to be either over international waters or not in given stateCodes and no county can be assigned"))
-      }
-    }  
     
     return(name)
     

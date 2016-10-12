@@ -1,33 +1,37 @@
 Type: Package
 Package: MazamaSpatialUtils
-Version: 0.4.5
+Version: 0.4.7
 Title: Mazama Science Spatial Data Download and Utility Functions
 Authors@R: c(
     person("Jonathan", "Callahan", email="jonathan.s.callahan@gmail.com", role=c("aut","cre")), 
     person("Will", "Leahy", email="procterw@gmail.com", role=c("aut")),
     person("Henry", "Nguyen", email="oh.henry.nguyen@gmail.com", role=c("aut")),
     person("Robin", "Winstanley", email="robin@winstan.net", role=c("aut")),
-    person("Ruby", "Fore", email="ruby.a.fore@gmail.com", role=c("aut"))
+    person("Ruby", "Fore", email="ruby.a.fore@gmail.com", role=c("aut")),
+    person("Alice", "Yang", email="wenhuy@uw.edu", role=c("aut"))
     )
 Author: Jonathan Callahan [aut, cre],
     Will Leahy [aut],
     Henry Nguyen [aut],
     Robin Winstanley [aut],
-    Ruby Fore [aut]
+    Ruby Fore [aut],
+    Alice Yang [aut]
 Maintainer: Jonathan Callahan <jonathan.s.callahan@gmail.com>
-Depends: R (>= 3.1.0)
-Imports: 
+Depends:
+    R (>= 3.1.0) 
+Imports:
     dplyr,
     lubridate,
+    maps,
     rgdal,
     rgeos,
-    rvest,
+    rvest (>= 0.3.0),
     sp,
     stringr,
-    utils
-Suggests: 
+    utils,
+    xml2
+Suggests:
     knitr,
-    maps,
     testthat
 Description: A suite of conversion scripts to create internally standardized
     spatial polygons dataframes. Utility scripts use these datasets to return
@@ -37,3 +41,4 @@ License: GPL-2
 VignetteBuilder: knitr
 Repository: CRAN
 LazyData: true
+RoxygenNote: 5.0.1

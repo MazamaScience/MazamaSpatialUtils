@@ -31,7 +31,10 @@ getSpatialData <- function(lon, lat, SPDF, useBuffering=FALSE, verbose=FALSE) {
   if ( length(lon) != length(lat) ) {
     stop(paste("ERROR in getSpatialData:  arguments 'lon' and 'lat' must have the same length."))
   }
-  
+  # check if longitude and latitude falls in the right range
+  if(min(lon)< -180 | max(lon) > 180 | min(lat) < -90 | max(lat) > 90){
+    stop('Longitude or latitude is not specified in the correct range. Please try again.')
+  }
   # Convert any lon into the range -180:180
   lon <- ( (((lon + 360) %% 360) + 180) %% 360 ) - 180
   

@@ -268,6 +268,12 @@ codeToState <- function(stateCodes, countryCodes=NULL,
 #' @description Converts a vector of state names to an ISO 3166-2 two character state codes.
 #' @details For this function to work, you must first run \code{initializeSpatialData()} to
 #' download, convert and install the necessary spatial data.
+#' @examples 
+#' \dontrun{
+#' stateToCode("Washington")
+#' stateToCode("Barcelona")
+#' stateToCode("Shandong")
+#' }
 #' @return A vector of ISO 3166-2 codes or NA.
 #' @seealso convertNaturalEarthAdm1
 stateToCode <- function(stateNames, countryCodes=NULL,
