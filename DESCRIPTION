@@ -11,10 +11,10 @@ Authors@R: c(
     person("Alice", "Yang", email="wenhuy@uw.edu", role=c("aut"))
     )
 Author: Jonathan Callahan [aut, cre],
+    Ruby Fore [aut],
     Will Leahy [aut],
     Henry Nguyen [aut],
     Robin Winstanley [aut],
-    Ruby Fore [aut],
     Alice Yang [aut]
 Maintainer: Jonathan Callahan <jonathan.s.callahan@gmail.com>
 Depends:
