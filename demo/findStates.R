@@ -2,6 +2,7 @@
 
 library(MazamaSpatialUtils)
 library(sp)
+library(maps)
 
 # Specify the directory for spatial data
 setSpatialDataDir('./SpatialData')
