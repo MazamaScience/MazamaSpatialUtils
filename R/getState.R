@@ -30,9 +30,9 @@ getState <- function(lon, lat, dataset='NaturalEarthAdm1', countryCodes=NULL, al
     stop('Missing database. Please loadSpatialData("',dataset,'")',call.=FALSE)
   }
   # check if longitude and latitude falls in the right range
-  if(min(lon)< -180 | max(lon) > 180 | min(lat) < -90 | max(lat) > 90){
-    stop('Longitude or latitude is not specified in the correct range. Please try again.')
-  }
+  if ( min(lon)< -180 || max(lon) > 180 || min(lat) < -90 || max(lat) > 90 ) {
+    stop('Longitude or latitude is not specified in the correct range -180:180, -90:90',call.=FALSE)
+  }  
   SPDF <- get(dataset)
   
   # Subset by country before searching
