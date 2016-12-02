@@ -30,7 +30,7 @@ getStateName <- function(lon, lat, dataset='NaturalEarthAdm1', countryCodes=NULL
     stop('Missing database. Please loadSpatialData("',dataset,'")',call.=FALSE)
   }
   # check if longitude and latitude falls in the right range
-  if(min(lon)< -180 | max(lon) > 180 | min(lat) < -90 | max(lat) > 90){
+  if(min(lon, na.rm=T)< -180 | max(lon, na.rm=T) > 180 | min(lat, na.rm=T) <-90 | max(lat, na.rm=T) > 90){
     stop('Longitude or latitude is not specified in the correct range. Please try again.')
   }
   SPDF <- get(dataset)
