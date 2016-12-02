@@ -38,7 +38,6 @@ Description: A suite of conversion scripts to create internally standardized
     values such as country, state, timezone, watershed, etc. associated with a
     set of longitude/latitude pairs. (They also make cool maps.)
 License: GPL-2
-VignetteBuilder: knitr
 Repository: CRAN
 LazyData: true
 RoxygenNote: 5.0.1
