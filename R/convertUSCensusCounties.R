@@ -50,7 +50,7 @@ convertUSCensusCounties <- function(nameOnly=FALSE) {
   url <- 'http://en.wikipedia.org/wiki/Federal_Information_Processing_Standard_state_code'
 
   # Get the raw html from the url
-  wikiDoc <- rvest::html(url)
+  wikiDoc <- xml2::read_html(url)
   
   # Get a list of tables in the document
   tables <- rvest::html_nodes(wikiDoc, 'table')

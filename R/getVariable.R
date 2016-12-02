@@ -33,6 +33,7 @@ getVariable <- function(lon, lat, dataset=NULL, variable=NULL, countryCodes=NULL
        max(lat, na.rm=TRUE) > 90 ) {
     stop('Longitude or latitude is not specified in the correct range. Please try again.')
   } 
+
   SPDF <- get(dataset)
   
   # Sanity check

@@ -36,6 +36,7 @@ getState <- function(lon, lat, dataset='NaturalEarthAdm1', countryCodes=NULL, al
        max(lat, na.rm=TRUE) > 90 ) {
     stop('Longitude or latitude is not specified in the correct range. Please try again.')
   }
+
   SPDF <- get(dataset)
   
   # Subset by country before searching

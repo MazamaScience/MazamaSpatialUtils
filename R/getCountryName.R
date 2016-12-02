@@ -32,6 +32,7 @@ getCountryName <- function(lon, lat, dataset='SimpleCountries', countryCodes=NUL
        max(lat, na.rm=TRUE) > 90 ) {
     stop('Longitude or latitude is not specified in the correct range. Please try again.')
   }
+
   SPDF <- get(dataset)
   
   # Subset by country before searching

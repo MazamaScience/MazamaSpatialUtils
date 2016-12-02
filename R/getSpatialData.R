@@ -43,7 +43,8 @@ getSpatialData <- function(lon, lat, SPDF, useBuffering=FALSE, verbose=FALSE) {
     stop('Longitude or latitude is not specified in the correct range. Please try again.')
   }
 
-  
+
+
   # Determine which lon/lat pairs are valid and non-missing
   validIndices <- intersect(which(lon <=180 & lon >=-180), which(lat <=90 & lat >=-90))
   validPairs <- list(lon[validIndices],lat[validIndices])

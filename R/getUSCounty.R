@@ -35,6 +35,7 @@ getUSCounty <- function(lon, lat, dataset='USCensusCounties', stateCodes=NULL, a
        max(lat, na.rm=TRUE) > 90 ) {
   stop('Longitude or latitude is not specified in the correct range. Please try again.')
   }
+
   SPDF <- get(dataset)
   
   # Subset by state before searching

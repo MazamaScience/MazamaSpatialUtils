@@ -26,6 +26,7 @@ getCountryCode <- function(lon, lat, dataset='SimpleCountries', countryCodes=NUL
     stop('Missing database. Please loadSpatialData("',dataset,'")',call.=FALSE)
   }
   # check if longitude and latitude falls in the right range
+
   if ( min(lon, na.rm=TRUE) < -180 || 
        max(lon, na.rm=TRUE) > 180 || 
        min(lat, na.rm=TRUE) < -90 || 

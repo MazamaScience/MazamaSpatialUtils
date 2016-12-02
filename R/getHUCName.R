@@ -27,6 +27,7 @@ getHUCName <- function(lon, lat, dataset='WBDHU10-ms', HUCs=NULL, allData=FALSE)
        max(lat, na.rm=TRUE) > 90 ) {
     stop('Longitude or latitude is not specified in the correct range. Please try again.')
   }
+
   # Use standard internal name (assumes pre-loaded dataset)
   SPDF <- get(dataset) 
   
