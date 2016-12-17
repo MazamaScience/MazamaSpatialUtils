@@ -62,6 +62,24 @@ The following packages should be installed with devtools by typing the following
 
 ``` devtools::install_github('mazamascience/MazamaSpatialUtils', build_vignettes=TRUE) ```
 
+## Data
+
+Pre-generated .RData versions of of most of the following shapefiles are available:
+
+ * NaturalEarthAdm1.RData	15M	 
+ * TMWorldBorders.RData	3.6M	 
+ * USCensusCounties.RData	2.2M	 
+ * WBDHU2.RData	1.2M	 
+ * WBDHU4.RData	3.3M	 
+ * WBDHU6.RData	4.0M	 
+ * WBDHU8.RData	7.2M	 
+ * WBDHU10.RData 21M	 
+ * WBDHU12.RData 48M	 
+ * WorldTimezones.RData	16M
+
+Just download [Spatial.tar.gz](http://mazamascience.com/RData/Spatial.tar.gz) and extract the contents
+into `~/Data/`. This will create `~/Data/Spatial/` which is the default location used in all of the
+examples.
 
 ## Examples
 
