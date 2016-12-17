@@ -64,7 +64,7 @@ The following packages should be installed with devtools by typing the following
 
 ## Data
 
-Pre-generated .RData versions of of most of the following shapefiles are available:
+Pre-generated .RData versions of the following standardized shapefiles are available:
 
  * NaturalEarthAdm1.RData	15M	 
  * TMWorldBorders.RData	3.6M	 
