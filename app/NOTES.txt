@@ -1,0 +1,10 @@
+# TODO:  Take jug Dockerfile and incrementally add stuff from mazamaSpatialUtils dockerfile
+# TODO:  and see if hello_world still runs.
+# TODO:  Try adding everything in the spatialUtilsApp docker file and see if hello_world still runs.
+# TODO:  Incrementally add functionality from spatialUtilsApp.R
+
+docker build -t mazamascience/spatialutilsapp:0.1.0 .
+
+docker run -ti -p 8080:8080 --name suapp mazamascience/spatialutilsapp:0.1.0
+
+But I'm not seeing that port on localhost

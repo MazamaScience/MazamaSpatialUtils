@@ -2,7 +2,12 @@
 library(jug)
 library(MazamaSpatialUtils)
 
-setSpatialDataDir("~/data/Spatial")
+# For use from the command line:
+###setSpatialDataDir("~/data/Spatial")
+
+# For use with the docker image built with Dockerfile:
+setSpatialDataDir("/home/mazama/data/Spatial")
+
 initializeSpatialData()
 loadSpatialData('WBDHU2')
 loadSpatialData('WBDHU4')
@@ -184,8 +189,10 @@ jug() %>%
     
   }) %>%
   
-  simple_error_handler() %>%
+  # Handle errors
+  simple_error_handler_json() %>%
 
+  # Serve up the results
   serve_it(verbose=TRUE)
 
 # ----- END -------------------------------------------------------------------
