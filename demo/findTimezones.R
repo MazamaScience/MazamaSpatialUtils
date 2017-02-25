@@ -2,6 +2,7 @@
 
 library(MazamaSpatialUtils)
 library(sp)
+library(maps)
 
 # Vector of lons and lats
 lons <- seq(-120,-60,5)

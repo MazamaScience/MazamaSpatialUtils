@@ -1,3 +1,8 @@
+<!-- [![Build Status](https://travis-ci.org/mazamascience/MazamaSpatialUtils.svg)](https://travis-ci.org/mazamascience/MazamaSpatialUtils)
+[![Coverage Status](https://coveralls.io/repos/mazamascience/MazamaSpatialUtils/badge.svg?branch=master&service=github)](https://coveralls.io/github/mazamascience/MazamaSpatialUtils?branch=master) -->
+[![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/MazamaSpatialUtils)](https://cran.r-project.org/package=MazamaSpatialUtils)
+[![Downloads](http://cranlogs.r-pkg.org/badges/MazamaSpatialUtils)](https://cran.r-project.org/package=MazamaSpatialUtils)
+
 # MazamaSpatialUtils
 
 ```A suite of conversion scripts to create internally standardized spatial
@@ -62,6 +67,24 @@ The following packages should be installed with devtools by typing the following
 
 ``` devtools::install_github('mazamascience/MazamaSpatialUtils', build_vignettes=TRUE) ```
 
+## Data
+
+Pre-generated .RData versions of the following standardized shapefiles are available:
+
+ * NaturalEarthAdm1.RData	15M	 
+ * TMWorldBorders.RData	3.6M	 
+ * USCensusCounties.RData	2.2M	 
+ * WBDHU2.RData	1.2M	 
+ * WBDHU4.RData	3.3M	 
+ * WBDHU6.RData	4.0M	 
+ * WBDHU8.RData	7.2M	 
+ * WBDHU10.RData 21M	 
+ * WBDHU12.RData 48M	 
+ * WorldTimezones.RData	16M
+
+Just download [Spatial.tar.gz](http://mazamascience.com/RData/Spatial.tar.gz) and extract the contents
+into `~/Data/`. This will create `~/Data/Spatial/` which is the default location used in all of the
+examples.
 
 ## Examples
 
