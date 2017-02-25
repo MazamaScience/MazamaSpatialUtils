@@ -4,19 +4,24 @@ library(MazamaSpatialUtils)
 
 setSpatialDataDir("~/data/Spatial")
 initializeSpatialData()
+loadSpatialData('WBDHU2')
+loadSpatialData('WBDHU4')
+loadSpatialData('WBDHU6')
+loadSpatialData('WBDHU8')
+loadSpatialData('WBDHU10')
+loadSpatialData('WBDHU12')
 
 jug() %>%
   
   # Countries
-  get("/spatialUtils/getCountryCode", function(req, res, err){
+  get("/spatialUtils/getCountry", function(req, res, err){
     
-    str(req$params)
     lons <- eval(parse(text=req$params$lons))
     lats <- eval(parse(text=req$params$lats))
     
-    df <- getCountryCode(lons,lats, allData=TRUE)
-    df$longitude <- round(lons,digits=2)
-    df$latitude <- round(lats,digits=2)
+    df <- getCountryCode(lons, lats, allData=TRUE)
+    df$longitude <- round(lons, digits=2)
+    df$latitude <- round(lats, digits=2)
     df <- df[,c('longitude','latitude','countryName','countryCode','ISO3','FIPS')]
     result <- readr::format_csv(df)
     
@@ -26,44 +31,159 @@ jug() %>%
     
   }) %>%
   
-  # # READ MW - PLOT
-  # get("/items/plot", function(req, res, err){
-  #   db_plot<-
-  #     db_list() %>%
-  #     ggplot() +
-  #     aes(x="", fill=checked) + 
-  #     geom_bar(position="stack") +
-  #     coord_flip() +
-  #     xlab("") +
-  #     scale_y_continuous(breaks=seq(0,100,1)) +
-  #     theme(legend.position="none")
-  #   
-  #   res$plot(db_plot, height=100, width=300)
-  #   
-  # }) %>%
-  # 
-  # # READ MW - SPECIFIC items
-  # get("/items/(?<description>.*)", function(req, res, err){
-  #   
-  #   res$json(db_get(req$params$description))
-  #   
-  # }) %>%
-  # # CREATE/UPDATE MW
-  # post("/items/(?<description>.*)", function(req, res, err){
-  #   
-  #   db_save(req$params$description, req$params$checked)
-  #   return(TRUE)
-  #   
-  # }) %>%
-  # # DELETE MW
-  # delete("/items", function(req, res, err){
-  #   
-  #   db_delete(req$params$description)
-  #   return(TRUE)
-  #   
-  # }) %>%
-  # serve_static_files(root_path="public/") %>%
-
+  # HUCs
+  get("/spatialUtils/getHUC2", function(req, res, err){
+    
+    str(req$params)
+    lons <- eval(parse(text=req$params$lons))
+    lats <- eval(parse(text=req$params$lats))
+    
+    df <- getHUC(lons, lats, WBDHU2, allData=TRUE)
+    df$longitude <- round(lons, digits=2)
+    df$latitude <- round(lats, digits=2)
+    df <- df[,c('longitude','latitude','countryCode','allStateCodes','HUCName','HUC','area')]
+    result <- readr::format_csv(df)
+    
+    res$content_type("text/plain")
+    
+    return(result)
+    
+  }) %>%
+  
+  # HUCs
+  get("/spatialUtils/getHUC4", function(req, res, err){
+    
+    str(req$params)
+    lons <- eval(parse(text=req$params$lons))
+    lats <- eval(parse(text=req$params$lats))
+    
+    df <- getHUC(lons, lats, WBDHU4, allData=TRUE)
+    df$longitude <- round(lons, digits=2)
+    df$latitude <- round(lats, digits=2)
+    df <- df[,c('longitude','latitude','countryCode','allStateCodes','HUCName','HUC','area')]
+    result <- readr::format_csv(df)
+    
+    res$content_type("text/plain")
+    
+    return(result)
+    
+  }) %>%
+  
+  # HUCs
+  get("/spatialUtils/getHUC6", function(req, res, err){
+    
+    str(req$params)
+    lons <- eval(parse(text=req$params$lons))
+    lats <- eval(parse(text=req$params$lats))
+    
+    df <- getHUC(lons, lats, WBDHU6, allData=TRUE)
+    df$longitude <- round(lons, digits=2)
+    df$latitude <- round(lats, digits=2)
+    df <- df[,c('longitude','latitude','countryCode','allStateCodes','HUCName','HUC','area')]
+    result <- readr::format_csv(df)
+    
+    res$content_type("text/plain")
+    
+    return(result)
+    
+  }) %>%
+  
+  # HUCs
+  get("/spatialUtils/getHUC8", function(req, res, err){
+    
+    str(req$params)
+    lons <- eval(parse(text=req$params$lons))
+    lats <- eval(parse(text=req$params$lats))
+    
+    df <- getHUC(lons, lats, WBDHU8, allData=TRUE)
+    df$longitude <- round(lons, digits=2)
+    df$latitude <- round(lats, digits=2)
+    df <- df[,c('longitude','latitude','countryCode','allStateCodes','HUCName','HUC','area')]
+    result <- readr::format_csv(df)
+    
+    res$content_type("text/plain")
+    
+    return(result)
+    
+  }) %>%
+  
+  # HUCs
+  get("/spatialUtils/getHUC10", function(req, res, err){
+    
+    str(req$params)
+    lons <- eval(parse(text=req$params$lons))
+    lats <- eval(parse(text=req$params$lats))
+    
+    df <- getHUC(lons, lats, WBDHU10, allData=TRUE)
+    df$longitude <- round(lons, digits=2)
+    df$latitude <- round(lats, digits=2)
+    df <- df[,c('longitude','latitude','countryCode','allStateCodes','HUCName','HUC','area')]
+    result <- readr::format_csv(df)
+    
+    res$content_type("text/plain")
+    
+    return(result)
+    
+  }) %>%
+  
+  # HUCs
+  get("/spatialUtils/getHUC12", function(req, res, err){
+    
+    str(req$params)
+    lons <- eval(parse(text=req$params$lons))
+    lats <- eval(parse(text=req$params$lats))
+    
+    df <- getHUC(lons, lats, WBDHU12, allData=TRUE)
+    df$longitude <- round(lons, digits=2)
+    df$latitude <- round(lats, digits=2)
+    df <- df[,c('longitude','latitude','countryCode','allStateCodes','HUCName','HUC','area')]
+    result <- readr::format_csv(df)
+    
+    res$content_type("text/plain")
+    
+    return(result)
+    
+  }) %>%
+  
+  # States
+  get("/spatialUtils/getState", function(req, res, err){
+    
+    str(req$params)
+    lons <- eval(parse(text=req$params$lons))
+    lats <- eval(parse(text=req$params$lats))
+    
+    df <- getStateCode(lons, lats, allData=TRUE)
+    df$longitude <- round(lons, digits=2)
+    df$latitude <- round(lats, digits=2)
+    df <- df[,c('longitude','latitude','countryName','stateName','countryCode','stateCode','fips','gns_lang')]
+    names(df) <- c('longitude','latitude','countryName','stateName','countryCode','stateCode','FIPS','languageCode')
+    result <- readr::format_csv(df)
+    
+    res$content_type("text/plain")
+    
+    return(result)
+    
+  }) %>%
+  
+  # Timezones
+  get("/spatialUtils/getTimezone", function(req, res, err){
+    
+    str(req$params)
+    lons <- eval(parse(text=req$params$lons))
+    lats <- eval(parse(text=req$params$lats))
+    
+    df <- getTimezone(lons, lats, allData=TRUE)
+    df$longitude <- round(lons, digits=2)
+    df$latitude <- round(lats, digits=2)
+    df <- df[,c('longitude','latitude','timezone','countryCode','UTC_offset','UTC_DST_offset')]
+    result <- readr::format_csv(df)
+    
+    res$content_type("text/plain")
+    
+    return(result)
+    
+  }) %>%
+  
   simple_error_handler() %>%
 
   serve_it(verbose=TRUE)
