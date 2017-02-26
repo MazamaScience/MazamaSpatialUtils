@@ -8,7 +8,10 @@ library(MazamaSpatialUtils)
 # For use with the docker image built with Dockerfile:
 setSpatialDataDir("/home/mazama/data/Spatial")
 
-initializeSpatialData()
+loadSpatialData('TMWorldBorders')
+loadSpatialData('NaturalEarthAdm1')
+loadSpatialData('USCensusCounties')
+loadSpatialData('WorldTimezones')
 loadSpatialData('WBDHU2')
 loadSpatialData('WBDHU4')
 loadSpatialData('WBDHU6')
@@ -30,7 +33,7 @@ jug() %>%
     df <- df[,c('longitude','latitude','countryName','countryCode','ISO3','FIPS')]
     result <- readr::format_csv(df)
     
-    res$content_type("text/plain")
+    res$content_type("text/csv")
     
     return(result)
     
@@ -46,10 +49,10 @@ jug() %>%
     df <- getHUC(lons, lats, WBDHU2, allData=TRUE)
     df$longitude <- round(lons, digits=2)
     df$latitude <- round(lats, digits=2)
-    df <- df[,c('longitude','latitude','countryCode','allStateCodes','HUCName','HUC','area')]
+    df <- df[,c('longitude','latitude','countryCode','allStateCodes','HUCName')]
     result <- readr::format_csv(df)
     
-    res$content_type("text/plain")
+    res$content_type("text/csv")
     
     return(result)
     
@@ -65,10 +68,10 @@ jug() %>%
     df <- getHUC(lons, lats, WBDHU4, allData=TRUE)
     df$longitude <- round(lons, digits=2)
     df$latitude <- round(lats, digits=2)
-    df <- df[,c('longitude','latitude','countryCode','allStateCodes','HUCName','HUC','area')]
+    df <- df[,c('longitude','latitude','countryCode','allStateCodes','HUCName')]
     result <- readr::format_csv(df)
     
-    res$content_type("text/plain")
+    res$content_type("text/csv")
     
     return(result)
     
@@ -84,10 +87,10 @@ jug() %>%
     df <- getHUC(lons, lats, WBDHU6, allData=TRUE)
     df$longitude <- round(lons, digits=2)
     df$latitude <- round(lats, digits=2)
-    df <- df[,c('longitude','latitude','countryCode','allStateCodes','HUCName','HUC','area')]
+    df <- df[,c('longitude','latitude','countryCode','allStateCodes','HUCName')]
     result <- readr::format_csv(df)
     
-    res$content_type("text/plain")
+    res$content_type("text/csv")
     
     return(result)
     
@@ -103,10 +106,10 @@ jug() %>%
     df <- getHUC(lons, lats, WBDHU8, allData=TRUE)
     df$longitude <- round(lons, digits=2)
     df$latitude <- round(lats, digits=2)
-    df <- df[,c('longitude','latitude','countryCode','allStateCodes','HUCName','HUC','area')]
+    df <- df[,c('longitude','latitude','countryCode','allStateCodes','HUCName')]
     result <- readr::format_csv(df)
     
-    res$content_type("text/plain")
+    res$content_type("text/csv")
     
     return(result)
     
@@ -122,10 +125,10 @@ jug() %>%
     df <- getHUC(lons, lats, WBDHU10, allData=TRUE)
     df$longitude <- round(lons, digits=2)
     df$latitude <- round(lats, digits=2)
-    df <- df[,c('longitude','latitude','countryCode','allStateCodes','HUCName','HUC','area')]
+    df <- df[,c('longitude','latitude','countryCode','allStateCodes','HUCName')]
     result <- readr::format_csv(df)
     
-    res$content_type("text/plain")
+    res$content_type("text/csv")
     
     return(result)
     
@@ -141,10 +144,10 @@ jug() %>%
     df <- getHUC(lons, lats, WBDHU12, allData=TRUE)
     df$longitude <- round(lons, digits=2)
     df$latitude <- round(lats, digits=2)
-    df <- df[,c('longitude','latitude','countryCode','allStateCodes','HUCName','HUC','area')]
+    df <- df[,c('longitude','latitude','countryCode','allStateCodes','HUCName')]
     result <- readr::format_csv(df)
     
-    res$content_type("text/plain")
+    res$content_type("text/csv")
     
     return(result)
     
@@ -164,7 +167,7 @@ jug() %>%
     names(df) <- c('longitude','latitude','countryName','stateName','countryCode','stateCode','FIPS','languageCode')
     result <- readr::format_csv(df)
     
-    res$content_type("text/plain")
+    res$content_type("text/csv")
     
     return(result)
     
@@ -183,7 +186,7 @@ jug() %>%
     df <- df[,c('longitude','latitude','timezone','countryCode','UTC_offset','UTC_DST_offset')]
     result <- readr::format_csv(df)
     
-    res$content_type("text/plain")
+    res$content_type("text/csv")
     
     return(result)
     
@@ -193,7 +196,7 @@ jug() %>%
   simple_error_handler_json() %>%
 
   # Serve up the results
-  serve_it(verbose=TRUE)
+  serve_it(host = Sys.getenv("JUG_HOST"), port = as.integer(Sys.getenv("JUG_PORT")))
 
 # ----- END -------------------------------------------------------------------
 
