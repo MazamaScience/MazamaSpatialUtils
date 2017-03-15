@@ -82,9 +82,14 @@ Pre-generated .RData versions of the following standardized shapefiles are avail
  * WBDHU12.RData 48M	 
  * WorldTimezones.RData	16M
 
-Just download [Spatial.tar.gz](http://mazamascience.com/RData/Spatial.tar.gz) and extract the contents
-into `~/Data/`. This will create `~/Data/Spatial/` which is the default location used in all of the
-examples.
+To get these datasets you should execute the following commands from a shell terminal:
+
+```
+mkdir ~/Data
+cd ~/Data
+curl -O http://mazamascience.com/RData/Spatial.tar.gz
+tar -xzf Spatial.tar.gz
+```
 
 ## Examples
 
