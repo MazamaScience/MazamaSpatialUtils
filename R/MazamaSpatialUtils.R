@@ -292,34 +292,3 @@ stateToCode <- function(stateNames, countryCodes=NULL,
   names(allCodes) <- stateTable$stateName
   return(as.character(allCodes[stateNames]))
 }
-
-
-# ----- Initialization----------------------------------------------------------
-
-#' @export
-#' @title Install Core Datasets
-#' @description Four core datasets can be installed to enhance the base the functionality
-#' in \pkg{MazamaSpatialUtils}. Running \code{initializeSpatialData()} will
-#' install these datasets in the the directory specified by \code{setSpatialDataDir()}.
-#' 
-#' The core datastes are:
-#' \itemize{
-#' \item{\code{TMWorldBorders} -- high resolution country polygons (higher resolution than \code{SimpleCountries})}
-#' \item{\code{NaturalEarthAdm1} -- state/province polygons throughout the world}
-#' \item{\code{USCensusCounties} -- county polygons in the United States}
-#' \item{\code{WorldTimezones} -- high resolution timezone polygons (higher resolution than \code{SimpleTimezones})}
-#' }
-#' @return Nothing.
-#' @seealso setSpatialDataDir
-initializeSpatialData <- function() {
-  # Install high resolution and load Country, State and Timezone datasets
-  installSpatialData('TMWorldBorders')
-  loadSpatialData('TMWorldBorders')
-  installSpatialData('NaturalEarthAdm1')
-  loadSpatialData('NaturalEarthAdm1')
-  installSpatialData('USCensusCounties')
-  loadSpatialData('USCensusCounties')
-  installSpatialData('WorldTimezones')
-  loadSpatialData('WorldTimezones')
-}
-

@@ -6,7 +6,7 @@ output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction to MazamaSpatialUtils}
   %\VignetteEngine{knitr::rmarkdown}
-  \usepackage[utf8]{inputenc}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ## Background
@@ -19,6 +19,7 @@ the number of Ebola cases per 1,000 residents in each of the countries of Guinea
 and Liberia. These cases are comprised of both confirmed and unconfirmed cases, as recorded
 by the World Health Organization. The data used for the graph was also given on the website. 
 
+![](http://www.johnstonsarchive.net/policy/WAebola150509-map.gif)
 
 ## Preliminary Mapping
 
@@ -28,11 +29,11 @@ through taking a subset of the TMWorldBorders data that referred to the three co
 interest. The borders between the countries could then be plotted, with thicker lines used to 
 further distinguish the borders.
 
-```{r ebolaCountries, fig.width=7, fig.height=7,out.width=500, out.height=500, fig.align='center'}
+```{r ebolaCountries, fig.width=7, fig.height=7}
 library(MazamaSpatialUtils)
 library(sp)
-setSpatialDataDir('~/SpatialData') # Use your own Spatial Data directory
-loadSpatialData("TMWorldBorders")
+setSpatialDataDir('~/Data/Spatial') # Use your own Spatial Data directory
+loadSpatialData('TMWorldBorders')
 df <- TMWorldBorders@data
 ebolaCountries <- subset(df,countryName %in% c('Liberia', 'Sierra Leone', 'Guinea'))
 countryCodes = ebolaCountries[,2]
@@ -64,7 +65,7 @@ we are solely interested in the column referring to cases/1000 pop as this is wh
 
 ```{r ebolaTable}
 url <- "http://www.johnstonsarchive.net/policy/westafrica-ebola.html"
-raw <- rvest::html(url)
+raw <- xml2::read_html(url)
 tables <- rvest::html_nodes(raw, "table")
 ebolaTable <- rvest::html_table(tables[[3]])
 ```
@@ -102,7 +103,7 @@ We are almost there! Our graph is looking very similar to the original graph, bu
 a few crucial pieces. We add a legend defining our use of color, as well as labels for each
 country, and a title for the graph.
 
-```{r ebolaCaseRate, fig.width=7, fig.height=10, out.width=500, out.height=714, fig.align='center'}
+```{r ebolaCaseRate, fig.width=7, fig.height=10, fig.align='center'}
 plot(GADM_GN_2, col=colors[colorIndices[31:71]])
 plot(GADM_LR_1, col=colors[colorIndices[1:15]], add=TRUE)
 plot(GADM_SL_2, col=colors[colorIndices[16:30]], add=TRUE)
@@ -111,7 +112,7 @@ legend('bottomleft', legend=rev(breaks[1:7]), fill=rev(colors[1:8]), bty='n', ti
 text(-10.8,5.8,'Liberia', font=2)
 text(-14.1,7.8,'Sierra Leone', font=2)
 text(-14.8,9.8,'Guinea', font=2)
-text(-12.5,4.8, 'Rate of Ebola cases by region,\nWest Africa (to 22 Mar 2015)',)
+text(-12.5,4.8, 'Rate of Ebola cases by region,\nWest Africa (to 22 Mar 2015)', font=2)
 text(-12.5, 4.3,'(both confirmed and unconfirmed cases)', cex=.8, xpd=NA)
 ```
 

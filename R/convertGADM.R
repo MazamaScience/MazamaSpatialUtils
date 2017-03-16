@@ -42,13 +42,16 @@ convertGADM <- function(countryCode=NULL, admLevel=0, nameOnly=FALSE) {
   }
   
   # Build appropriate request URL for the GADM Database
-  url <- paste0('http://biogeo.ucdavis.edu/data/gadm2/R/',
+  url <- paste0('http://biogeo.ucdavis.edu/data/gadm2.8/rds/',
                 ISO3, '_adm',
-                admLevel, '.RData')
+                admLevel, '.rds')
 
   # Get the data
-  # NOTE:  The url() function converts the url string into a 'connection' that can be loaded.
-  SPDF <- get(load(url(url)))
+  tempfile <- base::tempfile("spatial_data", fileext=".rds")
+  utils::download.file(url, tempfile)
+  SPDF <- readRDS(tempfile)
+  base::file.remove(tempfile)
+  
   
   # Rationalize naming:
   # * human readable full nouns with descriptive prefixes
@@ -61,11 +64,21 @@ convertGADM <- function(countryCode=NULL, admLevel=0, nameOnly=FALSE) {
   
   if (admLevel == 0) {
     
-    #     > names(SPDF)
-    #     [1] "PID"           "ID_0"          "ISO"           "NAME_ENGLISH"  "NAME_ISO"      "NAME_FAO"      "NAME_LOCAL"   
-    #     [8] "NAME_OBSOLETE" "NAME_VARIANTS" "NAME_NONLATIN" "NAME_FRENCH"   "NAME_SPANISH"  "NAME_RUSSIAN"  "NAME_ARABIC"  
-    #     [15] "NAME_CHINESE"  "WASPARTOF"     "CONTAINS"      "SOVEREIGN"     "ISO2"          "WWW"           "FIPS"         
-    #     [22] "ISON"          "VALIDFR"       "VALIDTO"       "EUmember"     
+    # > names(SPDF)
+    # [1] "OBJECTID"      "ID_0"          "ISO"           "NAME_ENGLISH"  "NAME_ISO"     
+    # [6] "NAME_FAO"      "NAME_LOCAL"    "NAME_OBSOLETE" "NAME_VARIANTS" "NAME_NONLATIN"
+    # [11] "NAME_FRENCH"   "NAME_SPANISH"  "NAME_RUSSIAN"  "NAME_ARABIC"   "NAME_CHINESE" 
+    # [16] "WASPARTOF"     "CONTAINS"      "SOVEREIGN"     "ISO2"          "WWW"          
+    # [21] "FIPS"          "ISON"          "VALIDFR"       "VALIDTO"       "POP2000"      
+    # [26] "SQKM"          "POPSQKM"       "UNREGION1"     "UNREGION2"     "DEVELOPING"   
+    # [31] "CIS"           "Transition"    "OECD"          "WBREGION"      "WBINCOME"     
+    # [36] "WBDEBT"        "WBOTHER"       "CEEAC"         "CEMAC"         "CEPLG"        
+    # [41] "COMESA"        "EAC"           "ECOWAS"        "IGAD"          "IOC"          
+    # [46] "MRU"           "SACU"          "UEMOA"         "UMA"           "PALOP"        
+    # [51] "PARTA"         "CACM"          "EurAsEC"       "Agadir"        "SAARC"        
+    # [56] "ASEAN"         "NAFTA"         "GCC"           "CSN"           "CARICOM"      
+    # [61] "EU"            "CAN"           "ACP"           "Landlocked"    "AOSIS"        
+    # [66] "SIDS"          "Islands"       "LDC"          
     
     # NOTE:  Lots of useful potentially useful information here. We will just add the core identifiers
     SPDF$ISO3 <- SPDF$ISO
@@ -74,9 +87,9 @@ convertGADM <- function(countryCode=NULL, admLevel=0, nameOnly=FALSE) {
     
   } else {
     
-    #     > names(SPDF)
-    #     [1] "PID"       "ID_0"      "ISO"       "NAME_0"    "ID_1"      "NAME_1"    "NL_NAME_1" "VARNAME_1" "TYPE_1"   
-    #     [10] "ENGTYPE_1"
+    # > names(SPDF)
+    # [1] "OBJECTID"  "ID_0"      "ISO"       "NAME_0"    "ID_1"      "NAME_1"    "HASC_1"   
+    # [8] "CCN_1"     "CCA_1"     "TYPE_1"    "ENGTYPE_1" "NL_NAME_1" "VARNAME_1"
     
     # NOTE:  Lots of useful potentially useful information here. We will just add the core identifiers
     SPDF$ISO3 <- SPDF$ISO
@@ -86,9 +99,10 @@ convertGADM <- function(countryCode=NULL, admLevel=0, nameOnly=FALSE) {
     SPDF$stateName <- SPDF$NAME_1
     
     # NOTE:  A regular patterm emerges beyond level 1
-    #     > names(SPDF@data)
-    #     [1] "PID"       "ID_0"      "ISO"       "NAME_0"    "ID_1"      "NAME_1"    "ID_2"      "NAME_2"    "ID_3"      "NAME_3"    "NL_NAME_3"
-    #     [12] "VARNAME_3" "TYPE_3"    "ENGTYPE_3"
+    # > names(SPDF)
+    # [1] "OBJECTID"  "ID_0"      "ISO"       "NAME_0"    "ID_1"      "NAME_1"    "ID_2"     
+    # [8] "NAME_2"    "HASC_2"    "CCN_2"     "CCA_2"     "TYPE_2"    "ENGTYPE_2" "NL_NAME_2"
+    # [15] "VARNAME_2"
     
     if (admLevel >= 2) {
       SPDF$countyName <- SPDF$NAME_2
@@ -98,7 +112,7 @@ convertGADM <- function(countryCode=NULL, admLevel=0, nameOnly=FALSE) {
 
   # TODO:
   #   # Group polygons with the same identifier
-  SPDF <- organizePolygons(SPDF, uniqueID='PID')
+  SPDF <- organizePolygons(SPDF, uniqueID='OBJECTID')
   
   # Assign a name and save the data
   assign(datasetName,SPDF)

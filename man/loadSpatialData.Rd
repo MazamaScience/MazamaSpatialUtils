@@ -2,21 +2,34 @@
 % Please edit documentation in R/loadSpatialData.R
 \name{loadSpatialData}
 \alias{loadSpatialData}
-\title{Load a Named Spatial Dataset into the Global Environment}
+\title{Load Spatial Datasets}
 \usage{
-loadSpatialData(dataset = NULL)
+loadSpatialData(pattern = "*")
 }
 \arguments{
-\item{dataset}{name of dataset}
+\item{pattern}{regular expression used to match filenames}
+}
+\value{
+Invisibly returns a vector of spatial dataset names loaded into the global environment.
 }
 \description{
-Load a named spatial dataset. The package \code{SpatialDataDir} will be
-searched for the specified dataset.  Set this location with \code{setSpatialDataDir()}.
+Load datasets found in the directory previously set with \code{setSpatialDataDir()}.
+Only files matching \code{pattern} will be loaded.
+
+Core datastes available for the package include:
+\itemize{
+\item{\code{TMWorldBorders} -- high resolution country polygons (higher resolution than \code{SimpleCountries})}
+\item{\code{NaturalEarthAdm1} -- state/province polygons throughout the world}
+\item{\code{USCensusCounties} -- county polygons in the United States}
+\item{\code{WorldTimezones} -- high resolution timezone polygons (higher resolution than \code{SimpleTimezones})}
+}
+
+These can be installed with \code{installSpatialData()}.
 }
 \seealso{
-getSpatialDataDir
-
 setSpatialDataDir
+
+installSpatialData
 }
 \keyword{environment}
 

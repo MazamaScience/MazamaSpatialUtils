@@ -1,23 +1,44 @@
 #' @keywords environment
 #' @export
-#' @title Load a Named Spatial Dataset into the Global Environment
-#' @param dataset name of dataset
-#' @description Load a named spatial dataset. The package \code{SpatialDataDir} will be
-#' searched for the specified dataset.  Set this location with \code{setSpatialDataDir()}.
-#' @seealso getSpatialDataDir
+#' @title Load Spatial Datasets
+#' @param pattern regular expression used to match filenames
+#' @description Load datasets found in the directory previously set with \code{setSpatialDataDir()}.
+#' Only files matching \code{pattern} will be loaded.
+#' 
+#' Core datastes available for the package include:
+#' \itemize{
+#' \item{\code{TMWorldBorders} -- high resolution country polygons (higher resolution than \code{SimpleCountries})}
+#' \item{\code{NaturalEarthAdm1} -- state/province polygons throughout the world}
+#' \item{\code{USCensusCounties} -- county polygons in the United States}
+#' \item{\code{WorldTimezones} -- high resolution timezone polygons (higher resolution than \code{SimpleTimezones})}
+#' }
+#' 
+#' These can be installed with \code{installSpatialData()}.
+#' @return Invisibly returns a vector of spatial dataset names loaded into the global environment.
 #' @seealso setSpatialDataDir
-loadSpatialData <- function(dataset=NULL) {
+#' @seealso installSpatialData
+loadSpatialData <- function(pattern='*') {
   
   # Use package internal data directory
   dataDir <- getSpatialDataDir()
   
-  # Test for and then load the dataset
-  filePath <- paste0(dataDir,'/',dataset,'.RData')
+  filePaths <- list.files(dataDir, pattern, full.names=TRUE)
   
-  if (!file.exists(filePath)) {
-    stop(paste0('Spatial data file "',filePath,'" does not exist.',call.=FALSE))
+  if ( length(filePaths) == 0 ) {
+    
+    stop(paste0('No files matching "',pattern,'" found in ',dataDir,'.'), call.=FALSE)
+    
   } else {
-    load(filePath,envir=.GlobalEnv)
+    
+    for ( filePath in filePaths ) {
+      load(filePath, envir=.GlobalEnv)
+    }
+    
+    # Return names of all SPDF laoded into the global environment
+    names <- base::basename(filePaths)
+    names <- stringr::str_replace(names, '\\.RData', '')
+    return(invisible(names))
+    
   }
   
 }

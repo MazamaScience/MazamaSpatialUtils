@@ -1,29 +1,22 @@
 #' @keywords environment
 #' @export
-#' @title Install a Named Spatial Dataset
-#' @param dataset name of dataset
-#' @param verbose logical flag controlling detailed progress statements
-#' @param ... additional arguments needed by some \code{convert~} functions
-#' @description Install a named spatial dataset.
-#' @return Character name of the installed dataset.
-installSpatialData <- function(dataset=NULL, verbose=FALSE, ...) {
+#' @title Install Spatial Datasets
+#' @param url location of spatial data .tar.gz file
+#' @description Install spatial datasets found  at \code{url} into the directory previously 
+#' set with \code{setSpatialDataDir()}.
+#' 
+#' @return Nothing.
+#' @seealso setSpatialDataDir
+#' @seealso loadSpatialData
+installSpatialData <- function(url="http://mazamascience.com/RData/mazama_spatial_files.tar.gz") {
   
   # Use package internal data directory
   dataDir <- getSpatialDataDir()
   
-  # Get the appropriate 'convert' function
-  FUN <- get(paste0('convert',dataset))
-
-  # Determine the file name and absolute path
-  datasetName <- FUN(..., nameOnly=TRUE)
-  filePath <- paste0(dataDir,'/',datasetName,'.RData')
-  
-  if (file.exists(filePath)) {
-    if (verbose) message(paste0(filePath,' already exists.'))
-  } else {
-    # Download/Convert/Install the dataset
-    FUN(..., nameOnly=FALSE)    
-  }
+  tempfile <- base::tempfile("spatial_data", fileext=".tar.gz")
+  utils::download.file(url, tempfile)
+  utils::untar(tempfile, exdir=dataDir)
+  base::file.remove(tempfile)
   
 }
 

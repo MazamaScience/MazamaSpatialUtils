@@ -2,22 +2,25 @@
 % Please edit documentation in R/installSpatialData.R
 \name{installSpatialData}
 \alias{installSpatialData}
-\title{Install a Named Spatial Dataset}
+\title{Install Spatial Datasets}
 \usage{
-installSpatialData(dataset = NULL, verbose = FALSE, ...)
+
+  installSpatialData(url = "http://mazamascience.com/RData/mazama_spatial_files.tar.gz")
 }
 \arguments{
-\item{dataset}{name of dataset}
-
-\item{verbose}{logical flag controlling detailed progress statements}
-
-\item{...}{additional arguments needed by some \code{convert~} functions}
+\item{url}{location of spatial data .tar.gz file}
 }
 \value{
-Character name of the installed dataset.
+Nothing.
 }
 \description{
-Install a named spatial dataset.
+Install spatial datasets found  at \code{url} into the directory previously 
+set with \code{setSpatialDataDir()}.
+}
+\seealso{
+setSpatialDataDir
+
+loadSpatialData
 }
 \keyword{environment}
 

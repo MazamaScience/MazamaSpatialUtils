@@ -28,6 +28,6 @@ RUN apt-get update \
 # Add spatial data required by MazamaSpatialUtils
 RUN mkdir -p /home/mazama/data \
   && wget -nv http://mazamascience.com/RData/Spatial.tar.gz \
-   && tar -xzf Spatial.tar.gz -C /home/mazama/data \
-   && rm Spatial.tar.gz
+  && tar -xzf Spatial.tar.gz -C /home/mazama/data \
+  && rm Spatial.tar.gz
 
