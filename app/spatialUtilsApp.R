@@ -1,3 +1,6 @@
+# spatialUtilsApp.R
+#
+# Example webservice exposing functions from the MazamaSpatialUtils package.
 
 library(jug)
 library(MazamaSpatialUtils)
