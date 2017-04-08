@@ -11,6 +11,17 @@ set of longitude/latitude pairs. (They also make cool maps.)
 
 ## Version 0.4 -- Fire and Water
 
+### MazamaSpatialUtils 0.4.9
+
+ * new .tar.gz file available containing spatial datasets
+ * new installSpatialData() installs all required datasets
+ * loadSpatialData() no loads one or more datasets based on a pattern
+ * removed initializeSpatialData()
+ * convertGADM() updated to GADM version 2.8 (handles .rds files)
+ * updated localVignettes/ebolaMap.Rmd
+ * new docker/ directory for building docker images to run MazamaSpatialUtils
+ * new app/ directory demonstrates dockerized web-service based on MazamaSpatialUtils
+
 ### MazamaSpatialUtils 0.4.8
 
  * Locations that do not intersect any polygon now return `NA` rather than generating warnings.
