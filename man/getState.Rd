@@ -44,4 +44,3 @@ getState(lon,lat)
 getSpatialData
 }
 \keyword{locator}
-

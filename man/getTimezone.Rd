@@ -46,4 +46,3 @@ SimpleTimezones
 getSpatialData
 }
 \keyword{locator}
-

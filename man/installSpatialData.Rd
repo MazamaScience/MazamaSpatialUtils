@@ -23,4 +23,3 @@ setSpatialDataDir
 loadSpatialData
 }
 \keyword{environment}
-

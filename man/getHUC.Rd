@@ -30,4 +30,3 @@ Uses spatial comparison to determine which HUC polygons the
 getSpatialData
 }
 \keyword{locator}
-

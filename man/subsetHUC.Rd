@@ -29,4 +29,3 @@ code while allStateCodes can have more than one. This allows us to include in th
 watershed is in the specified state even though the centroid is in a different state.
 }
 \keyword{datagen}
-

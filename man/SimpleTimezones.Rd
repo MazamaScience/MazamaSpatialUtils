@@ -18,4 +18,3 @@ This dataset is a simplified version of WorldTimezones. It was simplified with
 convertWorldTimezones
 }
 \keyword{datasets}
-

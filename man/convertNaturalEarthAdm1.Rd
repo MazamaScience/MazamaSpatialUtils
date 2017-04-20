@@ -35,4 +35,3 @@ setSpatialDataDir
 getState, getStateCode
 }
 \keyword{datagen}
-

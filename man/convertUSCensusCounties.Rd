@@ -29,4 +29,3 @@ setSpatialDataDir
 getUSCounty
 }
 \keyword{datagen}
-

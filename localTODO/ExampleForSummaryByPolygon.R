@@ -1,11 +1,11 @@
 library(MazamaSpatialUtils)
 library(sp)
 
-download.file('https://www.fhwa.dot.gov/bridge/nbi/2016hwybronlyonefile.zip','nbi_2016.zip')
+###download.file('https://www.fhwa.dot.gov/bridge/nbi/2016hwybronlyonefile.zip','nbi_2016.zip')
 nbi <- readr::read_csv('nbi_2016.zip')
 
 setSpatialDataDir("~/Data/Spatial")
-installSpatialData()
+###installSpatialData()
 loadSpatialData("NaturalEarthAdm1")
 loadSpatialData("USCensusCounties")
 loadSpatialData("WBDHU6")

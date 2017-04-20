@@ -56,4 +56,3 @@ A full suite of \code{.shp, .shx, .dbf, .prj} files will be created for the new 
 setSpatialDataDir
 }
 \keyword{datagen}
-

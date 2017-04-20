@@ -27,4 +27,3 @@ download, convert and install the necessary spatial data.
 convertNaturalEarthAdm1
 }
 \keyword{conversion}
-

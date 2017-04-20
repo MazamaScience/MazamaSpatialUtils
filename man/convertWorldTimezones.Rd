@@ -37,4 +37,3 @@ setSpatialDataDir
 convertWikipediaTimezoneTable
 }
 \keyword{datagen}
-

@@ -29,4 +29,3 @@ setSpatialDataDir
 getCountry, getCountryCode
 }
 \keyword{datagen}
-

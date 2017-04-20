@@ -11,7 +11,6 @@
 #' the same 'uniqueID', the original SpatialPolygonsDataFrame will be returned.
 #' @return SpatialPolygonsDataFrame composed of grouped polygons.
 #' @examples SPDF <- organizePolygons(SimpleTimezones, 'timezone', NULL)
-#' @examples SPDF <- organizePolygons(USGS_HUC_8, 'huc', 'area')
 organizePolygons <- function(dataset, uniqueID, sumColumns=NULL) {
   
   # Test if the unique identifier is a character string

@@ -43,4 +43,3 @@ SimpleCountries
 getSpatialData
 }
 \keyword{locator}
-

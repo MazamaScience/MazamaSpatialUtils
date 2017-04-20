@@ -37,4 +37,3 @@ convertGADM('DE', 1)
 \url{http://www.gadm.org/country}.
 }
 \keyword{datagen}
-

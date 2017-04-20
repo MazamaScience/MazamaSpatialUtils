@@ -32,4 +32,3 @@ setSpatialDataDir
 installSpatialData
 }
 \keyword{environment}
-

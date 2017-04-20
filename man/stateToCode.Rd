@@ -34,4 +34,3 @@ stateToCode("Shandong")
 convertNaturalEarthAdm1
 }
 \keyword{conversion}
-

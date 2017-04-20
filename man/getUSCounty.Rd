@@ -44,4 +44,3 @@ getUSCounty(lon,lat)
 getSpatialData
 }
 \keyword{locator}
-

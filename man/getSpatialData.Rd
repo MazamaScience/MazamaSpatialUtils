@@ -42,4 +42,3 @@ Missing or invalid values in the incoming \code{lon} or \code{lat} vectors resul
 those positions in the returned vector or data frame.
 }
 \keyword{locator}
-

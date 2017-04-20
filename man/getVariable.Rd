@@ -41,4 +41,3 @@ getVariable(lon,lat,'NaturalEarthAdm1','gns_lang')
 getSpatialData
 }
 \keyword{locator}
-

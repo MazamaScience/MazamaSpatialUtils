@@ -17,4 +17,3 @@ This dataset is equivalent to TMWorldBordersSimple but with fewer columns of dat
 convertTMWorldBordersSimple
 }
 \keyword{datasets}
-

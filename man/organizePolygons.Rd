@@ -27,4 +27,3 @@ the same 'uniqueID', the original SpatialPolygonsDataFrame will be returned.
 SPDF <- organizePolygons(SimpleTimezones, 'timezone', NULL)
 }
 \keyword{internal}
-

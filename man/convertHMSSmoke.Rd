@@ -44,4 +44,3 @@ files, \code{NA} will be used in the converted dataframes.
 setSpatialDataDir
 }
 \keyword{datagen}
-

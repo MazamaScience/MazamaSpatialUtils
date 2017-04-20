@@ -18,4 +18,3 @@ dataDir
 setSpatialDataDir
 }
 \keyword{environment}
-

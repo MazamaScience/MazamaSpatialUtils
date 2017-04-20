@@ -94,4 +94,3 @@ version 0.2.1 -- addition of GADM and USGS HUC8
 
 version 0.1 -- initial release
 }
-

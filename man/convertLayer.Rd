@@ -25,4 +25,3 @@ If shapefiles have no projection information they are assumed to 'geographic' co
 \code{"+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs"} before being returned.
 }
 \keyword{internal}
-
