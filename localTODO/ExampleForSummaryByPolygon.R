@@ -28,6 +28,7 @@ sampleIndex <- sample(nrow(nbiDF), 10000)
 usPolygon <- NaturalEarthAdm1[NaturalEarthAdm1$countryCode == 'US',]
 
 # Get summaried values by state
+source('localTODO/summaryByPolygon.R')
 df <- summaryByPolygon(nbiDF$longitude[sampleIndex], nbiDF$latitude[sampleIndex], 
                        nbiDF$value[sampleIndex], usPolygon, 'code_hasc', mean)
 df <- na.omit(df)
