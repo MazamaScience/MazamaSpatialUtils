@@ -24,7 +24,7 @@ Vector or dataframe of data.
 All locations are first converted to \code{SpatialPoints} objects.
 The \pkg{sp::over()} function is then used to determine which polygon from \code{SPDF}
 each location falls in. The dataframe row associated with each polygon is then
-associated with each ocation.
+associated with each location.
 }
 \details{
 For coastal locations it can often happen that the precise coordinates
