@@ -12,8 +12,8 @@ loadSpatialData("WBDHU6")
 loadSpatialData("WBDHU8")
 
 # Store the columns we need in a dataframe
-nbiDF <- data.frame(longitude=-as.numeric(nbi$LONG_017)/1000000, 
-                    latitude=as.numeric(nbi$LAT_016)/1000000, 
+nbiDF <- data.frame(longitude=-as.numeric(nbi$LONG_017)/1000000,
+                    latitude=as.numeric(nbi$LAT_016)/1000000,
                     value=2017-as.numeric(nbi$YEAR_BUILT_027)+1)
 
 # Get only the CONUS
@@ -23,13 +23,13 @@ indexes <- intersect(longIndex, latIndex)
 nbiDF <- nbiDF[indexes,]
 
 # Sample the indexes to speed up summaryByPolygon
-sampleIndex <- sample(nrow(nbiDF), 10000) 
+sampleIndex <- sample(nrow(nbiDF), 10000)
 
 usPolygon <- NaturalEarthAdm1[NaturalEarthAdm1$countryCode == 'US',]
 
 # Get summaried values by state
 source('localTODO/summaryByPolygon.R')
-df <- summaryByPolygon(nbiDF$longitude[sampleIndex], nbiDF$latitude[sampleIndex], 
+df <- summaryByPolygon(nbiDF$longitude[sampleIndex], nbiDF$latitude[sampleIndex],
                        nbiDF$value[sampleIndex], usPolygon, 'code_hasc', mean)
 df <- na.omit(df)
 states <- sapply(df[,1],function(x){stringr::str_split_fixed(x, 'US.', 2)[2]})
@@ -86,7 +86,7 @@ plot(waPolygon, col=cols)
 usHUC6 <- WBDHU6[WBDHU6$countryCode == 'US',]
 waHUC6 <- usHUC6[usHUC6$stateCode == 'WA',]
 
-# Get summaried values by HUC6 
+# Get summaried values by HUC6
 df <- summaryByPolygon(nbiWA$longitude, nbiWA$latitude, nbiWA$value, waHUC6, 'HUC', mean)
 df <- na.omit(df)
 
@@ -108,7 +108,7 @@ plot(waHUC6, col=cols)
 usHUC8 <- WBDHU8[WBDHU8$countryCode == 'US',]
 waHUC8 <- usHUC8[usHUC8$stateCode == 'WA',]
 
-# Get summaried values by HUC6 
+# Get summaried values by HUC6
 df <- summaryByPolygon(nbiWA$longitude, nbiWA$latitude, nbiWA$value, waHUC8, 'HUC', mean)
 df <- na.omit(df)
 
@@ -125,3 +125,30 @@ colors <- RColorBrewer::brewer.pal(4, 'Blues')
 cols <- colors[colIndexes]
 
 plot(waHUC8, col=cols)
+
+# Read in external shapefile and apply summaryByPolygon
+
+download.file("http://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_us_cd115_500k.zip",
+              destfile = "cb_2016_us_cd115_500k.zip")
+unzip("cb_2016_us_cd115_500k.zip")
+us_map <- rgdal::readOGR("cb_2016_us_cd115_500k.shp", layer = "cb_2016_us_cd115_500k")
+
+WA_leg <- subset(us_map, STATEFP == "53")
+WA_leg$CD115FP <- as.character(WA_leg$CD115FP)
+WA_df <- summaryByPolygon(nbiWA$longitude, nbiWA$latitude, nbiWA$value,
+                          WA_leg, 'CD115FP', median)
+WA_df <- na.omit(WA_df)
+
+# Get the correct plot order
+plotOrder <- WA_leg$CD115FP[WA_leg$CD115FP %in% WA_df$polyID]
+plotOrder <- as.data.frame(plotOrder)
+names(plotOrder) <- "polyID"
+plotDF <- dplyr::left_join(plotOrder, WA_df, by='polyID')
+
+# Plot colors by quantiles
+breaks <- quantile(WA_df$summaryValue)
+colIndexes <- .bincode(plotDF$summaryValue, breaks)
+colors <- RColorBrewer::brewer.pal(4, 'Blues')
+cols <- colors[colIndexes]
+
+plot(WA_leg, col=cols)
