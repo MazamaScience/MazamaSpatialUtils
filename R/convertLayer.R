@@ -42,7 +42,7 @@ convertLayer <- function(dsn="", layerName="", encoding=NULL) {
   } else {
     SPDF <- sp::spTransform(data_projected, sp::CRS("+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs"))
   }
-
+  SPDF$polygonID <- sapply(1:nrow(SPDF), function(x) {SPDF@polygons[[x]]@ID})
   return(SPDF)
 }
 
