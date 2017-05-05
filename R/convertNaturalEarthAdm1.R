@@ -3,10 +3,10 @@
 #' @title Convert Level 1 (State) Borders Shapefile
 #' @param nameOnly logical specifying whether to only return the name without creating the file
 #' @description Returns a SpatialPolygonsDataFrame for a 1st level administrative divisions
-#' @details A state border shapefile is downloaded and converted to a 
+#' @details A state border shapefile is downloaded and converted to a
 #' SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
 #' in the spatial data directory which is set with \code{setSpatialDataDir()}.
-#' 
+#'
 #' Within the \pkg{MazamaSpatialUtils} package the phrase 'state' refers to administrative
 #' divisions beneath the level of the country or nation. This makes sense in the United 'States'. In
 #' other countries this level is known as 'province', 'territory' or some other term.
@@ -16,15 +16,15 @@
 #' @seealso setSpatialDataDir
 #' @seealso getState, getStateCode
 convertNaturalEarthAdm1 <- function(nameOnly=FALSE) {
-  
+
   # Use package internal data directory
   dataDir <- getSpatialDataDir()
-  
+
   # Specify the name of the dataset and file being created
   datasetName <- 'NaturalEarthAdm1'
-    
+
   if (nameOnly) return(datasetName)
-  
+
   # Specify administrative levels for URL
   adm <- 1
   level <- 'states_provinces'
@@ -38,7 +38,7 @@ convertNaturalEarthAdm1 <- function(nameOnly=FALSE) {
   utils::download.file(url,filePath)
   # NOTE:  This zip file has no directory so extra subdirectory needs to be created
   utils::unzip(filePath,exdir=paste0(dataDir, '/adm'))
-    
+
   # Convert shapefile into SpatialPolygonsDataFrame
   # NOTE:  The 'adm' directory has been created
   dsnPath <- paste(dataDir,'adm',sep='/')
@@ -54,39 +54,41 @@ convertNaturalEarthAdm1 <- function(nameOnly=FALSE) {
   # * longitude (decimal degrees E)
   # * latitude (decimal degrees N)
   # * area (m^2)
-  
+
   # Add the core identifiers to the SpatialPolygonsDataFrame
   SPDF$countryCode <- SPDF$iso_a2
   SPDF$stateCode <- stringr::str_split_fixed(SPDF$code_hasc,'\\.',5)[,2]
   SPDF$countryName <- MazamaSpatialUtils::codeToCountry(SPDF$countryCode)
   SPDF$stateName <- SPDF$name
-  
+  SPDF$polygonID <- sapply(1:nrow(SPDF), function(x) {SPDF@polygons[[x]]@ID})
+
   # Subset this dataframe to include only obviously useful columns
   usefulColumns <- c('countryCode','countryName','stateCode','stateName','latitude','longitude','area_sqkm',
-                     'postal','adm1_code','code_hasc','fips','gns_lang','gns_adm1')
+                     'postal','adm1_code','code_hasc','fips','gns_lang','gns_adm1',
+                     'polygonID')
   # TODO:  Check that usefulColumns are actually found in the dataframe
   SPDF <- SPDF[,usefulColumns]
-  
+
   # Rationalize units:
-  # * SI  
+  # * SI
   # NOTE:  Area seems to be in units of km^2. Convert these to m^2
-  SPDF$area <- SPDF$area_sqkm * 1e6  
+  SPDF$area <- SPDF$area_sqkm * 1e6
 
   # Use NA instead of -99 and -90 for missing values
   SPDF@data[SPDF@data == -99] <- NA
   SPDF@data[SPDF@data == -90] <- NA
-  
+
   # Group polygons with the same identifier (gns_adm1)
-  SPDF <- organizePolygons(SPDF, uniqueID='adm1_code', sumColumns=c('area','area_sqkm'))  
-  
+  SPDF <- organizePolygons(SPDF, uniqueID='adm1_code', sumColumns=c('area','area_sqkm'))
+
   # Assign a name and save the data
   assign(datasetName,SPDF)
   save(list=c(datasetName),file=paste0(dataDir,"/",datasetName,'.RData'))
-  
+
   # Clean up
   unlink(filePath, force=TRUE)
   unlink(dsnPath, recursive=TRUE, force=TRUE)
-  
+
   return(invisible(datasetName))
 }
 
