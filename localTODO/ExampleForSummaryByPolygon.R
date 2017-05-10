@@ -28,7 +28,7 @@ sampleIndex <- sample(nrow(nbiDF), 10000)
 usPolygon <- NaturalEarthAdm1[NaturalEarthAdm1$countryCode == 'US',]
 
 # Get summaried values by state
-source('localTODO/summaryByPolygon.R')
+source('summaryByPolygon.R')
 df <- summaryByPolygon(nbiDF$longitude[sampleIndex], nbiDF$latitude[sampleIndex],
                        nbiDF$value[sampleIndex], usPolygon, 'code_hasc', mean)
 df <- na.omit(df)
@@ -136,7 +136,7 @@ us_map <- rgdal::readOGR("cb_2016_us_cd115_500k.shp", layer = "cb_2016_us_cd115_
 WA_leg <- subset(us_map, STATEFP == "53")
 WA_leg$CD115FP <- as.character(WA_leg$CD115FP)
 WA_df <- summaryByPolygon(nbiWA$longitude, nbiWA$latitude, nbiWA$value,
-                          WA_leg, 'CD115FP', median)
+                          WA_leg, 'CD115FP', mean)
 WA_df <- na.omit(WA_df)
 
 # Get the correct plot order
@@ -147,8 +147,8 @@ plotDF <- dplyr::left_join(plotOrder, WA_df, by='polyID')
 
 # Plot colors by quantiles
 breaks <- quantile(WA_df$summaryValue)
-colIndexes <- .bincode(plotDF$summaryValue, breaks)
-colors <- RColorBrewer::brewer.pal(4, 'Blues')
+colIndexes <- .bincode(plotDF$summaryValue, breaks, include.lowest = T)
+colors <- RColorBrewer::brewer.pal(6, 'Blues')
 cols <- colors[colIndexes]
 
 plot(WA_leg, col=cols)
