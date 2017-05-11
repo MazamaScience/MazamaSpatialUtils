@@ -95,8 +95,8 @@ convertHMSSmoke <- function(dsnPath=NULL, datestamp=NULL, nameOnly=FALSE) {
 
 
   # Add POSIXct times to dataframe
-  SPDF$starttime <- lubridate::ymd_hm( paste0(datestamp,SPDF$Start) )
-  SPDF$endtime <- lubridate::ymd_hm( paste0(datestamp,SPDF$End) )
+  SPDF$starttime <- lubridate::ymd_hm( paste0(datestamp, stringr::str_split_fixed(SPDF$Start, " ", 2)[, 2] ))
+  SPDF$endtime <- lubridate::ymd_hm( paste0(datestamp, stringr::str_split_fixed(SPDF$End, " ", 2)[, 2] ))
 
   # Add numeric density to dataframe
   # NOTE:  data files prior to August 13, 2007 are missing the 'Density' column
