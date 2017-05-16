@@ -29,8 +29,8 @@ convertGADM <- function(countryCode=NULL, admLevel=0, nameOnly=FALSE) {
   if (nameOnly) return(datasetName)
 
   # Convert 2-character codes into ISO3
-  if (stringr::str_length(countryCode) == 2 & !is.na(codeToCode(countryCode))) {
-    ISO3 <- codeToCode(countryCode)
+  ISO3 <- codeToCode(countryCode)
+  if(!is.na(ISO3)) {
   } else {
     stop('The countryCode parameter "',countryCode,'" is not an ISO-3166-1 alpha-2 country code.',call.=FALSE)
   }
