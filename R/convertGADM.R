@@ -84,7 +84,6 @@ convertGADM <- function(countryCode=NULL, admLevel=0, nameOnly=FALSE) {
     SPDF$ISO3 <- SPDF$ISO
     SPDF$countryCode <- SPDF$ISO2
     SPDF$countryName <- SPDF$NAME_ENGLISH
-    SPDF$polygonID <- SPDF$ID_0
 
   } else {
 
@@ -98,7 +97,6 @@ convertGADM <- function(countryCode=NULL, admLevel=0, nameOnly=FALSE) {
     SPDF$countryName <- SPDF$NAME_0
     ### SPDF$stateCode <-
     SPDF$stateName <- SPDF$NAME_1
-    SPDF$polygonID <- SPDF$ID_0
 
     # NOTE:  A regular patterm emerges beyond level 1
     # > names(SPDF)
@@ -108,7 +106,6 @@ convertGADM <- function(countryCode=NULL, admLevel=0, nameOnly=FALSE) {
 
     if (admLevel >= 2) {
       SPDF$countyName <- SPDF$NAME_2
-      SPDF$polygonID <- SPDF$ID_0
     }
 
   }

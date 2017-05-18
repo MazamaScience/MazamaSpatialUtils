@@ -37,7 +37,6 @@ convertTMWorldBordersSimple <- function(nameOnly=FALSE) {
   dsnPath <- paste(dataDir,'world',sep='/')
   shpName <- 'TM_WORLD_BORDERS_SIMPL-0.3'
   SPDF <- convertLayer(dsn=dsnPath,layerName=shpName)
-  SPDF$polygonID <- sapply(1:nrow(SPDF), function(x) {SPDF@polygons[[x]]@ID})
 
   # Rationalize naming:
   # * human readable full nouns with descriptive prefixes
@@ -51,7 +50,7 @@ convertTMWorldBordersSimple <- function(nameOnly=FALSE) {
 
   # Relabel and standardize the naming in the SpatialPolygonsDataFrame
   names(SPDF) <- c('FIPS','countryCode','ISO3','UN_country','countryName','area','population2005',
-                   'UN_region','UN_subregion','longitude','latitude', 'polygonID')
+                   'UN_region','UN_subregion','longitude','latitude')
 
   # Rationalize units:
   # * SI
