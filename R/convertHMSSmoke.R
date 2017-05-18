@@ -91,8 +91,6 @@ convertHMSSmoke <- function(dsnPath=NULL, datestamp=NULL, nameOnly=FALSE) {
   }
   SPDF$stateCode <- getStateCode(lon, lat, countryCodes=unique(SPDF$countryCode), useBuffering=TRUE)
   SPDF$timezone <- getTimezone(lon, lat, useBuffering=TRUE)
-  SPDF$polygonID <- sapply(1:nrow(SPDF), function(x) {SPDF@polygons[[x]]@ID})
-
 
   # Add POSIXct times to dataframe
   SPDF$starttime <- lubridate::ymd_hm( paste0(datestamp, stringr::str_split_fixed(SPDF$Start, " ", 2)[, 2] ))
@@ -108,8 +106,7 @@ convertHMSSmoke <- function(dsnPath=NULL, datestamp=NULL, nameOnly=FALSE) {
 
   # Retain useful columns
   SPDF <- SPDF[,c('starttime','endtime','density','longitude',
-                  'latitude','countryCode','stateCode','timezone',
-                  'polygonID')]
+                  'latitude','countryCode','stateCode','timezone')]
 
   # Assign a name and save the data
   assign(datasetName,SPDF)
