@@ -60,14 +60,7 @@ convertNaturalEarthAdm1 <- function(nameOnly=FALSE) {
   SPDF$stateCode <- stringr::str_split_fixed(SPDF$code_hasc,'\\.',5)[,2]
   SPDF$countryName <- MazamaSpatialUtils::codeToCountry(SPDF$countryCode)
   SPDF$stateName <- SPDF$name
-  SPDF$polygonID <- sapply(1:nrow(SPDF), function(x) {SPDF@polygons[[x]]@ID})
-
-  # Subset this dataframe to include only obviously useful columns
-  usefulColumns <- c('countryCode','countryName','stateCode','stateName','latitude','longitude','area_sqkm',
-                     'postal','adm1_code','code_hasc','fips','gns_lang','gns_adm1',
-                     'polygonID')
-  # TODO:  Check that usefulColumns are actually found in the dataframe
-  SPDF <- SPDF[,usefulColumns]
+  #SPDF$polygonID <- sapply(1:nrow(SPDF), function(x) {SPDF@polygons[[x]]@ID})
 
   # Rationalize units:
   # * SI
@@ -80,6 +73,13 @@ convertNaturalEarthAdm1 <- function(nameOnly=FALSE) {
 
   # Group polygons with the same identifier (gns_adm1)
   SPDF <- organizePolygons(SPDF, uniqueID='adm1_code', sumColumns=c('area','area_sqkm'))
+
+  # Subset this dataframe to include only obviously useful columns
+  usefulColumns <- c('countryCode','countryName','stateCode','stateName','latitude','longitude','area_sqkm',
+                     'postal','adm1_code','code_hasc','fips','gns_lang','gns_adm1',
+                     'polygonID')
+  # TODO:  Check that usefulColumns are actually found in the dataframe
+  SPDF <- SPDF[,usefulColumns]
 
   # Assign a name and save the data
   assign(datasetName,SPDF)

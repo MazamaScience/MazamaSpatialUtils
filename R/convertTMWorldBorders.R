@@ -33,7 +33,7 @@ convertTMWorldBorders <- function(nameOnly=FALSE) {
   dsnPath <- paste(dataDir,'world',sep='/')
   shpName <- 'TM_WORLD_BORDERS-0.3'
   SPDF <- convertLayer(dsn=dsnPath,layerName=shpName)
-  SPDF$polygonID <- sapply(1:nrow(SPDF), function(x) {SPDF@polygons[[x]]@ID})
+  #SPDF$polygonID <- sapply(1:nrow(SPDF), function(x) {SPDF@polygons[[x]]@ID})
 
   # Rationalize naming:
   # * human readable full nouns with descriptive prefixes
@@ -45,19 +45,18 @@ convertTMWorldBorders <- function(nameOnly=FALSE) {
   # * latitude (decimal degrees N)
   # * area (m^2)
 
-  # Relabel and standardize the naming in the SpatialPolygonsDataFrame
-  names(SPDF) <- c('FIPS','countryCode','ISO3','UN_country','countryName',
-                   'area','population2005','UN_region','UN_subregion',
-                   'longitude','latitude', 'polygonID')
 
   # Rationalize units:
   # * SI
   # NOTE:  Area seems to be in units of (10 km^2). Convert these to m^2
-  SPDF$area <- SPDF$area * 1e7
+  SPDF$AREA <- SPDF$AREA * 1e7
 
   # Group polygons with the same identifier (countryCode)
-  SPDF <- organizePolygons(SPDF, uniqueID='countryCode', sumColumns=c('area','population2005'))
-  # NOTE:  This dataset already has grouped polygons
+  SPDF <- organizePolygons(SPDF, uniqueID='ISO2', sumColumns=c('AREA','POP2005'))
+  # Relabel and standardize the naming in the SpatialPolygonsDataFrame
+  names(SPDF) <- c('FIPS','countryCode','ISO3','UN_country','countryName',
+                   'area','population2005','UN_region','UN_subregion',
+                   'longitude','latitude', 'polygonID')
 
   # Assign a name and save the data
   assign(datasetName,SPDF)

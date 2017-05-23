@@ -53,7 +53,6 @@ convertWorldTimezones <- function(nameOnly=FALSE) {
 
   # Group polygons with the same identifier
   SPDF <- organizePolygons(SPDF, uniqueID='timezone')
-  SPDF$polygonID <- sapply(1:nrow(SPDF), function(x) {SPDF@polygons[[x]]@ID})
 
   # Assign a name and save the data
   assign(datasetName,SPDF)
