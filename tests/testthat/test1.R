@@ -63,4 +63,6 @@ testthat::test_that("allData returns are correct dimension and type", {
 testthat::test_that("GetPolygonID handles errors correctly", {
 
   testthat::expect_error(getPolygonID(iris))
+  testthat::expect_null(getPolygonID(SimpleTimezones))
+  testthat::expect_null(getPolygonID(SimpleCountries))
 })
