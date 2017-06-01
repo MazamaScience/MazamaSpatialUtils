@@ -64,5 +64,5 @@ testthat::test_that("GetPolygonID handles errors correctly", {
 
   testthat::expect_error(getPolygonID(iris))
   testthat::expect_is(getPolygonID(SimpleTimezones), "character")
-  #testthat::expect_null(getPolygonID(SimpleCountries))
+  testthat::expect_is(getPolygonID(SimpleCountries), "character")
 })
