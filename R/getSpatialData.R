@@ -11,34 +11,32 @@
 #' The \pkg{sp::over()} function is then used to determine which polygon from \code{SPDF}
 #' each location falls in. The dataframe row associated with each polygon is then
 #' associated with each ocation.
-#' @details For coastal locations it can often happen that the precise coordinates
-#' of the location lie outside the boundaries of low resolution SpatialPolygonsDataFrame.
-#' To account for this, locations that remain unassociated after the first pass are then
-#' buffered to create small circles. All polygons are then checked to see if there is any
-#' intersection with the now buffered locations. A buffering loop increases buffer size
-#' though the following radii until an intersecting polygon is found:  1km, 2km, 5km,
-#' 10km, 20km, 50km, 100km, 200km.
-#' 
+#' @details Occasionally for coastal locations the precise coordinates
+#' lie outside the boundaries of a low resolution SpatialPolygonsDataFrame.
+#' To account for this any location that remains unassociated after the first pass is then
+#' buffered to create a small circle around the original location. All polygons are then checked to see if there is any
+#' intersection with the now larger buffered locations. Each point is then checked for an intersectiing polygon at the followinr radii:
+#' 1km, 2km, 5km, 10km, 20km, 50km, 100km, 200km.
 #' If a buffered location is more than 200km away from any polygon, a value of \code{NA}
 #' (or data frame row with all \code{NA}s) is returned for that location.
-#' 
+#'
 #' Missing or invalid values in the incoming \code{lon} or \code{lat} vectors result in \code{NA}s at
 #' those positions in the returned vector or data frame.
 #' @return Vector or dataframe of data.
 getSpatialData <- function(lon, lat, SPDF, useBuffering=FALSE, verbose=FALSE) {
-  
+
   # Sanity check -- same number of lats and lons and datetimes
   if ( length(lon) != length(lat) ) {
     stop(paste("ERROR in getSpatialData:  arguments 'lon' and 'lat' must have the same length."))
   }
-  
+
   # Convert any lon into the range -180:180
   lon <- ( (((lon + 360) %% 360) + 180) %% 360 ) - 180
-  
+
   # check if longitude and latitude falls in the right range
-  if ( min(lon, na.rm=TRUE) < -180 || 
-       max(lon, na.rm=TRUE) > 180 || 
-       min(lat, na.rm=TRUE) < -90 || 
+  if ( min(lon, na.rm=TRUE) < -180 ||
+       max(lon, na.rm=TRUE) > 180 ||
+       min(lat, na.rm=TRUE) < -90 ||
        max(lat, na.rm=TRUE) > 90 ) {
     stop('Longitude or latitude is not specified in the correct range. Please try again.')
   }
@@ -51,34 +49,34 @@ getSpatialData <- function(lon, lat, SPDF, useBuffering=FALSE, verbose=FALSE) {
 
   # Create the array of locations and use the same projection as SPDF
   location <- sp::SpatialPoints(validPairs, proj4string=SPDF@proj4string)
-  
+
   # Use the 'over' function to find which polygon a valid location is in and extract data
   validDF <- sp::over(location,SPDF)
 
-  # Finds the index of the points where the 'over' function failed to place a coordinate 
+  # Finds the index of the points where the 'over' function failed to place a coordinate
   # location in a polygon
   badPointsIndex <- which(is.na(validDF$countryCode))
-  
+
   # If NA points are found, increment radius until limit is reached or a country is found
   # If there are no NA points, this block is skipped
   if ( (length(badPointsIndex) != 0) && useBuffering ) {
-  
+
     if (verbose) print(paste0(length(badPointsIndex),' points were outside of all polygons -- begin buffering ...'))
 
     # Sets radius values (in meters) in roughly logarithmic increases
     searchRadii <- c(1000,2000,5000,10000,20000,50000,100000,200000)
-    
+
     # Restructures the given SPDF from a SpatialPolygonsDataFrame to a list of
     # SpatialPolygons.
-    # NOTE: We do this restructuring for ease of use later when using the 
+    # NOTE: We do this restructuring for ease of use later when using the
     # 'gIntersects' function
     SpatialPolygonsList <- list()
     for (i in 1:length(SPDF)) {
       SPDF_Polygons <- SPDF@polygons[[i]]
       SpatialPolygonsList[i] <- sp::SpatialPolygons(list(SPDF_Polygons), proj4string=SPDF@proj4string)
     }
-    
-    # Loop over points of interest, trying to find an intersecting polygon 
+
+    # Loop over points of interest, trying to find an intersecting polygon
     for (pointIndex in badPointsIndex) {
       if (verbose) print(paste0('pointIndex = ',pointIndex))
       # Select the individual point we are analyzing
@@ -91,7 +89,7 @@ getSpatialData <- function(lon, lat, SPDF, useBuffering=FALSE, verbose=FALSE) {
         buffer <- rgeos::gBuffer(pointOfInterest, width=radius)
         # Transforms back to geographical coordinates, exiting the loop if -180:180, -90:90 domain boundaries are reached
         buffer <- try(sp::spTransform(buffer, SPDF@proj4string), silent=FALSE)
-        if (class(buffer)=="try-error") break      
+        if (class(buffer)=="try-error") break
         radiusIntersectsPolygon <- FALSE
         # Use gIntersects to determine whether each buffered point is contained within each polygon
         for (k in 1:length(SpatialPolygonsList)) {
@@ -105,9 +103,9 @@ getSpatialData <- function(lon, lat, SPDF, useBuffering=FALSE, verbose=FALSE) {
         if (radiusIntersectsPolygon) break
       }
     }
-    
+
   }
-  
+
   # Create a data frame for all locations, valid and not valid
   locationsDF <- data.frame(matrix(NA, ncol=ncol(validDF), nrow=length(lon)))
   colnames(locationsDF) <- colnames(validDF)
@@ -115,6 +113,6 @@ getSpatialData <- function(lon, lat, SPDF, useBuffering=FALSE, verbose=FALSE) {
   for (i in 1:length(validIndices)) {
     locationsDF[validIndices[i],] <- validDF[i,]
   }
-  
+
   return(locationsDF)
 }
