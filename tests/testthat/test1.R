@@ -48,14 +48,14 @@ testthat::test_that("subsetting with countryCodes works", {
 testthat::test_that("allData returns are correct dimension and type", {
 
   testthat::expect_is(getCountryCode(2, 47, allData=TRUE), "data.frame")
-  testthat::expect_equal(dim(getCountryCode(2, 47, allData=TRUE)), c(1,11))
+  testthat::expect_equal(dim(getCountryCode(2, 47, allData=TRUE)), c(1,12))
   testthat::expect_is(getCountryCode(c(120,-17), c(-1.5,15), allData=TRUE), "data.frame")
-  testthat::expect_equal(dim(getCountryCode(c(120,-17), c(-1.5,15), allData=TRUE)), c(2,11))
+  testthat::expect_equal(dim(getCountryCode(c(120,-17), c(-1.5,15), allData=TRUE)), c(2,12))
 
   testthat::expect_is(getTimezone(2, 47, allData=TRUE), "data.frame")
-  testthat::expect_equal(dim(getTimezone(2, 47, allData=TRUE)), c(1,6))
+  testthat::expect_equal(dim(getTimezone(2, 47, allData=TRUE)), c(1,7))
   testthat::expect_is(getTimezone(c(120,-17), c(-1.5,15), allData=TRUE), "data.frame")
-  testthat::expect_equal(dim(getTimezone(c(120,-17), c(-1.5,15), allData=TRUE)), c(2,6))
+  testthat::expect_equal(dim(getTimezone(c(120,-17), c(-1.5,15), allData=TRUE)), c(2,7))
 
 })
 
@@ -63,6 +63,6 @@ testthat::test_that("allData returns are correct dimension and type", {
 testthat::test_that("GetPolygonID handles errors correctly", {
 
   testthat::expect_error(getPolygonID(iris))
-  testthat::expect_null(getPolygonID(SimpleTimezones))
-  testthat::expect_null(getPolygonID(SimpleCountries))
+  testthat::expect_is(getPolygonID(SimpleTimezones), "character")
+  #testthat::expect_null(getPolygonID(SimpleCountries))
 })
