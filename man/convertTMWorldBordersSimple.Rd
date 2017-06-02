@@ -16,7 +16,7 @@ Name of the dataset being created.
 Returns a SpatialPolygonsDataFrame for a simple world divisions
 }
 \details{
-A world borders shapefile is downloaded and converted to a 
+A world borders shapefile is downloaded and converted to a
 SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
 in the package \code{SpatialDataDir} which is set with \code{setSpatialDataDir()}.
 

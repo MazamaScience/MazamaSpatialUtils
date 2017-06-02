@@ -17,8 +17,8 @@ convertGADM(countryCode = NULL, admLevel = 0, nameOnly = FALSE)
 Name of the dataset being created.
 }
 \description{
-A SpatialPolygonsDataFrame file is downloaded from the GADM database with 
-additional columns of data added. The resulting file will be created in the spatial data 
+A SpatialPolygonsDataFrame file is downloaded from the Database of Global Administrative Areas (GADM) database with
+additional columns of data added. The resulting file will be created in the spatial data
 directory which is set with \code{setSpatialDataDir()}. Dataset and file names are generated like this:
 
 \code{paste0('gadm_', countryCode, '_', admLevel)}

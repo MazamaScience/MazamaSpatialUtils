@@ -14,23 +14,24 @@
 organizePolygons <- function(dataset, uniqueID, sumColumns=NULL) {
   
   # Test if the unique identifier is a character string
-  if (!is.character(uniqueID)) {
+  if ( !is.character(uniqueID) ) {
     stop(paste0('The uniqueID, "',uniqueID,'" must be a character string.'), call.=FALSE)
   }
 
   # Test if the dataset is of class SpatialPolygonsDataFrame
-  if (!class(dataset)=='SpatialPolygonsDataFrame') {
+  if ( !class(dataset)=='SpatialPolygonsDataFrame' ) {
     stop(paste0(dataset,' not found. Please use loadSpatialData().'), call.=FALSE)
   }
 
-  # Test if the dataframe contains grouped polygons, return the dataframe if true
+  # Test if the dataframe already contains grouped polygons. If so,
+  # add polygonID and return the dataframe.
   if ( !any(duplicated(dataset@data[,uniqueID])) ) {
-    dataset$polygonID <- sapply(1:nrow(dataset), function(x) {dataset@polygons[[x]]@ID})
+    dataset@data[,'polygonID'] <- dataset@data[,uniqueID]
     return(dataset)
   }
 
   # Determine which values are duplicated and create an updated dataframe
-  if (is.null(sumColumns)) {
+  if ( is.null(sumColumns) ) {
     dupMask <- duplicated(dataset@data)
   } else {
     dupMask <- duplicated(dataset@data[,uniqueID])
@@ -38,7 +39,7 @@ organizePolygons <- function(dataset, uniqueID, sumColumns=NULL) {
   nonDups <- dataset[!dupMask,]
 
   # Test if there are any rows that have non-duplicated data but no columns specified for summation
-  if (any(duplicated(nonDups@data[,uniqueID])) && is.null(sumColumns)) {
+  if ( any(duplicated(nonDups@data[,uniqueID])) && is.null(sumColumns) ) {
     message(paste0('There are duplicated ',uniqueID,' rows with different values. ',
                    'Please specify columns to be summed. Returning original dataframe.'))
     return(dataset)
@@ -49,7 +50,6 @@ organizePolygons <- function(dataset, uniqueID, sumColumns=NULL) {
   
   # Group polygons based off the unique identifier
   for (i in seq_along(nonDups)) {
-    ###print(i)
     x <- nonDups@data[,uniqueID][i]
     allX <- which(dataset@data[,uniqueID] == x)
 
@@ -78,7 +78,7 @@ organizePolygons <- function(dataset, uniqueID, sumColumns=NULL) {
   # Build a SpatialPolygonsDataFrame from the dataframe and SpatialPolygons
   rownames(nonDups@data) <- nonDups@data[,uniqueID]
   SPDF <- sp::SpatialPolygonsDataFrame(SP, nonDups@data)
-  SPDF$polygonID <- sapply(1:nrow(SPDF), function(x) {SPDF@polygons[[x]]@ID})
+  SPDF@data[,'polygonID'] <- SPDF@data[,uniqueID]
   
   return(SPDF)
 }

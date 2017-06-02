@@ -17,8 +17,8 @@ organizePolygons(dataset, uniqueID, sumColumns = NULL)
 SpatialPolygonsDataFrame composed of grouped polygons.
 }
 \description{
-Determines if the SpatialPolygonsDataFrame is grouped. If ungrouped, 
-function will group duplicated values based on the provided unique identifier. 
+Determines if the SpatialPolygonsDataFrame is grouped. If ungrouped,
+function will group duplicated values based on the provided unique identifier.
 
 If sumColumns is NULL and there are multiple rows that aren't duplicated but have
 the same 'uniqueID', the original SpatialPolygonsDataFrame will be returned.

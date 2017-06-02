@@ -33,7 +33,6 @@ convertTMWorldBorders <- function(nameOnly=FALSE) {
   dsnPath <- paste(dataDir,'world',sep='/')
   shpName <- 'TM_WORLD_BORDERS-0.3'
   SPDF <- convertLayer(dsn=dsnPath,layerName=shpName)
-  #SPDF$polygonID <- sapply(1:nrow(SPDF), function(x) {SPDF@polygons[[x]]@ID})
 
   # Rationalize naming:
   # * human readable full nouns with descriptive prefixes

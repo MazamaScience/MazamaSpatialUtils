@@ -16,7 +16,7 @@ Name of the dataset being created.
 Returns a SpatialPolygonsDataFrame for a 1st level administrative divisions
 }
 \details{
-A state border shapefile is downloaded and converted to a 
+A state border shapefile is downloaded and converted to a
 SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
 in the spatial data directory which is set with \code{setSpatialDataDir()}.
 
