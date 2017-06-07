@@ -28,8 +28,8 @@ sampleIndex <- sample(nrow(nbiDF), 10000)
 usPolygon <- NaturalEarthAdm1[NaturalEarthAdm1$countryCode == 'US',]
 
 # Get summaried values by state
-source('summaryByPolygon.R')
-df <- summaryByPolygon(nbiDF$longitude[sampleIndex], nbiDF$latitude[sampleIndex],
+source('../R/summarizeByPolygon.R')
+df <- summarizeByPolygon(nbiDF$longitude[sampleIndex], nbiDF$latitude[sampleIndex],
                        nbiDF$value[sampleIndex], usPolygon, 'code_hasc', mean)
 df <- na.omit(df)
 states <- sapply(df[,1],function(x){stringr::str_split_fixed(x, 'US.', 2)[2]})
@@ -65,14 +65,14 @@ usPolygon <- USCensusCounties[USCensusCounties$countryCode == 'US',]
 waPolygon <- usPolygon[usPolygon$stateCode == 'WA',]
 
 # Get summaried values by WA county
-df <- summaryByPolygon(nbiWA$longitude, nbiWA$latitude, nbiWA$value, waPolygon, 'countyName', mean)
+df <- summarizeByPolygon(nbiWA$longitude, nbiWA$latitude, nbiWA$value, waPolygon, 'countyName', mean)
 df <- na.omit(df)
 
 # Get the correct plot order
-plotOrder <- waPolygon$countyName[waPolygon$countyName %in% df$polyID]
+plotOrder <- waPolygon$countyName[waPolygon$countyName %in% df$polygonName]
 plotOrder <- as.data.frame(plotOrder)
-names(plotOrder) <- "polyID"
-plotDF <- dplyr::left_join(plotOrder, df, by='polyID')
+names(plotOrder) <- "polygonName"
+plotDF <- dplyr::left_join(plotOrder, df, by='polygonName')
 
 # Plot colors by quantiles
 breaks <- quantile(df$summaryValue)
@@ -87,14 +87,14 @@ usHUC6 <- WBDHU6[WBDHU6$countryCode == 'US',]
 waHUC6 <- usHUC6[usHUC6$stateCode == 'WA',]
 
 # Get summaried values by HUC6
-df <- summaryByPolygon(nbiWA$longitude, nbiWA$latitude, nbiWA$value, waHUC6, 'HUC', mean)
+df <- summarizeByPolygon(nbiWA$longitude, nbiWA$latitude, nbiWA$value, waHUC6, 'HUC', mean)
 df <- na.omit(df)
 
 # Get the correct plot order
-plotOrder <- waHUC6$HUC[waHUC6$HUC %in% df$polyID]
+plotOrder <- waHUC6$HUC[waHUC6$HUC %in% df$polygonName]
 plotOrder <- as.data.frame(plotOrder)
-names(plotOrder) <- "polyID"
-plotDF <- dplyr::left_join(plotOrder, df, by='polyID')
+names(plotOrder) <- "polygonName"
+plotDF <- dplyr::left_join(plotOrder, df, by='polygonName')
 
 # Plot colors by quantiles
 breaks <- quantile(df$summaryValue)
@@ -109,14 +109,14 @@ usHUC8 <- WBDHU8[WBDHU8$countryCode == 'US',]
 waHUC8 <- usHUC8[usHUC8$stateCode == 'WA',]
 
 # Get summaried values by HUC6
-df <- summaryByPolygon(nbiWA$longitude, nbiWA$latitude, nbiWA$value, waHUC8, 'HUC', mean)
+df <- summarizeByPolygon(nbiWA$longitude, nbiWA$latitude, nbiWA$value, waHUC8, 'HUC', mean)
 df <- na.omit(df)
 
 # Get the correct plot order
-plotOrder <- waHUC8$HUC[waHUC8$HUC %in% df$polyID]
+plotOrder <- waHUC8$HUC[waHUC8$HUC %in% df$polygonName]
 plotOrder <- as.data.frame(plotOrder)
-names(plotOrder) <- "polyID"
-plotDF <- dplyr::left_join(plotOrder, df, by='polyID')
+names(plotOrder) <- "polygonName"
+plotDF <- dplyr::left_join(plotOrder, df, by='polygonName')
 
 # Plot colors by quantiles
 breaks <- quantile(df$summaryValue)
@@ -135,15 +135,15 @@ us_map <- rgdal::readOGR("cb_2016_us_cd115_500k.shp", layer = "cb_2016_us_cd115_
 
 WA_leg <- subset(us_map, STATEFP == "53")
 WA_leg$CD115FP <- as.character(WA_leg$CD115FP)
-WA_df <- summaryByPolygon(nbiWA$longitude, nbiWA$latitude, nbiWA$value,
+WA_df <- summarizeByPolygon(nbiWA$longitude, nbiWA$latitude, nbiWA$value,
                           WA_leg, 'CD115FP', mean)
 WA_df <- na.omit(WA_df)
 
 # Get the correct plot order
-plotOrder <- WA_leg$CD115FP[WA_leg$CD115FP %in% WA_df$polyID]
+plotOrder <- WA_leg$CD115FP[WA_leg$CD115FP %in% WA_df$polygonName]
 plotOrder <- as.data.frame(plotOrder)
-names(plotOrder) <- "polyID"
-plotDF <- dplyr::left_join(plotOrder, WA_df, by='polyID')
+names(plotOrder) <- "polygonName"
+plotDF <- dplyr::left_join(plotOrder, WA_df, by='polygonName')
 
 # Plot colors by quantiles
 breaks <- quantile(WA_df$summaryValue)
