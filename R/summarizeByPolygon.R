@@ -10,7 +10,7 @@
 #' @param useBuffering passed to MazamaSpatialUtils::getSpatialData()
 #' @description Given vectors of longitudes, latitudes and values, this function will summarize given values by
 #' spatial polygon using the \code{FUN} and return a dataframe with polygon names and summary values.
-#' @return a dataframe with two columns: polygonName, summary value
+#' @return a dataframe with two columns: polygonName and summaryValue
 
 summarizeByPolygon <- function(longitude, latitude, value,
                              SPDF, polygonName, FUN, useBuffering=FALSE) {
