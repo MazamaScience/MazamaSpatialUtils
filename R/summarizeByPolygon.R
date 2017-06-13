@@ -10,17 +10,17 @@
 #' @param useBuffering passed to MazamaSpatialUtils::getSpatialData()
 #' @description Given vectors of longitudes, latitudes and values, this function will summarize given values by
 #' spatial polygon using the \code{FUN} and return a dataframe with polygon names and summary values.
-#' @return a dataframe with two columns: polygonName, summary value
+#' @return a dataframe with two columns: polygonName and summaryValue
 
 summarizeByPolygon <- function(longitude, latitude, value,
                              SPDF, polygonName, FUN, useBuffering=FALSE) {
 
   # Check the vectors of longitude, latitude and value have the same length
-  if(any(length(longitude) != length(latitude), length(longitude) != length(value),
+  if ( any(length(longitude) != length(latitude), length(longitude) != length(value),
           length(latitude) != length(value)) ) {
-    stop("longitude, latitude and value should have the same length")
+    stop("Longitude, latitude and value should have the same length")
   }
-  if(!polygonName %in% names(SPDF)) {
+  if ( !polygonName %in% names(SPDF) ) {
        stop("polygonName not present in SPDF")
   }
 
