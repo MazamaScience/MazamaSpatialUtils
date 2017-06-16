@@ -23,7 +23,7 @@ summarizeByPolygon(longitude, latitude, value, SPDF, polygonName, FUN,
 \item{useBuffering}{passed to MazamaSpatialUtils::getSpatialData()}
 }
 \value{
-a dataframe with two columns: polygonName, summary value
+a dataframe with two columns: polygonName and summaryValue
 }
 \description{
 Given vectors of longitudes, latitudes and values, this function will summarize given values by

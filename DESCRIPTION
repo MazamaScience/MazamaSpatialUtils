@@ -1,6 +1,6 @@
 Type: Package
 Package: MazamaSpatialUtils
-Version: 0.4.10
+Version: 0.5.0
 Title: Spatial Data Download and Utility Functions
 Authors@R: c(
     person("Jonathan", "Callahan", email="jonathan.s.callahan@gmail.com", role=c("aut","cre")), 
@@ -18,14 +18,14 @@ Author: Jonathan Callahan [aut, cre],
     Alice Yang [aut]
 Maintainer: Jonathan Callahan <jonathan.s.callahan@gmail.com>
 Depends:
-    R (>= 3.1.0) 
+    R (>= 3.1.0),
+    sp
 Imports:
     dplyr,
     lubridate,
     rgdal,
     rgeos,
     rvest (>= 0.3.0),
-    sp,
     stringr,
     utils,
     xml2

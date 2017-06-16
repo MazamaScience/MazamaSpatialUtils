@@ -9,6 +9,14 @@ set of longitude/latitude pairs. (They also make cool maps.)
 
 ----
 
+## Version 0.5 -- Aggregate by Polygon
+
+### MazamaSpatialUtils 0.5.0
+
+ * package now `Depends` on `sp` package so that `sp` plotting is used by default
+ * package includes higher resolution `SimpleTimezones` dataset
+ * internal standard now requires unique `polygonID` column for every dataset 
+
 ## Version 0.4 -- Fire and Water
 
 ### MazamaSpatialUtils 0.4.9

@@ -39,16 +39,17 @@ that we currently use. These convert functions all follow the same recipe:
 
  * download spatial data in shapefile format into a standard directory
  * convert shapefile data into a sp SpatialPolygonsDataFrame
- * modify the dataframe in the @data slot so that it adheres to package internal standards
+ * modify the dataframe in the `@data` slot so that it adheres to package internal standards
 
 Other datasets can be added following the same procedure.
 
 The ‘package internal standards’ are very simple. Every spatial dataset will
 have at least one of the following, consistently named colums of data:
 
- * countryCode – ISO 3166-1 alpha-2
- * stateCode – ISO 3166-2 alpha-2
- * timezone – Olson timezone
+ * `polygonID` – unique identifier associated with each polygon
+ * `countryCode` – ISO 3166-1 alpha-2
+ * `stateCode` – ISO 3166-2 alpha-2
+ * `timezone` – Olson timezone
 
 If another column contains this data, that column must be renamed or
 duplicated with the internally standardized name. This simple level of

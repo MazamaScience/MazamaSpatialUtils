@@ -13,39 +13,39 @@
 #' @return a dataframe with two columns: polygonName and summaryValue
 
 summarizeByPolygon <- function(longitude, latitude, value,
-                             SPDF, polygonName, FUN, useBuffering=FALSE) {
-
+                               SPDF, polygonName, FUN, useBuffering=FALSE) {
+  
   # Check the vectors of longitude, latitude and value have the same length
   if ( any(length(longitude) != length(latitude), length(longitude) != length(value),
-          length(latitude) != length(value)) ) {
-    stop("Longitude, latitude and value should have the same length")
+           length(latitude) != length(value)) ) {
+    stop("longitude, latitude and value should have the same length")
   }
   if ( !polygonName %in% names(SPDF) ) {
-       stop("polygonName not present in SPDF")
+    stop("polygonName not present in SPDF")
   }
-
+  
   # Create df with longitude, latitude, value
   df <- data.frame( longitude = longitude,
                     latitude = latitude,
                     value = value)
-
+  
   df$location <- paste0(longitude,'_',latitude)
-
+  
   # To speed things up
   df_unique <- df[!duplicated(df$location),]
-
+  
   df_unique$polygonName <- getSpatialData( lon=df_unique$longitude, lat=df_unique$latitude,
-                                      SPDF=SPDF, useBuffering=useBuffering)[[polygonName]]
-
+                                           SPDF=SPDF, useBuffering=useBuffering)[[polygonName]]
+  
   rownames(df_unique) <- df_unique$location
-
+  
   # Build back the full dataframe
   df$polygonName <- df_unique[df$location, 'polygonName']
-
+  
   df <- dplyr::group_by(df, polygonName)
   df <- dplyr::summarise(df, FUN(value))
   df <- as.data.frame(df)
   names(df)[2] <- 'summaryValue'
-
+  
   return(df)
 }
