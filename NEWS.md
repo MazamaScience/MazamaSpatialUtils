@@ -15,7 +15,9 @@ set of longitude/latitude pairs. (They also make cool maps.)
 
  * package now `Depends` on `sp` package so that `sp` plotting is used by default
  * package includes higher resolution `SimpleTimezones` dataset
- * internal standard now requires unique `polygonID` column for every dataset 
+ * internal standard now requires unique `polygonID` column for every dataset
+ * organizePolygons() now uniformly uses `polygonID` for rownames and polygons@ID so you can say:
+ `plot(SimpleCountries['IT',])`
 
 ## Version 0.4 -- Fire and Water
 

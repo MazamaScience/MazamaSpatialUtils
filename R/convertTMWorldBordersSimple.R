@@ -49,11 +49,12 @@ convertTMWorldBordersSimple <- function(nameOnly=FALSE) {
   # * area (m^2)
 
   # Relabel and standardize the naming in the SpatialPolygonsDataFrame
-  names(SPDF) <- c('FIPS','countryCode','ISO3','UN_country','countryName','area','population2005',
-                   'UN_region','UN_subregion','longitude','latitude')
+  names(SPDF) <- c('FIPS','countryCode','ISO3','UN_country','countryName',
+                   'area','population2005','UN_region','UN_subregion',
+                   'longitude','latitude')
   
   # NOTE:  http://conjugateprior.org/2013/01/unicode-in-r-packages-not/
-  # Transliterate unicode characters from this package-internal dataset
+  # Transliterate unicode characters for this package-internal dataset
   SPDF$countryName <- iconv(SPDF$countryName, from="UTF-8", to="ASCII//TRANSLIT")
 
   # Rationalize units:

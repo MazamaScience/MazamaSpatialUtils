@@ -27,6 +27,11 @@ organizePolygons <- function(dataset, uniqueID, sumColumns=NULL) {
   # add polygonID and return the dataframe.
   if ( !any(duplicated(dataset@data[,uniqueID])) ) {
     dataset@data[,'polygonID'] <- dataset@data[,uniqueID]
+    rownames(dataset@data) <- dataset@data[,uniqueID]
+    # Also useful to add the uniqueID to each individual sp::Polygons object in dataset@polygons
+    for ( i in seq_along(dataset@polygons) ) {
+      dataset@polygons[[i]]@ID <- dataset@data[i,uniqueID]
+    }
     return(dataset)
   }
 
@@ -55,7 +60,7 @@ organizePolygons <- function(dataset, uniqueID, sumColumns=NULL) {
 
     # Create an emply list to store the Polygons corresponding 'x'
     newPolygons <- list()
-    for(index in seq_along(allX)) {
+    for (index in seq_along(allX)) {
       newPolygons[[index]] <- dataset@polygons[[ allX[index] ]]@Polygons[[1]]
     }
 
@@ -64,7 +69,7 @@ organizePolygons <- function(dataset, uniqueID, sumColumns=NULL) {
     srl[[i]] <- polys
 
     # If a vector of column names is given, sum up those columns and replace the old row
-    if (!is.null(sumColumns)) {
+    if ( !is.null(sumColumns) ) {
       for (j in seq_along(sumColumns)) {
         nonDups@data[ i, sumColumns[j] ] <- sum(dataset@data[ allX, sumColumns[j] ])
       }
