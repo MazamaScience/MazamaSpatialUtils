@@ -19,6 +19,7 @@ set of longitude/latitude pairs. (They also make cool maps.)
  * organizePolygons() now uniformly uses `polygonID` for rownames and polygons@ID so you can say:
  `plot(SimpleCountries['IT',])`
  * fixed bug in processing of `USCensusCounties` dataset
+ * changed codeToCode() to two functions: iso2ToIso3() and iso3ToIso2()
 
 ## Version 0.4 -- Fire and Water
 

@@ -54,7 +54,7 @@ convertWorldEEZ <- function(nameOnly=FALSE) {
   SPDF$ISO3[SPDF$ISO3 == '-' ] <- NA
   
   # Add more standard columns
-  SPDF$countryCode <- codeToCode(SPDF$ISO3)
+  SPDF$countryCode <- iso3ToIso2(SPDF$ISO3)
   SPDF$countryName <- codeToCountry(SPDF$countryCode)
   
   SPDF <- organizePolygons(SPDF, uniqueID='countryCode')

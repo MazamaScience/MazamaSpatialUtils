@@ -29,7 +29,7 @@ convertGADM <- function(countryCode=NULL, admLevel=0, nameOnly=FALSE) {
   if (nameOnly) return(datasetName)
 
   # Convert 2-character codes into ISO3
-  ISO3 <- codeToCode(countryCode)
+  ISO3 <- iso2ToIso3(countryCode)
   if ( !is.na(ISO3) ) {
   } else {
     stop('The countryCode parameter "',countryCode,'" is not an ISO-3166-1 alpha-2 country code.',call.=FALSE)
@@ -93,7 +93,7 @@ convertGADM <- function(countryCode=NULL, admLevel=0, nameOnly=FALSE) {
 
     # NOTE:  Lots of useful potentially useful information here. We will just add the core identifiers
     SPDF$ISO3 <- SPDF$ISO
-    SPDF$countryCode <- codeToCode(SPDF$ISO)
+    SPDF$countryCode <- iso3ToIso2(SPDF$ISO)
     SPDF$countryName <- SPDF$NAME_0
     ### SPDF$stateCode <-
     SPDF$stateName <- SPDF$NAME_1
