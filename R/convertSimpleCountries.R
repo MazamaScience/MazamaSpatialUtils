@@ -14,6 +14,11 @@
 #' @references \url{http://thematicmapping.org/downloads/}
 #' @seealso setSpatialDataDir
 #' @seealso getCountry, getCountryCode
+#' @examples
+#' \dontrun{
+#' setSpatialDataDir(getwd()) # directory
+#' convertSimpleCountries()
+#' }
 convertSimpleCountries <- function(nameOnly=FALSE) {
 
   # Use package internal data directory
@@ -25,18 +30,21 @@ convertSimpleCountries <- function(nameOnly=FALSE) {
   if (nameOnly) return(datasetName)
 
   # Build appropriate request URL for TM World Borders data
-  url <- 'http://thematicmapping.org/downloads/TM_WORLD_BORDERS_SIMPL-0.3.zip'
-
+  url <- 'http://thematicmapping.org/downloads/TM_WORLD_BORDERS-0.3.zip'
+  
   filePath <- paste(dataDir,basename(url),sep='/')
   utils::download.file(url,filePath)
   # NOTE:  This zip file has no directory so extra subdirectory needs to be created
   utils::unzip(filePath,exdir=paste0(dataDir,'/world'))
 
+  # Use locally installed mapshaper to simplify polygons
+  command <- "cd data/world; mapshaper TM_WORLD_BORDERS-0.3.shp -simplify 1% -o"
+  system(command)
+  
   # Convert shapefile into SpatialPolygonsDataFrame
   # NOTE:  The 'world' directory has been created
   dsnPath <- paste(dataDir,'world',sep='/')
-  shpName <- 'TM_WORLD_BORDERS_SIMPL-0.3'
-  SPDF <- convertLayer(dsn=dsnPath,layerName=shpName)
+  SPDF <- convertLayer(dsn=dsnPath, layerName='TM_WORLD_BORDERS-0.3')
 
   # Rationalize naming:
   # * human readable full nouns with descriptive prefixes

@@ -26,11 +26,11 @@ organizePolygons <- function(dataset, uniqueID, sumColumns=NULL) {
   # Test if the dataframe already contains grouped polygons. If so,
   # add polygonID and return the dataframe.
   if ( !any(duplicated(dataset@data[,uniqueID])) ) {
-    dataset@data[,'polygonID'] <- dataset@data[,uniqueID]
-    rownames(dataset@data) <- dataset@data[,uniqueID]
+    dataset@data[,'polygonID'] <- as.character(dataset@data[,uniqueID])
+    rownames(dataset@data) <- as.character(dataset@data[,uniqueID])
     # Also useful to add the uniqueID to each individual sp::Polygons object in dataset@polygons
     for ( i in seq_along(dataset@polygons) ) {
-      dataset@polygons[[i]]@ID <- dataset@data[i,uniqueID]
+      dataset@polygons[[i]]@ID <- as.character(dataset@data[i,uniqueID])
     }
     return(dataset)
   }

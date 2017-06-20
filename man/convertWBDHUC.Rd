@@ -36,7 +36,7 @@ Typically, the raw data will be simplified using the command line version of
 \href{https://github.com/mbloch/mapshaper}{mapshpaper}. (Installation instructions are
 found at this URL.)
 
-With mapshaper, you can reduce the number of vertices in the polygons, greatlyl improving
+With mapshaper, you can reduce the number of vertices in the polygons, greatly improving
 the efficiency of spatial searches. Experimentation at the 
 \href{http://www.mapshaper.org}{mapshaper website} show that a reduction to 1-2%
 of the original shapefile size still retains the recognizable shape of polygons, removing

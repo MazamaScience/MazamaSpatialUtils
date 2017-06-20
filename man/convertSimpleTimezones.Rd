@@ -33,6 +33,12 @@ These timezones also have no \code{countryCode} assigned. We hope to rectify thi
 
 This is a non-exported function used only for updating the package dataset.
 }
+\examples{
+\dontrun{
+setSpatialDataDir(getwd()) # directory
+convertSimpleCountries()
+}
+}
 \seealso{
 setSpatialDataDir
 

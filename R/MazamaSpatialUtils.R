@@ -139,6 +139,7 @@ NULL
 
 #' @keywords environment
 #' @export
+#' @import sp
 #' @title Get Package Data Directory
 #' @description Returns the package data directory where spatial data is located.
 #' @return Absolute path string.

@@ -21,6 +21,11 @@
 #' @return Name of the dataset being created.
 #' @seealso setSpatialDataDir
 #' @seealso convertWikipediaTimezoneTable
+#' @examples
+#' \dontrun{
+#' setSpatialDataDir(getwd()) # directory
+#' convertSimpleCountries()
+#' }
 convertSimpleTimezones <- function(nameOnly=FALSE) {
 
   # Use package internal data directory

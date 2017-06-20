@@ -59,22 +59,20 @@ testthat::test_that("allData returns are correct dimension and type", {
 
 })
 
-testthat::test_that("GetPolygonID handles errors correctly", {
+testthat::test_that("getPolygonID handles errors correctly", {
 
   testthat::expect_error(getPolygonID(iris))
   testthat::expect_is(getPolygonID(SimpleTimezones), "character")
   testthat::expect_is(getPolygonID(SimpleCountries), "character")
+  
 })
 
 testthat::test_that("summarizeByPolygon properly summarizes", {
+  
   testthat::expect_equal(dim(summarizeByPolygon(longitude = c(20.383333, -110, 25.433333, 11.330556, 101.766667, -110, -110),
                                                 latitude = c(36.066667, 71, 36.416667, 43.318611, 36.633333, 71, 71),
                                                 value = c(80, 43, 29, 55, 12, 32, 23),
-                                                SPDF = SimpleCountries, polygonName = "countryCode",
-                                                FUN = mean, useBuffering = FALSE)), c(5,2))
-  testthat::expect_error(summarizeByPolygon(longitude = c(20.383333, -110, 25.433333, 11.330556, 101.766667, -110, -110),
-                                                latitude = c(36.066667, 71, 36.416667, 43.318611, 36.633333, 71, 71),
-                                                value = c(80, 43, 29, 55, 12, 32, 23),
-                                                SPDF = SimpleCountries, polygonName = "FakecountryCode",
-                                                FUN = mean, useBuffering = FALSE))
+                                                SPDF = SimpleCountries, useBuffering = FALSE,
+                                                FUN = mean, varName="valueMean")), c(nrow(SimpleCountries@data),2))
+
 })

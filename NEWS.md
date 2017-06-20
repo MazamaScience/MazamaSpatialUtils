@@ -14,10 +14,11 @@ set of longitude/latitude pairs. (They also make cool maps.)
 ### MazamaSpatialUtils 0.5.0
 
  * package now `Depends` on `sp` package so that `sp` plotting is used by default
- * package includes higher resolution `SimpleTimezones` dataset
+ * package includes higher resolution `SimpleCountries` and `SimpleTimezones` datasets
  * internal standard now requires unique `polygonID` column for every dataset
  * organizePolygons() now uniformly uses `polygonID` for rownames and polygons@ID so you can say:
  `plot(SimpleCountries['IT',])`
+ * fixed bug in processing of `USCensusCounties` dataset
 
 ## Version 0.4 -- Fire and Water
 
