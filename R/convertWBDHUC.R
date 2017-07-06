@@ -130,7 +130,7 @@ convertWBDHUC <- function(dsnPath=NULL, level=8, extension="", nameOnly=FALSE) {
   names(SPDF) <- c('area','HUC','HUCName', 'allStateCodes')
 
   # Change are from km^2 to m^2
-  SPDF@data$area <- SPDF@data$area * 1000000
+  SPDF@data$area <- as.numeric(SPDF@data$area) * 1000000
   
   # Group polygons with duplicated hydrologic unit codes
   # NOTE:  The USGS WBD polygons seem to be well organized
