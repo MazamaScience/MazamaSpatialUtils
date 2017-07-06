@@ -30,4 +30,3 @@ timezoneText <- ifelse(is.na(timezones),'water',timezones)
 text(lons,lats,timezoneText,pos=4)
 # Add a title
 title('Timezones in North America')
-

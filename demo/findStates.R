@@ -5,10 +5,10 @@ library(sp)
 library(maps)
 
 # Specify the directory for spatial data
-setSpatialDataDir('./SpatialData')
+setSpatialDataDir(getwd())
 
 # Install NaturalEarthAdm1 if not already installed
-installSpatialData('NaturalEarthAdm1', adm=1)
+convertNaturalEarthAdm1()
 
 # Load the data
 loadSpatialData('NaturalEarthAdm1')
@@ -67,9 +67,3 @@ text(lons,lats,stateText,pos=4)
 title('**WARNING** 2-Character State Codes are not Unique!')
 uniqueCodesText <- paste(sort(unique(stateCodes[!is.na(stateCodes)])),collapse=', ')
 title(line=0,paste0('Showing all polygons with "stateCode" matching ',uniqueCodesText))
-
-
-
-      
-
-
