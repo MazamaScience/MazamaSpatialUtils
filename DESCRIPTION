@@ -25,6 +25,7 @@ Imports:
     lubridate,
     rgdal,
     rgeos,
+    rmapshaper,
     rvest (>= 0.3.0),
     stringr,
     utils,

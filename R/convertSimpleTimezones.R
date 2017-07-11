@@ -43,9 +43,9 @@ convertSimpleTimezones <- function(nameOnly=FALSE) {
   utils::download.file(url,filePath)
   utils::unzip(filePath,exdir=dataDir)
   
-  # Use locally installed mapshaper to simplify polygons
-  command <- "cd data/world; mapshaper tz_world.shp -simplify 5% -o"
-  system(command)
+  # # Use locally installed mapshaper to simplify polygons
+  # command <- "cd data/world; mapshaper tz_world.shp -simplify 5% -o"
+  # system(command)
   
   # Convert shapefile into SpatialPolygonsDataFrame
   dsnPath <- paste(dataDir,'world',sep='/')
@@ -63,6 +63,9 @@ convertSimpleTimezones <- function(nameOnly=FALSE) {
   # Group polygons with the same identifier
   SPDF <- organizePolygons(SPDF, uniqueID='timezone')
 
+  # Simplify to 5% of the vertices
+  SPDF <- rmapshaper::ms_simplify(SPDF, 0.05)
+  
   # Assign a name and save the data
   assign(datasetName,SPDF)
   save(list=c(datasetName),file=paste0(dataDir,'/',datasetName,'.RData'))
