@@ -13,7 +13,6 @@
 #' @return Vector of HUC identifiers.
 #' @seealso getSpatialData
  
-
 getHUC <- function(lon, lat, SPDF, HUCs=NULL, allData=FALSE) {
   
   # check if longitude and latitude falls in the right range

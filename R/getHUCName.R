@@ -13,7 +13,6 @@
 #' @return Vector of HUC names. 
 #' @seealso getSpatialData
  
-
 getHUCName <- function(lon, lat, dataset='WBDHU10-ms', HUCs=NULL, allData=FALSE) {
   
   # Sanity check
