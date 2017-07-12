@@ -11,18 +11,18 @@ function(input, output){
 
     if (is.null(inFile))
       return(NULL)
-    inputData <- read.csv(inFile$datapath)
+    inputData <- read.csv(inFile$datapath, sep = input$sep, quote = input$quote)
     inputData <- subset(inputData, longitude < -80)
 
-    loadSpatialData("WBDHU8")
-    waHUC8 <- subset(WBDHU8, stateCode == 'WA')
+    loadSpatialData(input$SPDF)
+    sessionSPDF <- subset(eval(parse(text = input$SPDF)), stateCode == 'WA')
 
     forPlot <- summarizeByPolygon(inputData$longitude, inputData$latitude, value = inputData$age,
-                                  SPDF = waHUC8, polygonName = "HUCName", FUN = mean)
+                                  SPDF = sessionSPDF, polygonName = "HUCName", FUN = mean)
     forPlot <- na.omit(forPlot)
 
     # Get the correct plot order
-    plotOrder <- waHUC8$HUCName[waHUC8$HUCName %in% forPlot$polygonName]
+    plotOrder <- sessionSPDF$HUCName[sessionSPDF$HUCName %in% forPlot$polygonName]
     plotOrder <- as.data.frame(plotOrder)
     names(plotOrder) <- "polygonName"
     plotDF <- dplyr::left_join(plotOrder, forPlot, by='polygonName')
@@ -33,6 +33,6 @@ function(input, output){
     colors <- RColorBrewer::brewer.pal(4, 'Blues')
     cols <- colors[colIndexes]
 
-    plot(waHUC8, col = cols)
+    plot(sessionSPDF, col = cols)
   })
 }

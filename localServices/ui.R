@@ -19,10 +19,13 @@ fluidPage(
                    c(None='',
                      'Double Quote'='"',
                      'Single Quote'="'"),
-                   '"')
+                   '"'),
+      radioButtons('SPDF', 'Spatial Polygons DataFrame',
+                   c(HUC6 = 'WBDHU6',
+                     HUC8 = 'WBDHU8',
+                     HUC10 = 'WBDHU10'))
     ),
     mainPanel(
-      #tableOutput('contents')
       plotOutput('myPlot')
     )
   )
