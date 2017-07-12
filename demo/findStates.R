@@ -4,14 +4,15 @@ library(MazamaSpatialUtils)
 library(sp)
 library(maps)
 
-# Specify the directory for spatial data
-setSpatialDataDir(getwd())
-
-# Install NaturalEarthAdm1 if not already installed
-convertNaturalEarthAdm1()
+# This demo only works if spatial has been installed in '~/Data/Spatial'
+setSpatialDataDir('~/Data/Spatial')
 
 # Load the data
-loadSpatialData('NaturalEarthAdm1')
+result <- try( loadSpatialData('NaturalEarthAdm1') )
+
+if ( "try-error" %in% class(result) ) {
+  stop('This demo requires default installation directories for spatial data. See installSpatialData().')
+}
 
 # Vector of lons and lats
 lons <- seq(-120,-60,5)
