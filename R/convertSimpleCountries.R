@@ -14,13 +14,17 @@
 #' @references \url{http://thematicmapping.org/downloads/}
 #' @seealso setSpatialDataDir
 #' @seealso getCountry, getCountryCode
-#' @examples
-#' \dontrun{
-#' setSpatialDataDir(getwd()) # directory
-#' convertSimpleCountries()
-#' }
 convertSimpleCountries <- function(nameOnly=FALSE) {
 
+  # NOTE:  This function only needs to be run once to update the package SimpleTimezones
+  # NOTE:  dataset. It is included here for reproducibility.
+  
+  # NOTE:  This function should be run wile working with the package source code.
+  # NOTE:  The working directory should be MazamaSpatialUtils/ and the resulting
+  # NOTE:  .RData file will be kept in the data/ directory
+  
+  sourceCodeDir <- getwd()
+  
   # Use package internal data directory
   dataDir <- getSpatialDataDir()
 
@@ -37,10 +41,6 @@ convertSimpleCountries <- function(nameOnly=FALSE) {
   # NOTE:  This zip file has no directory so extra subdirectory needs to be created
   utils::unzip(filePath,exdir=paste0(dataDir,'/world'))
 
-  # Use locally installed mapshaper to simplify polygons
-  command <- "cd data/world; mapshaper TM_WORLD_BORDERS-0.3.shp -simplify 1% -o"
-  system(command)
-  
   # Convert shapefile into SpatialPolygonsDataFrame
   # NOTE:  The 'world' directory has been created
   dsnPath <- paste(dataDir,'world',sep='/')
@@ -72,11 +72,14 @@ convertSimpleCountries <- function(nameOnly=FALSE) {
 
   # Group polygons with the same identifier (countryCode)
   SPDF <- organizePolygons(SPDF, uniqueID='countryCode', sumColumns=c('area','population2005'))
-  # NOTE:  This dataset already has grouped polygons
 
+  # Simplify to 5% of the vertices
+  SPDF <- rmapshaper::ms_simplify(SPDF, 0.05)
+  SPDF@data$rmapshaperid <- NULL
+  
   # Assign a name and save the data
   assign(datasetName,SPDF)
-  save(list=c(datasetName),file=paste0(dataDir,'/',datasetName,'.RData'))
+  save(list=c(datasetName),file=paste0(sourceCodeDir,'/data/',datasetName,'.RData'))
 
   # Clean up
   unlink(filePath, force=TRUE)

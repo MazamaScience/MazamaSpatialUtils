@@ -1,5 +1,5 @@
 #' @keywords datagen
-#' @title Create Timezone Dataset
+#' @title Create SimpleTimezones Dataset
 #' @param nameOnly logical specifying whether to only return the name without creating the file
 #' @description A world timezone shapefile is downloaded from \url{http://efele.net/maps/tz/world/}
 #' and converted to a SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
@@ -8,7 +8,7 @@
 #' The following list of timezones have polygons but the associated rows in the dataframe have no data.
 #' These timezones also have no \code{countryCode} assigned. We hope to rectify this in a future release.
 #' \preformatted{
-#' > WorldTimezones@@data$timezone[is.na(WorldTimezones$countryCode)]
+#' > WorldTimezones@data$timezone[is.na(WorldTimezones$countryCode)]
 #' [1] "Europe/Zagreb"         "Europe/Vatican"        "America/Coral_Harbour"
 #' [4] "Arctic/Longyearbyen"   "uninhabited"           "America/Kralendijk"
 #' [7] "Europe/Jersey"         "Europe/Bratislava"     "America/St_Barthelemy"
@@ -28,6 +28,15 @@
 #' }
 convertSimpleTimezones <- function(nameOnly=FALSE) {
 
+  # NOTE:  This function only needs to be run once to update the package SimpleTimezones
+  # NOTE:  dataset. It is included here for reproducibility.
+
+  # NOTE:  This function should be run wile working with the package source code.
+  # NOTE:  The working directory should be MazamaSpatialUtils/ and the resulting
+  # NOTE:  .RData file will be kept in the data/ directory
+  
+  sourceCodeDir <- getwd()
+  
   # Use package internal data directory
   dataDir <- getSpatialDataDir()
 
@@ -42,10 +51,6 @@ convertSimpleTimezones <- function(nameOnly=FALSE) {
   filePath <- paste(dataDir,basename(url),sep='/')
   utils::download.file(url,filePath)
   utils::unzip(filePath,exdir=dataDir)
-  
-  # # Use locally installed mapshaper to simplify polygons
-  # command <- "cd data/world; mapshaper tz_world.shp -simplify 5% -o"
-  # system(command)
   
   # Convert shapefile into SpatialPolygonsDataFrame
   dsnPath <- paste(dataDir,'world',sep='/')
@@ -65,15 +70,17 @@ convertSimpleTimezones <- function(nameOnly=FALSE) {
 
   # Simplify to 5% of the vertices
   SPDF <- rmapshaper::ms_simplify(SPDF, 0.05)
+  SPDF@data$rmapshaperid <- NULL
   
   # Assign a name and save the data
   assign(datasetName,SPDF)
-  save(list=c(datasetName),file=paste0(dataDir,'/',datasetName,'.RData'))
+  save(list=c(datasetName),file=paste0(sourceCodeDir,'/data/',datasetName,'.RData'))
 
   # Clean up
   unlink(filePath, force=TRUE)
   unlink(dsnPath, recursive=TRUE, force=TRUE)
-
+  
   return(invisible(datasetName))
+  
 }
 

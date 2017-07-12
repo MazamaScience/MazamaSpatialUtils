@@ -27,12 +27,6 @@ Users may wish to use a higher resolution dataset when plotting.
 \note{
 This is a non-exported function used only for updating the package dataset.
 }
-\examples{
-\dontrun{
-setSpatialDataDir(getwd()) # directory
-convertSimpleCountries()
-}
-}
 \references{
 \url{http://thematicmapping.org/downloads/}
 }

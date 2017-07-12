@@ -35,8 +35,7 @@ convertTMWorldBordersSimple <- function(nameOnly=FALSE) {
   # Convert shapefile into SpatialPolygonsDataFrame
   # NOTE:  The 'world' directory has been created
   dsnPath <- paste(dataDir,'world',sep='/')
-  shpName <- 'TM_WORLD_BORDERS_SIMPL-0.3'
-  SPDF <- convertLayer(dsn=dsnPath,layerName=shpName)
+  SPDF <- convertLayer(dsn=dsnPath, layerName='TM_WORLD_BORDERS_SIMPL-0.3')
 
   # Rationalize naming:
   # * human readable full nouns with descriptive prefixes
@@ -64,7 +63,6 @@ convertTMWorldBordersSimple <- function(nameOnly=FALSE) {
 
   # Group polygons with the same identifier (countryCode)
   SPDF <- organizePolygons(SPDF, uniqueID='countryCode', sumColumns=c('area','population2005'))
-  # NOTE:  This dataset already has grouped polygons
 
   # Assign a name and save the data
   assign(datasetName,SPDF)

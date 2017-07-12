@@ -31,9 +31,8 @@ convertTMWorldBorders <- function(nameOnly=FALSE) {
   # Convert shapefile into SpatialPolygonsDataFrame
   # NOTE:  The 'world' directory has been created
   dsnPath <- paste(dataDir,'world',sep='/')
-  shpName <- 'TM_WORLD_BORDERS-0.3'
-  SPDF <- convertLayer(dsn=dsnPath,layerName=shpName)
-
+  SPDF <- convertLayer(dsn=dsnPath, layerName='TM_WORLD_BORDERS-0.3')
+  
   # Rationalize naming:
   # * human readable full nouns with descriptive prefixes
   # * generally lowerCamelCase
@@ -49,6 +48,10 @@ convertTMWorldBorders <- function(nameOnly=FALSE) {
                    'area','population2005','UN_region','UN_subregion',
                    'longitude','latitude')
   
+  # NOTE:  http://conjugateprior.org/2013/01/unicode-in-r-packages-not/
+  # Transliterate unicode characters for this package-internal dataset
+  SPDF$countryName <- iconv(SPDF$countryName, from="UTF-8", to="ASCII//TRANSLIT")
+  
   # Rationalize units:
   # * SI
   # NOTE:  Area seems to be in units of (10 km^2). Convert these to m^2
@@ -56,8 +59,7 @@ convertTMWorldBorders <- function(nameOnly=FALSE) {
 
   # Group polygons with the same identifier (countryCode)
   SPDF <- organizePolygons(SPDF, uniqueID='countryCode', sumColumns=c('area','population2005'))
-  # NOTE:  This dataset already has grouped polygons
-  
+
   # Assign a name and save the data
   assign(datasetName,SPDF)
   save(list=c(datasetName),file=paste0(dataDir,'/',datasetName,'.RData'))

@@ -2,7 +2,7 @@
 % Please edit documentation in R/convertSimpleTimezones.R
 \name{convertSimpleTimezones}
 \alias{convertSimpleTimezones}
-\title{Create Timezone Dataset}
+\title{Create SimpleTimezones Dataset}
 \usage{
 convertSimpleTimezones(nameOnly = FALSE)
 }
