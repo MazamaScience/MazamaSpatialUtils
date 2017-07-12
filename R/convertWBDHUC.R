@@ -12,7 +12,7 @@
 #' @details The full WBD dataset can be downloaded from the USGS with the 
 #' following command:
 #' \preformatted{
-#' curl ftp://rockyftp.cr.usgs.gov/vdelivery/Datasets/Staged/WBD/Shape/WBD_National.zip -O
+#' curl https://prd-tnm.s3.amazonaws.com/StagedProducts/Hydrography/WBD/National/GDB/WBD_National_GDB.zip -O
 #' }
 #' 
 #' Typically, the raw data will be simplified using the command line version of
