@@ -5,7 +5,7 @@
 #' @param lat vector of latitudes in decimal degrees
 #' @param dataset name of spatial dataset to use
 #' @param countryCodes vector of countryCodes
-#' @param allData logical specifying whether to return a full dataframe
+#' @param allData logical specifying whether a full dataframe should be returned
 #' @param useBuffering logical flag specyfing the use of location buffering to find the nearest polygon if not target polygon is found
 #' @description Uses spatial comparison to determine which timezone polygons the 
 #'     locations fall into and returns the Olson timezone strings for those polygons.
@@ -51,7 +51,6 @@ getTimezone <- function(lon, lat, dataset="SimpleTimezones", countryCodes=NULL, 
     
     timezone <- SPDF$timezone
 
-    
     return(timezone)
     
   }

@@ -18,7 +18,7 @@ getCountryCode(lon, lat, dataset = "SimpleCountries", countryCodes = NULL,
 
 \item{allData}{logical specifying whether a full dataframe should be returned}
 
-\item{useBuffering}{logical flag specyfing the use of location buffering to find the nearest polygon if not target polygon is found}
+\item{useBuffering}{logical flag specifying the use of location buffering to find the nearest polygon if no target polygon is found}
 }
 \value{
 Vector of ISO-3166-1 alpha-2 country codes.

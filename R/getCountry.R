@@ -48,7 +48,6 @@ getCountry <- function(lon, lat, dataset='SimpleCountries', countryCodes=NULL, a
     
     countryName <- locationsDF$countryName
     
-    
     return(countryName)
     
   }

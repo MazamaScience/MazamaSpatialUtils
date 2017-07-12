@@ -5,8 +5,8 @@
 #' @param lat vector of latitudes in decimal degrees
 #' @param dataset name of spatial dataset to use
 #' @param countryCodes vector of country codes
-#' @param allData logical specifying whether to return a full dataframe
-#' @param useBuffering logical flag specyfing the use of location buffering to find the nearest polygon if not target polygon is found
+#' @param allData logical specifying whether a full dataframe should be returned
+#' @param useBuffering logical flag specifying the use of location buffering to find the nearest polygon if no target polygon is found
 #' @description Uses spatial comparison to determine which 'state' polygons the 
 #'     locations fall into and returns the ISO 3166-2 2-character state code
 #'     strings for those polygons.
@@ -51,12 +51,10 @@ getState <- function(lon, lat, dataset='NaturalEarthAdm1', countryCodes=NULL, al
   } else {
     
     stateName <- locationsDF$stateName
-    
 
     return(stateName)
     
   }
-  
   
 }
 

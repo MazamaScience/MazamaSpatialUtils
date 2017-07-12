@@ -55,6 +55,5 @@ getUSCounty <- function(lon, lat, dataset='USCensusCounties', stateCodes=NULL, a
     
   }
   
-  
 }
 

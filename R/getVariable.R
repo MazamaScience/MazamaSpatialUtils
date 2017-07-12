@@ -52,6 +52,5 @@ getVariable <- function(lon, lat, dataset=NULL, variable=NULL, countryCodes=NULL
     return(locationsDF[[variable]])    
   }
   
-  
 }
 

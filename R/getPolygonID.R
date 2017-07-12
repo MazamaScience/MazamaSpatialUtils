@@ -13,9 +13,12 @@
 #' whether the polygons represent, countries, timezones or HUCs, etc.
 #' @return Vector of polygon identifiers.
 getPolygonID <- function(SPDF) {
-  if ( class(SPDF) != "SpatialPolygonsDataFrame" ) {
+  
+  if (  !"SpatialPolygonsDataFrame" %in% class(SPDF) ) {
     stop(deparse(substitute(SPDF)), ' is not a SpatialPolygonsDataFrame.', call.=FALSE)
   } else {
     return(SPDF$polygonID)
   }
+  
 }
+

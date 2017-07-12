@@ -16,9 +16,9 @@ getState(lon, lat, dataset = "NaturalEarthAdm1", countryCodes = NULL,
 
 \item{countryCodes}{vector of country codes}
 
-\item{allData}{logical specifying whether to return a full dataframe}
+\item{allData}{logical specifying whether a full dataframe should be returned}
 
-\item{useBuffering}{logical flag specyfing the use of location buffering to find the nearest polygon if not target polygon is found}
+\item{useBuffering}{logical flag specifying the use of location buffering to find the nearest polygon if no target polygon is found}
 }
 \value{
 Vector of state names in English.

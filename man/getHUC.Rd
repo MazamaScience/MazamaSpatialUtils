@@ -15,7 +15,7 @@ getHUC(lon, lat, SPDF, HUCs = NULL, allData = FALSE)
 
 \item{HUCs}{vector of Hydrologic Unit Codes}
 
-\item{allData}{logical specifying whether to return a full dataframe}
+\item{allData}{logical specifying whether a full dataframe should be returned}
 }
 \value{
 Vector of HUC identifiers.

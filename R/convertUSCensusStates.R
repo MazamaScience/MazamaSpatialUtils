@@ -9,7 +9,6 @@
 #' @return Name of the dataset being created.
 #' @references \url{https://www.census.gov/geo/maps-data/data/cbf/cbf_state.html}
 #' @seealso setSpatialDataDir
-#' @seealso 
 convertUSCensusStates <- function(nameOnly=FALSE) {
   
   # Use package internal data directory

@@ -6,7 +6,7 @@
 #' @param dataset name of spatial dataset to use
 #' @param countryCodes vector of countryCodes
 #' @param allData logical specifying whether a full dataframe should be returned
-#' @param useBuffering logical flag specyfing the use of location buffering to find the nearest polygon if not target polygon is found
+#' @param useBuffering logical flag specifying the use of location buffering to find the nearest polygon if no target polygon is found
 #' @description Uses spatial comparison to determine which country polygons the 
 #'     locations fall into and returns the country name for those polygons.
 #'     
@@ -48,11 +48,9 @@ getCountryName <- function(lon, lat, dataset='SimpleCountries', countryCodes=NUL
     
     countryName <- locationsDF$countryName
     
-    
     return(countryName)
     
   }
-  
   
 }
 
