@@ -21,9 +21,16 @@ fluidPage(
                      'Single Quote'="'"),
                    '"'),
       radioButtons('SPDF', 'Spatial Polygons DataFrame',
-                   c(HUC6 = 'WBDHU6',
+                   c(HUC2 = 'WBDHU2',
+                     HUC4 = 'WBDHU4',
+                     HUC6 = 'WBDHU6',
                      HUC8 = 'WBDHU8',
-                     HUC10 = 'WBDHU10'))
+                     HUC10 = 'WBDHU10')),
+      radioButtons('FUN', 'Function',
+                   c(MIN = 'min',
+                     MEAN = 'mean',
+                     MEDIAN = 'median',
+                     MAX = 'max'))
     ),
     mainPanel(
       plotOutput('myPlot')

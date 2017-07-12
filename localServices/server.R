@@ -18,7 +18,7 @@ function(input, output){
     sessionSPDF <- subset(eval(parse(text = input$SPDF)), stateCode == 'WA')
 
     forPlot <- summarizeByPolygon(inputData$longitude, inputData$latitude, value = inputData$age,
-                                  SPDF = sessionSPDF, polygonName = "HUCName", FUN = mean)
+                                  SPDF = sessionSPDF, polygonName = "HUCName", FUN = eval(parse(text = input$FUN)))
     forPlot <- na.omit(forPlot)
 
     # Get the correct plot order
