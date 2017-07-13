@@ -210,23 +210,25 @@ convertWBDHUC <- function(dsnPath=NULL, level=8, extension="", nameOnly=FALSE) {
   
   # Remove automatically generated "rmapshaperid" column
   SPDF_02@data$rmapshaperid <- NULL
-  # SPDF_01@data$rmapshaperid <- NULL
+  SPDF_01@data$rmapshaperid <- NULL
   
   # Assign a name and save the data
   datasetName_02 <- paste0(datasetName, "_02")
-  # datasetName_01 <- paste0(datasetName, "_01")
+  datasetName_01 <- paste0(datasetName, "_01")
   
   assign(datasetName_02, SPDF_02)
   assign(datasetName_01, SPDF_01)
-  # assign(datasetName,SPDF)
+  assign(datasetName,SPDF)
   
   save(list = c(datasetName), file = paste0(dataDir,"/",datasetName, '.RData'))
   save(list = c(datasetName_02), file = paste0(dataDir,"/",datasetName_02, '.RData'))
-  # save(list = c(datasetName_01), file = paste0(dataDir,"/",datasetName_01, '.RData'))
+  save(list = c(datasetName_01), file = paste0(dataDir,"/",datasetName_01, '.RData'))
   
-  return(invisible(c(datasetName, datasetName_02)))
+  return(invisible(c(datasetName, datasetName_02, datasetName_01)))
 }
 
+
+#NOTE: to generate all levels:
 if(FALSE){
   for(i in c(2,4,6,8,10,12,14)){
     convertWBDHUC(dsnPath = "/Users/Helen/Data/Spatial/WBD/WBD.gdb", level = i)
