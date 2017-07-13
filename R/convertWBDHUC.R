@@ -79,7 +79,14 @@ convertWBDHUC <- function(dsnPath=NULL, level=8, extension="", nameOnly=FALSE) {
     # [1] "SHAPE_AREA" "SOURCEFEAT" "AREASQKM"   "METASOURCE" "SOURCEORIG" "LOADDATE"   "TNMID"     
     # [8] "AREAACRES"  "GNIS_ID"    "NAME"       "SOURCEDATA" "STATES"     "HUC2"       "SHAPE_LENG"
     #[15] "GEODB_OID"  "OBJECTID"  
-    usefulColumns <- c('AREASQKM', 'HUC2', 'NAME', 'STATES')
+    
+    # > names(SPDF)
+    # [1] "TNMID"            "METASOURCEID"     "SOURCEDATADESC"   "SOURCEORIGINATOR"
+    # [5] "SOURCEFEATUREID"  "LOADDATE"         "GNIS_ID"          "AREAACRES"       
+    # [9] "AREASQKM"         "STATES"           "HUC2"             "NAME"            
+    # [13] "GLOBALID"         "SHAPE_Length"     "SHAPE_Area"      
+    
+    usefulColumns <- c('LOADDATE','GNIS_ID','AREASQKM', 'HUC2', 'NAME', 'STATES')
   } else if ( level == '4' ) {
     # 223 features
     #
@@ -126,8 +133,9 @@ convertWBDHUC <- function(dsnPath=NULL, level=8, extension="", nameOnly=FALSE) {
     usefulColumns <- c('AREASQKM', 'HUC14', 'NAME', 'STATES')
   }
   
+  
   SPDF <- SPDF[,usefulColumns]
-  names(SPDF) <- c('area','HUC','HUCName', 'allStateCodes')
+  names(SPDF) <- c('loadDate','GNISCode','area','HUC','HUCName', 'allStateCodes')
 
   # Change are from km^2 to m^2
   SPDF@data$area <- as.numeric(SPDF@data$area) * 1000000
@@ -190,11 +198,28 @@ convertWBDHUC <- function(dsnPath=NULL, level=8, extension="", nameOnly=FALSE) {
   
   
   SPDF$stateName <- codeToState(SPDF$stateCode, SPDF$countryCode)
-   
-  # Assign a name and save the data
-  assign(datasetName,SPDF)
-  save(list=c(datasetName),file=paste0(dataDir,"/",datasetName, '.RData'))
+  SPDF$polygonID <- SPDF$HUC
   
-  return(invisible(datasetName))
+  # Create two new simplified datsets: one with 2%, and one with 1% of the vertices of the original
+  SPDF_02 <- rmapshaper::ms_simplify(SPDF, 0.02)
+  SPDF_01 <- rmapshaper::ms_simplify(SPDF, 0.01) 
+  
+  # Remove automatically generated "rmapshaperid" column
+  SPDF_02@data <- SPDF_02@data[,-ncol(SPDF_02@data)]
+  SPDF_01@data <- SPDF_01@data[,-ncol(SPDF_01)] 
+  
+  # Assign a name and save the data
+  datasetName_02 <- paste0(datasetName, "_02")
+  datasetName_01 <- paste0(datasetName, "_01")
+  
+  assign(datasetName_02, SPDF_02)
+  assign(datasetName_01, SPDF_01)
+  assign(datasetName,SPDF)
+  
+  save(list = c(datasetName), file = paste0(dataDir,"/",datasetName, '.RData'))
+  save(list = c(datasetName_02), file = paste0(dataDir,"/",datasetName_02, '.RData'))
+  save(list = c(datasetName_01), file = paste0(dataDir,"/",datasetName_01, '.RData'))
+  
+  return(invisible(c(datasetName, datasetName_02, datasetName_01)))
 }
 
