@@ -15,6 +15,7 @@
 #' curl https://prd-tnm.s3.amazonaws.com/StagedProducts/Hydrography/WBD/National/GDB/WBD_National_GDB.zip -O
 #' }
 #' 
+#' 
 #' Typically, the raw data will be simplified using the command line version of
 #' \href{https://github.com/mbloch/mapshaper}{mapshpaper}. (Installation instructions are
 #' found at this URL.)
@@ -71,15 +72,11 @@ convertWBDHUC <- function(dsnPath=NULL, level=8, extension="", nameOnly=FALSE) {
   
   # Subset this dataframe to include only obviously useful columns
   
-  # NOTE:  Comments are relevant to the WBD as downlaoded on 2015-12-04
+  # NOTE:  Comments are relevant to the WBD as downlaoded on 2017-07-12
   
   if ( level == '2' ) {
     # 22 features
     #
-    # [1] "SHAPE_AREA" "SOURCEFEAT" "AREASQKM"   "METASOURCE" "SOURCEORIG" "LOADDATE"   "TNMID"     
-    # [8] "AREAACRES"  "GNIS_ID"    "NAME"       "SOURCEDATA" "STATES"     "HUC2"       "SHAPE_LENG"
-    #[15] "GEODB_OID"  "OBJECTID"  
-    
     # > names(SPDF)
     # [1] "TNMID"            "METASOURCEID"     "SOURCEDATADESC"   "SOURCEORIGINATOR"
     # [5] "SOURCEFEATUREID"  "LOADDATE"         "GNIS_ID"          "AREAACRES"       
@@ -89,48 +86,54 @@ convertWBDHUC <- function(dsnPath=NULL, level=8, extension="", nameOnly=FALSE) {
     usefulColumns <- c('LOADDATE','GNIS_ID','AREASQKM', 'HUC2', 'NAME', 'STATES')
   } else if ( level == '4' ) {
     # 223 features
-    #
-    # [1] "AREAACRES"  "AREASQKM"   "GNIS_ID"    "HUC4"       "LOADDATE"   "METASOURCE" "NAME"      
-    # [8] "SHAPE_AREA" "SHAPE_LENG" "SOURCEDATA" "SOURCEFEAT" "SOURCEORIG" "STATES"     "TNMID"     
-    usefulColumns <- c('AREASQKM', 'HUC4', 'NAME', 'STATES')
+    # 
+    # [1] "TNMID"            "METASOURCEID"     "SOURCEDATADESC"   "SOURCEORIGINATOR" "SOURCEFEATUREID"  "LOADDATE"        
+    # [7] "GNIS_ID"          "AREAACRES"        "AREASQKM"         "STATES"           "HUC4"             "NAME"            
+    # [13] "GLOBALID"         "SHAPE_Length"     "SHAPE_Area"     
+    # 
+    usefulColumns <- c('LOADDATE','GNIS_ID','AREASQKM', 'HUC4', 'NAME', 'STATES')
   } else if ( level == '6' ) {
     # 387 features
     #
-    # [1] "SHAPE_AREA" "SOURCEFEAT" "AREASQKM"   "METASOURCE" "HUC6"       "SOURCEORIG" "LOADDATE"  
-    # [8] "TNMID"      "GEODB_OID"  "OBJECTID"   "AREAACRES"  "GNIS_ID"    "NAME"       "SOURCEDATA"
-    #[15] "STATES"     "SHAPE_LENG"
-    usefulColumns <- c('AREASQKM', 'HUC6', 'NAME', 'STATES')
+    # [1] "TNMID"            "METASOURCEID"     "SOURCEDATADESC"   "SOURCEORIGINATOR" "SOURCEFEATUREID"  "LOADDATE"        
+    # [7] "GNIS_ID"          "AREAACRES"        "AREASQKM"         "STATES"           "HUC6"             "NAME"            
+    # [13] "GLOBALID"         "SHAPE_Length"     "SHAPE_Area"      
+    usefulColumns <- c('LOADDATE','GNIS_ID','AREASQKM', 'HUC6', 'NAME', 'STATES')
   } else if (level == '8' ) {
-    # 2300 features
+    # 2309 features
     #
-    # [1] "SHAPE_AREA" "SOURCEFEAT" "AREASQKM"   "METASOURCE" "SOURCEORIG" "HUC8"       "LOADDATE"  
-    # [8] "TNMID"      "AREAACRES"  "GNIS_ID"    "NAME"       "SOURCEDATA" "STATES"     "SHAPE_LENG"
-    usefulColumns <- c('AREASQKM', 'HUC8', 'NAME', 'STATES')
+    # [1] "TNMID"            "METASOURCEID"     "SOURCEDATADESC"   "SOURCEORIGINATOR" "SOURCEFEATUREID"  "LOADDATE"        
+    # [7] "GNIS_ID"          "AREAACRES"        "AREASQKM"         "STATES"           "HUC8"             "NAME"            
+    # [13] "GLOBALID"         "SHAPE_Length"     "SHAPE_Area"      
+    usefulColumns <- c('LOADDATE','GNIS_ID','AREASQKM', 'HUC8', 'NAME', 'STATES')
   } else if (level == '10' ) {
-    # 18409 features
-    # Warning:  Dropping null geometries: 17248 (WBDHU10_01)
-    #
-    # [1] "SHAPE_AREA" "SOURCEFEAT" "AREASQKM"   "METASOURCE" "SOURCEORIG" "HUMOD"      "LOADDATE"  
-    # [8] "TNMID"      "AREAACRES"  "GNIS_ID"    "NAME"       "SOURCEDATA" "STATES"     "HUC10"     
-    #[15] "HUTYPE"     "SHAPE_LENG"
-    usefulColumns <- c('AREASQKM', 'HUC10', 'NAME', 'STATES')
+    # 18514 features
+    # 
+    #  [1] "TNMID"            "METASOURCEID"     "SOURCEDATADESC"   "SOURCEORIGINATOR" "SOURCEFEATUREID"  "LOADDATE"        
+    # [7] "GNIS_ID"          "AREAACRES"        "AREASQKM"         "STATES"           "HUC10"            "NAME"            
+    # [13] "HUTYPE"           "HUMOD"            "GLOBALID"         "SHAPE_Length"     "SHAPE_Area"   
+    usefulColumns <- c('LOADDATE','GNIS_ID','AREASQKM', 'HUC10', 'NAME', 'STATES')
   } else if (level == '12' ) {
-    # 100537 features
-    # Warning:  Dropping null geometries: 21407, 21446, 21453, 21869, 21886, 21917, 31625, 31652, 80990, 81132 (WDBHU12_01)
+    # 101064 features
+    # TODO:  Figure out what NONCONTRIBUTINGAREA variables are and what to do about them.
     #
-    # [1] "AREAACRES"  "AREASQKM"   "GNIS_ID"    "HUC12"      "HUMOD"      "HUTYPE"     "LOADDATE"  
-    # [8] "METASOURCE" "NAME"       "NONCONTR_A" "NONCONTR_K" "OBJECTID"   "SHAPE_AREA" "SHAPE_LEN" 
-    #[15] "SOURCEDATA" "SOURCEFEAT" "SOURCEORIG" "STATES"     "TNMID"      "TOHUC"     
-    usefulColumns <- c('AREASQKM', 'HUC12', 'NAME', 'STATES')
+    # [1] "TNMID"                    "METASOURCEID"             "SOURCEDATADESC"           "SOURCEORIGINATOR"        
+    # [5] "SOURCEFEATUREID"          "LOADDATE"                 "GNIS_ID"                  "AREAACRES"               
+    # [9] "AREASQKM"                 "STATES"                   "HUC12"                    "NAME"                    
+    # [13] "HUTYPE"                   "HUMOD"                    "TOHUC"                    "NONCONTRIBUTINGAREAACRES"
+    # [17] "NONCONTRIBUTINGAREASQKM"  "GLOBALID"                 "SHAPE_Length"             "SHAPE_Area"              
+    usefulColumns <- c('LOADDATE','GNIS_ID','AREASQKM', 'HUC12', 'NAME', 'STATES')
   } else if (level == '14' ) {
-    # NOTE:  On 2015-12-04 it looks like the WBDHU14 file only contains HUCs for southeast Alaska
-    # 6865 features
-    # Warning: Dropping null geometries: 43, 663, 746, 986, 1289, 1292, 1537, 2189, 2418, 2832, 3720, 3908, 4093, 4248, 4371, 4567, 4652, 4656, 4658, 5528, 5571, 5606, 5691, 6745, 6778 (WBDHU14_01)
+    # NOTE:  On 2017-04-13 it looks like the WBDHU14 file only contains HUCs for southeast Alaska
+    # 7113 features
     #
-    # [1] "AREAACRES"  "AREASQKM"   "GNIS_ID"    "HUC14"      "HUMOD"      "HUTYPE"     "LOADDATE"  
-    # [8] "METASOURCE" "NAME"       "NONCONTR_A" "NONCONTR_K" "SHAPE_AREA" "SHAPE_LENG" "SOURCEDATA"
-    #[15] "SOURCEFEAT" "SOURCEORIG" "STATES"     "TNMID"     
-    usefulColumns <- c('AREASQKM', 'HUC14', 'NAME', 'STATES')
+    # [1] "TNMID"                    "METASOURCEID"             "SOURCEDATADESC"           "SOURCEORIGINATOR"        
+    # [5] "SOURCEFEATUREID"          "LOADDATE"                 "GNIS_ID"                  "AREAACRES"               
+    # [9] "AREASQKM"                 "STATES"                   "HUC14"                    "NAME"                    
+    # [13] "HUTYPE"                   "HUMOD"                    "NONCONTRIBUTINGAREAACRES" "NONCONTRIBUTINGAREASQKM" 
+    # [17] "GLOBALID"                 "SHAPE_Length"             "SHAPE_Area"     
+    
+    usefulColumns <- c('LOADDATE','GNIS_ID','AREASQKM', 'HUC14', 'NAME', 'STATES')
   }
   
   
@@ -201,25 +204,31 @@ convertWBDHUC <- function(dsnPath=NULL, level=8, extension="", nameOnly=FALSE) {
   SPDF$polygonID <- SPDF$HUC
   
   # Create two new simplified datsets: one with 2%, and one with 1% of the vertices of the original
+  # NOTE:  This may take several minutes. 
   SPDF_02 <- rmapshaper::ms_simplify(SPDF, 0.02)
   SPDF_01 <- rmapshaper::ms_simplify(SPDF, 0.01) 
   
   # Remove automatically generated "rmapshaperid" column
-  SPDF_02@data <- SPDF_02@data[,-ncol(SPDF_02@data)]
-  SPDF_01@data <- SPDF_01@data[,-ncol(SPDF_01)] 
+  SPDF_02@data$rmapshaperid <- NULL
+  # SPDF_01@data$rmapshaperid <- NULL
   
   # Assign a name and save the data
   datasetName_02 <- paste0(datasetName, "_02")
-  datasetName_01 <- paste0(datasetName, "_01")
+  # datasetName_01 <- paste0(datasetName, "_01")
   
   assign(datasetName_02, SPDF_02)
   assign(datasetName_01, SPDF_01)
-  assign(datasetName,SPDF)
+  # assign(datasetName,SPDF)
   
   save(list = c(datasetName), file = paste0(dataDir,"/",datasetName, '.RData'))
   save(list = c(datasetName_02), file = paste0(dataDir,"/",datasetName_02, '.RData'))
-  save(list = c(datasetName_01), file = paste0(dataDir,"/",datasetName_01, '.RData'))
+  # save(list = c(datasetName_01), file = paste0(dataDir,"/",datasetName_01, '.RData'))
   
-  return(invisible(c(datasetName, datasetName_02, datasetName_01)))
+  return(invisible(c(datasetName, datasetName_02)))
 }
 
+if(FALSE){
+  for(i in c(2,4,6,8,10,12,14)){
+    convertWBDHUC(dsnPath = "/Users/Helen/Data/Spatial/WBD/WBD.gdb", level = i)
+  }
+}
