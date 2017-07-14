@@ -12,20 +12,19 @@ function(input, output){
     if (is.null(inFile))
       return(NULL)
     inputData <- read.csv(inFile$datapath, sep = input$sep, quote = input$quote)
-    inputData <- subset(inputData, longitude < -80)
 
     loadSpatialData(input$SPDF)
     sessionSPDF <- subset(eval(parse(text = input$SPDF)), stateCode == 'WA')
 
     forPlot <- summarizeByPolygon(inputData$longitude, inputData$latitude, value = inputData$age,
-                                  SPDF = sessionSPDF, polygonName = "HUCName", FUN = eval(parse(text = input$FUN)))
+                                  SPDF = sessionSPDF, FUN = eval(parse(text = input$FUN)))
     forPlot <- na.omit(forPlot)
 
     # Get the correct plot order
-    plotOrder <- sessionSPDF$HUCName[sessionSPDF$HUCName %in% forPlot$polygonName]
+    plotOrder <- sessionSPDF$HUC[sessionSPDF$HUC %in% forPlot$polygonID]
     plotOrder <- as.data.frame(plotOrder)
-    names(plotOrder) <- "polygonName"
-    plotDF <- dplyr::left_join(plotOrder, forPlot, by='polygonName')
+    names(plotOrder) <- "polygonID"
+    plotDF <- dplyr::left_join(plotOrder, forPlot, by='polygonID')
 
     # Plot colors by quantiles
     breaks <- quantile(forPlot$summaryValue)
