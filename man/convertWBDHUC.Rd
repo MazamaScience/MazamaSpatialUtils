@@ -32,6 +32,7 @@ following command:
 curl https://prd-tnm.s3.amazonaws.com/StagedProducts/Hydrography/WBD/National/GDB/WBD_National_GDB.zip -O
 }
 
+
 Typically, the raw data will be simplified using the command line version of
 \href{https://github.com/mbloch/mapshaper}{mapshpaper}. (Installation instructions are
 found at this URL.)
