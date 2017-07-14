@@ -33,7 +33,7 @@
 #' @return Name of the dataset being created.
 #' @seealso setSpatialDataDir
 #' @seealso convertWikipediaTimezoneTable
-convertWorldTimezones <- function(nameOnly=FALSE) {
+convertOSMTimezones <- function(nameOnly=FALSE) {
   
   # Use package internal data directory
   dataDir <- getSpatialDataDir()
