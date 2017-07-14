@@ -66,9 +66,16 @@ convertWorldTimezones <- function(nameOnly=FALSE) {
   # Group polygons with the same identifier
   SPDF <- organizePolygons(SPDF, uniqueID='timezone')
   
+  # Create a simplified version at 5%
+  SPDF_05 <- rmapshaper::ms_simplify(SPDF, .05)
+  SPDF_05@data$rmapshaperid <- NULL
+  datasetName_05 <- paste0(datasetName, "_05")
+  
   # Assign a name and save the data
   assign(datasetName,SPDF)
+  assign(datasetName_02, SPDF_05)
   save(list=c(datasetName),file=paste0(dataDir,'/',datasetName,'.RData'))
+  save(list=c(datasetName_05), file=paste0(dataDir,'/',datasetName_05,'.RData'))
   
   # Clean up
   unlink(filePath, force=TRUE)
