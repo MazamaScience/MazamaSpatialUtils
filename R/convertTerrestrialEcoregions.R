@@ -1,6 +1,6 @@
 #' @keywords datagen
 #' @export
-#' @title Create Timezone Dataset 
+#' @title Create Terrestrial Ecosystem dataset
 #' @param nameOnly logical specifying whether to only return the name without creating the file
 #' @description A shapefile is downloaded from \url{https://www.worldwildlife.org/publications/terrestrial-ecoregions-of-the-world}
 #' and converted to a SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
@@ -8,7 +8,7 @@
 #' @return Name of the dataset being created.
 #' @seealso setSpatialDataDir
 
-convertOSMTimezones <- function(nameOnly=FALSE) {
+convertTerrestrialEcoregions <- function(nameOnly=FALSE) {
   
   # Use package internal data directory
   dataDir <- getSpatialDataDir()
@@ -18,16 +18,20 @@ convertOSMTimezones <- function(nameOnly=FALSE) {
   
   if (nameOnly) return(datasetName)
   
-  # Build appropriate request URL for world timezones
-  url <- "https://github.com/evansiroky/timezone-boundary-builder/releases/download/2017a/timezones.shapefile.zip"
+  # Build appropriate request URL for terrestrial ecoregions
+  url <- "https://c402277.ssl.cf1.rackcdn.com/publications/15/files/original/official_teow.zip?1349272619"
   
   filePath <- paste(dataDir,basename(url),sep='/')
   utils::download.file(url,filePath)
   utils::unzip(filePath,exdir=dataDir)
   
   # Convert shapefile into SpatialPolygonsDataFrame
-  dsnPath <- paste(dataDir,'dist',sep='/')
-  SPDF <- convertLayer(dsn=dsnPath,layerName='combined_shapefile')
+  dsnPath <- paste(dataDir,'official',sep='/')
+  SPDF <- convertLayer(dsn=dsnPath,layerName='wwf_terr_ecos')
+  
+  #########################################################################################################
+  # Everything below here is for timezones and needs to be updated
+  
   
   # Rename "TZID" to "timezone"
   names(SPDF@data) <- c('timezone')
