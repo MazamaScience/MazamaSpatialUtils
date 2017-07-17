@@ -47,15 +47,10 @@ convertTerrestrialEcoregions <- function(nameOnly=FALSE) {
   SPDF$area <- as.numeric(SPDF$area)
   SPDF$area <- SPDF$area*1000000
   
-  # Group polygons with the same identifier
-  SPDF <- organizePolygons(SPDF, uniqueID = "ecoregionCode", sumColumns = "area")
-  
   # Get latitude and longitude from polygon centroids 
-  result <- try( {
-    centroids <- rgeos::gCentroid(SPDF, byid=TRUE)
-    lon <- sp::coordinates(centroids)[,1]
-    lat <- sp::coordinates(centroids)[,2]
-  }, silent=TRUE)
+  centroids <- rgeos::gCentroid(SPDF, byid=TRUE)
+  lon <- sp::coordinates(centroids)[,1]
+  lat <- sp::coordinates(centroids)[,2]
   
   SPDF$longitude <- lon
   SPDF$latitude <- lat
@@ -70,6 +65,38 @@ convertTerrestrialEcoregions <- function(nameOnly=FALSE) {
   # Get stateCode from latitude and longitude
   SPDF$stateCode <- getStateCode(SPDF$longitude, SPDF$latitude)
   SPDF$stateName <- getState(SPDF$longitude, SPDF$latitude)
+  
+  # Assign country and state codes to polygons where it is missing:
+  ecoregionMode <- function(x) {
+    if(sum(!is.na(x)) == 0){
+      return(NA)
+    }else{
+      table <- table(x)
+      names(which.max(table))
+    }
+  }
+  locations <- data.frame(ecoregionCode = unique(SPDF$ecoregionCode), 
+                          countryCode = NA, countryName = NA, stateCode = NA, stateName = NA)
+  rownames(locations) <- unique(SPDF$ecoregionCode)
+  for(i in unique(SPDF$ecoregionCode)){
+    ecoregion <- subset(SPDF@data, ecoregionCode == i)
+    if(nrow(ecoregion) == 1){
+      locations[i,2:5] <- c(ecoregion$countryCode, ecoregion$countryName, ecoregion$stateCode, ecoregion$stateName)
+    }else{
+      locations[i,2] <- ecoregionMode(ecoregion$countryCode)
+      locations[i,3] <- ecoregionMode(ecoregion$countryName)
+      locations[i,4] <- ecoregionMode(ecoregion$stateCode)
+      locations[i,5] <- ecoregionMode(ecoregion$stateName)
+    }
+    ecoregion <- NULL
+  }
+  
+  # Group polygons with the same identifier
+  SPDF <- organizePolygons(SPDF, uniqueID = "ecoregionCode", sumColumns = "area")
+  
+  # Reassign countries and states
+  SPDF@data[,c("countryCode", "countryName", "stateCode", "stateName")] <-
+    locations[SPDF$ecoregionCode, c("countryCode", "countryName", "stateCode", "stateName")]
   
   # Create a simplified version at 5%
   SPDF_05 <- rmapshaper::ms_simplify(SPDF, .05)
