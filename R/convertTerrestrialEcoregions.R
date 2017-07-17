@@ -21,7 +21,7 @@ convertTerrestrialEcoregions <- function(nameOnly=FALSE) {
   # Build appropriate request URL for terrestrial ecoregions
   url <- "https://c402277.ssl.cf1.rackcdn.com/publications/15/files/original/official_teow.zip?1349272619"
   
-  filePath <- paste(dataDir,basename(url),sep='/')
+  filePath <- paste(dataDir,"official_teow.zip",sep='/')
   utils::download.file(url,filePath)
   utils::unzip(filePath,exdir=dataDir)
   
@@ -29,30 +29,55 @@ convertTerrestrialEcoregions <- function(nameOnly=FALSE) {
   dsnPath <- paste(dataDir,'official',sep='/')
   SPDF <- convertLayer(dsn=dsnPath,layerName='wwf_terr_ecos')
   
-  #########################################################################################################
-  # Everything below here is for timezones and needs to be updated
+  # > names(SPDF@data)
+  # [1] "OBJECTID"   "AREA"       "PERIMETER"  "ECO_NAME"   "REALM"      "BIOME"      "ECO_NUM"    "ECO_ID"    
+  # [9] "ECO_SYM"    "GBL_STAT"   "G200_REGIO" "G200_NUM"   "G200_BIOME" "G200_STAT"  "Shape_Leng" "Shape_Area"
+  # [17] "area_km2"   "eco_code"   "PER_area"   "PER_area_1" "PER_area_2"
   
+  usefulColumns <- c("AREA", "ECO_NAME", "REALM", "BIOME", "ECO_NUM", "ECO_ID", "ECO_SYM", "GBL_STAT", 
+                     "G200_REGIO", "G200_NUM", "G200_BIOME", "G200_STAT", "eco_code")
   
-  # Rename "TZID" to "timezone"
-  names(SPDF@data) <- c('timezone')
+  SPDF <- SPDF[usefulColumns]
+  names(SPDF) <- c("area", "ecoregionName", "realm", "biome", "ecoregionNumber", "ecoregionID", "ECO_SYM", 
+                   "GBL_STAT", "G200Region", "G200Number", "G200Biome", "G200Stat", "ecoregionCode")
   
-  # Now get additional data from Wikipedia
-  wikipediaTimezoneTable <- convertWikipediaTimezoneTable()
+  # ecoregionName, ecoregionID, and ecoregionCode are all equivalent identifiers for each ecoregion
   
-  # Merge the additional data onto the @data slot of the SPDF
-  SPDF@data <- dplyr::left_join(SPDF@data, wikipediaTimezoneTable, by="timezone")
+  # convert area to m^2
+  SPDF$area <- as.numeric(SPDF$area)
+  SPDF$area <- SPDF$area*1000000
   
   # Group polygons with the same identifier
-  SPDF <- organizePolygons(SPDF, uniqueID='timezone')
+  SPDF <- organizePolygons(SPDF, uniqueID = "ecoregionCode", sumColumns = "area")
+  
+  # Get latitude and longitude from polygon centroids 
+  result <- try( {
+    centroids <- rgeos::gCentroid(SPDF, byid=TRUE)
+    lon <- sp::coordinates(centroids)[,1]
+    lat <- sp::coordinates(centroids)[,2]
+  }, silent=TRUE)
+  
+  SPDF$longitude <- lon
+  SPDF$latitude <- lat
+  
+  # Get countryCode and countryName from latitude and longitude 
+  # TODO:  Figure out how to assign country and state codes to ploygons where is.na(countryCode) = TRUE
+  
+  countries <- getSpatialData(SPDF$longitude, SPDF$latitude, TMWorldBorders)
+  SPDF$countryCode <- countries$countryCode
+  SPDF$countryName <- countries$countryName
+  
+  # Get stateCode from latitude and longitude
+  SPDF$stateCode <- getStateCode(SPDF$longitude, SPDF$latitude)
+  SPDF$stateName <- getState(SPDF$longitude, SPDF$latitude)
   
   # Create a simplified version at 5%
   SPDF_05 <- rmapshaper::ms_simplify(SPDF, .05)
-  SPDF_05@data$rmapshaperid <- NULL
   datasetName_05 <- paste0(datasetName, "_05")
   
   # Assign a name and save the data
   assign(datasetName,SPDF)
-  assign(datasetName_02, SPDF_05)
+  assign(datasetName_05, SPDF_05)
   save(list=c(datasetName),file=paste0(dataDir,'/',datasetName,'.RData'))
   save(list=c(datasetName_05), file=paste0(dataDir,'/',datasetName_05,'.RData'))
   
