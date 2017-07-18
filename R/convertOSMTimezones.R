@@ -73,7 +73,7 @@ convertOSMTimezones <- function(nameOnly=FALSE) {
   
   # Assign a name and save the data
   assign(datasetName,SPDF)
-  assign(datasetName_02, SPDF_05)
+  assign(datasetName_05, SPDF_05)
   save(list=c(datasetName),file=paste0(dataDir,'/',datasetName,'.RData'))
   save(list=c(datasetName_05), file=paste0(dataDir,'/',datasetName_05,'.RData'))
   

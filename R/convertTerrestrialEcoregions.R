@@ -14,12 +14,12 @@ convertTerrestrialEcoregions <- function(nameOnly=FALSE) {
   dataDir <- getSpatialDataDir()
   
   # Specify the name of the file being created
-  datasetName <- 'OSMTimezones'
+  datasetName <- 'terrestrialEcoregions'
   
   if (nameOnly) return(datasetName)
   
   # Build appropriate request URL for terrestrial ecoregions
-  url <- "https://c402277.ssl.cf1.rackcdn.com/publications/15/files/original/official_teow.zip"
+  url <- "https://c402277.ssl.cf1.rackcdn.com/publications/15/files/original/official_teow.zip?1349272619"
   
   filePath <- paste(dataDir,"official_teow.zip",sep='/')
   utils::download.file(url,filePath)
@@ -55,38 +55,29 @@ convertTerrestrialEcoregions <- function(nameOnly=FALSE) {
   SPDF$longitude <- lon
   SPDF$latitude <- lat
   
-  # Get countryCode and countryName from latitude and longitude 
-  # TODO:  Figure out how to assign country and state codes to ploygons where is.na(countryCode) = TRUE
-  
-  countries <- getSpatialData(SPDF$longitude, SPDF$latitude, TMWorldBorders)
-  SPDF$countryCode <- countries$countryCode
-  SPDF$countryName <- countries$countryName
-  
-  # Get stateCode from latitude and longitude
-  SPDF$stateCode <- getStateCode(SPDF$longitude, SPDF$latitude)
-  SPDF$stateName <- getState(SPDF$longitude, SPDF$latitude)
+  # Get countryCode and stateCode from latitude and longitude 
+  SPDF$countryCode <- getCountryCode(SPDF$longitude, SPDF$latitude, useBuffering=TRUE)
+  SPDF$stateCode <- getStateCode(SPDF$longitude, SPDF$latitude, useBuffering=TRUE)
   
   # Assign country and state codes to polygons where it is missing:
   ecoregionMode <- function(x) {
-    if(sum(!is.na(x)) == 0){
+    if ( sum(!is.na(x)) == 0 ){
       return(NA)
-    }else{
+    } else {
       table <- table(x)
       names(which.max(table))
     }
   }
   locations <- data.frame(ecoregionCode = unique(SPDF$ecoregionCode), 
-                          countryCode = NA, countryName = NA, stateCode = NA, stateName = NA)
+                          countryCode = NA, stateCode = NA)
   rownames(locations) <- unique(SPDF$ecoregionCode)
-  for(i in unique(SPDF$ecoregionCode)){
-    ecoregion <- subset(SPDF@data, ecoregionCode == i)
-    if(nrow(ecoregion) == 1){
-      locations[i,2:5] <- c(ecoregion$countryCode, ecoregion$countryName, ecoregion$stateCode, ecoregion$stateName)
-    }else{
+  for ( i in unique(SPDF$ecoregionCode) ) {
+    ecoregion <- subset(SPDF@data, SPDF$ecoregionCode == i)
+    if ( nrow(ecoregion) == 1 ) {
+      locations[i,2:3] <- c(ecoregion$countryCode, ecoregion$stateCode)
+    } else {
       locations[i,2] <- ecoregionMode(ecoregion$countryCode)
-      locations[i,3] <- ecoregionMode(ecoregion$countryName)
-      locations[i,4] <- ecoregionMode(ecoregion$stateCode)
-      locations[i,5] <- ecoregionMode(ecoregion$stateName)
+      locations[i,3] <- ecoregionMode(ecoregion$stateCode)
     }
     ecoregion <- NULL
   }
@@ -95,11 +86,11 @@ convertTerrestrialEcoregions <- function(nameOnly=FALSE) {
   SPDF <- organizePolygons(SPDF, uniqueID = "ecoregionCode", sumColumns = "area")
   
   # Reassign countries and states
-  SPDF@data[,c("countryCode", "countryName", "stateCode", "stateName")] <-
-    locations[SPDF$ecoregionCode, c("countryCode", "countryName", "stateCode", "stateName")]
+  SPDF@data[,c("countryCode", "stateCode")] <- locations[SPDF$ecoregionCode, c("countryCode", "stateCode")]
   
   # Create a simplified version at 5%
   SPDF_05 <- rmapshaper::ms_simplify(SPDF, .05)
+  SPDF_05@data$rmapshaperid <- NULL
   datasetName_05 <- paste0(datasetName, "_05")
   
   # Assign a name and save the data

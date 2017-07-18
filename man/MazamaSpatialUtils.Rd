@@ -53,7 +53,7 @@ version 0.4.2 -- patch
 
 version 0.4.1 -- patch
 \itemize{
-  \item{Added \code{useBuffering} to get-Sate,CountryTimezone functions.}
+  \item{Added \code{useBuffering} to get-State,CountryTimezone functions.}
 }
 
 version 0.3.2 -- patch

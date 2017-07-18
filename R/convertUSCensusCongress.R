@@ -1,6 +1,6 @@
 #' @keywords datagen
 #' @export
-#' @title Convert US Census State Shapefile
+#' @title Convert US Congressional Disctricts Shapefile
 #' @param nameOnly logical specifying whether to only return the name without creating the file
 #' @description Returns a SpatialPolygonsDataFrame for US Congressional Districts for the 115th US House of Representatives
 #' @details A US congressional district shapefile is downloaded and converted to a

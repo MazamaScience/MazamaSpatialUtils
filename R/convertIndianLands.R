@@ -1,6 +1,6 @@
 #' @keywords datagen
 #' @export
-#' @title Convert Indian Reservations Shapefile
+#' @title Convert Indian Lands Shapefile
 #' @param nameOnly logical specifying whether to only return the name without creating the file
 #' @description A shapefile is downloaded from \url{https://nationalmap.gov/small_scale/atlasftp.html#indlanp}
 #' and converted to a SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
@@ -11,13 +11,13 @@
 #' @return Name of the dataset being created.
 #' @seealso setSpatialDataDir
 
-convertIndianRes <- function(nameOnly=FALSE) {
+convertIndianLands <- function(nameOnly=FALSE) {
   
   # Use package internal data directory
   dataDir <- getSpatialDataDir()
   
   # Specify the name of the file being created
-  datasetName <- 'USIndianReservations'
+  datasetName <- 'USIndianLands'
   
   if (nameOnly) return(datasetName)
   
