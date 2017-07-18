@@ -1,23 +1,23 @@
 #' @keywords datagen
 #' @export
-#' @title Convert Indian Lands Shapefile
+#' @title Convert Indian Reservations Shapefile
 #' @param nameOnly logical specifying whether to only return the name without creating the file
 #' @description A shapefile is downloaded from \url{https://nationalmap.gov/small_scale/atlasftp.html#indlanp}
 #' and converted to a SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
 #' in the spatial data directory which is set with \code{setSpatialDataDir()} 
-#' @description This shapefile represents lands administered by the Bureau of Indian Affairs and is compiled by the 
-#' National Atlas of the United States of America.
+#' @description This shapefile represents lands administered by the Bureau of Indian Affairs, ie. Indian reservations
+#'  and is compiled by the National Atlas of the United States of America.
 #' at \url{https://nationalmap.gov/small_scale/mld/indlanp.html}.
 #' @return Name of the dataset being created.
 #' @seealso setSpatialDataDir
 
-convertIndianLands <- function(nameOnly=FALSE) {
+convertIndianRes <- function(nameOnly=FALSE) {
   
   # Use package internal data directory
   dataDir <- getSpatialDataDir()
   
   # Specify the name of the file being created
-  datasetName <- 'USIndianLands'
+  datasetName <- 'USIndianReservations'
   
   if (nameOnly) return(datasetName)
   
@@ -47,11 +47,9 @@ convertIndianLands <- function(nameOnly=FALSE) {
   # [11] "GNIS_ID2"   "ADMIN2"     "FEATURE3"   "GNIS_Name3" "GNIS_ID3"   "ADMIN3"     "URL"        "STATE"      "STATE_FIPS" "ORIG_NAME" 
   # [21] "GIS_ACRES"  "SHAPE_Leng" "SHAPE_Area"
   
-  usefulColumns <- c("AREA",  "FEATURE1", "GNIS_Name1", "GNIS_ID1", "ADMIN1", "FEATURE2", "GNIS_Name2", "GNIS_ID2", "ADMIN2", 
-                     "FEATURE3", "GNIS_Name3", "GNIS_ID3", "ADMIN3","STATE","STATE_FIPS", "ORIG_NAME")
+  usefulColumns <- c("AREA",  "FEATURE1", "GNIS_Name1", "GNIS_ID1", "STATE","STATE_FIPS", "ORIG_NAME")
   SPDF@data <- SPDF@data[usefulColumns]
-  names(SPDF@data) <- c("area", "name", "GNISName", "GNISCode", "AdminAgency", "FEATURE2", "GNIS_Name2", "GNIS_ID2", "ADMIN2", 
-                     "FEATURE3", "GNIS_Name3", "GNIS_ID3", "ADMIN3","states","FIPS", "ORIG_NAME")
+  names(SPDF@data) <- c("area", "featureType", "GNISName", "GNISCode", "states","FIPS", "ORIG_NAME")
   
   # Change "N/A" to NA
   nafun <- function(x){
@@ -59,8 +57,8 @@ convertIndianLands <- function(nameOnly=FALSE) {
   }
   SPDF@data <- as.data.frame(apply(SPDF@data, 2, nafun))
   
-  # Make GNISCode the unique ID. There are several rows where GNISName is empty but GNIS_Name2 is not.
-  SPDF$polygonID <- ifelse(is.na(SPDF$GNISCode), SPDF$GNIS_ID2, SPDF$GNISCode) 
+  # Remove rows that are not indian reservations
+  SPDF <- SPDF[which(SPDF$featureType == "Indian Reservation"),]
   
   # Convert area from square miles to m^2
   SPDF$area <- as.numeric(SPDF$area)
@@ -82,7 +80,7 @@ convertIndianLands <- function(nameOnly=FALSE) {
   SPDF$countryCode <- "US"
   
   # Group polygons with the same identifier
-  SPDF <- organizePolygons(SPDF, uniqueID = "polygonID", sumColumns = "area")
+  SPDF <- organizePolygons(SPDF, uniqueID = "GNISCode", sumColumns = "area")
   
   # Assign a name and save the data
   assign(datasetName,SPDF)
