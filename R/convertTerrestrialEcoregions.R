@@ -19,7 +19,7 @@ convertTerrestrialEcoregions <- function(nameOnly=FALSE) {
   if (nameOnly) return(datasetName)
   
   # Build appropriate request URL for terrestrial ecoregions
-  url <- "https://c402277.ssl.cf1.rackcdn.com/publications/15/files/original/official_teow.zip?1349272619"
+  url <- "https://c402277.ssl.cf1.rackcdn.com/publications/15/files/original/official_teow.zip"
   
   filePath <- paste(dataDir,"official_teow.zip",sep='/')
   utils::download.file(url,filePath)
