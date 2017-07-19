@@ -2,12 +2,13 @@
 #' @export
 #' @title Convert Indian Lands Shapefile
 #' @param nameOnly logical specifying whether to only return the name without creating the file
-#' @description A shapefile is downloaded from \url{https://nationalmap.gov/small_scale/atlasftp.html#indlanp}
-#' and converted to a SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
+#' @description A shapefile is downloaded and converted to a SpatialPolygonsDataFrame
+#'  with additional columns of data. The resulting file will be created
 #' in the spatial data directory which is set with \code{setSpatialDataDir()} 
-#' @description This shapefile represents lands administered by the Bureau of Indian Affairs, ie. Indian reservations
+#' @details The USIndianLands shapefile represents lands administered by the Bureau of Indian Affairs, ie. Indian reservations
 #'  and is compiled by the National Atlas of the United States of America.
-#' at \url{https://nationalmap.gov/small_scale/mld/indlanp.html}.
+#' @references \url{https://nationalmap.gov/small_scale/atlasftp.html#indlanp}
+#' @references \url{https://nationalmap.gov/small_scale/mld/indlanp.html}
 #' @return Name of the dataset being created.
 #' @seealso setSpatialDataDir
 
@@ -76,7 +77,6 @@ convertIndianLands <- function(nameOnly=FALSE) {
   # get one state code for each polygon.
   
   SPDF$stateCode <- getStateCode(SPDF$longitude, SPDF$latitude)
-  SPDF$stateName <- getState(SPDF$longitude, SPDF$latitude)
   SPDF$countryCode <- "US"
   
   # Group polygons with the same identifier

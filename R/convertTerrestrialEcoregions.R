@@ -1,10 +1,11 @@
 #' @keywords datagen
 #' @export
-#' @title Create Terrestrial Ecosystem dataset
+#' @title Convert Terrestrial Ecoregion Shapefile
 #' @param nameOnly logical specifying whether to only return the name without creating the file
-#' @description A shapefile is downloaded from \url{https://www.worldwildlife.org/publications/terrestrial-ecoregions-of-the-world}
-#' and converted to a SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
+#' @description A shapefile is downloaded and converted to a SpatialPolygonsDataFrame
+#'  with additional columns of data. The resulting file will be created
 #' in the spatial data directory which is set with \code{setSpatialDataDir()} 
+#' @references \url{https://www.worldwildlife.org/publications/terrestrial-ecoregions-of-the-world}
 #' @return Name of the dataset being created.
 #' @seealso setSpatialDataDir
 

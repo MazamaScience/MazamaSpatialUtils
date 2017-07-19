@@ -1,6 +1,6 @@
 #' @keywords datagen
 #' @export
-#' @title Convert and Regularize Data from the GADM Database
+#' @title Convert Global Administrative Areas (GADM) Shapefile
 #' @param nameOnly logical specifying whether to only return the name without creating the file
 #' @param countryCode ISO-3166-1 alpha-2 country code
 #' @param admLevel administrative level to be downloaded

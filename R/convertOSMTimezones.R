@@ -1,6 +1,6 @@
 #' @keywords datagen
 #' @export
-#' @title Create Timezone Dataset 
+#' @title Convert OSM Timezone Shapefile 
 #' @param nameOnly logical specifying whether to only return the name without creating the file
 #' @description A world timezone shapefile is downloaded from \url{https://github.com/evansiroky/timezone-boundary-builder/releases}
 #' and converted to a SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
@@ -31,6 +31,7 @@
 #' [86] "Pacific/Yap"     
 #' }
 #' @return Name of the dataset being created.
+#' @references \url{https://github.com/evansiroky/timezone-boundary-builder/releases}
 #' @seealso setSpatialDataDir
 #' @seealso convertWikipediaTimezoneTable
 convertOSMTimezones <- function(nameOnly=FALSE) {

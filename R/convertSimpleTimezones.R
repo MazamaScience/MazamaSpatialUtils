@@ -1,5 +1,5 @@
 #' @keywords datagen
-#' @title Create SimpleTimezones Dataset
+#' @title Convert SimpleTimezones Shapefile
 #' @param nameOnly logical specifying whether to only return the name without creating the file
 #' @description A world timezone shapefile is downloaded from \url{http://efele.net/maps/tz/world/}
 #' and converted to a SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
@@ -19,6 +19,7 @@
 #' }
 #' @note This is a non-exported function used only for updating the package dataset.
 #' @return Name of the dataset being created.
+#' @references \url{http://efele.net/maps/tz/world/}
 #' @seealso setSpatialDataDir
 #' @seealso convertWikipediaTimezoneTable
 #' @examples
