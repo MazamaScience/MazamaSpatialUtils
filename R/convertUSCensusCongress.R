@@ -74,7 +74,6 @@ convertUSCensusCongress <- function(nameOnly=FALSE) {
   
   # Use stateCodeVector to create a stateCode variable
   SPDF$stateCode <- stateCodeVector[as.character(as.numeric(SPDF$stateFIPS))]
-  SPDF$stateName <- codeToState(SPDF$stateCode)
   
   # Guarantee that ALAND and AWATER are numeric
   # NOTE:  Areas are already in m^2

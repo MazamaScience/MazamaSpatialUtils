@@ -66,9 +66,7 @@ convertUSCensusCounties <- function(nameOnly=FALSE) {
   
   # Standardize naming in the SpatialPolygonsDataFrame
   SPDF$countryCode <- 'US'
-  SPDF$countryName <- 'United States'
   SPDF$stateCode <- apply(SPDF@data, 1, extractState, col='Alpha code')
-  SPDF$stateName <- apply(SPDF@data, 1, extractState, col='Name')
   SPDF$countyName <- SPDF$NAME
   
   # TODO:  Figure out units for ALAND and AWATER and convert to m^2
@@ -80,11 +78,11 @@ convertUSCensusCounties <- function(nameOnly=FALSE) {
   # TODO:  COUNTYNS is the polygon uniqueID but what is it?
   
   # Subset this dataframe to include only obviously useful columns
-  usefulColumns <- c('NAME','ALAND','AWATER','countryCode','countryName','stateCode','stateName',
+  usefulColumns <- c('NAME','ALAND','AWATER','countryCode','stateCode',
                      'countyName','COUNTYFP', 'COUNTYNS')
   SPDF <- SPDF[,usefulColumns]
-  names(SPDF) <- c('name', 'areaLand', 'areaWater', 'countryCode', 'countryName', 
-                   'stateCode', 'stateName', 'countyName', 'countyFIPS', 'COUNTYNS')
+  names(SPDF) <- c('name', 'areaLand', 'areaWater', 'countryCode',  
+                   'stateCode',  'countyName', 'countyFIPS', 'COUNTYNS')
   
   # Group polygons with the same identifier (countyName)
   SPDF <- organizePolygons(SPDF, uniqueID='COUNTYNS', sumColumns=c('areaLand','areaWater'))

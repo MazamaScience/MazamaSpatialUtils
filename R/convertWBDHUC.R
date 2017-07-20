@@ -183,7 +183,6 @@ convertWBDHUC <- function(dsnPath=NULL, level=8, extension="", nameOnly=FALSE) {
   SPDF$longitude <- lon
   SPDF$latitude <- lat  
   SPDF$countryCode <- 'US'
-  SPDF$countryName <- 'United States'
   
   #NOTE: this takes quite a long time. 
   suppressWarnings(SPDF$stateCode <- getStateCode(lon, lat, countryCodes=c('US')))
@@ -200,7 +199,6 @@ convertWBDHUC <- function(dsnPath=NULL, level=8, extension="", nameOnly=FALSE) {
   }
   
   
-  SPDF$stateName <- codeToState(SPDF$stateCode, SPDF$countryCode)
   SPDF$polygonID <- SPDF$HUC
   
   # Create two new simplified datsets: one with 2%, and one with 1% of the vertices of the original
