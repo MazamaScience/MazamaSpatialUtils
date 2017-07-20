@@ -2,6 +2,7 @@
 #' @export
 #' @title Convert Exclusive Economic Zones Countries Shapefile
 #' @param nameOnly logical specifying whether to only return the name without creating the file
+#' @param dsnPath directory where EEZCountries .zip file is found
 #' @description Previously downloaded file from \url{http://www.marineregions.org/downloads.php#unioneezcountry} 
 #' is converted to a SpatialPolygonsDataFrame with additional columns of data. The resulting
 #' file will be created in the spatial data directory which is set with \code{setSpatialDataDir()}.

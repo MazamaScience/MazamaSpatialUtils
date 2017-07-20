@@ -2,6 +2,7 @@
 
 export(codeToCountry)
 export(codeToState)
+export(convertEEZCountries)
 export(convertGADM)
 export(convertHMSSmoke)
 export(convertIndianLands)

@@ -2,7 +2,7 @@
 % Please edit documentation in R/convertSimpleTimezones.R
 \name{convertSimpleTimezones}
 \alias{convertSimpleTimezones}
-\title{Create SimpleTimezones Dataset}
+\title{Convert SimpleTimezones Shapefile}
 \usage{
 convertSimpleTimezones(nameOnly = FALSE)
 }
@@ -38,6 +38,9 @@ This is a non-exported function used only for updating the package dataset.
 setSpatialDataDir(getwd()) # directory
 convertSimpleCountries()
 }
+}
+\references{
+\url{http://efele.net/maps/tz/world/}
 }
 \seealso{
 setSpatialDataDir

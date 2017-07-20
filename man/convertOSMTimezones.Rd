@@ -2,7 +2,7 @@
 % Please edit documentation in R/convertOSMTimezones.R
 \name{convertOSMTimezones}
 \alias{convertOSMTimezones}
-\title{Create Timezone Dataset}
+\title{Convert OSM Timezone Shapefile}
 \usage{
 convertOSMTimezones(nameOnly = FALSE)
 }
@@ -42,6 +42,9 @@ These are the missing timezones:
 [81] "Indian/Comoro"         "Indian/Mayotte"        "Pacific/Johnston"      "Pacific/Midway"        "Pacific/Saipan"       
 [86] "Pacific/Yap"     
 }
+}
+\references{
+\url{https://github.com/evansiroky/timezone-boundary-builder/releases}
 }
 \seealso{
 setSpatialDataDir

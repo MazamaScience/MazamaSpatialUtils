@@ -13,13 +13,18 @@ convertIndianLands(nameOnly = FALSE)
 Name of the dataset being created.
 }
 \description{
-A shapefile is downloaded from \url{https://nationalmap.gov/small_scale/atlasftp.html#indlanp}
-and converted to a SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
+A shapefile is downloaded and converted to a SpatialPolygonsDataFrame
+ with additional columns of data. The resulting file will be created
 in the spatial data directory which is set with \code{setSpatialDataDir()}
-
-This shapefile represents lands administered by the Bureau of Indian Affairs, ie. Indian reservations
+}
+\details{
+The USIndianLands shapefile represents lands administered by the Bureau of Indian Affairs, ie. Indian reservations
  and is compiled by the National Atlas of the United States of America.
-at \url{https://nationalmap.gov/small_scale/mld/indlanp.html}.
+}
+\references{
+\url{https://nationalmap.gov/small_scale/atlasftp.html#indlanp}
+
+\url{https://nationalmap.gov/small_scale/mld/indlanp.html}
 }
 \seealso{
 setSpatialDataDir

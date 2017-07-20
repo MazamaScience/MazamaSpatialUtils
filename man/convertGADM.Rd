@@ -2,7 +2,7 @@
 % Please edit documentation in R/convertGADM.R
 \name{convertGADM}
 \alias{convertGADM}
-\title{Convert and Regularize Data from the GADM Database}
+\title{Convert Global Administrative Areas (GADM) Shapefile}
 \usage{
 convertGADM(countryCode = NULL, admLevel = 0, nameOnly = FALSE)
 }

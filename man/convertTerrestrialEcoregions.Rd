@@ -2,7 +2,7 @@
 % Please edit documentation in R/convertTerrestrialEcoregions.R
 \name{convertTerrestrialEcoregions}
 \alias{convertTerrestrialEcoregions}
-\title{Create Terrestrial Ecosystem dataset}
+\title{Convert Terrestrial Ecoregion Shapefile}
 \usage{
 convertTerrestrialEcoregions(nameOnly = FALSE)
 }
@@ -13,9 +13,12 @@ convertTerrestrialEcoregions(nameOnly = FALSE)
 Name of the dataset being created.
 }
 \description{
-A shapefile is downloaded from \url{https://www.worldwildlife.org/publications/terrestrial-ecoregions-of-the-world}
-and converted to a SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
+A shapefile is downloaded and converted to a SpatialPolygonsDataFrame
+ with additional columns of data. The resulting file will be created
 in the spatial data directory which is set with \code{setSpatialDataDir()}
+}
+\references{
+\url{https://www.worldwildlife.org/publications/terrestrial-ecoregions-of-the-world}
 }
 \seealso{
 setSpatialDataDir
