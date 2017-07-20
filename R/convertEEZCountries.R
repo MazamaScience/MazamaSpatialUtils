@@ -18,8 +18,8 @@
 convertEEZCountries <- function(dsnPath=NULL, nameOnly=FALSE) {
   
   # Sanity check dsnPath
-  if ( is.null(dsnPath) ) stop(paste0('Argument dsnPath must be specified.'))
-  if ( !file.exists(dsnPath) ) stop(paste0('dsnPath="',dsnPath,'" not found.'))
+  if ( is.null(dsnPath) ) stop(paste0('Argument dsnPath must be specified. dsnPath indicates the file path for the .zip file which can be downloaded from http://www.marineregions.org/download_file.php?name=EEZ_land_union_v2_201410.zip'))
+  if ( !file.exists(dsnPath) ) stop(paste0('dsnPath="',dsnPath,' not found. dsnPath indicates the file path for the .zip file which can be downloaded from http://www.marineregions.org/download_file.php?name=EEZ_land_union_v2_201410.zip'))
   
   # Use package internal data directory
   dataDir <- getSpatialDataDir()
@@ -30,8 +30,8 @@ convertEEZCountries <- function(dsnPath=NULL, nameOnly=FALSE) {
   if (nameOnly) return(datasetName)
   
   # Unzip the downloaded file
-  utils::unzip(dsnPath,exdir=paste0(dataDir, '/', datasetName))
-  dsnPath <- paste(dataDir, 'EEZCountries', sep='/')
+  utils::unzip(dsnPath,exdir=paste0(dataDir, '/', "EEZ"))
+  dsnPath <- paste(dataDir, 'EEZ', sep='/')
   
   # Convert shapefile into SpatialPolygonsDataFrame
   # NOTE:  The 'EEZCountries' directory has been created
@@ -50,9 +50,9 @@ convertEEZCountries <- function(dsnPath=NULL, nameOnly=FALSE) {
   # * longitude (decimal degrees E)
   # * latitude (decimal degrees N)
   # * area (m^2)
-  usefulColumns <- c('OBJECTID', 'ISO_3digit', 'Country', 'Changes', 'Shape_Area')
+  usefulColumns <- c('OBJECTID', 'ISO_3digit', 'Country', 'Changes')
   SPDF <- SPDF[,usefulColumns]
-  names(SPDF) <- c('objectID', 'ISO3', 'countryName', 'changes', 'area')
+  names(SPDF) <- c('objectID', 'ISO3', 'countryName', 'changes')
   
   # Change missing countryCodes to NA
   SPDF$ISO3[SPDF$ISO3 == '-' ] <- NA
@@ -68,12 +68,7 @@ convertEEZCountries <- function(dsnPath=NULL, nameOnly=FALSE) {
   # Add more standard columns
   SPDF$countryCode <- iso3ToIso2(SPDF$ISO3)
   
-  
-  # TODO:  Convert area to m^2
-  
-  
-  
-  SPDF <- organizePolygons(SPDF, uniqueID='countryCode')
+  SPDF <- organizePolygons(SPDF, uniqueID='objectID')
   
   # Assign a name and save the data for World EEZ
   assign(datasetName,SPDF)
