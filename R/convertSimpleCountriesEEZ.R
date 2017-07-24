@@ -71,6 +71,7 @@ convertSimpleCountriesEEZ <- function(dsnPath = NULL, nameOnly=FALSE) {
   SPDF$ISO3[SPDF$ISO3 == '-' ] <- NA
   
   
+  
   # > SPDF@data[which(stringr::str_length(SPDF$ISO3) != 3),]
   # objectID  ISO3                    countryName changes     area
   # 65        66    CW                        Curaçao    <NA>  2.57573
@@ -80,8 +81,41 @@ convertSimpleCountriesEEZ <- function(dsnPath = NULL, nameOnly=FALSE) {
   
   # Add more standard columns
   SPDF$countryCode <- iso3ToIso2(SPDF$ISO3)
-  
   SPDF <- organizePolygons(SPDF, uniqueID='objectID')
+  
+  # TODO:  Fix or remove columns with missing countryCode
+  
+  #     objectID ISO3                                              countryName changes countryCode polygonID
+  # 1          1 <NA>                               Conflict zone Japan/Russia    <NA>        <NA>         1
+  # 2          2 <NA>                          Conflict zone Japan/South Korea    <NA>        <NA>         2
+  # 3          3 <NA>                                 Joint regime Japan/Korea    <NA>        <NA>         3
+  # 4          4 <NA>                         Conflict zone China/Japan/Taiwan    <NA>        <NA>         4
+  # 5          5 <NA>                                          Spratly Islands    <NA>        <NA>         5
+  # 6          6 <NA>                            Joint regime Colombia/Jamaica    <NA>        <NA>         6
+  # 7          7 <NA>               Joint regime Nigeria/Sao Tome and Principe    <NA>        <NA>         7
+  # 8          8 <NA>              Joint development area Australia/East Timor    <NA>        <NA>         8
+  # 9          9 <NA>                Protected zone Australia/Papua New Guinea    <NA>        <NA>         9
+  # 32        32  BES                            Bonaire, Sint-Eustasius, Saba    <NA>        <NA>        32
+  # 62        62  CPT                                        Clipperton Island    <NA>        <NA>        62
+  # 66        66  CUW                                                  Curaçao    <NA>        <NA>        66
+  # 211      211  SXM                                             Sint Maarten    <NA>        <NA>       211
+  # 245      245 <NA>                                          Paracel Islands    <NA>        <NA>       245
+  # 246      246 <NA>                      Area of overlap Australia/Indonesia    <NA>        <NA>       246
+  # 250      250 <NA>                                   Disputed Kenya/Somalia 2014-10        <NA>       250
+  # 251      251 <NA>                       Disputed Western Sahara/Mauritania 2014-10        <NA>       251
+  # 252      252 <NA>                      Disputed Barbados/Trinidad & Tobago 2014-10        <NA>       252
+  # 255      255 <NA> Area en controversia (disputed - Peruvian point of view)    <NA>        <NA>       255
+  # 260      260  VTC                                             Vatican City 2014-10        <NA>       260
+  
+  undefinedISO3 <- c("BES", "CPT", "CUW", "SXM", "VTC")
+  rnamesUndefinedISO3 <- c("32", "62", "66", "211", "260")
+  undefinedISO2 <- c("BQ", "FR", "CW", "SX", "VA")
+  SPDF@data[rnamesUndefinedISO3,"countryCode"] <- undefinedISO2
+  
+  # remove rows with <NA> country codes
+  
+  notNA <- !is.na(SPDF$countryCode)
+  SPDF <- SPDF[notNA,]
   
   # Assign a name and save the data
   assign(datasetName,SPDF)
