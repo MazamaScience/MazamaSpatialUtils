@@ -4,7 +4,7 @@
 \alias{getCountry}
 \title{Return Country Names at Specified Locations}
 \usage{
-getCountry(lon, lat, dataset = "SimpleCountries", countryCodes = NULL,
+getCountry(lon, lat, dataset = "SimpleCountriesEEZ", countryCodes = NULL,
   allData = FALSE, useBuffering = FALSE)
 }
 \arguments{

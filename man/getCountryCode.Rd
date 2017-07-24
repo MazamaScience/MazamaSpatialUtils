@@ -4,8 +4,8 @@
 \alias{getCountryCode}
 \title{Return Country ISO Codes at Specified Locations}
 \usage{
-getCountryCode(lon, lat, dataset = "SimpleCountries", countryCodes = NULL,
-  allData = FALSE, useBuffering = FALSE)
+getCountryCode(lon, lat, dataset = "SimpleCountriesEEZ",
+  countryCodes = NULL, allData = FALSE, useBuffering = FALSE)
 }
 \arguments{
 \item{lon}{vector of longitudes in decimal degrees}

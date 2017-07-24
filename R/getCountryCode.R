@@ -19,7 +19,7 @@
 #' @references \url{http://www.naturalearthdata.com/downloads/10m-cultural-vectors/}
 #' @seealso SimpleCountries
 #' @seealso getSpatialData
-getCountryCode <- function(lon, lat, dataset='SimpleCountries', countryCodes=NULL, allData=FALSE, useBuffering=FALSE) {
+getCountryCode <- function(lon, lat, dataset='SimpleCountriesEEZ', countryCodes=NULL, allData=FALSE, useBuffering=FALSE) {
   
   # Sanity check
   if (!exists(dataset)) {
