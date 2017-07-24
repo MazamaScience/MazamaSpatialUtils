@@ -20,6 +20,8 @@ set of longitude/latitude pairs. (They also make cool maps.)
  `plot(SimpleCountries['IT',])`
  * fixed bug in processing of `USCensusCounties` dataset
  * changed codeToCode() to two functions: iso2ToIso3() and iso3ToIso2()
+ * package now includes SimpleCountriesEEZ dataset which is used as the default dataset for getCountry.
+ SimpleCountriesEEZ includes a 200-mile offshore buffer for more efficient and accurate spatial searches.
 
 ## Version 0.4 -- Fire and Water
 
