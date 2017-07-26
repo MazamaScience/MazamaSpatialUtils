@@ -5,18 +5,26 @@ library(sp)
 #this is a hard-coded link for dev purposes
 setSpatialDataDir("~/Data/Spatial/")
 
-function(input, output){
+function(input, output, session){
   output$myPlot <- renderPlot({
     inFile <- input$file1
 
-    if (is.null(inFile))
-      return(NULL)
+    req(inFile)
     inputData <- read.csv(inFile$datapath, sep = input$sep, quote = input$quote)
+    vars <- names(inputData)
+    vars <- vars[vars != c('latitude', 'longitude')]
+    updateSelectInput(session, "columns","Select Columns", choices = vars)
 
     loadSpatialData(input$SPDF)
     sessionSPDF <- subset(eval(parse(text = input$SPDF)), stateCode == 'WA')
-
-    forPlot <- summarizeByPolygon(inputData$longitude, inputData$latitude, value = inputData$age,
+    
+    if(input$columns == ""){
+      mappingValue <- unlist(inputData['age'])
+    } else {
+      mappingValue <- input$columns
+    }
+    
+    forPlot <- summarizeByPolygon(inputData$longitude, inputData$latitude, value = unlist(inputData[mappingValue]),
                                   SPDF = sessionSPDF, FUN = eval(parse(text = input$FUN)))
     forPlot <- na.omit(forPlot)
 
