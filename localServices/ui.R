@@ -20,24 +20,30 @@ fluidPage(
                      'Double Quote'='"',
                      'Single Quote'="'"),
                    '"'),
-      radioButtons('SPDF', 'Spatial Polygons DataFrame',
-                   c(HUC2 = 'WBDHU2',
+      selectInput('SPDF', 'Spatial Polygons DataFrame',
+                   c(GADM = 'GADM_GE_0',
+                     `Natural Earth` ='NaturalEarthAdm1',
+                     `Time Zone` = 'TMWorldBorders',
+                     `Time Zone Simple` = 'TMWorldBordersSimple',
+                     `US Census` = 'USCensusCounties',
+                     HUC2 = 'WBDHU2',
                      HUC4 = 'WBDHU4',
                      HUC6 = 'WBDHU6',
                      HUC8 = 'WBDHU8',
-                     HUC10 = 'WBDHU10'),
+                     HUC10 = 'WBDHU10',
+                     HUC12 = 'WBDHU12'),
                    selected = 'WBDHU6'),
-      radioButtons('FUN', 'Function',
+      selectInput('FUN', 'Function',
                    c(MIN = 'min',
                      MEAN = 'mean',
-                     MEDIAN = 'median',
                      MAX = 'max'),
                    selected = 'mean'),
       
       selectInput("columns", "Select Columns", choices = NULL)
     ),
     mainPanel(
-      plotOutput('myPlot')
+      plotOutput('myPlot'),
+      tableOutput('myTable')
     )
   )
 )
