@@ -13,18 +13,13 @@ function(input, output, session){
     inputData <- read.csv(inFile$datapath, sep = input$sep, quote = input$quote)
     vars <- names(inputData)
     vars <- vars[vars != c('latitude', 'longitude')]
-    updateSelectInput(session, "columns","Select Columns", choices = vars)
 
     loadSpatialData(input$SPDF)
     sessionSPDF <- subset(eval(parse(text = input$SPDF)), stateCode == 'WA')
+  
     
-    if(input$columns == ""){
-      mappingValue <- unlist(inputData['age'])
-    } else {
-      mappingValue <- input$columns
-    }
-    
-    forPlot <- summarizeByPolygon(inputData$longitude, inputData$latitude, value = unlist(inputData[mappingValue]),
+    forPlot <- summarizeByPolygon(inputData$longitude, inputData$latitude, 
+                                  value = inputData[, 3],
                                   SPDF = sessionSPDF, FUN = eval(parse(text = input$FUN)))
     forPlot <- na.omit(forPlot)
 
@@ -54,13 +49,8 @@ function(input, output, session){
     loadSpatialData(input$SPDF)
     sessionSPDF <- subset(eval(parse(text = input$SPDF)), stateCode == 'WA')
     
-    if(input$columns == ""){
-      mappingValue <- unlist(inputData['age'])
-    } else {
-      mappingValue <- input$columns
-    }
-    
-    forPlot <- summarizeByPolygon(inputData$longitude, inputData$latitude, value = unlist(inputData[mappingValue]),
+    forPlot <- summarizeByPolygon(inputData$longitude, inputData$latitude, 
+                                  value = inputData[, 3],
                                   SPDF = sessionSPDF, FUN = eval(parse(text = input$FUN)))
     forPlot <- na.omit(forPlot)
     

@@ -37,9 +37,7 @@ fluidPage(
                    c(MIN = 'min',
                      MEAN = 'mean',
                      MAX = 'max'),
-                   selected = 'mean'),
-      
-      selectInput("columns", "Select Columns", choices = NULL)
+                   selected = 'mean')
     ),
     mainPanel(
       plotOutput('myPlot'),
