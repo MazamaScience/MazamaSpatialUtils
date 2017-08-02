@@ -36,6 +36,8 @@ function(input, output, session){
     cols <- colors[colIndexes]
 
     plot(sessionSPDF, col = cols)
+    legend("topright", legend = names(breaks), fill = cols, title = "Density by area")
+    title(paste(parse(text=input$SPDF), "with", parse(text=input$FUN), "function"))
   })
   output$myTable <- renderTable({
     inFile <- input$file1
