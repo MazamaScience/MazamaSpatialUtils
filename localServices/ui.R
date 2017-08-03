@@ -9,7 +9,8 @@ fluidPage(
                          'text/comma-separated-values,text/plain', 
                          '.csv')),
       tags$hr(),
-      checkboxInput('header', 'Header', TRUE),
+      checkboxGroupInput('header', 'CSV file has Header', 
+                         choices = 'TRUE', selected = 'TRUE'),
       radioButtons('sep', 'Separator',
                    c(Comma=',',
                      Semicolon=';',
@@ -37,9 +38,7 @@ fluidPage(
                    c(MIN = 'min',
                      MEAN = 'mean',
                      MAX = 'max'),
-                   selected = 'mean'),
-      
-      selectInput("columns", "Select Columns", choices = NULL)
+                   selected = 'mean')
     ),
     mainPanel(
       plotOutput('myPlot'),
