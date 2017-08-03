@@ -72,26 +72,34 @@ The following packages should be installed with devtools by typing the following
 
 ## Data
 
-Pre-generated .RData versions of the following standardized shapefiles are available:
-
- * NaturalEarthAdm1.RData	15M	 
- * TMWorldBorders.RData	3.6M	 
- * USCensusCounties.RData	2.2M	 
- * WBDHU2.RData	1.2M	 
- * WBDHU4.RData	3.3M	 
- * WBDHU6.RData	4.0M	 
- * WBDHU8.RData	7.2M	 
- * WBDHU10.RData 21M	 
- * WBDHU12.RData 48M	 
- * WorldTimezones.RData	16M
-
-To get these datasets you should execute the following commands from a shell terminal:
+Pre-generated .RData versions of the following standardized shapefiles are available
+at http://mazamascience.com/RData/Spatial/:
 
 ```
-mkdir ~/Data
-cd ~/Data
-curl -O http://mazamascience.com/RData/Spatial.tar.gz
-tar -xzf Spatial.tar.gz
+ * 2.1M	EEZCountries.RData
+ *  15M	NaturalEarthAdm1.RData
+ *  61M	OSMTimezones.RData
+ * 3.0M	OSMTimezones_05.RData
+ * 3.6M	TMWorldBorders.RData
+ *  48M	TerrestrialEcoregions.RData
+ * 3.5M	TerrestrialEcoregions_05.RData
+ * 7.5M	USCensus115thCongress.RData
+ * 2.2M	USCensusCounties.RData
+ * 3.4M	USCensusStates.RData
+ * 1.2M	USIndianLands.RData
+ * 768M	WBDHU10.RData
+ * 1.4G	WBDHU12.RData
+ *  38M	WBDHU2.RData
+ * 424K	WBDHU2_01.RData
+ * 840K	WBDHU2_02.RData
+ * 107M	WBDHU4.RData
+ * 1.1M	WBDHU4_01.RData
+ * 2.2M	WBDHU4_02.RData
+ * 136M	WBDHU6.RData
+ * 1.4M	WBDHU6_01.RData
+ * 2.8M	WBDHU6_02.RData
+ * 294M	WBDHU8.RData
+ *  17M	WorldTimezones.RData
 ```
 
 ## Examples

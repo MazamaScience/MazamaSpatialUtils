@@ -15,7 +15,7 @@ convertEEZCountries(dsnPath = NULL, nameOnly = FALSE)
 Name of the dataset being created.
 }
 \description{
-Previously downloaded file from \url{http://www.marineregions.org/downloads.php#unioneezcountry} 
+A previously downloaded file from \url{http://www.marineregions.org/downloads.php#unioneezcountry} 
 is converted to a SpatialPolygonsDataFrame with additional columns of data. The resulting
 file will be created in the spatial data directory which is set with \code{setSpatialDataDir()}.
 }
@@ -24,15 +24,15 @@ The dataset can be downloaded from
 \url{http://www.marineregions.org/download_file.php?name=EEZ_land_union_v2_201410.zip}
 by answering the questions and clicking "download".
 }
+\examples{
+\dontrun{
+convertEEZCountries("~/Data/Spatial/EEZ_land_union_v2_201410.zip")
+}
+}
 \references{
 \url{http://www.marineregions.org/downloads.php#unioneezcountry}
 
 VLIZ (2014). Union of the ESRI Country shapefile and the Exclusive 
 Economic Zones (version 2). Available online at http://www.marineregions.org/. Consulted on 2017-07-20.
-}
-\seealso{
-setSpatialDataDir
-
-getCountry, getCountryCode
 }
 \keyword{datagen}

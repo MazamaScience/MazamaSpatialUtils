@@ -50,6 +50,9 @@ convertUSCensusStates <- function(nameOnly=FALSE) {
   names(SPDF) <- c('FIPS','GNISCode','AFFGeoID','GeoID','stateCode',
                    'stateName','LSAD','areaLand','areaWater')
   
+  # Add countryCode to adhere to the package internal standards
+  SPDF$countryCode <- 'US'
+  
   # Guarantee that ALAND and AWATER are numeric
   # NOTE:  Areas are already in m^2
   SPDF$areaLand <- as.numeric(SPDF$areaLand)

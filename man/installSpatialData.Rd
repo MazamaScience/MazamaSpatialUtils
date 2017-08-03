@@ -5,7 +5,7 @@
 \title{Install Spatial Datasets}
 \usage{
 
-  installSpatialData(url = "http://mazamascience.com/RData/mazama_spatial_files.tar.gz")
+  installSpatialData(url = "http://mazamascience.com/RData/Spatial/mazama_spatial_files-0.5.tar.gz")
 }
 \arguments{
 \item{url}{location of spatial data .tar.gz file}
@@ -16,10 +16,5 @@ Nothing.
 \description{
 Install spatial datasets found  at \code{url} into the directory previously 
 set with \code{setSpatialDataDir()}.
-}
-\seealso{
-setSpatialDataDir
-
-loadSpatialData
 }
 \keyword{environment}

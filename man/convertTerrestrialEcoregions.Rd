@@ -4,10 +4,12 @@
 \alias{convertTerrestrialEcoregions}
 \title{Convert Terrestrial Ecoregion Shapefile}
 \usage{
-convertTerrestrialEcoregions(nameOnly = FALSE)
+convertTerrestrialEcoregions(nameOnly = FALSE, simplify = TRUE)
 }
 \arguments{
 \item{nameOnly}{logical specifying whether to only return the name without creating the file}
+
+\item{simplify}{logical specifying whether to create a "_05" version of the file that is simplified to 5\%}
 }
 \value{
 Name of the dataset being created.
@@ -19,8 +21,5 @@ in the spatial data directory which is set with \code{setSpatialDataDir()}
 }
 \references{
 \url{https://www.worldwildlife.org/publications/terrestrial-ecoregions-of-the-world}
-}
-\seealso{
-setSpatialDataDir
 }
 \keyword{datagen}

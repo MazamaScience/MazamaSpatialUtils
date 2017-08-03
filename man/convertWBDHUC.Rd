@@ -5,7 +5,7 @@
 \title{Convert USGS Hydrologic Unit Shapefiles}
 \usage{
 convertWBDHUC(dsnPath = NULL, level = 8, extension = "",
-  nameOnly = FALSE)
+  nameOnly = FALSE, simplify = FALSE)
 }
 \arguments{
 \item{dsnPath}{directory where the WBD HUC datasets are found}
@@ -15,6 +15,8 @@ convertWBDHUC(dsnPath = NULL, level = 8, extension = "",
 \item{extension}{character extsion associated with mapshaper simplified files}
 
 \item{nameOnly}{logical specifying whether to only return the name without creating the file}
+
+\item{simplify}{logical specifying whether to create "_02" and "_01" versions of the file that are simplified to 2\% and 1\%}
 }
 \value{
 Name of the dataset being created.

@@ -5,6 +5,7 @@
 #' @param level character or integer which must be 2, 4, 6, 8, 10, 12 or 14
 #' @param extension character extsion associated with mapshaper simplified files
 #' @param nameOnly logical specifying whether to only return the name without creating the file
+#' @param simplify logical specifying whether to create "_02" and "_01" versions of the file that are simplified to 2\% and 1\%
 #' @description Previously downloaded shapefiles from the USGS 
 #' \href{http://nhd.usgs.gov/wbd.html}{Watershed Boundary Dataset} are converted to a 
 #' SpatialPolygonsDataFrame with additional columns of data. The resulting file will be
@@ -40,7 +41,8 @@
 # TODO:  Convert missing state codes to state codes from allStateCode, with a note explaining 
 # TODO:  how and why. Figure out why it is printing all those numbers when it runs and change.  
 
-convertWBDHUC <- function(dsnPath=NULL, level=8, extension="", nameOnly=FALSE) {
+
+convertWBDHUC <- function(dsnPath=NULL, level=8, extension="", nameOnly=FALSE, simplify=FALSE) {
   
   # Sanity check dsnPath
   if ( is.null(dsnPath) ) stop(paste0('Argument dsnPath must be specified.'))
@@ -59,6 +61,7 @@ convertWBDHUC <- function(dsnPath=NULL, level=8, extension="", nameOnly=FALSE) {
 
   # Convert shapefile into SpatialPolygonsDataFrame
   layerName <- paste0('WBDHU', level, extension)
+  cat("Reading in data...\n")
   SPDF <- convertLayer(dsn=dsnPath, layerName=layerName)
 
   # Rationalize naming:
@@ -146,6 +149,7 @@ convertWBDHUC <- function(dsnPath=NULL, level=8, extension="", nameOnly=FALSE) {
   # Group polygons with duplicated hydrologic unit codes
   # NOTE:  The USGS WBD polygons seem to be well organized
   if ( length(SPDF@polygons) != nrow(SPDF@data) ) {
+    cat("Organizing polygons...\n")
     SPDF <- organizePolygons(SPDF, uniqueID='HUC', sumColumns='area')
   }
 
@@ -155,6 +159,7 @@ convertWBDHUC <- function(dsnPath=NULL, level=8, extension="", nameOnly=FALSE) {
 
   # Calculate centroids to help add more metadata
   result <- try( {
+    cat("Calculating centroids...\n")
     centroids <- rgeos::gCentroid(SPDF, byid=TRUE)
     lon <- sp::coordinates(centroids)[,1]
     lat <- sp::coordinates(centroids)[,2]
@@ -185,6 +190,7 @@ convertWBDHUC <- function(dsnPath=NULL, level=8, extension="", nameOnly=FALSE) {
   SPDF$countryCode <- 'US'
   
   #NOTE: this takes quite a long time. 
+  cat("Getting stateCode...\n")
   suppressWarnings(SPDF$stateCode <- getStateCode(lon, lat, countryCodes=c('US')))
    
   # Hack to change missing stateCodes to the value from allStateCode
@@ -201,34 +207,50 @@ convertWBDHUC <- function(dsnPath=NULL, level=8, extension="", nameOnly=FALSE) {
   
   SPDF$polygonID <- SPDF$HUC
   
-  # Create two new simplified datsets: one with 2%, and one with 1% of the vertices of the original
-  # NOTE:  This may take several minutes. 
-  SPDF_02 <- rmapshaper::ms_simplify(SPDF, 0.02)
-  SPDF_01 <- rmapshaper::ms_simplify(SPDF, 0.01) 
-  
-  # Remove automatically generated "rmapshaperid" column
-  SPDF_02@data$rmapshaperid <- NULL
-  SPDF_01@data$rmapshaperid <- NULL
-  
   # Assign a name and save the data
-  datasetName_02 <- paste0(datasetName, "_02")
-  datasetName_01 <- paste0(datasetName, "_01")
-  
-  assign(datasetName_02, SPDF_02)
-  assign(datasetName_01, SPDF_01)
+  cat("Saving full resolution version...\n")
   assign(datasetName,SPDF)
+  save(list=datasetName, file = paste0(dataDir,"/",datasetName, '.RData'))
+  rm(list=datasetName)
   
-  save(list = c(datasetName), file = paste0(dataDir,"/",datasetName, '.RData'))
-  save(list = c(datasetName_02), file = paste0(dataDir,"/",datasetName_02, '.RData'))
-  save(list = c(datasetName_01), file = paste0(dataDir,"/",datasetName_01, '.RData'))
-  
-  return(invisible(c(datasetName, datasetName_02, datasetName_01)))
-}
-
-
-#NOTE: to generate all levels:
-if(FALSE){
-  for(i in c(2,4,6,8,10,12,14)){
-    convertWBDHUC(dsnPath = "/Users/Helen/Data/Spatial/WBD/WBD.gdb", level = i)
+  if ( simplify ) {
+    # Create two new simplified datsets: one with 2%, and one with 1% of the vertices of the original
+    # NOTE:  This may take several minutes. 
+    cat("Simplifying to 2%...\n")
+    SPDF_02 <- rmapshaper::ms_simplify(SPDF, 0.02)
+    SPDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+    datasetName_02 <- paste0(datasetName, "_02")
+    cat("Saving 2% version...\n")
+    assign(datasetName_02, SPDF_02)
+    save(list=datasetName_02, file = paste0(dataDir,"/",datasetName_02, '.RData'))
+    rm(list=c("SPDF_02",datasetName_02))
+    
+    cat("Simplifying to 1%...\n")
+    SPDF_01 <- rmapshaper::ms_simplify(SPDF, 0.01) 
+    SPDF_01@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+    datasetName_01 <- paste0(datasetName, "_01")
+    cat("Saving 1% version...\n")
+    assign(datasetName_01, SPDF_01)
+    save(list=datasetName_01, file = paste0(dataDir,"/",datasetName_01, '.RData'))
+    rm(list=c("SPDF_01",datasetName_01))
   }
+  
+  return(invisible(datasetName))
 }
+
+# # NOTE:  To generate all levels:
+# if ( FALSE ) {
+# 
+#   for ( i in c(2,4,6) ) {
+#     cat(paste0("----- Processing level ",i," -----\n"))
+#     convertWBDHUC(dsnPath="~/Data/SpatialRaw/WBD.gdb", level=i, simplify=TRUE)
+#   }
+# 
+#   # NOTE:  Running out of memory trying to simplify level 8 or above
+#   for ( i in c(8,10,12) ) {
+#     cat(paste0("----- Processing level ",i," -----\n"))
+#     convertWBDHUC(dsnPath="~/Data/SpatialRaw/WBD.gdb", level=i, simplify=FALSE)
+#   }
+#   
+# }
+

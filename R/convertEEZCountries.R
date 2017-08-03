@@ -3,7 +3,7 @@
 #' @title Convert Exclusive Economic Zones Countries Shapefile
 #' @param nameOnly logical specifying whether to only return the name without creating the file
 #' @param dsnPath directory where EEZCountries .zip file is found
-#' @description Previously downloaded file from \url{http://www.marineregions.org/downloads.php#unioneezcountry} 
+#' @description A previously downloaded file from \url{http://www.marineregions.org/downloads.php#unioneezcountry} 
 #' is converted to a SpatialPolygonsDataFrame with additional columns of data. The resulting
 #' file will be created in the spatial data directory which is set with \code{setSpatialDataDir()}.
 #' @details  The dataset can be downloaded from 
@@ -13,8 +13,10 @@
 #' @references \url{http://www.marineregions.org/downloads.php#unioneezcountry}
 #' @references VLIZ (2014). Union of the ESRI Country shapefile and the Exclusive 
 #' Economic Zones (version 2). Available online at http://www.marineregions.org/. Consulted on 2017-07-20.
-#' @seealso setSpatialDataDir
-#' @seealso getCountry, getCountryCode
+#' @examples
+#' \dontrun{
+#' convertEEZCountries("~/Data/Spatial/EEZ_land_union_v2_201410.zip")
+#' }
 convertEEZCountries <- function(dsnPath=NULL, nameOnly=FALSE) {
   
   # Sanity check dsnPath
@@ -57,10 +59,13 @@ convertEEZCountries <- function(dsnPath=NULL, nameOnly=FALSE) {
   # Change missing countryCodes to NA
   SPDF$ISO3[SPDF$ISO3 == '-' ] <- NA
   
-
+  # NOTE:  http://conjugateprior.org/2013/01/unicode-in-r-packages-not/
+  # Transliterate unicode characters for this package-internal dataset
+  SPDF$countryName <- iconv(SPDF$countryName, from="UTF-8", to="ASCII//TRANSLIT")
+  
   # > SPDF@data[which(stringr::str_length(SPDF$ISO3) != 3),]
   # objectID  ISO3                    countryName changes     area
-  # 65        66    CW                        Curaçao    <NA>  2.57573
+  # 65        66    CW                        Curacao    <NA>  2.57573
   # 152      154 MNP++ Northern Marinana Islands-Guam    <NA> 82.66514
   SPDF@data["65","ISO3"] <- "CUW"
   SPDF@data["152","ISO3"] <- "GUM"
@@ -73,6 +78,9 @@ convertEEZCountries <- function(dsnPath=NULL, nameOnly=FALSE) {
   # Assign a name and save the data for World EEZ
   assign(datasetName,SPDF)
   save(list=c(datasetName),file=paste0(dataDir,'/',datasetName,'.RData'))
+  
+  # Clean up
+  unlink(dsnPath, recursive=TRUE, force=TRUE)
   
   return(invisible(datasetName))
 }

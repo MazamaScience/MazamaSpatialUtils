@@ -2,20 +2,20 @@
 #' @export
 #' @title Convert Terrestrial Ecoregion Shapefile
 #' @param nameOnly logical specifying whether to only return the name without creating the file
+#' @param simplify logical specifying whether to create a "_05" version of the file that is simplified to 5\%
 #' @description A shapefile is downloaded and converted to a SpatialPolygonsDataFrame
 #'  with additional columns of data. The resulting file will be created
 #' in the spatial data directory which is set with \code{setSpatialDataDir()} 
 #' @references \url{https://www.worldwildlife.org/publications/terrestrial-ecoregions-of-the-world}
 #' @return Name of the dataset being created.
-#' @seealso setSpatialDataDir
 
-convertTerrestrialEcoregions <- function(nameOnly=FALSE) {
+convertTerrestrialEcoregions <- function(nameOnly=FALSE, simplify=TRUE) {
   
   # Use package internal data directory
   dataDir <- getSpatialDataDir()
   
   # Specify the name of the file being created
-  datasetName <- 'terrestrialEcoregions'
+  datasetName <- 'TerrestrialEcoregions'
   
   if (nameOnly) return(datasetName)
   
@@ -56,10 +56,9 @@ convertTerrestrialEcoregions <- function(nameOnly=FALSE) {
   SPDF$longitude <- lon
   SPDF$latitude <- lat
   
-  # Get countryCode and stateCode from latitude and longitude 
-  SPDF$countryCode <- getCountryCode(SPDF$longitude, SPDF$latitude, useBuffering=TRUE)
-  SPDF$stateCode <- getStateCode(SPDF$longitude, SPDF$latitude, useBuffering=TRUE)
-  
+  # Get countryCode from latitude and longitude 
+  SPDF$countryCode <- getCountryCode(SPDF$longitude, SPDF$latitude, useBuffering=FALSE)
+
   # Assign country and state codes to polygons where it is missing:
   ecoregionMode <- function(x) {
     if ( sum(!is.na(x)) == 0 ){
@@ -70,15 +69,14 @@ convertTerrestrialEcoregions <- function(nameOnly=FALSE) {
     }
   }
   locations <- data.frame(ecoregionCode = unique(SPDF$ecoregionCode), 
-                          countryCode = NA, stateCode = NA)
+                          countryCode = NA)
   rownames(locations) <- unique(SPDF$ecoregionCode)
   for ( i in unique(SPDF$ecoregionCode) ) {
     ecoregion <- subset(SPDF@data, SPDF$ecoregionCode == i)
     if ( nrow(ecoregion) == 1 ) {
-      locations[i,2:3] <- c(ecoregion$countryCode, ecoregion$stateCode)
+      locations[i,2] <- c(ecoregion$countryCode)
     } else {
       locations[i,2] <- ecoregionMode(ecoregion$countryCode)
-      locations[i,3] <- ecoregionMode(ecoregion$stateCode)
     }
     ecoregion <- NULL
   }
@@ -87,18 +85,22 @@ convertTerrestrialEcoregions <- function(nameOnly=FALSE) {
   SPDF <- organizePolygons(SPDF, uniqueID = "ecoregionCode", sumColumns = "area")
   
   # Reassign countries and states
-  SPDF@data[,c("countryCode", "stateCode")] <- locations[SPDF$ecoregionCode, c("countryCode", "stateCode")]
-  
-  # Create a simplified version at 5%
-  SPDF_05 <- rmapshaper::ms_simplify(SPDF, .05)
-  SPDF_05@data$rmapshaperid <- NULL
-  datasetName_05 <- paste0(datasetName, "_05")
+  SPDF@data[,c("countryCode")] <- locations[SPDF$ecoregionCode, c("countryCode")]
   
   # Assign a name and save the data
   assign(datasetName,SPDF)
-  assign(datasetName_05, SPDF_05)
   save(list=c(datasetName),file=paste0(dataDir,'/',datasetName,'.RData'))
-  save(list=c(datasetName_05), file=paste0(dataDir,'/',datasetName_05,'.RData'))
+
+  if ( simplify ) {
+    # Create a simplified version at 5%
+    SPDF_05 <- rmapshaper::ms_simplify(SPDF, .05)
+    SPDF_05@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+    datasetName_05 <- paste0(datasetName, "_05")
+    
+    # Assign a name and save the data
+    assign(datasetName_05, SPDF_05)
+    save(list=c(datasetName_05), file=paste0(dataDir,'/',datasetName_05,'.RData'))
+  }
   
   # Clean up
   unlink(filePath, force=TRUE)

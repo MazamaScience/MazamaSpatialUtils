@@ -4,9 +4,11 @@
 \alias{convertOSMTimezones}
 \title{Convert OSM Timezone Shapefile}
 \usage{
-convertOSMTimezones(nameOnly = FALSE)
+convertOSMTimezones(dsnPath = NULL, nameOnly = FALSE)
 }
 \arguments{
+\item{dsnPath}{optional directory where the timezones.shapefile.zip file is found (in case web access isn't working)}
+
 \item{nameOnly}{logical specifying whether to only return the name without creating the file}
 }
 \value{

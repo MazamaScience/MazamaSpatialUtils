@@ -6,9 +6,7 @@
 #' set with \code{setSpatialDataDir()}.
 #' 
 #' @return Nothing.
-#' @seealso setSpatialDataDir
-#' @seealso loadSpatialData
-installSpatialData <- function(url="http://mazamascience.com/RData/mazama_spatial_files.tar.gz") {
+installSpatialData <- function(url="http://mazamascience.com/RData/Spatial/mazama_spatial_files-0.5.tar.gz") {
   
   # Use package internal data directory
   dataDir <- getSpatialDataDir()

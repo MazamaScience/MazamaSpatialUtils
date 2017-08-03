@@ -1,6 +1,7 @@
 #' @keywords datagen
 #' @export
 #' @title Convert OSM Timezone Shapefile 
+#' @param dsnPath optional directory where the timezones.shapefile.zip file is found (in case web access isn't working)
 #' @param nameOnly logical specifying whether to only return the name without creating the file
 #' @description A world timezone shapefile is downloaded from \url{https://github.com/evansiroky/timezone-boundary-builder/releases}
 #' and converted to a SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
@@ -34,7 +35,7 @@
 #' @references \url{https://github.com/evansiroky/timezone-boundary-builder/releases}
 #' @seealso setSpatialDataDir
 #' @seealso convertWikipediaTimezoneTable
-convertOSMTimezones <- function(nameOnly=FALSE) {
+convertOSMTimezones <- function(dsnPath=NULL, nameOnly=FALSE) {
   
   # Use package internal data directory
   dataDir <- getSpatialDataDir()
@@ -46,10 +47,15 @@ convertOSMTimezones <- function(nameOnly=FALSE) {
   
   # Build appropriate request URL for world timezones
   url <- "https://github.com/evansiroky/timezone-boundary-builder/releases/download/2017a/timezones.shapefile.zip"
-  
+
   filePath <- paste(dataDir,basename(url),sep='/')
-  utils::download.file(url,filePath)
-  utils::unzip(filePath,exdir=dataDir)
+  
+  # NOTE:  "403 Forbidden" when downloading automatically. Support manually downloaded file.
+  if ( is.null(dsnPath) ) {
+    utils::download.file(url,filePath)
+  } else {
+    utils::unzip(filePath,exdir=dataDir)
+  }
   
   # Convert shapefile into SpatialPolygonsDataFrame
   dsnPath <- paste(dataDir,'dist',sep='/')

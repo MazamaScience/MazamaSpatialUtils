@@ -70,11 +70,13 @@ convertSimpleCountriesEEZ <- function(dsnPath = NULL, nameOnly=FALSE) {
   # Change missing countryCodes to NA
   SPDF$ISO3[SPDF$ISO3 == '-' ] <- NA
   
-  
+  # NOTE:  http://conjugateprior.org/2013/01/unicode-in-r-packages-not/
+  # Transliterate unicode characters for this package-internal dataset
+  SPDF$countryName <- iconv(SPDF$countryName, from="UTF-8", to="ASCII//TRANSLIT")
   
   # > SPDF@data[which(stringr::str_length(SPDF$ISO3) != 3),]
   # objectID  ISO3                    countryName changes     area
-  # 65        66    CW                        Curaçao    <NA>  2.57573
+  # 65        66    CW                        Curacao    <NA>  2.57573
   # 152      154 MNP++ Northern Marinana Islands-Guam    <NA> 82.66514
   SPDF@data["65","ISO3"] <- "CUW"
   SPDF@data["152","ISO3"] <- "GUM"
@@ -97,7 +99,7 @@ convertSimpleCountriesEEZ <- function(dsnPath = NULL, nameOnly=FALSE) {
   # 9          9 <NA>                Protected zone Australia/Papua New Guinea    <NA>        <NA>         9
   # 32        32  BES                            Bonaire, Sint-Eustasius, Saba    <NA>        <NA>        32
   # 62        62  CPT                                        Clipperton Island    <NA>        <NA>        62
-  # 66        66  CUW                                                  Curaçao    <NA>        <NA>        66
+  # 66        66  CUW                                                  Curacao    <NA>        <NA>        66
   # 211      211  SXM                                             Sint Maarten    <NA>        <NA>       211
   # 245      245 <NA>                                          Paracel Islands    <NA>        <NA>       245
   # 246      246 <NA>                      Area of overlap Australia/Indonesia    <NA>        <NA>       246
