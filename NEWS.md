@@ -11,6 +11,10 @@ set of longitude/latitude pairs. (They also make cool maps.)
 
 ## Version 0.5 -- Aggregate by Polygon
 
+### MazamaSpatialUtils 0.5.1
+
+ * tweaks to satisfy CRAN
+
 ### MazamaSpatialUtils 0.5.0
 
  * package now `Depends` on `sp` package so that `sp` plotting is used by default
