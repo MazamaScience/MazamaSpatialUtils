@@ -31,7 +31,7 @@ function(input, output, session){
     sessionSPDF <- subset(eval(parse(text = input$SPDF)), stateCode == 'WA')
 
     # Get the correct plot order
-    plotOrder <- sessionSPDF$HUC[sessionSPDF$HUC %in% my_data()$polygonID]
+    plotOrder <- sessionSPDF$polygonID[sessionSPDF$polygonID %in% my_data()$polygonID]
     plotOrder <- as.data.frame(plotOrder)
     names(plotOrder) <- "polygonID"
     plotDF <- dplyr::left_join(plotOrder, my_data(), by='polygonID')
@@ -39,7 +39,7 @@ function(input, output, session){
     # Plot colors by quantiles
     breaks <- quantile(my_data()$summaryValue)
     colIndexes <- .bincode(plotDF$summaryValue, breaks)
-    colors <- RColorBrewer::brewer.pal(4, 'Blues')
+    colors <- RColorBrewer::brewer.pal(input$colors, 'Blues')
     cols <- colors[colIndexes]
 
     plot(sessionSPDF, col = cols)
@@ -50,7 +50,7 @@ function(input, output, session){
     loadSpatialData(input$SPDF)
     sessionSPDF <- subset(eval(parse(text = input$SPDF)), stateCode == 'WA')
 
-    plotOrder <- sessionSPDF$HUC[sessionSPDF$HUC %in% my_data()$polygonID]
+    plotOrder <- sessionSPDF$polygonID[sessionSPDF$polygonID %in% my_data()$polygonID]
     plotOrder <- as.data.frame(plotOrder)
     names(plotOrder) <- "polygonID"
     plotDF <- dplyr::left_join(plotOrder, my_data(), by='polygonID')

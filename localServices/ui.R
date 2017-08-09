@@ -21,6 +21,8 @@ fluidPage(
                      'Double Quote'='"',
                      'Single Quote'="'"),
                    '"'),
+      sliderInput("colors", label = "Number of colors", min = 2, 
+                  max = 10, value = 4),
       selectInput('SPDF', 'Spatial Polygons DataFrame',
                    c(GADM = 'GADM_GE_0',
                      `Natural Earth` ='NaturalEarthAdm1',
