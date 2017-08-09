@@ -5,11 +5,11 @@ fluidPage(
   sidebarLayout(
     sidebarPanel(
       fileInput('file1', 'Choose CSV File',
-                accept=c('text/csv', 
-                         'text/comma-separated-values,text/plain', 
+                accept=c('text/csv',
+                         'text/comma-separated-values,text/plain',
                          '.csv')),
       tags$hr(),
-      checkboxGroupInput('header', 'CSV file has Header', 
+      checkboxGroupInput('header', 'CSV file has Header',
                          choices = 'TRUE', selected = 'TRUE'),
       radioButtons('sep', 'Separator',
                    c(Comma=',',
