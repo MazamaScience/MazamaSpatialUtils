@@ -22,7 +22,7 @@ function(input, output, session){
     forPlot <- summarizeByPolygon(inputData$longitude, inputData$latitude,
                                   value = inputData[, 3],
                                   SPDF = sessionSPDF, FUN = eval(parse(text = input$FUN)))
-    forPlot <- na.omit(forPlot)
+    forPlot[is.na(forPlot)] <- 0
     forPlot
   })
 
@@ -37,13 +37,13 @@ function(input, output, session){
     plotDF <- dplyr::left_join(plotOrder, my_data(), by='polygonID')
 
     # Plot colors by quantiles
-    breaks <- quantile(my_data()$summaryValue)
+    breaks <- quantile(subset(my_data(), summaryValue > 0)$summaryValue)
     colIndexes <- .bincode(plotDF$summaryValue, breaks)
-    colors <- RColorBrewer::brewer.pal(input$colors, 'Blues')
+    colors <- RColorBrewer::brewer.pal(4, 'Blues')
     cols <- colors[colIndexes]
 
     plot(sessionSPDF, col = cols)
-    legend("topright", legend = names(breaks), fill = cols, title = "Density by area")
+    legend("topright", legend = names(breaks)[1:4], fill = colors, title = "Density by area")
     title(paste(parse(text=input$SPDF), "with", parse(text=input$FUN), "function"))
   })
   output$myTable <- renderTable({
