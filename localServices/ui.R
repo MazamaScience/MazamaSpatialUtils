@@ -38,7 +38,12 @@ fluidPage(
                    c(MIN = 'min',
                      MEAN = 'mean',
                      MAX = 'max'),
-                   selected = 'mean')
+                   selected = 'mean'),
+      selectInput('output_figure', 'Desired output figure style',
+                  c(`Colored SPDF` = 'base_spdf')),
+      selectInput('output_file', 'Desired output file contents',
+                  c(`Summary values only` = 'summary_df',
+                    `Original data plus summary values` = 'original_plus_summary'))
     ),
     mainPanel(
       plotOutput('myPlot'),

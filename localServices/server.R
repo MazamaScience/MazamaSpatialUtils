@@ -53,7 +53,20 @@ function(input, output, session){
     plotOrder <- sessionSPDF$polygonID[sessionSPDF$polygonID %in% my_data()$polygonID]
     plotOrder <- as.data.frame(plotOrder)
     names(plotOrder) <- "polygonID"
+
+    if(input$output_file == "other"){
+      my_data()
+    }
+    if(input$output_file == "original_plus_summary"){
+      inFile <- input$file1
+      req(inFile)
+      inputData <- read.csv(inFile$datapath, sep = input$sep, quote = input$quote)
+      plotDF <- merge(inputData, my_data())
+      plotDF
+    }
+    else{
     plotDF <- dplyr::left_join(plotOrder, my_data(), by='polygonID')
     plotDF
+    }
   })
 }
