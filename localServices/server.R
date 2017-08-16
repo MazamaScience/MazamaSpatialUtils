@@ -93,4 +93,11 @@ function(input, output, session){
     plotDF
     }
   })
+  output$downloadData <- downloadHandler(
+        filename = 'summary_data.csv',
+        content = function(file) {
+          write.csv(my_data(), file)
+        }
+  )
+
 }

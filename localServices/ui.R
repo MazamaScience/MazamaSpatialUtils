@@ -45,7 +45,8 @@ fluidPage(
                     `Points with state outline` = 'points_plus_state')),
       selectInput('output_file', 'Desired output file contents',
                   c(`Summary values only` = 'summary_df',
-                    `Original data plus summary values` = 'original_plus_summary'))
+                    `Original data plus summary values` = 'original_plus_summary')),
+      downloadButton('downloadData', 'Download')
     ),
     mainPanel(
       plotOutput('myPlot'),
