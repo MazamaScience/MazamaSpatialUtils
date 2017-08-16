@@ -42,9 +42,33 @@ function(input, output, session){
     colors <- RColorBrewer::brewer.pal(4, 'Blues')
     cols <- colors[colIndexes]
 
+    if(input$output_figure == "base_spdf_plus_points"){
+      plot(sessionSPDF, col = cols)
+      inFile <- input$file1
+      req(inFile)
+      inputData <- read.csv(inFile$datapath, sep = input$sep, quote = input$quote)
+
+      points(inputData$longitude, inputData$latitude, pch = 2)
+      legend("topright", legend = names(breaks)[1:4], fill = colors, title = "Density by area")
+      title(paste(parse(text=input$SPDF), "with", parse(text=input$FUN), "function"))
+    }
+    else if(input$output_figure == "points_plus_state"){
+      inFile <- input$file1
+      req(inFile)
+      inputData <- read.csv(inFile$datapath, sep = input$sep, quote = input$quote)
+
+      loadSpatialData('NaturalEarthAdm1')
+      wa_outline <- subset(NaturalEarthAdm1, countryName == "United States" & stateCode == "WA")
+      plot(wa_outline)
+      points(inputData$longitude, inputData$latitude, pch = 2)
+    }
+
+    else {
     plot(sessionSPDF, col = cols)
     legend("topright", legend = names(breaks)[1:4], fill = colors, title = "Density by area")
     title(paste(parse(text=input$SPDF), "with", parse(text=input$FUN), "function"))
+    }
+
   })
   output$myTable <- renderTable({
     loadSpatialData(input$SPDF)
