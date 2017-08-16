@@ -40,7 +40,9 @@ fluidPage(
                      MAX = 'max'),
                    selected = 'mean'),
       selectInput('output_figure', 'Desired output figure style',
-                  c(`Colored SPDF` = 'base_spdf')),
+                  c(`Colored SPDF` = 'base_spdf',
+                    `Colored SPDF with points` = 'base_spdf_plus_points',
+                    `Points with state outline` = 'points_plus_state')),
       selectInput('output_file', 'Desired output file contents',
                   c(`Summary values only` = 'summary_df',
                     `Original data plus summary values` = 'original_plus_summary'))
