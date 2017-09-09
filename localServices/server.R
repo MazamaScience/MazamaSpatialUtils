@@ -5,6 +5,11 @@ library(sp)
 #this is a hard-coded link for dev purposes
 setSpatialDataDir("~/Data/Spatial/")
 
+if(dir.exists("images")){
+} else {
+  dir.create("images")
+}
+
 loadSpatialData('NaturalEarthAdm1')
 wa_outline <- subset(NaturalEarthAdm1, countryName == "United States" & stateCode == "WA")
 
@@ -17,7 +22,17 @@ function(input, output, session){
     inputData()
   })
 
+  base <- reactive({fn <- digest::digest(c(input$file1$name, input$SPDF, input$FUN, input$output_figure))
+    fn
+    })
+
   output$myPlot <- renderPlot({
+    filename <- paste0(base(), ".png")
+    filepath <- paste0("images/", filename)
+    if(filename %in% list.files("spatial")){
+      grid::grid.raster(png::readPNG(filepath))
+    } else {
+
     loadSpatialData(input$SPDF)
     sessionSPDF <- subset(eval(parse(text = input$SPDF)), stateCode == 'WA')
     forPlot <- summarizeByPolygon(input_data()$longitude, input_data()$latitude,
@@ -42,18 +57,36 @@ function(input, output, session){
       points(input_data()$longitude, input_data()$latitude, pch = 2)
       legend("topright", legend = names(breaks)[1:4], fill = colors, title = "Density by area")
       title(paste(parse(text=input$SPDF), "with", parse(text=input$FUN), "function"))
+
+      png(filepath)
+      plot(sessionSPDF, col = cols)
+      points(input_data()$longitude, input_data()$latitude, pch = 2)
+      legend("topright", legend = names(breaks)[1:4], fill = colors, title = "Density by area")
+      title(paste(parse(text=input$SPDF), "with", parse(text=input$FUN), "function"))
+      dev.off()
     }
     else if(input$output_figure == "points_plus_state"){
       plot(wa_outline)
       points(input_data()$longitude, input_data()$latitude, pch = 2)
+
+      png(filepath)
+      plot(wa_outline)
+      points(input_data()$longitude, input_data()$latitude, pch = 2)
+      dev.off()
     }
 
     else {
     plot(sessionSPDF, col = cols)
     legend("topright", legend = names(breaks)[1:4], fill = colors, title = "Density by area")
     title(paste(parse(text=input$SPDF), "with", parse(text=input$FUN), "function"))
-    }
 
+    png(filepath)
+    plot(sessionSPDF, col = cols)
+    legend("topright", legend = names(breaks)[1:4], fill = colors, title = "Density by area")
+    title(paste(parse(text=input$SPDF), "with", parse(text=input$FUN), "function"))
+    dev.off()
+    }
+    }
   })
   output$myTable <- renderTable({
     loadSpatialData(input$SPDF)
