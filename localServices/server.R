@@ -22,14 +22,14 @@ function(input, output, session){
     inputData()
   })
 
-  base <- reactive({fn <- digest::digest(c(input$file1$name, input$SPDF, input$FUN, input$output_figure))
+  hash_string <- reactive({fn <- digest::digest(c(input$file1$name, input$SPDF, input$FUN, input$output_figure))
     fn
     })
 
   output$myPlot <- renderPlot({
-    filename <- paste0(base(), ".png")
+    filename <- paste0(hash_string(), ".png")
     filepath <- paste0("images/", filename)
-    if(filename %in% list.files("spatial")){
+    if(filename %in% list.files("images")){
       grid::grid.raster(png::readPNG(filepath))
     } else {
 
