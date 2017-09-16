@@ -26,11 +26,11 @@ function(input, output, session){
     fn
     })
 
-  output$myPlot <- renderPlot({
+  output$myPlot <- renderImage({
     filename <- paste0(hash_string(), ".png")
     filepath <- paste0("images/", filename)
     if(filename %in% list.files("images")){
-      grid::grid.raster(png::readPNG(filepath))
+      list(src=filepath)
     } else {
 
     loadSpatialData(input$SPDF)
@@ -53,10 +53,6 @@ function(input, output, session){
     cols <- colors[colIndexes]
 
     if(input$output_figure == "base_spdf_plus_points"){
-      plot(sessionSPDF, col = cols)
-      points(input_data()$longitude, input_data()$latitude, pch = 2)
-      legend("topright", legend = names(breaks)[1:4], fill = colors, title = "Density by area")
-      title(paste(parse(text=input$SPDF), "with", parse(text=input$FUN), "function"))
 
       png(filepath)
       plot(sessionSPDF, col = cols)
@@ -64,30 +60,28 @@ function(input, output, session){
       legend("topright", legend = names(breaks)[1:4], fill = colors, title = "Density by area")
       title(paste(parse(text=input$SPDF), "with", parse(text=input$FUN), "function"))
       dev.off()
+      list(src=filepath)
     }
     else if(input$output_figure == "points_plus_state"){
-      plot(wa_outline)
-      points(input_data()$longitude, input_data()$latitude, pch = 2)
 
       png(filepath)
       plot(wa_outline)
       points(input_data()$longitude, input_data()$latitude, pch = 2)
       dev.off()
+      list(src=filepath)
     }
 
     else {
-    plot(sessionSPDF, col = cols)
-    legend("topright", legend = names(breaks)[1:4], fill = colors, title = "Density by area")
-    title(paste(parse(text=input$SPDF), "with", parse(text=input$FUN), "function"))
 
     png(filepath)
     plot(sessionSPDF, col = cols)
     legend("topright", legend = names(breaks)[1:4], fill = colors, title = "Density by area")
     title(paste(parse(text=input$SPDF), "with", parse(text=input$FUN), "function"))
     dev.off()
+    list(src=filepath)
     }
     }
-  })
+  }, deleteFile=FALSE)
   output$myTable <- renderTable({
     loadSpatialData(input$SPDF)
     sessionSPDF <- subset(eval(parse(text = input$SPDF)), stateCode == 'WA')
