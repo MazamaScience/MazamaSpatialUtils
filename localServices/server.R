@@ -52,9 +52,8 @@ function(input, output, session){
     colors <- RColorBrewer::brewer.pal(4, 'Blues')
     cols <- colors[colIndexes]
 
-    if(input$output_figure == "base_spdf_plus_points"){
+    if (input$output_figure == "base_spdf_plus_points"){
 
-      #png(filepath)
       png(filepath, width=780, height=780, units="px")
       plot(sessionSPDF, col = cols)
       points(input_data()$longitude, input_data()$latitude, pch = 2)
@@ -63,7 +62,7 @@ function(input, output, session){
       dev.off()
       list(src=filepath)
     }
-    else if  (input$output_figure == "points_plus_state"){
+    else if (input$output_figure == "points_plus_state"){
 
       png(filepath, width=780, height=780, units="px")
       plot(wa_outline)
@@ -74,7 +73,6 @@ function(input, output, session){
 
     else {
 
-    #png(filepath)
     png(filepath, width=780, height=780, units="px")
     plot(sessionSPDF, col = cols)
     legend("topright", legend = names(breaks)[1:4], fill = colors, title = "Density by area")
