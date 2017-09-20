@@ -49,7 +49,7 @@ fluidPage(
       downloadButton('downloadData', 'Download')
     ),
     mainPanel(
-      plotOutput('myPlot'),
+      plotOutput('myPlot', width="50%", height = "50%"),
       tableOutput('myTable')
     )
   )

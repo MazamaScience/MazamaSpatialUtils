@@ -5,7 +5,7 @@ library(sp)
 #this is a hard-coded link for dev purposes
 setSpatialDataDir("~/Data/Spatial/")
 
-if(dir.exists("images")){
+if (dir.exists("images")){
 } else {
   dir.create("images")
 }
@@ -29,7 +29,7 @@ function(input, output, session){
   output$myPlot <- renderImage({
     filename <- paste0(hash_string(), ".png")
     filepath <- paste0("images/", filename)
-    if(filename %in% list.files("images")){
+    if (filename %in% list.files("images")){
       list(src=filepath)
     } else {
 
@@ -54,7 +54,8 @@ function(input, output, session){
 
     if(input$output_figure == "base_spdf_plus_points"){
 
-      png(filepath)
+      #png(filepath)
+      png(filepath, width=780, height=780, units="px")
       plot(sessionSPDF, col = cols)
       points(input_data()$longitude, input_data()$latitude, pch = 2)
       legend("topright", legend = names(breaks)[1:4], fill = colors, title = "Density by area")
@@ -62,9 +63,9 @@ function(input, output, session){
       dev.off()
       list(src=filepath)
     }
-    else if(input$output_figure == "points_plus_state"){
+    else if  (input$output_figure == "points_plus_state"){
 
-      png(filepath)
+      png(filepath, width=780, height=780, units="px")
       plot(wa_outline)
       points(input_data()$longitude, input_data()$latitude, pch = 2)
       dev.off()
@@ -73,7 +74,8 @@ function(input, output, session){
 
     else {
 
-    png(filepath)
+    #png(filepath)
+    png(filepath, width=780, height=780, units="px")
     plot(sessionSPDF, col = cols)
     legend("topright", legend = names(breaks)[1:4], fill = colors, title = "Density by area")
     title(paste(parse(text=input$SPDF), "with", parse(text=input$FUN), "function"))
@@ -95,10 +97,10 @@ function(input, output, session){
     plotOrder <- as.data.frame(plotOrder)
     names(plotOrder) <- "polygonID"
 
-    if(input$output_file == "other"){
+    if (input$output_file == "other"){
       input_data()
     }
-    if(input$output_file == "original_plus_summary"){
+    if (input$output_file == "original_plus_summary"){
       plotDF <- merge(input_data(), forPlot)
       plotDF
     }
@@ -110,7 +112,7 @@ function(input, output, session){
   output$downloadData <- downloadHandler(
         filename = 'summary_data.csv',
         content = function(file) {
-          write.csv(input_data(), file)
+         write.csv(input_data(), file)
         }
   )
 
