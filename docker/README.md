@@ -5,12 +5,12 @@ A quick refresher on docker commands is available at the [docker cheatsheet](htt
 A docker image with all required prerequisites can be built with the `Dockerfile` in this directory:
 
 ```
-$ docker build -t spatialutils:v0.4.9 .
-$ docker tag spatialutils:v0.4.9 spatialutils:latest
+$ docker build -t spatialutils:v0.5.2 .
+$ docker tag spatialutils:v0.5.2 spatialutils:latest
 $ docker images
 REPOSITORY                   TAG                 IMAGE ID            CREATED             SIZE
 spatialutils                 latest              be5b4f8f8ca5        27 seconds ago      1.19 GB
-spatialutils                 v0.4.9              be5b4f8f8ca5        27 seconds ago      1.19 GB
+spatialutils                 v0.5.2              be5b4f8f8ca5        27 seconds ago      1.19 GB
 ...
 ```
 

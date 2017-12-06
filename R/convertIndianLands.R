@@ -50,13 +50,13 @@ convertIndianLands <- function(nameOnly=FALSE) {
   
   usefulColumns <- c("AREA",  "FEATURE1", "GNIS_Name1", "GNIS_ID1", "STATE","STATE_FIPS", "ORIG_NAME")
   SPDF@data <- SPDF@data[usefulColumns]
-  names(SPDF@data) <- c("area", "featureType", "GNISName", "GNISCode", "states","FIPS", "ORIG_NAME")
+  names(SPDF@data) <- c("area", "featureType", "GNISName", "GNISCode", "allStateCodes","FIPS", "ORIG_NAME")
   
   # Change "N/A" to NA
-  nafun <- function(x){
+  nafun <- function(x) {
     ifelse(x == "N/A", NA, x)
   }
-  SPDF@data <- as.data.frame(apply(SPDF@data, 2, nafun))
+  SPDF@data <- as.data.frame(apply(SPDF@data, 2, nafun), stringsAsFactors = FALSE)
   
   # Remove rows that are not indian reservations
   SPDF <- SPDF[which(SPDF$featureType == "Indian Reservation"),]
@@ -76,7 +76,7 @@ convertIndianLands <- function(nameOnly=FALSE) {
   # There are 21 polygons which span more than one state. We can use longitude and latitude to 
   # get one state code for each polygon.
   
-  SPDF$stateCode <- getStateCode(SPDF$longitude, SPDF$latitude)
+  SPDF$stateCode <- getStateCode(SPDF$longitude, SPDF$latitude, dataset='USCensusStates', useBuffering=TRUE)
   SPDF$countryCode <- "US"
   
   # Group polygons with the same identifier

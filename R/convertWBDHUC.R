@@ -38,7 +38,7 @@
 #' @references \url{http://nhd.usgs.gov/wbd.html}
 #' @seealso setSpatialDataDir
 
-# TODO:  Convert missing state codes to state codes from allStateCode, with a note explaining 
+# TODO:  Convert missing state codes to state codes from allStateCodes, with a note explaining 
 # TODO:  how and why. Figure out why it is printing all those numbers when it runs and change.  
 
 
@@ -155,7 +155,7 @@ convertWBDHUC <- function(dsnPath=NULL, level=8, extension="", nameOnly=FALSE, s
 
   # TODO:  Larger HUCs are centered in the US, while at smaller levels the entire
   # TODO:  HUCs are in foreign countries (ie Canada). Find a way to eliminate smaller
-  # TODO:  HUCs whose 'allStateCode' is not a US State
+  # TODO:  HUCs whose 'allStateCodes' is not a US State
 
   # Calculate centroids to help add more metadata
   result <- try( {
@@ -193,11 +193,11 @@ convertWBDHUC <- function(dsnPath=NULL, level=8, extension="", nameOnly=FALSE, s
   cat("Getting stateCode...\n")
   suppressWarnings(SPDF$stateCode <- getStateCode(lon, lat, countryCodes=c('US')))
    
-  # Hack to change missing stateCodes to the value from allStateCode
+  # Hack to change missing stateCodes to the value from allStateCodes
   
   for (i in 1:nrow(SPDF)){
     if (is.na(SPDF@data$stateCode[i])){
-      SPDF@data$stateCode[i] <- SPDF@data$allStateCode[i]      
+      SPDF@data$stateCode[i] <- SPDF@data$allStateCodes[i]      
     }
     if (stringr::str_length(SPDF@data$stateCode[i]) > 2){
       SPDF@data$stateCode[i] <- substr(SPDF@data$stateCode[i], start=1, stop=2)

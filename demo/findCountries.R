@@ -29,5 +29,5 @@ points(lons,lats,pch=16,col='red')
 countryText <- ifelse(is.na(countryNames),'water',paste0(countryDF$countryCode,' = ',countryDF$countryName))
 text(lons,lats,countryText,pos=4)
 # Add a title
-title('Country Codes and Names')
+title('Country Codes and Names (using EEZ boundaries)')
 

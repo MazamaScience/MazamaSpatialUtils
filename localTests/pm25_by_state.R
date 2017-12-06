@@ -4,7 +4,7 @@ library(sp)
 
 # Load data
 setSpatialDataDir("~/Data/Spatial")
-loadSpatialData("NaturalEarthAdm1")
+loadSpatialData("USCensusStates")
 
 # Choose a set of states in the US to examine
 countryCodes <- "US"
@@ -22,7 +22,7 @@ tmr <- format(tmr, "%Y%m%d")
 
 airnowOneday <- monitor_subset(airnow, tlim=c(today,tmr), stateCodes=stateCodes)
 
-countryPolygon <- NaturalEarthAdm1[NaturalEarthAdm1$countryCode %in% countryCodes,]
+countryPolygon <- USCensusStates[USCensusStates$countryCode %in% countryCodes,]
 statePolygon <- countryPolygon[countryPolygon$stateCode %in% stateCodes,]
 
 # Create a dataframe that has stateCodes and values
@@ -35,7 +35,7 @@ meanDF <- as.data.frame(summarise(byState, mean(value)))
 names(meanDF)[2] <- "meanValue"
 meanDF[,1] <- as.character(meanDF[,1])
 
-# Sort the dataframe according to the plotOrder in NaturalEarthAdm1
+# Sort the dataframe according to the plotOrder in USCensusStates
 plotOrder <- countryPolygon$stateCode[countryPolygon$stateCode %in% stateCodes]
 plotOrder <- as.data.frame(plotOrder)
 names(plotOrder) <- "stateCode"

@@ -9,9 +9,9 @@ testthat::test_that("setSpatialDataDir and getSpatialDataDir work correctly", {
   testthat::expect_equal(getwd(), getSpatialDataDir())
 })
 
-# 'get' function test ----------------------------------------------------------
+# -----------------------------------------------------------------------------
 
-testthat::context("'get' function test")
+testthat::context("get~() functions")
 
 testthat::test_that("get functions handle errors correctly", {
 
@@ -68,6 +68,10 @@ testthat::test_that("getPolygonID handles errors correctly", {
   testthat::expect_is(getPolygonID(SimpleCountries), "character")
   
 })
+
+# -----------------------------------------------------------------------------
+
+testthat::context("summarizeByPolygon()")
 
 testthat::test_that("summarizeByPolygon properly summarizes", {
   

@@ -9,6 +9,7 @@ RUN apt-get update \
     libgdal-dev \
     libgeos-dev \
     libproj-dev \
+    libprotobuf-dev \
     libssl-dev \
     wget \
   && apt-get clean \
@@ -22,12 +23,12 @@ RUN apt-get update \
     maptools \
     rgdal \
     rgeos \
+    rmapshaper \
   && installGithub.r \
     mazamascience/MazamaSpatialUtils
 
 # Add spatial data required by MazamaSpatialUtils
 RUN mkdir -p /home/mazama/data \
-  && wget -nv http://mazamascience.com/RData/Spatial.tar.gz \
+  && wget -nv http://mazamascience.com/RData/Spatial/mazama_spatial_files-0.5.tar.gz \
   && tar -xzf Spatial.tar.gz -C /home/mazama/data \
   && rm Spatial.tar.gz
-

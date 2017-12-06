@@ -18,7 +18,7 @@ knitr::opts_chunk$set(fig.width=7, fig.height=5)
 The **MazamaSpatialUtils package** was created by [MazamaScience](http://mazamascience.com) to 
 regularize our work with spatial data. The **sp**, **rgdal** and **maptools** packages have 
 made it much easier to work with spatial data found in shapefiles. Many sources of shapefile 
-data are available and can be used to make beautfiul maps in R. Unfortunately, the data attached 
+data are available and can be used to make beautiful maps in R. Unfortunately, the data attached 
 to these datasets, even when fairly complete, often lacks standardized identifiers such as the 
 ISO 3166-1 alpha-2 encodings for countries. Maddeningly, even when these ISO codes are used, 
 the dataframe column in which they are stored does not have a standardized name. It may be
@@ -27,13 +27,13 @@ called `ISO` or `ISO2` or `alpha` or `COUNTRY` or any of a dozen other names we 
 While many mapping packages provide 'natural' naming of countries, those who wish to develop 
 operational, GIS-like systems need something that is both standardized and language-independent. 
 The ISO 3166-1 alpha-2 encodings have emerged as the *de facto* standard for this sort of work. 
-In similar fashion, ISO 3166-2 alpha-2 encodings are aviailable for the next administrative 
-level down -- state/province/oblast, *etc.*. For timezones, the *de facto* standard is the set 
+In similar fashion, ISO 3166-2 alpha-2 encodings are available for the next administrative 
+level down -- state/province/oblast, *etc*. For timezones, the *de facto* standard is the set 
 of Olson timezones used in all UNIX systems.
 
 The main goal of this package is to create an internally standardized set of spatial data 
 that we can use in various projects. Along with two built-in datasets, this package provides 
-'convert~' functions for other spatial datasets that we currently use. These convert functions 
+`convert~()` functions for other spatial datasets that we currently use. These convert functions 
 all follow the same recipe:
 
 * download spatial data in shapefile format into a standard directory
@@ -46,18 +46,22 @@ The 'package internal standards' are very simple.
 
 1) Every spatial dataset must contain the following column:
 
+* polygonID -- unique identifier for each polygon
+
+2) Every spatial dataset must contain the following column:
+
 * countryCode -- ISO 3166-1 alpha-2
 
-2) Spatial datasets with timezone data must contain the following column:
+3) Spatial datasets with timezone data must contain the following column:
 
 * timezone -- Olson timezone
 
-2) Spatial datasets at scales smaller than the nation-state **should** contain the following colum:
+4) Spatial datasets at scales smaller than the nation-state **should** contain the following column:
 
 * stateCode -- ISO 3166-2 alpha-2
 
 If other columns contain these data, those columns must be renamed or duplicated with the 
-internally standardized name. This simple level of consistency makes it posisble to generate 
+internally standardized name. This simple level of consistency makes it possible to generate 
 maps for any data that is ISO encoded. It also makes it possible to create functions that 
 return the country, state or timezone associated with a set of locations.
 
@@ -84,24 +88,25 @@ For those working with geo-located data, the ability to enhance location metadat
 When using MazamaSpatialUtils, always run `setSpatialDataDir(<spatial_data_directory>)` first. This 
 sets the directory where spatial data will be installed and loaded from.
 
-**MazamaSpatialUtils** has 2 built-in datasets:
+**MazamaSpatialUtils** has three built-in datasets:
 
-* `SimpleCountries`
-* `SimpleTimezones`
+* `SimpleCountries` -- country outlines
+* `SimpleCountriesEEZ` -- country outlines including Exclusive Economic Zones over water
+* `SimpleTimezones` -- timezones
 
-Version 0.4.x of the package is built around the two built-in datasets and several other core 
+Version 0.5.x of the package is built around the three built-in datasets and several other core 
 datasets that may be installed including: 
 
- * ` 5 Mb NaturalEarthAdm1.RData` -- state/province/oblast level boundaries	 
- * ` 4 Mb TMWorldBorders.RData` -- high resolution country level boundaries
- * ` 2 Mb USCensusCounties.RData` -- US county level boundaries
- * ` 1 Mb WBDHU2.RData` -- USGS level 2 watersheds
- * ` 3 Mb WBDHU4.RData` -- USGS level 4 watersheds
- * ` 4 Mb WBDHU6.RData` -- USGS level 6 watersheds
- * ` 7 Mb WBDHU8.RData` -- USGS level 8 watersheds
- * `21 Mb WBDHU10.RData` -- USGS level 10 watersheds	 
- * `48 Mb WBDHU12.RData` -- USGS level 12 watersheds
- * `16 Mb WorldTimezones.RData` -- high resolution timezones
+ * `  2 Mb EEZCountries.RData` -- country boundaries including Exclusive Economic Zones
+ * ` 15 Mb NaturalEarthAdm1.RData` -- state/province/oblast level boundaries	 
+ * ` 61 Mb OSMTimezones.RData` -- Open Street Map high resolution time zones
+ * `  4 Mb TMWorldBorders.RData` -- high resolution country level boundaries
+ * ` 48 Mb TerrestrialEcoregions.RData` -- terrestrial eco-regions
+ * `  7 Mb USCensus115thCongress.RData` -- US congressional districts
+ * `  2 Mb USCensusCounties.RData` -- US county level boundaries
+ * `  3 Mb USCensusStates.RData` -- US state level boundaries
+ * `  3 Mb USIndianLands.RData` -- US tribal boundaries
+ * ` 16 Mb WorldTimezones.RData` -- high resolution timezones
 
 Install these with:
 
@@ -110,14 +115,24 @@ setSpatialDataDir('~/Data/Spatial')
 installSpatialData()
 ```
 
-This may take some time to download and untar the 120 Mb file.
+This may take some time to download and untar the 170 Mb file.
 
-Once datasets have been installed, `loadSpatialData()` can be used load datasets found in the `SpatialDataDir` that match a particlar pattern, *e.g*:
+Once datasets have been installed, `loadSpatialData()` can be used load datasets found in the `SpatialDataDir` that match a particular pattern, *e.g*:
 
 ```{r, eval = FALSE}
 loadSpatialData('NaturalEarthAdm1')
 loadSpatialData('WBDHU')
 ```
+
+Additional watershed data from the [Watershed Boundary Dataset](http://nhd.usgs.gov/wbd.html) are quite
+large and can be downloaded separately from http://mazamascience.com/RData/Spatial.
+
+ * ` 38 Mb WBDHU2.RData` -- USGS level 2 watersheds
+ * `107 Mb WBDHU4.RData` -- USGS level 4 watersheds
+ * `136 Mb WBDHU6.RData` -- USGS level 6 watersheds
+ * `294 Mb WBDHU8.RData` -- USGS level 8 watersheds
+ * `768 Mb WBDHU10.RData` -- USGS level 10 watersheds	 
+ * `1.4 Gb WBDHU12.RData` -- USGS level 12 watersheds
 
 ## `getCountry()` and `getCountryCode()`
 
@@ -218,7 +233,7 @@ getUSCounty(lon, lat, allData=TRUE, stateCodes=stateCodes)
 
 ## Timezone Map
 
-While identifying the states, countries and timezones associatated with a set of 
+While identifying the states, countries and timezones associated with a set of 
 locations is important, we can also generate some quick eye candy with these datasets.
 Let's color the timezones by the data variable 'UTC_offset'
 
