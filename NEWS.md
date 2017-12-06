@@ -33,7 +33,7 @@ set of longitude/latitude pairs. (They also make cool maps.)
  * changed `codeToCode()` to two functions: `iso2ToIso3()` and `iso3ToIso2()`
  * package now includes SimpleCountriesEEZ dataset which is used as the default dataset for getCountry
  SimpleCountriesEEZ includes a 200-mile offshore buffer for more efficient and accurate spatial searches
- * new datasets include: `TerrestrialEcoregions`, `USCensus115thCongress`, `USCensusStates`, 'USCensusIndianLands`
+ * new datasets include: `TerrestrialEcoregions`, `USCensus115thCongress`, `USCensusStates`, `USCensusIndianLands`
 
 ## Version 0.4 -- Fire and Water
 
