@@ -4,7 +4,7 @@ author: "Robin Winstanley"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Introduction to MazamaSpatialUtils}
+  %\VignetteIndexEntry{Recreating a map of Ebola cases in West Africa}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
