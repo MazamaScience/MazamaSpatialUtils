@@ -42,7 +42,7 @@ getHUCName <- function(lon, lat, dataset='WBDHU10-ms', HUCs=NULL, allData=FALSE)
   }
   
   # Pull out rows from SPDF@data based on whether a lon-lat point falls into a certain polygon 
-  locationsDF <- getSpatialData(lon,lat,SPDF)
+  locationsDF <- getSpatialData(lon,lat, SPDF)
   
   if (allData) {
     

@@ -42,7 +42,7 @@ getStateName <- function(lon, lat, dataset='NaturalEarthAdm1', countryCodes=NULL
   # Subset by country before searching
   if (!is.null(countryCodes)) SPDF <- SPDF[SPDF$countryCode %in% countryCodes,]
   
-  locationsDF <- getSpatialData(lon,lat,SPDF,useBuffering=useBuffering)
+  locationsDF <- getSpatialData(lon, lat, SPDF, useBuffering=useBuffering)
   
   if (allData) {
     

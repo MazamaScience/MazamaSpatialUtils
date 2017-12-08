@@ -7,7 +7,6 @@
 #' @param countryCodes vector of country codes
 #' @param allData logical specifying whether a full dataframe should be returned
 #' @param useBuffering logical flag specifying the use of location buffering to find the nearest polygon if no target polygon is found
-#' @param verbose logical flag controlling detailed progress statements
 #' @description Uses spatial comparison to determine which 'state' polygons the 
 #'     locations fall into and returns the ISO 3166 2-character state code
 #'     strings for those polygons.
@@ -24,7 +23,7 @@
 #' getStateCode(lon,lat)
 #' }
 #' @seealso getSpatialData
-getStateCode <- function(lon, lat, dataset='NaturalEarthAdm1', countryCodes=NULL, allData=FALSE, useBuffering=FALSE, verbose=FALSE) {
+getStateCode <- function(lon, lat, dataset='NaturalEarthAdm1', countryCodes=NULL, allData=FALSE, useBuffering=FALSE) {
   
   # Sanity check
   if (!exists(dataset)) {
@@ -43,7 +42,7 @@ getStateCode <- function(lon, lat, dataset='NaturalEarthAdm1', countryCodes=NULL
   # Subset by country before searching
   if (!is.null(countryCodes)) SPDF <- SPDF[SPDF$countryCode %in% countryCodes,]
   
-  locationsDF <- getSpatialData(lon, lat, SPDF, useBuffering=useBuffering, verbose=verbose)
+  locationsDF <- getSpatialData(lon, lat, SPDF, useBuffering=useBuffering)
   
   if (allData) {
     

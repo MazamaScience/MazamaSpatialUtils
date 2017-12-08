@@ -11,6 +11,10 @@ set of longitude/latitude pairs. (They also make cool maps.)
 
 ## Version 0.5 -- Aggregate by Polygon
 
+### MazamaSpatialUtils 0.5.3
+
+ * removed `verbose` argument from `getStateCode()` function signature
+ 
 ### MazamaSpatialUtils 0.5.2
 
  * fixed use of `allStateCodes` in `WBD~` datasets

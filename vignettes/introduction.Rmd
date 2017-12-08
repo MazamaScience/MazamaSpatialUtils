@@ -32,7 +32,7 @@ level down -- state/province/oblast, *etc*. For timezones, the *de facto* standa
 of Olson timezones used in all UNIX systems.
 
 The main goal of this package is to create an internally standardized set of spatial data 
-that we can use in various projects. Along with two built-in datasets, this package provides 
+that we can use in various projects. Along with three built-in datasets, this package provides 
 `convert~()` functions for other spatial datasets that we currently use. These convert functions 
 all follow the same recipe:
 
@@ -44,21 +44,18 @@ Other datasets can be added following the same procedure.
 
 The 'package internal standards' are very simple.
 
-1) Every spatial dataset must contain the following column:
+1) Every spatial dataset **must** contain the following columns:
 
 * polygonID -- unique identifier for each polygon
+* countryCode -- country at centroid of polygon (ISO 3166-1 alpha-2)
 
-2) Every spatial dataset must contain the following column:
-
-* countryCode -- ISO 3166-1 alpha-2
-
-3) Spatial datasets with timezone data must contain the following column:
+2) Spatial datasets with timezone data **must** contain the following column:
 
 * timezone -- Olson timezone
 
-4) Spatial datasets at scales smaller than the nation-state **should** contain the following column:
+3) Spatial datasets at scales smaller than the nation-state **should** contain the following column:
 
-* stateCode -- ISO 3166-2 alpha-2
+* stateCode -- 'state' at centroid of polygon (ISO 3166-2 alpha-2)
 
 If other columns contain these data, those columns must be renamed or duplicated with the 
 internally standardized name. This simple level of consistency makes it possible to generate 
@@ -78,7 +75,8 @@ Current functionality includes the following:
 * `getTimezones(lon,lat,...)` -- returns Olson timezones and other data at specified locations
 * `getHUC~(lon,lat,...)` -- returns USGS Hydrologic Unit Codes and other data at specified locations
 
-A generic `getSpatialData(lon,lat,...)` returns a dataframe whose rows are associated with specified locations. This function can be used with newly converted SpatialPolygonsDataFrames.
+A generic `getSpatialData(lon,lat,...)` returns a dataframe whose rows are associated with specified locations.
+This function can be used with newly converted SpatialPolygonsDataFrames.
 
 For those working with geo-located data, the ability to enhance location metadata with this information can be extremely helpful.
 
@@ -121,7 +119,7 @@ Once datasets have been installed, `loadSpatialData()` can be used load datasets
 
 ```{r, eval = FALSE}
 loadSpatialData('NaturalEarthAdm1')
-loadSpatialData('WBDHU')
+loadSpatialData('USCensus')
 ```
 
 Additional watershed data from the [Watershed Boundary Dataset](http://nhd.usgs.gov/wbd.html) are quite
@@ -140,7 +138,7 @@ These two functions are used for assigning countries to one or many locations.
 `getCountry()` returns English country names and `getCountryCode()` returns the ISO-3166 two 
 character country code. Both functions can be passed `allData = TRUE` which returns a dataframe 
 with more information on the countries. You can also specify `countryCodes = c(<codes>)` to speed
-up searching.
+up searching by restricting the search to polygons associated within those countries.
 
 These functions use the package-internal `SimpleCountries` dataset which can be used without 
 loading any additional datasets.

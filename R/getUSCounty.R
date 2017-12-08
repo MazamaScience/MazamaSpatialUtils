@@ -41,7 +41,7 @@ getUSCounty <- function(lon, lat, dataset='USCensusCounties', stateCodes=NULL, a
   # Subset by state before searching
   if (!is.null(stateCodes)) SPDF <- SPDF[SPDF$stateCode %in% stateCodes,]
   
-  locationsDF <- getSpatialData(lon,lat,SPDF)
+  locationsDF <- getSpatialData(lon, lat, SPDF)
   
   if (allData) {
     

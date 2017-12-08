@@ -41,7 +41,7 @@ getTimezone <- function(lon, lat, dataset="SimpleTimezones", countryCodes=NULL, 
   # Subset by country before searching
   if (!is.null(countryCodes)) SPDF <- SPDF[SPDF$countryCode %in% countryCodes,]
   
-  SPDF <- getSpatialData(lon,lat,SPDF,useBuffering=useBuffering)
+  SPDF <- getSpatialData(lon, lat, SPDF, useBuffering=useBuffering)
   
   if (allData) {
 

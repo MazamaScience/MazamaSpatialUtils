@@ -44,7 +44,7 @@ getVariable <- function(lon, lat, dataset=NULL, variable=NULL, countryCodes=NULL
   # Subset by country before searching
   if (!is.null(countryCodes)) SPDF <- SPDF[SPDF$countryCode %in% countryCodes,]
   
-  locationsDF <- getSpatialData(lon,lat,SPDF)
+  locationsDF <- getSpatialData(lon, lat, SPDF)
   
   if (allData) {
     return(locationsDF)

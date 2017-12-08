@@ -26,19 +26,19 @@ getCountryCode <- function(lon, lat, dataset='SimpleCountriesEEZ', countryCodes=
     stop('Missing database. Please loadSpatialData("',dataset,'")',call.=FALSE)
   }
   # check if longitude and latitude falls in the right range
-
   if ( min(lon, na.rm=TRUE) < -180 || 
        max(lon, na.rm=TRUE) > 180 || 
        min(lat, na.rm=TRUE) < -90 || 
        max(lat, na.rm=TRUE) > 90 ) {
     stop('Longitude or latitude is not specified in the correct range. Please try again.')
   }  
+
   SPDF <- get(dataset)
   
   # Subset by country before searching
   if (!is.null(countryCodes)) SPDF <- SPDF[SPDF$countryCode %in% countryCodes,]
   
-  locationsDF <- getSpatialData(lon,lat,SPDF,useBuffering=useBuffering)
+  locationsDF <- getSpatialData(lon, lat, SPDF, useBuffering=useBuffering)
   
   if (allData) {
     
