@@ -1,4 +1,4 @@
-FROM rocker/r-ver:3.3.1
+FROM rocker/r-ver:3.4
 
 #######################################################################
 # For MazamaSpatialUtils
@@ -8,9 +8,12 @@ RUN apt-get update \
     libcurl4-openssl-dev \
     libgdal-dev \
     libgeos-dev \
+    libjq-dev \
     libproj-dev \
     libprotobuf-dev \
     libssl-dev \
+    libv8-dev \
+    protobuf-compiler \
     wget \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/ \
@@ -21,14 +24,14 @@ RUN apt-get update \
     maps \
     mapdata \
     maptools \
+    remotes \
     rgdal \
     rgeos \
     rmapshaper \
-  && installGithub.r \
-    mazamascience/MazamaSpatialUtils
+    MazamaSpatialUtils
 
 # Add spatial data required by MazamaSpatialUtils
-RUN mkdir -p /home/mazama/data \
+RUN mkdir -p /home/mazama/data/Spatial \
   && wget -nv http://mazamascience.com/RData/Spatial/mazama_spatial_files-0.5.tar.gz \
-  && tar -xzf Spatial.tar.gz -C /home/mazama/data \
-  && rm Spatial.tar.gz
+  && tar -xzf mazama_spatial_files-0.5.tar.gz -C /home/mazama/data/Spatial \
+  && rm mazama_spatial_files-0.5.tar.gz

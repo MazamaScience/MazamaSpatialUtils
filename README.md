@@ -57,7 +57,6 @@ consistency makes it posisble to generate maps for any data that is ISO encoded.
 It also makes it possible to create functions that return the country, state or
 timezone associated with a set of locations.
 
-
 ## Installation
 
 This package is designed to be used with [R](https://cran.r-project.org) (>= 3.1.0)

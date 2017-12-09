@@ -5,12 +5,11 @@ A quick refresher on docker commands is available at the [docker cheatsheet](htt
 A docker image with all required prerequisites can be built with the `Dockerfile` in this directory:
 
 ```
-$ docker build -t spatialutils:v0.5.2 .
-$ docker tag spatialutils:v0.5.2 spatialutils:latest
+$ docker build -t mazamascience/spatialutils:v0.5.2  -t mazamascience/spatialutils:latest .
 $ docker images
-REPOSITORY                   TAG                 IMAGE ID            CREATED             SIZE
-spatialutils                 latest              be5b4f8f8ca5        27 seconds ago      1.19 GB
-spatialutils                 v0.5.2              be5b4f8f8ca5        27 seconds ago      1.19 GB
+REPOSITORY                        TAG                 IMAGE ID            CREATED             SIZE
+spatialutils                      latest              9633b7194e6d        3 minutes ago       1.63GB
+spatialutils                      v0.5.2              9633b7194e6d        3 minutes ago       1.63GB
 ...
 ```
 
@@ -24,33 +23,26 @@ A recent image can also be obtained from DockerHub with:
 docker pull mazamascience/spatialutils
 ```
 
-In the example below, you should replace ```spatialutils``` with ```mazamascience/spatialutils``` if you pulled from DockerHub.
-
 ## Docker Run ##
 
 Having built the docker image we can now test it with:
 
 ```
-docker run -ti spatialutils R --vanilla
+docker run -ti mazamascience/spatialutils R --vanilla
 ...
+> library(MazamaSpatialUtils)
+Loading required package: sp
 > getCountryName(1:50,1:50)
- [1] NA                       NA                       NA                      
- [4] NA                       NA                       "Nigeria"               
- [7] "Nigeria"                "Nigeria"                "Nigeria"               
-[10] "Nigeria"                "Nigeria"                "Nigeria"               
-[13] "Nigeria"                "Chad"                   "Chad"                  
-[16] "Chad"                   "Chad"                   "Chad"                  
-[19] "Chad"                   "Chad"                   "Libyan Arab Jamahiriya"
-[22] "Libyan Arab Jamahiriya" "Libyan Arab Jamahiriya" "Libyan Arab Jamahiriya"
-[25] "Egypt"                  "Egypt"                  "Egypt"                 
-[28] "Egypt"                  "Egypt"                  "Egypt"                 
-[31] "Egypt"                  NA                       NA                      
-[34] NA                       NA                       "Turkey"                
-[37] "Turkey"                 "Turkey"                 "Turkey"                
-[40] "Turkey"                 "Turkey"                 "Georgia"               
-[43] "Georgia"                "Russia"                 "Russia"                
-[46] "Russia"                 "Russia"                 "Kazakhstan"            
-[49] "Kazakhstan"             "Kazakhstan"            
+ [1] NA           NA           "Nigeria"    "Nigeria"    "Nigeria"   
+ [6] "Nigeria"    "Nigeria"    "Nigeria"    "Nigeria"    "Nigeria"   
+[11] "Nigeria"    "Nigeria"    "Nigeria"    "Chad"       "Chad"      
+[16] "Chad"       "Chad"       "Chad"       "Chad"       "Chad"      
+[21] "Chad"       "Libya"      "Libya"      "Libya"      "Egypt"     
+[26] "Egypt"      "Egypt"      "Egypt"      "Egypt"      "Egypt"     
+[31] "Egypt"      "Egypt"      "Cyprus"     "Cyprus"     "Syria"     
+[36] "Turkey"     "Turkey"     "Turkey"     "Turkey"     "Turkey"    
+[41] "Turkey"     "Georgia"    "Georgia"    "Russia"     "Russia"    
+[46] "Russia"     "Russia"     "Kazakhstan" "Kazakhstan" "Kazakhstan"
 > setSpatialDataDir('/home/mazama/data/Spatial')
 > loadSpatialData('NaturalEarthAdm1')
 > getStateName(1:50,1:50)
