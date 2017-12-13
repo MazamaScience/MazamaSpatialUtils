@@ -2,14 +2,20 @@
 
 A quick refresher on docker commands is available at the [docker cheatsheet](https://github.com/wsargent/docker-cheat-sheet).
 
-A docker image with all required prerequisites can be built with the `Dockerfile` in this directory:
+A docker image with all required prerequisites can be built with the `Makefile` in this directory:
+
+```
+make operational_build
+```
+
+This is just shorthand for the following `docker build` line:
 
 ```
 $ docker build -t mazamascience/spatialutils:v0.5.2  -t mazamascience/spatialutils:latest .
 $ docker images
 REPOSITORY                        TAG                 IMAGE ID            CREATED             SIZE
-spatialutils                      latest              9633b7194e6d        3 minutes ago       1.63GB
-spatialutils                      v0.5.2              9633b7194e6d        3 minutes ago       1.63GB
+mazamascience/spatialutils        latest              9633b7194e6d        4 days ago          1.63GB
+mazamascience/spatialutils        v0.5.2              9633b7194e6d        4 days ago          1.63GB
 ...
 ```
 
@@ -17,15 +23,10 @@ spatialutils                      v0.5.2              9633b7194e6d        3 minu
 
 Spatial data required by the **MazamaSpatialUtils** package already exists in the docker image in `/home/mazama/data/Spatial`.
 
-A recent image can also be obtained from DockerHub with:
 
-```
-docker pull mazamascience/spatialutils
-```
+## Test the Docker Image ##
 
-## Docker Run ##
-
-Having built the docker image we can now test it with:
+Having built the docker image we can now test it. The following output was obtained on December 12, 2017:
 
 ```
 docker run -ti mazamascience/spatialutils R --vanilla
@@ -64,4 +65,22 @@ Loading required package: sp
 [46] "Kalmyk"                 "Astrakhan'"             "Atyrau"                
 [49] "West Kazakhstan"        "West Kazakhstan"       
 ```
+
+## Publish the Docker Image ##
+
+```
+docker login
+...
+docker push mazamascience/spatialutils:v0.5.2
+```
+
+
+## Download the Docker Image ##
+
+A recent image can also be obtained from DockerHub with:
+
+```
+docker pull mazamascience/spatialutils:v0.5.2
+```
+
 
