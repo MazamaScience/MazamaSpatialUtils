@@ -2,7 +2,7 @@
 #' @export
 #' @title Convert US Core Based Statistical Areas Shapefile
 #' @param nameOnly logical specifying whether to only return the name without creating the file
-#' @param simplify logical specifying whether to create "_02" and "_01" versions of the file that are simplified to 2\% and 1\%
+#' @param simplify logical specifying whether to create "_05", _02" and "_01" versions of the file that are simplified to 5\%, 2\% and 1\%
 #' @description Returns a SpatialPolygonsDataFrame for US CBSAs
 #' @details A US Core Based Statistical Areas (CBSA) shapefile is downloaded and converted to a 
 #' SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
@@ -103,8 +103,17 @@ convertUSCensusCBSA <- function(nameOnly=FALSE, simplify=FALSE) {
   rm(list=datasetName)
   
   if ( simplify ) {
-    # Create two new simplified datsets: one with 2%, and one with 1% of the vertices of the original
+    # Create new, simplified datsets: one with 5%, 2%, and one with 1% of the vertices of the original
     # NOTE:  This may take several minutes. 
+    cat("Simplifying to 5%...\n")
+    SPDF_05 <- rmapshaper::ms_simplify(SPDF, 0.05)
+    SPDF_05@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+    datasetName_05 <- paste0(datasetName, "_05")
+    cat("Saving 5% version...\n")
+    assign(datasetName_05, SPDF_05)
+    save(list=datasetName_05, file = paste0(dataDir,"/",datasetName_05, '.RData'))
+    rm(list=c("SPDF_05",datasetName_05))
+    
     cat("Simplifying to 2%...\n")
     SPDF_02 <- rmapshaper::ms_simplify(SPDF, 0.02)
     SPDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
