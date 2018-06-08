@@ -13,6 +13,7 @@ set of longitude/latitude pairs. (They also make cool maps.)
 
 ### MazamaSpatialUtils 0.5.3
 
+ * added `convertUSCensusCBSA()` to convert Metropolitan-/Micropolitan Statistical Areas
  * removed `verbose` argument from `getStateCode()` function signature
  
 ### MazamaSpatialUtils 0.5.2
