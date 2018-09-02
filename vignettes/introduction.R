@@ -7,7 +7,7 @@ knitr::opts_chunk$set(fig.width=7, fig.height=5)
 
 ## ---- eval = FALSE-------------------------------------------------------
 #  loadSpatialData('NaturalEarthAdm1')
-#  loadSpatialData('WBDHU')
+#  loadSpatialData('USCensus')
 
 ## ------------------------------------------------------------------------
 library(MazamaSpatialUtils)

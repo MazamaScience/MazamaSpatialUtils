@@ -1,4 +1,5 @@
-FROM rocker/r-ver:3.4
+FROM rocker/tidyverse:3.5.1
+MAINTAINER Jonathan Callahan <jonathan@mazamascience.com>
 
 #######################################################################
 # For MazamaSpatialUtils
@@ -12,6 +13,7 @@ RUN apt-get update \
     libproj-dev \
     libprotobuf-dev \
     libssl-dev \
+    libudunits2-dev \
     libv8-dev \
     protobuf-compiler \
     wget \

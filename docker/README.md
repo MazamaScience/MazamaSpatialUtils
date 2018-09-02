@@ -5,17 +5,17 @@ A quick refresher on docker commands is available at the [docker cheatsheet](htt
 A docker image with all required prerequisites can be built with the `Makefile` in this directory:
 
 ```
-make operational_build
+make production_build
 ```
 
 This is just shorthand for the following `docker build` line:
 
 ```
-$ docker build -t mazamascience/spatialutils:v0.5.2  -t mazamascience/spatialutils:latest .
+$ docker build -t mazamascience/spatialutils:0.5.3  -t mazamascience/spatialutils:latest .
 $ docker images
 REPOSITORY                        TAG                 IMAGE ID            CREATED             SIZE
-mazamascience/spatialutils        latest              9633b7194e6d        4 days ago          1.63GB
-mazamascience/spatialutils        v0.5.2              9633b7194e6d        4 days ago          1.63GB
+mazamascience/spatialutils        latest              9633b7194e6d        4 days ago          2.35GB
+mazamascience/spatialutils        0.5.3               9633b7194e6d        4 days ago          2.35GB
 ...
 ```
 
@@ -71,7 +71,7 @@ Loading required package: sp
 ```
 docker login
 ...
-docker push mazamascience/spatialutils:v0.5.2
+docker push mazamascience/spatialutils:0.5.3
 ```
 
 
@@ -80,7 +80,7 @@ docker push mazamascience/spatialutils:v0.5.2
 A recent image can also be obtained from DockerHub with:
 
 ```
-docker pull mazamascience/spatialutils:v0.5.2
+docker pull mazamascience/spatialutils:0.5.3
 ```
 
 
