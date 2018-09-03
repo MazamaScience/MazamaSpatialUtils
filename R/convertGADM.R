@@ -13,7 +13,7 @@
 #' Level 0 will return the national outline. Level 1 will give state/province boundaries. etc.
 #' @note Not all countries have the same number of levels. Many just have two levels while France has five.
 #' @return Name of the dataset being created.
-#' @references \url{http://www.gadm.org/country}.
+#' @references \url{https://gadm.org/data.html}.
 #' @examples
 #' \dontrun{
 #' convertGADM('DE', 1)

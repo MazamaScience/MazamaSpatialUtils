@@ -4,8 +4,8 @@
 \alias{getStateName}
 \title{Return State Names at Specified Locations}
 \usage{
-getStateName(lon, lat, dataset = "NaturalEarthAdm1", countryCodes = NULL,
-  allData = FALSE, useBuffering = FALSE)
+getStateName(lon, lat, dataset = "NaturalEarthAdm1",
+  countryCodes = NULL, allData = FALSE, useBuffering = FALSE)
 }
 \arguments{
 \item{lon}{vector of longitudes in decimal degrees}

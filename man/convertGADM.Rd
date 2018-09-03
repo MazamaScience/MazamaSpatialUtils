@@ -34,6 +34,6 @@ convertGADM('DE', 1)
 }
 }
 \references{
-\url{http://www.gadm.org/country}.
+\url{https://gadm.org/data.html}.
 }
 \keyword{datagen}

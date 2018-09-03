@@ -11,6 +11,10 @@ set of longitude/latitude pairs. (They also make cool maps.)
 
 ## Version 0.5 -- Aggregate by Polygon
 
+### MazamaSpatialUtils 0.5.4
+
+ * corrected GADM URL in documentation for `convertGADM()`
+ 
 ### MazamaSpatialUtils 0.5.3
 
  * added `convertUSCensusCBSA()` to convert Metropolitan-/Micropolitan Statistical Areas

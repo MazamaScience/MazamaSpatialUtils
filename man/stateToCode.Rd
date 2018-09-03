@@ -4,7 +4,8 @@
 \alias{stateToCode}
 \title{Convert State Names to State Codes}
 \usage{
-stateToCode(stateNames, countryCodes = NULL, dataset = "NaturalEarthAdm1")
+stateToCode(stateNames, countryCodes = NULL,
+  dataset = "NaturalEarthAdm1")
 }
 \arguments{
 \item{stateNames}{state names to be converted}
