@@ -97,7 +97,7 @@ convertUSCensusCBSA <- function(nameOnly=FALSE, simplify=FALSE) {
   SPDF <- organizePolygons(SPDF, uniqueID='CBSAFP', sumColumns=c('areaLand','areaWater'))
 
   # Assign a name and save the data
-  cat("Saving full resolution version...\n")
+  message("Saving full resolution version...\n")
   assign(datasetName,SPDF)
   save(list=c(datasetName),file=paste0(dataDir,'/',datasetName,'.RData'))
   rm(list=datasetName)
@@ -105,29 +105,29 @@ convertUSCensusCBSA <- function(nameOnly=FALSE, simplify=FALSE) {
   if ( simplify ) {
     # Create new, simplified datsets: one with 5%, 2%, and one with 1% of the vertices of the original
     # NOTE:  This may take several minutes. 
-    cat("Simplifying to 5%...\n")
+    message("Simplifying to 5%...\n")
     SPDF_05 <- rmapshaper::ms_simplify(SPDF, 0.05)
     SPDF_05@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
     datasetName_05 <- paste0(datasetName, "_05")
-    cat("Saving 5% version...\n")
+    message("Saving 5% version...\n")
     assign(datasetName_05, SPDF_05)
     save(list=datasetName_05, file = paste0(dataDir,"/",datasetName_05, '.RData'))
     rm(list=c("SPDF_05",datasetName_05))
     
-    cat("Simplifying to 2%...\n")
+    message("Simplifying to 2%...\n")
     SPDF_02 <- rmapshaper::ms_simplify(SPDF, 0.02)
     SPDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
     datasetName_02 <- paste0(datasetName, "_02")
-    cat("Saving 2% version...\n")
+    message("Saving 2% version...\n")
     assign(datasetName_02, SPDF_02)
     save(list=datasetName_02, file = paste0(dataDir,"/",datasetName_02, '.RData'))
     rm(list=c("SPDF_02",datasetName_02))
     
-    cat("Simplifying to 1%...\n")
+    message("Simplifying to 1%...\n")
     SPDF_01 <- rmapshaper::ms_simplify(SPDF, 0.01) 
     SPDF_01@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
     datasetName_01 <- paste0(datasetName, "_01")
-    cat("Saving 1% version...\n")
+    message("Saving 1% version...\n")
     assign(datasetName_01, SPDF_01)
     save(list=datasetName_01, file = paste0(dataDir,"/",datasetName_01, '.RData'))
     rm(list=c("SPDF_01",datasetName_01))
