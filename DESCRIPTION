@@ -31,7 +31,8 @@ Imports:
     rvest (>= 0.3.0),
     stringr,
     utils,
-    xml2
+    xml2,
+    countrycode
 Suggests:
     knitr,
     maps,

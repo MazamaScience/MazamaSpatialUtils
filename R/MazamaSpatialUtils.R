@@ -128,7 +128,7 @@ setSpatialDataDir <- function(dataDir) {
     warning("Invalid path name.")
   }, error   = function(err) {
     stop(paste0("Error in setSpatialDataDir(",dataDir,")."))
-  })     
+  })
   return(invisible(old))
 }
 
@@ -142,13 +142,11 @@ setSpatialDataDir <- function(dataDir) {
 #' @description Converts a vector of ISO 3166-1 alpha-2 codes to the corresponding ISO 3166-1 alpha-3 codes.
 #' @return A vector of ISO3 country codes
 iso2ToIso3 <- function(countryCodes) {
-  countryTable <- convertISOCodeTable()
   nonMissingCountryCodes <- countryCodes[!is.na(countryCodes)]
   if ( all(stringr::str_length(nonMissingCountryCodes) == 2) ) {
-    # Create a vector of ISO3 identified by countryCode
-    allISO3 <- countryTable$ISO3
-    names(allISO3) <- countryTable$countryCode
-    return(as.character(allISO3[countryCodes]))
+    # Create a vector of ISO3 identified by the countrycode package
+    iso3Codes <- countrycode::countrycode(countryCodes, "iso2c", "iso3c")
+    return(iso3Codes)
   } else {
     stop('countryCodes must be all ISO 3166-1 alpha-2', call.=FALSE)
   }
@@ -161,13 +159,11 @@ iso2ToIso3 <- function(countryCodes) {
 #' @description Converts a vector of ISO 3166-1 alpha-3 codes to the corresponding ISO 3166-1 alpha-2 codes.
 #' @return A vector of ISO2 country codes
 iso3ToIso2 <- function(countryCodes) {
-  countryTable <- convertISOCodeTable()
   nonMissingCountryCodes <- countryCodes[!is.na(countryCodes)]
   if ( all(stringr::str_length(nonMissingCountryCodes) == 3) ) {
     # Create a vector of ISO2 identified by ISO3
-    allISO2 <- countryTable$countryCode
-    names(allISO2) <- countryTable$ISO3
-    return(as.character(allISO2[countryCodes]))    
+    iso2Codes <- countrycode::countrycode(countryCodes, 'iso3c', 'iso2c')
+    return(iso2Codes)
   } else {
     stop('countryCodes must be all ISO 3166-1 alpha-3', call.=FALSE)
   }
@@ -180,10 +176,7 @@ iso3ToIso2 <- function(countryCodes) {
 #' @description Converts a vector of ISO 3166-1 alpha-2 codes to the corresponding English names.
 #' @return A vector of English country names or NA.
 codeToCountry <- function(countryCodes) {
-  countryTable <- convertISOCodeTable()
-  # Create a vector of countryNames identified by countryCode
-  allNames <- countryTable$countryName
-  names(allNames) <- countryTable$countryCode
+  countryNames <- countrycode::countrycode(countryCodes, "iso2c", "country.names.en")
   return(as.character(allNames[countryCodes]))
 }
 
@@ -194,10 +187,7 @@ codeToCountry <- function(countryCodes) {
 #' @description Converts a vector of English country names to the corresponding ISO 3166-1 alpha-2 codes.
 #' @return A vector of ISO 3166-1 alpha-2 codes or NA.
 countryToCode <- function(countryNames) {
-  countryTable <- convertISOCodeTable()
-  # Create a vector of countryCodes identified by countryName
-  allCodes <- countryTable$countryCode
-  names(allCodes) <- countryTable$countryName
+  countryCodes <- countrycode::countrycode(countryNames, "country.name.en.regex", "iso2c")
   return(as.character(allCodes[countryNames]))
 }
 
