@@ -43,7 +43,7 @@ convertHMSSmoke <- function(dsnPath=NULL, datestamp=NULL, nameOnly=FALSE) {
       result <- try( Recall(dsnPath, datestamp), # 'Recall' is a placedholder for the name of the function in which it is called.
                      silent=TRUE)
       if ( class(result)[1] == "try-error" ) {
-        cat(paste0(geterrmessage(),'\n'))
+        warning(geterrmessage(),'\n')
       }
     }
     datasetNames <- paste0('HMSSmoke_',datestamps)
@@ -71,8 +71,8 @@ convertHMSSmoke <- function(dsnPath=NULL, datestamp=NULL, nameOnly=FALSE) {
 
   # NOTE:  If centroids don't work we'll just default to the center of the bbox for each polygon
   if ( class(result)[1] == "try-error" ) {
-    cat(paste0('NOTE: rgeos::gCentroid() failed with the following message. Using bbox() to calculate lon and lat.\n'))
-    cat(paste0(geterrmessage(),'\n'))
+    warning('NOTE: rgeos::gCentroid() failed with the following message. Using bbox() to calculate lon and lat.\n')
+    warning(geterrmessage(),'\n')
     lon <- rep(as.numeric(NA), nrow(SPDF))
     lat <- rep(as.numeric(NA), nrow(SPDF))
     for (i in 1:nrow(SPDF)) {

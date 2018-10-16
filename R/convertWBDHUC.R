@@ -61,7 +61,7 @@ convertWBDHUC <- function(dsnPath=NULL, level=8, extension="", nameOnly=FALSE, s
 
   # Convert shapefile into SpatialPolygonsDataFrame
   layerName <- paste0('WBDHU', level, extension)
-  cat("Reading in data...\n")
+  message("Reading in data...\n")
   SPDF <- convertLayer(dsn=dsnPath, layerName=layerName)
 
   # Rationalize naming:
@@ -149,7 +149,7 @@ convertWBDHUC <- function(dsnPath=NULL, level=8, extension="", nameOnly=FALSE, s
   # Group polygons with duplicated hydrologic unit codes
   # NOTE:  The USGS WBD polygons seem to be well organized
   if ( length(SPDF@polygons) != nrow(SPDF@data) ) {
-    cat("Organizing polygons...\n")
+    message("Organizing polygons...\n")
     SPDF <- organizePolygons(SPDF, uniqueID='HUC', sumColumns='area')
   }
 
@@ -159,7 +159,7 @@ convertWBDHUC <- function(dsnPath=NULL, level=8, extension="", nameOnly=FALSE, s
 
   # Calculate centroids to help add more metadata
   result <- try( {
-    cat("Calculating centroids...\n")
+    message("Calculating centroids...\n")
     centroids <- rgeos::gCentroid(SPDF, byid=TRUE)
     lon <- sp::coordinates(centroids)[,1]
     lat <- sp::coordinates(centroids)[,2]
@@ -173,8 +173,8 @@ convertWBDHUC <- function(dsnPath=NULL, level=8, extension="", nameOnly=FALSE, s
   # NOTE:  If centroids don't work we'll just default to the center of the bbox for each polygon
   
   if ( class(result)[1] == "try-error" ) {
-    cat(paste0('NOTE: rgeos::gCentroid() failed with the following message. Using bbox() to calculate lon and lat.\n'))
-    cat(paste0(geterrmessage(),'\n'))
+    warning('NOTE: rgeos::gCentroid() failed with the following message. Using bbox() to calculate lon and lat.\n')
+    warning(geterrmessage(),'\n')
     lon <- rep(as.numeric(NA), nrow(SPDF))
     lat <- rep(as.numeric(NA), nrow(SPDF))
     for (i in 1:nrow(SPDF)) {
@@ -190,7 +190,7 @@ convertWBDHUC <- function(dsnPath=NULL, level=8, extension="", nameOnly=FALSE, s
   SPDF$countryCode <- 'US'
   
   #NOTE: this takes quite a long time. 
-  cat("Getting stateCode...\n")
+  message("Getting stateCode...\n")
   suppressWarnings(SPDF$stateCode <- getStateCode(lon, lat, countryCodes=c('US')))
    
   # Hack to change missing stateCodes to the value from allStateCodes
@@ -208,7 +208,7 @@ convertWBDHUC <- function(dsnPath=NULL, level=8, extension="", nameOnly=FALSE, s
   SPDF$polygonID <- SPDF$HUC
   
   # Assign a name and save the data
-  cat("Saving full resolution version...\n")
+  message("Saving full resolution version...\n")
   assign(datasetName,SPDF)
   save(list=datasetName, file = paste0(dataDir,"/",datasetName, '.RData'))
   rm(list=datasetName)
@@ -216,20 +216,20 @@ convertWBDHUC <- function(dsnPath=NULL, level=8, extension="", nameOnly=FALSE, s
   if ( simplify ) {
     # Create two new simplified datsets: one with 2%, and one with 1% of the vertices of the original
     # NOTE:  This may take several minutes. 
-    cat("Simplifying to 2%...\n")
+    message("Simplifying to 2%...\n")
     SPDF_02 <- rmapshaper::ms_simplify(SPDF, 0.02)
     SPDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
     datasetName_02 <- paste0(datasetName, "_02")
-    cat("Saving 2% version...\n")
+    message("Saving 2% version...\n")
     assign(datasetName_02, SPDF_02)
     save(list=datasetName_02, file = paste0(dataDir,"/",datasetName_02, '.RData'))
     rm(list=c("SPDF_02",datasetName_02))
     
-    cat("Simplifying to 1%...\n")
+    message("Simplifying to 1%...\n")
     SPDF_01 <- rmapshaper::ms_simplify(SPDF, 0.01) 
     SPDF_01@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
     datasetName_01 <- paste0(datasetName, "_01")
-    cat("Saving 1% version...\n")
+    message("Saving 1% version...\n")
     assign(datasetName_01, SPDF_01)
     save(list=datasetName_01, file = paste0(dataDir,"/",datasetName_01, '.RData'))
     rm(list=c("SPDF_01",datasetName_01))
@@ -242,13 +242,13 @@ convertWBDHUC <- function(dsnPath=NULL, level=8, extension="", nameOnly=FALSE, s
 # if ( FALSE ) {
 # 
 #   for ( i in c(2,4,6) ) {
-#     cat(paste0("----- Processing level ",i," -----\n"))
+#     message("----- Processing level ",i," -----\n")
 #     convertWBDHUC(dsnPath="~/Data/SpatialRaw/WBD.gdb", level=i, simplify=TRUE)
 #   }
 # 
 #   # NOTE:  Running out of memory trying to simplify level 8 or above
 #   for ( i in c(8,10,12) ) {
-#     cat(paste0("----- Processing level ",i," -----\n"))
+#     message("----- Processing level ",i," -----\n")
 #     convertWBDHUC(dsnPath="~/Data/SpatialRaw/WBD.gdb", level=i, simplify=FALSE)
 #   }
 #   
