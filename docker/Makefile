@@ -4,5 +4,5 @@
 
 # OPERATIONAL version -------------------------------------------------------------
 production_build:
-	docker build --no-cache -t mazamascience/spatialutils:0.5.3 -t mazamascience/spatialutils:latest .
+	docker build --no-cache -t mazamascience/spatialutils:0.5.4 -t mazamascience/spatialutils:latest .
 
