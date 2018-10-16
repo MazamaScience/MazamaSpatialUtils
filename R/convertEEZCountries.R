@@ -69,6 +69,8 @@ convertEEZCountries <- function(dsnPath=NULL, nameOnly=FALSE) {
   # 152      154 MNP++ Northern Marinana Islands-Guam    <NA> 82.66514
   SPDF@data["65","ISO3"] <- "CUW"
   SPDF@data["152","ISO3"] <- "GUM"
+  SPDF@data["258", "ISO3"] <-"VAT"
+  SPDF@data["61", "ISO3"] <- "FRA" # changing Clipperton Island iso code to France iso code
   
   # Add more standard columns
   SPDF$countryCode <- iso3ToIso2(SPDF$ISO3)
