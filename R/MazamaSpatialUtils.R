@@ -176,7 +176,7 @@ iso3ToIso2 <- function(countryCodes) {
 #' @description Converts a vector of ISO 3166-1 alpha-2 codes to the corresponding English names.
 #' @return A vector of English country names or NA.
 codeToCountry <- function(countryCodes) {
-  countryNames <- countrycode::countrycode(countryCodes, "iso2c", "country.names.en")
+  countryNames <- countrycode::countrycode(countryCodes, "iso2c", "country.name")
   return(as.character(allNames[countryCodes]))
 }
 
