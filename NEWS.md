@@ -11,6 +11,11 @@ set of longitude/latitude pairs. (They also make cool maps.)
 
 ## Version 0.5 -- Aggregate by Polygon
 
+### MazamaSpatialUtils 0.5.5
+
+ * ebolamap.Rmd converted to vignette, moved to vignettes/ and localNotebooks/ deleted
+ * usages of cat( replaced with message(, warning(, or error(
+
 ### MazamaSpatialUtils 0.5.4
 
  * corrected GADM URL in documentation for `convertGADM()`
