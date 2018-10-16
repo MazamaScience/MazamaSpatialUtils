@@ -4,8 +4,8 @@
 \alias{summarizeByPolygon}
 \title{Summarize values by polygon}
 \usage{
-summarizeByPolygon(longitude, latitude, value, SPDF, useBuffering = FALSE,
-  FUN, varName = "summaryValue")
+summarizeByPolygon(longitude, latitude, value, SPDF,
+  useBuffering = FALSE, FUN, varName = "summaryValue")
 }
 \arguments{
 \item{longitude}{vector of longitudes}

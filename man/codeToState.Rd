@@ -4,7 +4,8 @@
 \alias{codeToState}
 \title{Convert State Codes to State Names}
 \usage{
-codeToState(stateCodes, countryCodes = NULL, dataset = "NaturalEarthAdm1")
+codeToState(stateCodes, countryCodes = NULL,
+  dataset = "NaturalEarthAdm1")
 }
 \arguments{
 \item{stateCodes}{vector of state codes to be converted}

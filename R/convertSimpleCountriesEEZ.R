@@ -127,4 +127,5 @@ convertSimpleCountriesEEZ <- function(dsnPath = NULL, nameOnly=FALSE) {
   unlink(dsnPath, recursive=TRUE, force=TRUE)
   
   return(invisible(datasetName))
+  
 }

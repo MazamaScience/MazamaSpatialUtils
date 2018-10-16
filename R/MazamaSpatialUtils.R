@@ -177,7 +177,7 @@ iso3ToIso2 <- function(countryCodes) {
 #' @return A vector of English country names or NA.
 codeToCountry <- function(countryCodes) {
   countryNames <- countrycode::countrycode(countryCodes, "iso2c", "country.name")
-  return(as.character(allNames[countryCodes]))
+  return(countryNames)
 }
 
 #' @keywords conversion
@@ -188,7 +188,7 @@ codeToCountry <- function(countryCodes) {
 #' @return A vector of ISO 3166-1 alpha-2 codes or NA.
 countryToCode <- function(countryNames) {
   countryCodes <- countrycode::countrycode(countryNames, "country.name.en.regex", "iso2c")
-  return(as.character(allCodes[countryNames]))
+  return(countryCodes)
 }
 
 #' @keywords conversion

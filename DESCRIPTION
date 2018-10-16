@@ -4,6 +4,7 @@ Version: 0.5.5
 Title: Spatial Data Download and Utility Functions
 Authors@R: c(
     person("Jonathan", "Callahan", email="jonathan.s.callahan@gmail.com", role=c("aut","cre")), 
+    person("Tom", "Bergamaschi", email="tbergama@gmail.com", role=c("aut")),
     person("Ruby", "Fore", email="ruby.a.fore@gmail.com", role=c("aut")),
     person("Will", "Leahy", email="procterw@gmail.com", role=c("aut")),
     person("Helen", "Miller", email="helen@ohana.org", role=c("aut")),
@@ -12,6 +13,7 @@ Authors@R: c(
     person("Alice", "Yang", email="wenhuy@uw.edu", role=c("aut"))
     )
 Author: Jonathan Callahan [aut, cre],
+    Tom Bergamaschi [aut],
     Ruby Fore [aut],
     Will Leahy [aut],
     Helen Miller [aut],
@@ -23,6 +25,7 @@ Depends:
     R (>= 3.1.0),
     sp
 Imports:
+    countrycode,
     dplyr,
     lubridate,
     rgdal,
@@ -31,8 +34,7 @@ Imports:
     rvest (>= 0.3.0),
     stringr,
     utils,
-    xml2,
-    countrycode
+    xml2
 Suggests:
     knitr,
     maps,
@@ -44,8 +46,10 @@ Description: A suite of conversion scripts to create internally standardized
     values such as country, state, timezone, watershed, etc. associated with a
     set of longitude/latitude pairs. (They also make cool maps.)
 License: GPL-2
-VignetteBuilder: knitr
+URL: https://github.com/MazamaScience/MazamaSpatialUtils
+BugReports: https://github.com/MazamaScience/MazamaSpatialUtils/issues
 Repository: CRAN
 Encoding: UTF-8
+VignetteBuilder: knitr
 LazyData: true
 RoxygenNote: 6.1.0
