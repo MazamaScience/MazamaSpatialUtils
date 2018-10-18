@@ -145,7 +145,8 @@ iso2ToIso3 <- function(countryCodes) {
   nonMissingCountryCodes <- countryCodes[!is.na(countryCodes)]
   if ( all(stringr::str_length(nonMissingCountryCodes) == 2) ) {
     # Create a vector of ISO3 identified by the countrycode package
-    iso3Codes <- countrycode::countrycode(countryCodes, "iso2c", "iso3c")
+    iso3Codes <- countrycode::countrycode(countryCodes, "iso2c", "iso3c",
+                                          custom_match = c("AN" = "ANT"))  # Custom match for Netherlands Antilles
     return(iso3Codes)
   } else {
     stop('countryCodes must be all ISO 3166-1 alpha-2', call.=FALSE)
@@ -162,7 +163,8 @@ iso3ToIso2 <- function(countryCodes) {
   nonMissingCountryCodes <- countryCodes[!is.na(countryCodes)]
   if ( all(stringr::str_length(nonMissingCountryCodes) == 3) ) {
     # Create a vector of ISO2 identified by ISO3
-    iso2Codes <- countrycode::countrycode(countryCodes, 'iso3c', 'iso2c')
+    iso2Codes <- countrycode::countrycode(countryCodes, 'iso3c', 'iso2c',
+                                          custom_match = c("ANT" = "AN"))  # custom match for Netherlands Antilles
     return(iso2Codes)
   } else {
     stop('countryCodes must be all ISO 3166-1 alpha-3', call.=FALSE)
@@ -176,7 +178,8 @@ iso3ToIso2 <- function(countryCodes) {
 #' @description Converts a vector of ISO 3166-1 alpha-2 codes to the corresponding English names.
 #' @return A vector of English country names or NA.
 codeToCountry <- function(countryCodes) {
-  countryNames <- countrycode::countrycode(countryCodes, "iso2c", "country.name")
+  countryNames <- countrycode::countrycode(countryCodes, "iso2c", "country.name",
+                                           custom_match = c("AN" = "Netherlands Antilles"))  # custom match for Netherlands Antilles
   return(countryNames)
 }
 
@@ -187,7 +190,8 @@ codeToCountry <- function(countryCodes) {
 #' @description Converts a vector of English country names to the corresponding ISO 3166-1 alpha-2 codes.
 #' @return A vector of ISO 3166-1 alpha-2 codes or NA.
 countryToCode <- function(countryNames) {
-  countryCodes <- countrycode::countrycode(countryNames, "country.name", "iso2c")
+  countryCodes <- countrycode::countrycode(countryNames, "country.name", "iso2c",
+                                           custom_match = c("Netherlands Antilles" = "AN"))  # custom match for Netherlands Antilles
   return(countryCodes)
 }
 
