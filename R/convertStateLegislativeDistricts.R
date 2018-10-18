@@ -1,4 +1,5 @@
 #' @keywords datagen
+#' @importFrom rlang .data
 #' @export
 #' @title Convert US State Legislative Districts Shapefile
 #' @param stateCode ISO 3166-2 alpha-2 state code
@@ -12,27 +13,21 @@
 #' @references \url{https://www.census.gov/geo/maps-data/data/cbf/cbf_sld.html}
 #' @seealso setSpatialDataDir
 
-convertStateLegislativeDistricts <- function(stateCode, house="Upper", nameOnly=FALSE) {
+convertStateLegislativeDistricts <- function(stateCode,
+                                             house="Upper",
+                                             nameOnly=FALSE) {
   
   # Use package internal data directory
   dataDir <- getSpatialDataDir()
   
   # Create dataset name
-  datasetName <- paste0(stateCode, house, "HouseLegislativeDistrict")
+  datasetName <- paste0(stateCode, "_", house, "HouseLegislativeDistricts")
   if (nameOnly) return(datasetName)
   
-  # Check that NaturalEarthAdm1 has been loaded
-  if (!exists("NaturalEarthAdm1")) {
-    stop("NaturalEarthAdm1 needed. Please load it with loadSpatialData(\"NaturalEarthAdm1\")")
-  }
-  
-  # Create state code dataframe for input validation
-  # Keep stateCode and FIPS code for request url construction
-  stateCodeDF <- dplyr::select(dplyr::filter(NaturalEarthAdm1@data, countryCode == 'US'),
-                               stateCode, fips)
+  stateCodesDF <- get("US_stateCodes")
   
   # Check that stateCode is a valid state code
-  if (!(stateCode %in% stateCodeDF[["stateCode"]])) {
+  if (!(stateCode %in% stateCodesDF[["stateCode"]])) {
     stop(paste(stateCode, "is not a valid stateCode. Please try again."))
   }
   
@@ -42,13 +37,14 @@ convertStateLegislativeDistricts <- function(stateCode, house="Upper", nameOnly=
   }
   
   # Check that house does not equal "Lower" if stateCode equals DC
-  if ((house == "Lower" && stateCode == "DC") || (house == "Lower" && stateCode == "NE")) {
+  if ( (house == "Lower" && stateCode == "DC") || 
+       (house == "Lower" && stateCode == "NE") ) {
     warning(paste(stateCode, "does not have a Lower house, converting shapefile for Upper house instead"))
     house <- "Upper"
   }
   
   # Get FIPS code for state
-  stateFips <- stateCodeDF[stateCodeDF["stateCode"] == stateCode, "fips"]
+  stateFips <- stateCodesDF[stateCodesDF["stateCode"] == stateCode, "fips"]
   stateFips <- stringr::str_replace(stateFips, "US", "")  # remove "US" at the beginning of FIPS code
   
   # create variable to specify Upper or Lower house in request url
@@ -74,25 +70,16 @@ convertStateLegislativeDistricts <- function(stateCode, house="Upper", nameOnly=
   
   # > names(SPDF)
   # [1] "STATEFP"  "SLDUST"   "AFFGEOID" "GEOID"    "NAME"     "LSAD"     "LSY"      "ALAND"    "AWATER"
-  
-  # Drop SLDUST, AFFGEOID, and GEOID
-  SPDF@data <- dplyr::select(SPDF@data, STATEFP, NAME, LSAD, LSY, ALAND, AWATER)
-  
-  # Convert names to adhere to naming standard
-  SPDF@data <- dplyr::rename(SPDF@data, stateFIPS = STATEFP)
-  SPDF@data <- dplyr::rename(SPDF@data, legislativeDistrict = NAME)
-  SPDF@data <- dplyr::rename(SPDF@data, legalStatisticalAreaDescriptionCode = LSAD)
-  SPDF@data <- dplyr::rename(SPDF@data, legislativeSessionYear = LSY)
-  SPDF@data <- dplyr::rename(SPDF@data, areaLand = ALAND)  # already in m^2
-  SPDF@data <- dplyr::rename(SPDF@data, areaWater = AWATER)  # already in m^2
-  
-  # Add ISO 3166-2 alpha-2 codes
-  # create a vector of ISO 3166-2 alpha-2 codes, named by their FIPS code
-  stateCodeVector <- stateCodeDF$stateCode
-  names(stateCodeVector) <- stateCodeDF$fips
+
+  usefulColumns <- c("STATEFP",  "NAME", "LSAD", "LSY", "ALAND", "AWATER")
+  SPDF@data <- SPDF@data[usefulColumns]
+  names(SPDF@data) <- c("stateFIPS", "legislativeDistrict",
+                        "legalStatisticalAreaDescriptionCode",
+                        "legislativeSessionYear",
+                        "areaLand", "areaWater")
   
   # Add stateCode field
-  SPDF$stateCode <- stateCodeVector[paste0("US", SPDF$stateFIPS)]
+  SPDF$stateCode <- stateCode
   
   # Add countryCode field
   SPDF$countryCode <- "US"

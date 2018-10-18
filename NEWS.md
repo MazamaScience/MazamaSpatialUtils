@@ -11,10 +11,18 @@ set of longitude/latitude pairs. (They also make cool maps.)
 
 ## Version 0.5 -- Aggregate by Polygon
 
+### MazamaSpatialUtils 0.5.6
+
+ * added `CONUS` and `US_52` vectors of US state codes as package data
+ * added `US_stateCodes` dataframe as package data
+ 
 ### MazamaSpatialUtils 0.5.5
 
+ * added `convertStateLegislativeDistricts()` function to download and convert
+ US state level legislative districts on demand
+ * now using *countrcode* package for all code/name conversions
  * ebolamap.Rmd converted to vignette, moved to vignettes/ and localNotebooks/ deleted
- * usages of cat( replaced with message(, warning(, or error(
+ * usages of `cat()` replaced with `message()`, `warning()`, or `error()`
 
 ### MazamaSpatialUtils 0.5.4
 

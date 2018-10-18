@@ -72,8 +72,6 @@ NULL
 NULL
 
 
-
-
 # ----- Internal Package State -------------------------------------------------
 
 spatialEnv <- new.env(parent = emptyenv())
@@ -257,3 +255,57 @@ stateToCode <- function(stateNames, countryCodes=NULL,
   names(allCodes) <- stateTable$stateName
   return(as.character(allCodes[stateNames]))
 }
+
+# ----- State codes -----------------------------------------------------------
+
+#' @docType data
+#' @keywords datasets
+#' @name US_stateCodes
+#' @title Dataframe of US State Codes
+#' @format A DataFrame with 51 rows and 6 columns of data.
+#' @description US_stateCodes contains the following columns of data for the
+#' 50 United States plus the District of Columbia:
+#' \itemize{
+#' \item{\code{stateCode} -- e.g. MT}
+#' \item{\code{stateName} -- e.g. Montana}
+#' \item{\code{adm1_code} -- e.g. USA-3515}
+#' \item{\code{code_hasc} -- e.g. US.MT}
+#' \item{\code{fips} -- e.g. US30}
+#' }
+NULL
+
+
+#' CONUS state codes
+#'
+#' @export
+#' @docType data
+#' @name CONUS
+#' @title CONUS State Codes
+#' @format A vector with 49 elements
+#' @description
+#' State codes for the 48 contiguous states +DC that make up the CONtinental US
+
+
+CONUS <- c(     "AL","AZ","AR","CA","CO","CT","DE","FL","GA",
+                "ID","IL","IN","IA","KS","KY","LA","ME","MD",
+           "MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
+           "NM","NY","NC","ND","OH","OK","OR","PA","RI","SC",
+           "SD","TN","TX","UT","VT","VA","WA","WV","WI","WY",
+           "DC"     )
+
+#' US state codes
+#'
+#' @export
+#' @docType data
+#' @name US_52
+#' @title US State Codes
+#' @format A vector with 52 elements
+#' @description
+#' State codes for the 50 states +DC +PR (Puerto Rico)
+
+US_52 <- c("AK","AL","AZ","AR","CA","CO","CT","DE","FL","GA",
+           "HI","ID","IL","IN","IA","KS","KY","LA","ME","MD",
+           "MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
+           "NM","NY","NC","ND","OH","OK","OR","PA","RI","SC",
+           "SD","TN","TX","UT","VT","VA","WA","WV","WI","WY",
+           "DC","PR")
