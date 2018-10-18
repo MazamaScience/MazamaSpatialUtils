@@ -49,6 +49,7 @@ Suggests:
     maps,
     markdown,
     readr,
+    rmarkdown,
     testthat
 Encoding: UTF-8
 VignetteBuilder: knitr

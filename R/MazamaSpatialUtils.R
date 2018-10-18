@@ -67,7 +67,7 @@ NULL
 #' and quick spatial searches. This dataset is distributed with the package and is used by
 #' default whenever a dataset with timezone polygons is required.
 #' @details This dataset is a simplified version of WorldTimezones. It was simplified with
-#' \url{http://mapshaper.org}.
+#' \url{https://mapshaper.org}.
 #' @seealso convertWorldTimezones
 NULL
 

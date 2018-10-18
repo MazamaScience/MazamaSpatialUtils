@@ -23,7 +23,7 @@
 #' 
 #' With mapshaper, you can reduce the number of vertices in the polygons, greatly improving
 #' the efficiency of spatial searches. Experimentation at the 
-#' \href{http://www.mapshaper.org}{mapshaper website} show that a reduction to 1-2%
+#' \href{https://www.mapshaper.org}{mapshaper website} show that a reduction to 1-2%
 #' of the original shapefile size still retains the recognizable shape of polygons, removing
 #' only the higher order "crenellations" in the polygons.
 #' 
