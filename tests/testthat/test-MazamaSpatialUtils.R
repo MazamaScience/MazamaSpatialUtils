@@ -1,4 +1,14 @@
 # -----------------------------------------------------------------------------
+testthat::context("Environment dataDir")
+
+testthat::test_that("setSpatialDataDir and getSpatialDataDir work correctly", {
+  setSpatialDataDir("~")
+  testthat::expect_equal(path.expand("~"), getSpatialDataDir())
+  setSpatialDataDir(getwd())
+  testthat::expect_equal(getwd(), getSpatialDataDir())
+})
+
+# -----------------------------------------------------------------------------
 context("iso2ToIso3()")
 
 test_that("Input is validated properly", {
@@ -39,5 +49,8 @@ test_that("Returns expected output", {
    expect_equal(countryToCode("Netherlands Antilles"), "AN")
    expect_equal(countryToCode(c("United States", "Canada")), c("US", "CA"))
 })
+
+# TODO: Unit test for stateToCode()
+# TODO: Unit test for codeToState()
 
   
