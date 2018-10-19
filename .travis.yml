@@ -5,14 +5,16 @@ sudo: false
 cache: packages
 
 r:
-  - oldrel
+#  - oldrel
   - release
-  - devel
+#  - devel
 
 before_install:
   - sudo apt-get update
   - sudo apt-get install -y libprotobuf-dev
   - sudo apt-get install -y protobuf-compiler
+  - sudo apt-get install -y libudunits2-dev
+  - sudo apt-get install -y libv8-3.14-dev
 
 # safelist
 branches:
