@@ -11,6 +11,12 @@ set of longitude/latitude pairs. (They also make cool maps.)
 
 ## Version 0.5 -- Aggregate by Polygon
 
+### MazamaSpatialUtils 0.5.7
+
+ * added `simplify()` wrapper for `rmapshaper::ms_simplify()`
+ * created a new `localRmd/` directory for ebolamap.Rmd
+ (As a vignette it caused CRAN tests to fail.)
+
 ### MazamaSpatialUtils 0.5.6
 
  * added `CONUS` and `US_52` vectors of US state codes as package data

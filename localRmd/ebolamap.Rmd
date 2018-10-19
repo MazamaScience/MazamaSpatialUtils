@@ -2,11 +2,7 @@
 title: "Ebola Map Example"
 author: "Robin Winstanley"
 date: '`r Sys.Date()`'
-output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Ebola Map Example}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+output: rmarkdown::html_document
 ---
 
 ```{r, echo=FALSE}

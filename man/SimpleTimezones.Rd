@@ -11,8 +11,7 @@ and quick spatial searches. This dataset is distributed with the package and is 
 default whenever a dataset with timezone polygons is required.
 }
 \details{
-This dataset is a simplified version of WorldTimezones. It was simplified with
-\url{https://mapshaper.org}.
+This dataset is a simplified version of WorldTimezones.
 }
 \seealso{
 convertWorldTimezones

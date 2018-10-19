@@ -35,13 +35,11 @@ curl https://prd-tnm.s3.amazonaws.com/StagedProducts/Hydrography/WBD/National/GD
 }
 
 
-Typically, the raw data will be simplified using the command line version of
-\href{https://github.com/mbloch/mapshaper}{mapshpaper}. (Installation instructions are
-found at this URL.)
+Typically, the raw data will be simplified using 
+\href{https://github.com/mbloch/mapshaper}{mapshpaper}.
 
 With mapshaper, you can reduce the number of vertices in the polygons, greatly improving
-the efficiency of spatial searches. Experimentation at the 
-\href{https://www.mapshaper.org}{mapshaper website} show that a reduction to 1-2%
+the efficiency of spatial searches. Experimentation shows that a reduction to 1-2%
 of the original shapefile size still retains the recognizable shape of polygons, removing
 only the higher order "crenellations" in the polygons.
 

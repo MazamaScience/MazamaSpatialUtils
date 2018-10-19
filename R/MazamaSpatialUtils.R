@@ -66,8 +66,7 @@ NULL
 #' @description SimpleTimezones is a simplified world timezones dataset suitable for global maps
 #' and quick spatial searches. This dataset is distributed with the package and is used by
 #' default whenever a dataset with timezone polygons is required.
-#' @details This dataset is a simplified version of WorldTimezones. It was simplified with
-#' \url{https://mapshaper.org}.
+#' @details This dataset is a simplified version of WorldTimezones.
 #' @seealso convertWorldTimezones
 NULL
 
@@ -255,6 +254,32 @@ stateToCode <- function(stateNames, countryCodes=NULL,
   names(allCodes) <- stateTable$stateName
   return(as.character(allCodes[stateNames]))
 }
+
+# ----- Simplification  --------------------------------------------------------
+
+#' @export
+#' @title Simplify SpatialPolygonsDataFrame
+#' @param SPDF object of class SpatialPolygonsDataFrame
+#' @param keep proportion of points to retain (0-1; default 0.05)
+#' @param ... arguments passed to \code{rmapshaper::ms_simplify()}
+#' @description Simplify a spatial polygons dataframe. This is a convenience
+#' wrapper for \code{rmapshaper::ms_simplify()}
+#' @return A simplified spatial polygons dataframe.
+#' @examples 
+#' FR <- subset(SimpleCountries, countryCode == 'FR')
+#' par(mfrow=c(3,3), mar=c(1,1,3,1))
+#' for (i in 9:1) {
+#'   keep <- 0.1 * i
+#'   plot(simplify(FR, keep), main=paste0("keep = ",keep))
+#' }
+#' layout(1)
+#' par(mar = c(5,4,4,2)+.1)
+
+simplify <- function(SPDF, keep = 0.05, ...) {
+  SPDF_simple <- rmapshaper::ms_simplify(SPDF, keep, ...)
+  return(SPDF_simple)
+}
+
 
 # ----- State codes -----------------------------------------------------------
 
