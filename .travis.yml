@@ -13,6 +13,7 @@ before_install:
   - sudo apt-get update
   - sudo apt-get install -y libprotobuf-dev
   - sudo apt-get install -y protobuf-compiler
+  - sudo apt-get install -y libudunits2-dev
 
 # safelist
 branches:
