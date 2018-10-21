@@ -1,6 +1,6 @@
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/MazamaSpatialUtils)](https://cran.r-project.org/package=MazamaSpatialUtils)
 [![Downloads](http://cranlogs.r-pkg.org/badges/MazamaSpatialUtils)](https://cran.r-project.org/package=MazamaSpatialUtils)
-[![Build Status](https://travis-ci.org/mazamascience/MazamaSpatialUtils.svg?branch=master)](https://travis-ci.org/mazamascience/MazamaSpatialUtils)
+[![Build Status](https://travis-ci.org/MazamaScience/MazamaSpatialUtils.svg?branch=master)](https://travis-ci.org/MazamaScience/MazamaSpatialUtils)
 
 # MazamaSpatialUtils
 
