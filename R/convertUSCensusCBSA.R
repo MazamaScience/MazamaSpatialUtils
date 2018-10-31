@@ -69,7 +69,7 @@ convertUSCensusCBSA <- function(nameOnly=FALSE, simplify=FALSE) {
   # 4   154  39700 39700 Raymondville, TX Raymondville, TX Micro Area   M2    2 G3110  1529611927  501715022 +26.4803815 -097.5832561
   
   usefulColumns <- c("CBSAFP",  "NAME", "MEMI", "ALAND", "AWATER","INTPTLAT", "INTPTLON")
-  SPDF@data <- SPDF@data[usefulColumns]
+  SPDF@data <- SPDF@data[,usefulColumns]
   names(SPDF@data) <- c("CBSAFP", "CBSAName", "sizeClass", "areaLand", "areaWater","latitude", "longitude")
 
   # Area already in m^2 according to tl_2017_us_cbsa.shp.xml
@@ -137,5 +137,6 @@ convertUSCensusCBSA <- function(nameOnly=FALSE, simplify=FALSE) {
   unlink(dsnPath, recursive=TRUE, force=TRUE)
   
   return(invisible(datasetName))
+  
 }
 

@@ -72,7 +72,7 @@ convertStateLegislativeDistricts <- function(stateCode,
   # [1] "STATEFP"  "SLDUST"   "AFFGEOID" "GEOID"    "NAME"     "LSAD"     "LSY"      "ALAND"    "AWATER"
 
   usefulColumns <- c("STATEFP",  "NAME", "LSAD", "LSY", "ALAND", "AWATER")
-  SPDF@data <- SPDF@data[usefulColumns]
+  SPDF@data <- SPDF@data[,usefulColumns]
   names(SPDF@data) <- c("stateFIPS", "legislativeDistrict",
                         "legalStatisticalAreaDescriptionCode",
                         "legislativeSessionYear",
