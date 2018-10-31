@@ -2,22 +2,25 @@
 % Please edit documentation in R/convertEEZCountries.R
 \name{convertEEZCountries}
 \alias{convertEEZCountries}
-\title{Convert Exclusive Economic Zones Countries Shapefile}
+\title{Convert Exclusive Economic Zones countries shapefile}
 \usage{
 convertEEZCountries(dsnPath = NULL, nameOnly = FALSE)
 }
 \arguments{
-\item{dsnPath}{directory where EEZCountries .zip file is found}
+\item{dsnPath}{Directory where EEZCountries .zip file is found.}
 
-\item{nameOnly}{logical specifying whether to only return the name without creating the file}
+\item{nameOnly}{Logical specifying whether to only return the name without 
+creating the file.}
 }
 \value{
 Name of the dataset being created.
 }
 \description{
-A previously downloaded file from \url{http://www.marineregions.org/downloads.php#unioneezcountry} 
-is converted to a SpatialPolygonsDataFrame with additional columns of data. The resulting
-file will be created in the spatial data directory which is set with \code{setSpatialDataDir()}.
+A previously downloaded file from 
+\url{http://www.marineregions.org/downloads.php#unioneezcountry} is converted
+to a SpatialPolygonsDataFrame with additional columns of data. The resulting
+file will be created in the spatial data directory which is set with 
+\code{setSpatialDataDir()}.
 }
 \details{
 The dataset can be downloaded from 
@@ -33,6 +36,7 @@ convertEEZCountries("~/Data/Spatial/EEZ_land_union_v2_201410.zip")
 \url{http://www.marineregions.org/downloads.php#unioneezcountry}
 
 VLIZ (2014). Union of the ESRI Country shapefile and the Exclusive 
-Economic Zones (version 2). Available online at http://www.marineregions.org/. Consulted on 2017-07-20.
+Economic Zones (version 2). Available online at http://www.marineregions.org/.
+Consulted on 2017-07-20.
 }
 \keyword{datagen}

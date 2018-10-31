@@ -1,11 +1,14 @@
 #' @keywords datagen
 #' @export
-#' @title Convert US Congressional Disctricts Shapefile
-#' @param nameOnly logical specifying whether to only return the name without creating the file
-#' @description Returns a SpatialPolygonsDataFrame for US Congressional Districts for the 115th US House of Representatives
-#' @details A US congressional district shapefile is downloaded and converted to a
-#' SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
-#' in the spatial data directory which is set with \code{setSpatialDataDir()}.
+#' @title Convert US congressional districts shapefile
+#' @param nameOnly Logical specifying whether to only return the name without 
+#' creating the file.
+#' @description Returns a SpatialPolygonsDataFrame for US Congressional Districts 
+#' for the 115th US House of Representatives.
+#' @details A US congressional district shapefile is downloaded and converted to
+#' a SpatialPolygonsDataFrame with additional columns of data. The resulting 
+#' file will be created in the spatial data directory which is set with 
+#' \code{setSpatialDataDir()}.
 #' @return Name of the dataset being created.
 #' @references \url{https://www.census.gov/geo/maps-data/data/cbf/cbf_cds.html}
 #' @seealso setSpatialDataDir

@@ -152,7 +152,7 @@ iso2ToIso3 <- function(countryCodes) {
 
 #' @keywords conversion
 #' @export
-#' @title Convert Betweenrom ISO3 to ISO2 Country Codes
+#' @title Convert from ISO3 to ISO2 Country Codes
 #' @param countryCodes vector of country codes to be converted
 #' @description Converts a vector of ISO 3166-1 alpha-3 codes to the corresponding ISO 3166-1 alpha-2 codes.
 #' @return A vector of ISO2 country codes
@@ -287,7 +287,7 @@ simplify <- function(SPDF, keep = 0.05, ...) {
 #' @keywords datasets
 #' @name US_stateCodes
 #' @title Dataframe of US State Codes
-#' @format A DataFrame with 51 rows and 6 columns of data.
+#' @format A dataframe with 51 rows and 6 columns of data.
 #' @description US_stateCodes contains the following columns of data for the
 #' 50 United States plus the District of Columbia:
 #' \itemize{

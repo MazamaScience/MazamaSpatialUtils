@@ -2,17 +2,18 @@
 % Please edit documentation in R/convertStateLegislativeDistricts.R
 \name{convertStateLegislativeDistricts}
 \alias{convertStateLegislativeDistricts}
-\title{Convert US State Legislative Districts Shapefile}
+\title{Convert US dtate legislative districts shapefile}
 \usage{
 convertStateLegislativeDistricts(stateCode, house = "Upper",
   nameOnly = FALSE)
 }
 \arguments{
-\item{stateCode}{ISO 3166-2 alpha-2 state code}
+\item{stateCode}{ISO 3166-2 alpha-2 state code.}
 
-\item{house}{character specifing either "Upper" or "Lower" house}
+\item{house}{Character specifying either "Upper" or "Lower" house.}
 
-\item{nameOnly}{logical specifying whether to only return the name without creating the file}
+\item{nameOnly}{Logical specifying whether to only return the name without 
+creating the file.}
 }
 \value{
 Name of the dataset being created.
@@ -21,9 +22,10 @@ Name of the dataset being created.
 a SpatialPolygonsDataFrame for US State Legislative Districts
 }
 \details{
-A US State Legislative District shapefile is downloaded and converted to a
-SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
-in the spatial data directory which is set with \code{setSpatialDataDir()}.
+A US State Legislative District shapefile is downloaded and converted 
+to a SpatialPolygonsDataFrame with additional columns of data. The resulting 
+file will be created in the spatial data directory which is set with 
+\code{setSpatialDataDir()}.
 }
 \references{
 \url{https://www.census.gov/geo/maps-data/data/cbf/cbf_sld.html}

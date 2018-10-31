@@ -1,0 +1,11 @@
+pandoc: 1.19.2.1
+pkgdown: 1.1.0
+pkgdown_sha: ~
+articles:
+  - title: "Working with MazamaSpatialUtils"
+    desc: >
+      Background and examples for successfully working with the 
+      MazamaSpatialUtils package.
+    contents:
+    - introduction
+    - examples/ebolamap

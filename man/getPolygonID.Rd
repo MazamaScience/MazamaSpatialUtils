@@ -7,7 +7,7 @@
 getPolygonID(SPDF)
 }
 \arguments{
-\item{SPDF}{spatial polygons datset of interest}
+\item{SPDF}{spatial polygons dataset of interest}
 }
 \value{
 Vector of polygon identifiers.

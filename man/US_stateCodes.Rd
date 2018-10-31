@@ -4,7 +4,7 @@
 \name{US_stateCodes}
 \alias{US_stateCodes}
 \title{Dataframe of US State Codes}
-\format{A DataFrame with 51 rows and 6 columns of data.}
+\format{A dataframe with 51 rows and 6 columns of data.}
 \description{
 US_stateCodes contains the following columns of data for the
 50 United States plus the District of Columbia:

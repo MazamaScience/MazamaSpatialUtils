@@ -2,7 +2,7 @@
 % Please edit documentation in R/MazamaSpatialUtils.R
 \name{iso3ToIso2}
 \alias{iso3ToIso2}
-\title{Convert Betweenrom ISO3 to ISO2 Country Codes}
+\title{Convert from ISO3 to ISO2 Country Codes}
 \usage{
 iso3ToIso2(countryCodes)
 }

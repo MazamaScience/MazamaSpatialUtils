@@ -1,11 +1,13 @@
 #' @keywords datagen
 #' @export
-#' @title Convert USGS Hydrologic Unit Shapefiles
+#' @title Convert USGS hydrologic unit shapefiles
 #' @param dsnPath directory where the WBD HUC datasets are found
-#' @param level character or integer which must be 2, 4, 6, 8, 10, 12 or 14
-#' @param extension character extsion associated with mapshaper simplified files
-#' @param nameOnly logical specifying whether to only return the name without creating the file
-#' @param simplify logical specifying whether to create "_02" and "_01" versions of the file that are simplified to 2\% and 1\%
+#' @param level Character or integer which must be 2, 4, 6, 8, 10, 12 or 14.
+#' @param extension Character extension associated with mapshaper simplified files.
+#' @param nameOnly Logical specifying whether to only return the name without 
+#' creating the file.
+#' @param simplify Logical specifying whether to create "_02" and "_01" versions 
+#' of the file that are simplified to 2\% and 1\%.
 #' @description Previously downloaded shapefiles from the USGS 
 #' \href{http://nhd.usgs.gov/wbd.html}{Watershed Boundary Dataset} are converted to a 
 #' SpatialPolygonsDataFrame with additional columns of data. The resulting file will be
@@ -18,7 +20,7 @@
 #' 
 #' 
 #' Typically, the raw data will be simplified using 
-#' \href{https://github.com/mbloch/mapshaper}{mapshpaper}.
+#' \href{https://github.com/mbloch/mapshaper}{mapshaper}.
 #' 
 #' With mapshaper, you can reduce the number of vertices in the polygons, greatly improving
 #' the efficiency of spatial searches. Experimentation shows that a reduction to 1-2%

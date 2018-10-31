@@ -1,7 +1,7 @@
 #' @keywords locator
 #' @export
 #' @title Get PolygonID from SPDF of Interest
-#' @param SPDF spatial polygons datset of interest
+#' @param SPDF spatial polygons dataset of interest
 #' @description Extracts the the vector of unique polygon identifiers from \code{SPDF}.
 #' 
 #' This function is useful when writing code to aggregate data by polygon and

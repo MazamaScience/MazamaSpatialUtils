@@ -2,23 +2,26 @@
 % Please edit documentation in R/convertUSCensusCongress.R
 \name{convertUSCensusCongress}
 \alias{convertUSCensusCongress}
-\title{Convert US Congressional Disctricts Shapefile}
+\title{Convert US congressional districts shapefile}
 \usage{
 convertUSCensusCongress(nameOnly = FALSE)
 }
 \arguments{
-\item{nameOnly}{logical specifying whether to only return the name without creating the file}
+\item{nameOnly}{Logical specifying whether to only return the name without 
+creating the file.}
 }
 \value{
 Name of the dataset being created.
 }
 \description{
-Returns a SpatialPolygonsDataFrame for US Congressional Districts for the 115th US House of Representatives
+Returns a SpatialPolygonsDataFrame for US Congressional Districts 
+for the 115th US House of Representatives.
 }
 \details{
-A US congressional district shapefile is downloaded and converted to a
-SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
-in the spatial data directory which is set with \code{setSpatialDataDir()}.
+A US congressional district shapefile is downloaded and converted to
+a SpatialPolygonsDataFrame with additional columns of data. The resulting 
+file will be created in the spatial data directory which is set with 
+\code{setSpatialDataDir()}.
 }
 \references{
 \url{https://www.census.gov/geo/maps-data/data/cbf/cbf_cds.html}

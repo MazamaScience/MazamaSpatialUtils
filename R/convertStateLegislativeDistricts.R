@@ -1,15 +1,17 @@
 #' @keywords datagen
 #' @importFrom rlang .data
 #' @export
-#' @title Convert US State Legislative Districts Shapefile
-#' @param stateCode ISO 3166-2 alpha-2 state code
-#' @param house character specifing either "Upper" or "Lower" house
-#' @param nameOnly logical specifying whether to only return the name without creating the file
-#' @description  a SpatialPolygonsDataFrame for US State Legislative Districts
-#' @details A US State Legislative District shapefile is downloaded and converted to a
-#' SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
-#' in the spatial data directory which is set with \code{setSpatialDataDir()}.
+#' @title Convert US dtate legislative districts shapefile
+#' @param stateCode ISO 3166-2 alpha-2 state code.
+#' @param house Character specifying either "Upper" or "Lower" house.
+#' @param nameOnly Logical specifying whether to only return the name without 
+#' creating the file.
 #' @return Name of the dataset being created.
+#' @description  a SpatialPolygonsDataFrame for US State Legislative Districts
+#' @details A US State Legislative District shapefile is downloaded and converted 
+#' to a SpatialPolygonsDataFrame with additional columns of data. The resulting 
+#' file will be created in the spatial data directory which is set with 
+#' \code{setSpatialDataDir()}.
 #' @references \url{https://www.census.gov/geo/maps-data/data/cbf/cbf_sld.html}
 #' @seealso setSpatialDataDir
 

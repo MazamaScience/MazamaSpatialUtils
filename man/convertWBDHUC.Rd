@@ -2,7 +2,7 @@
 % Please edit documentation in R/convertWBDHUC.R
 \name{convertWBDHUC}
 \alias{convertWBDHUC}
-\title{Convert USGS Hydrologic Unit Shapefiles}
+\title{Convert USGS hydrologic unit shapefiles}
 \usage{
 convertWBDHUC(dsnPath = NULL, level = 8, extension = "",
   nameOnly = FALSE, simplify = FALSE)
@@ -10,13 +10,15 @@ convertWBDHUC(dsnPath = NULL, level = 8, extension = "",
 \arguments{
 \item{dsnPath}{directory where the WBD HUC datasets are found}
 
-\item{level}{character or integer which must be 2, 4, 6, 8, 10, 12 or 14}
+\item{level}{Character or integer which must be 2, 4, 6, 8, 10, 12 or 14.}
 
-\item{extension}{character extsion associated with mapshaper simplified files}
+\item{extension}{Character extension associated with mapshaper simplified files.}
 
-\item{nameOnly}{logical specifying whether to only return the name without creating the file}
+\item{nameOnly}{Logical specifying whether to only return the name without 
+creating the file.}
 
-\item{simplify}{logical specifying whether to create "_02" and "_01" versions of the file that are simplified to 2\% and 1\%}
+\item{simplify}{Logical specifying whether to create "_02" and "_01" versions 
+of the file that are simplified to 2\% and 1\%.}
 }
 \value{
 Name of the dataset being created.
@@ -36,7 +38,7 @@ curl https://prd-tnm.s3.amazonaws.com/StagedProducts/Hydrography/WBD/National/GD
 
 
 Typically, the raw data will be simplified using 
-\href{https://github.com/mbloch/mapshaper}{mapshpaper}.
+\href{https://github.com/mbloch/mapshaper}{mapshaper}.
 
 With mapshaper, you can reduce the number of vertices in the polygons, greatly improving
 the efficiency of spatial searches. Experimentation shows that a reduction to 1-2%
