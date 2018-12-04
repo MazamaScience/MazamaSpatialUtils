@@ -3,7 +3,7 @@
 #' @title Return HUCs at Specified Locations
 #' @param lon vector of longitudes in decimal degrees
 #' @param lat vector of latitudes in decimal degrees
-#' @param SPDF spatial polygons dataset of HUCs
+#' @param dataset name of spatial dataset to use
 #' @param HUCs vector of Hydrologic Unit Codes
 #' @param allData logical specifying whether a full dataframe should be returned
 #' @description Uses spatial comparison to determine which HUC polygons the 
@@ -13,8 +13,12 @@
 #' @return Vector of HUC identifiers.
 #' @seealso getSpatialData
  
-getHUC <- function(lon, lat, SPDF, HUCs=NULL, allData=FALSE) {
+getHUC <- function(lon, lat, dataset = "WBDHU10_02", HUCs=NULL, allData=FALSE) {
   
+  # Sanity check
+  if (!exists(dataset)) {
+    stop('Missing database. Please loadSpatialData("',dataset,'")',call.=FALSE)
+  }
   # check if longitude and latitude falls in the right range
   if ( min(lon, na.rm=TRUE) < -180 || 
        max(lon, na.rm=TRUE) > 180 || 
@@ -22,6 +26,9 @@ getHUC <- function(lon, lat, SPDF, HUCs=NULL, allData=FALSE) {
        max(lat, na.rm=TRUE) > 90 ) {
     stop('Longitude or latitude is not specified in the correct range. Please try again.')
   }
+  
+  # Use standard internal name (assumes pre-loaded dataset)
+  SPDF <- get(dataset) 
 
   
   # Identify HUC string partial matches to use as a mask 
