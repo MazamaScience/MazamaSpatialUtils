@@ -1,3 +1,9 @@
+# MazamaSpatialUtils 0.5.8
+
+  * New convert functions for weather zones
+  * Argument consistency with `getHUC()`
+  * added `dissolve()` wrapper for `rmapshaper::ms_dissolve()`
+
 # MazamaSpatialUtils 0.5.7
 
  * documentation with **pkgdown**

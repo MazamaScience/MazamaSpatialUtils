@@ -4,7 +4,7 @@
 \alias{getHUCName}
 \title{Return HUC Names at Specified Locations}
 \usage{
-getHUCName(lon, lat, dataset = "WBDHU10-ms", HUCs = NULL,
+getHUCName(lon, lat, dataset = "WBDHU10_02", HUCs = NULL,
   allData = FALSE)
 }
 \arguments{

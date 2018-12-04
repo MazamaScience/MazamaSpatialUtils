@@ -281,6 +281,29 @@ simplify <- function(SPDF, keep = 0.05, ...) {
 }
 
 
+# ----- Dissolve --------------------------------------------------------------
+
+#' @export
+#' @title Aggregate shapes in a SpatialPolygonsDataFrame
+#' @param SPDF object of class SpatialPolygonsDataFrame
+#' @param field proportion of points to retain (0-1; default 0.05)
+#' @param sum_fields fields to sum
+#' @param copy_fields fields to copy. The first instance of each field will be copied to the aggregated feature
+#' @param ... arguments passed to \code{rmapshaper::ms_dissolve()}
+#' @description Aggregate shapes in a spatial polygons dataframe. This is a convenience
+#' wrapper for \code{rmapshaper::ms_dissolve()}
+#' @return A spatial polygons dataframe with aggregated shapes.
+#' @examples 
+#' regions <- dissolve(SimpleCountries, field = "UN_region", sum_fields = "area")
+#' plot(regions)
+#' regions@data
+
+dissolve <- function(SPDF, field = NULL, sum_fields = NULL, copy_fields = NULL, ...) {
+  SPDF_dissolved <- rmapshaper::ms_dissolve(SPDF, field, sum_fields, copy_fields, ...)
+  return(SPDF_dissolved)
+}
+
+
 # ----- State codes -----------------------------------------------------------
 
 #' @docType data

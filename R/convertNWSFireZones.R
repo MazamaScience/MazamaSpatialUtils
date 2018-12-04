@@ -1,14 +1,3 @@
-
-
-url <- "https://www.weather.gov/source/gis/Shapefiles/WSOM/fz02oc18.zip"
-filePath <- "~/Data/Spatial/fireWeatherZones.zip"
-utils::download.file(url, filePath)
-utils::unzip(filePath, exdir = file.path(dataDir, "fireWeatherZones"))
-dsnPath <- file.path(dataDir, "fireWeatherZones")
-fwz <- convertLayer(dsn = dsnPath, layerName = "fz02oc18")
-fwz2 <- rmapshaper::ms_simplify(fwz, .02)
-
-
 #' @keywords datagen
 #' @export
 #' @title Convert NWS Public Forecast Zones Shapefile
@@ -23,7 +12,7 @@ fwz2 <- rmapshaper::ms_simplify(fwz, .02)
 #' @references \url{https://www.weather.gov/gis/FireZones}
 #' @seealso setSpatialDataDir
 
-convertNWSFireZones <- function(nameOnly = FALSE) {
+convertNWSFireZones <- function(nameOnly = FALSE, simplify = TRUE) {
   
   # Use package internal data directory
   dataDir <- getSpatialDataDir()
@@ -59,23 +48,23 @@ convertNWSFireZones <- function(nameOnly = FALSE) {
   # NOTE:  plot(subset(WorldTimezones, timezone == "America/Nome"), border = "blue", add = TRUE)
   
   
-  SPDF@data <- select(SPDF@data,
-                      stateCode = STATE,
-                      weatherForecastOffice = CWA,
-                      zoneNumber = ZONE,
-                      name = NAME,
-                      zoneID = STATE_ZONE,
-                      longitude = LON,
-                      latitude = LAT)
+  SPDF@data <- dplyr::select(.data = SPDF@data,
+                      stateCode = .data$STATE,
+                      weatherForecastOffice = .data$CWA,
+                      zoneNumber = .data$ZONE,
+                      name = .data$NAME,
+                      zoneID = .data$STATE_ZONE,
+                      longitude = .data$LON,
+                      latitude = .data$LAT)
   
   
   # Organize polygons
-  duplicated <- weather$zoneID[duplicated(weather$zoneID)]
-  SPDF <- organizePolygons(weather, "zoneID", sumColumns = c("longitude", "latitude"))
+  duplicated <- SPDF$zoneID[duplicated(SPDF$zoneID)]
+  SPDF <- organizePolygons(SPDF, "zoneID", sumColumns = c("longitude", "latitude"))
   
   # Get correct lat/lon centroids for new polygons
   data <- SPDF@data
-  centroids <- rgeos::gCentroid(subset(SPDF, zoneID %in% duplicated), byid=TRUE)
+  centroids <- rgeos::gCentroid(subset(SPDF, SPDF$zoneID %in% duplicated), byid=TRUE)
   for (id in duplicated) {
     data[data$zoneID == id,]$longitude <- centroids[id]$x
     data[data$zoneID == id,]$latitude <- centroids[id]$y

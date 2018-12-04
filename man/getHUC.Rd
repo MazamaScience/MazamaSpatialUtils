@@ -4,14 +4,15 @@
 \alias{getHUC}
 \title{Return HUCs at Specified Locations}
 \usage{
-getHUC(lon, lat, SPDF, HUCs = NULL, allData = FALSE)
+getHUC(lon, lat, dataset = "WBDHU10_02", HUCs = NULL,
+  allData = FALSE)
 }
 \arguments{
 \item{lon}{vector of longitudes in decimal degrees}
 
 \item{lat}{vector of latitudes in decimal degrees}
 
-\item{SPDF}{spatial polygons dataset of HUCs}
+\item{dataset}{name of spatial dataset to use}
 
 \item{HUCs}{vector of Hydrologic Unit Codes}
 
