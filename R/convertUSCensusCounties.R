@@ -44,30 +44,15 @@ convertUSCensusCounties <- function(nameOnly=FALSE) {
   # * latitude (decimal degrees N)
   # * area (m^2)
   
-  # Get STATEFP conversion table from wikipedia. We need this to find state names and codes
-  # from STATEFP values.
-  # URL of STATEFP conversions
-  url <- 'http://en.wikipedia.org/wiki/Federal_Information_Processing_Standard_state_code'
-
-  # Get the raw html from the url
-  wikiDoc <- xml2::read_html(url)
-  
-  # Get a list of tables in the document
-  tables <- rvest::html_nodes(wikiDoc, 'table')
-  
-  # Assume the relevant list is the first table and parse that into a dataframe
-  StateTable <- rvest::html_table(tables[[1]])
-  
-  # Given a row of county data, use the wikipedia table to find state code and name
-  extractState <- function(row, col) {
-    state <- StateTable[StateTable['Numeric code']==as.numeric(row['STATEFP']),]
-    return(toString(state[col]))
+ 
+  # Given row of USCensusCounties data, find state code, name, or adm1_code
+  extractState <- function(row) {
+    fips <- row['stateFIPS']
+    stateCode <- US_stateCodes$stateCode[US_stateCodes$fips==paste0("US", fips)]
+    return(stateCode)
   }
   
   # Standardize naming in the SpatialPolygonsDataFrame
-  SPDF$countryCode <- 'US'
-  SPDF$stateCode <- apply(SPDF@data, 1, extractState, col='Alpha code')
-  SPDF$countyName <- SPDF$NAME
   
   # TODO:  Figure out units for ALAND and AWATER and convert to m^2
   
@@ -75,14 +60,18 @@ convertUSCensusCounties <- function(nameOnly=FALSE) {
   SPDF$ALAND <- as.numeric(SPDF$ALAND)
   SPDF$AWATER <- as.numeric(SPDF$AWATER)
   
-  # TODO:  COUNTYNS is the polygon uniqueID but what is it?
+  SPDF@data <- dplyr::select(.data = SPDF@data, 
+                             countyFIPS = .data$COUNTYFP,
+                             areaLand = .data$ALAND,
+                             areaWater = .data$AWATER,
+                             countyName = .data$NAME,
+                             stateFIPS = .data$STATEFP,
+                             COUNTYNS = .data$COUNTYNS) 
+  SPDF$stateCode <- apply(SPDF@data, 1, extractState)
+  SPDF$countryCode <- "US"
+  SPDF$name <- SPDF$countyName
   
-  # Subset this dataframe to include only obviously useful columns
-  usefulColumns <- c('NAME','ALAND','AWATER','countryCode','stateCode',
-                     'countyName','COUNTYFP', 'COUNTYNS')
-  SPDF <- SPDF[,usefulColumns]
-  names(SPDF) <- c('name', 'areaLand', 'areaWater', 'countryCode',  
-                   'stateCode',  'countyName', 'countyFIPS', 'COUNTYNS')
+  # TODO:  COUNTYNS is the polygon uniqueID but what is it?
   
   # Group polygons with the same identifier (countyName)
   SPDF <- organizePolygons(SPDF, uniqueID='COUNTYNS', sumColumns=c('areaLand','areaWater'))

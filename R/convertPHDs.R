@@ -44,17 +44,18 @@ convertPHDs <- function(nameOnly=FALSE) {
   # * latitude (decimal degrees N)
   # * area (m^2)
 
-  # Given a row of county data, use the wikipedia table to find state code and name
+  # Given row of PHD data, find state code, name, or adm1_code
   extractState <- function(row) {
     fips <- row['stateFIPS']
-    state <- US_stateCodes$stateCode[US_stateCodes$fips==paste0("US", fips)]
-    return(state)
+    stateCode <- US_stateCodes$stateCode[US_stateCodes$fips==paste0("US", fips)]
+    return(stateCode)
   }
   
   # Standardize naming in the SpatialPolygonsDataFrame
 
   
-  SPDF@data <- dplyr::select(SPDF@data, PHDName = .data$NAME,
+  SPDF@data <- dplyr::select(SPDF@data, 
+                             PHDName = .data$NAME,
                              contact = .data$CONTACT,
                              stateFIPS = .data$STATEID) 
   SPDF$countryCode = 'US'

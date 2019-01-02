@@ -18,7 +18,7 @@ convertUSCensusCongress <- function(nameOnly=FALSE) {
   dataDir <- getSpatialDataDir()
   
   # Specify the name of the dataset and file being created
-  datasetName <- 'USCensus115thCongress'
+  datasetName <- 'USCensusCongress'
   
   if (nameOnly) return(datasetName)
   
@@ -56,27 +56,14 @@ convertUSCensusCongress <- function(nameOnly=FALSE) {
   names(SPDF) <- c('stateFIPS','congressionalDistrictFIPS','AFFGeoID','GeoID','LSAD',
                    'CDSession','areaLand','areaWater')
   
+  # Given state FIPS code, find state code, name, or adm1_code
+  extractState <- function(row) {
+    fips <- row['stateFIPS']
+    stateCode <- US_stateCodes$stateCode[US_stateCodes$fips==paste0("US", fips)]
+    return(stateCode)
+  }
   
-  # Get stateFIPS conversion table from wikipedia. We need this to find state names and codes
-  # from stateFIPS values.
-  # URL of S conversions
-  url <- 'http://en.wikipedia.org/wiki/Federal_Information_Processing_Standard_state_code'
-  
-  # Get the raw html from the url
-  wikiDoc <- xml2::read_html(url)
-  
-  # Get a list of tables in the document
-  tables <- rvest::html_nodes(wikiDoc, 'table')
-  
-  # Assume the relevant list is the first table and parse that into a dataframe
-  StateTable <- rvest::html_table(tables[[1]])
-  
-  # Create a vector of stateCodes which are named by their FIPS
-  stateCodeVector <- StateTable[["Alpha code"]]
-  names(stateCodeVector) <- StateTable[["Numeric code"]]
-  
-  # Use stateCodeVector to create a stateCode variable
-  SPDF$stateCode <- stateCodeVector[as.character(as.numeric(SPDF$stateFIPS))]
+  SPDF$stateCode <- apply(SPDF@data, 1, extractState)
   
   # Add countryCode to adhere to the package internal standards
   SPDF$countryCode <- 'US'
