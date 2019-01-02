@@ -59,7 +59,7 @@ convertUSCensusCongress <- function(nameOnly=FALSE) {
   # Given state FIPS code, find state code, name, or adm1_code
   extractState <- function(row) {
     fips <- row['stateFIPS']
-    stateCode <- US_stateCodes$stateCode[US_stateCodes$fips==paste0("US", fips)]
+    stateCode <- MazamaSpatialUtils::US_stateCodes$stateCode[US_stateCodes$fips==paste0("US", fips)]
     return(stateCode)
   }
   

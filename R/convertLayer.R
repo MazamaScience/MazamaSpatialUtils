@@ -13,26 +13,10 @@
 #' @return An object of class \code{SpatialPolygonsDataFrame}
 convertLayer <- function(dsn="", layerName="", encoding=NULL) {
 
-  # readOGR does not interpret '~' so do that with dirname()
+  # readOGR does not interpret '~' so do that with path.expand()
   dsn <- path.expand(dsn)
 
-  # Use package internal data directory
-  dataDir <- getSpatialDataDir()
-
-  # Always require a data directory
-  if (is.null(dataDir)) {
-    stop('dataDir must be specified and must be a user writable directory', call.=FALSE)
-  }
-
-  # Switch directories
-  oldDir <- getwd()
-  setwd(dataDir)
-
-  # Load the shapefiles
-  data_projected <- rgdal::readOGR(dsn=dsn, layer=layerName, stringsAsFactors=FALSE, encoding=encoding)
-
-  # Return to user directory
-  setwd(oldDir)
+  data_projected <- rgdal::readOGR(dsn=dsn, layer=layerName, stringsAsFactors=FALSE, encoding=encoding) 
 
   # Assign or reproject to standard projection
   if ( is.na(sp::proj4string(data_projected)) ) {

@@ -47,7 +47,7 @@ convertPHDs <- function(nameOnly=FALSE) {
   # Given row of PHD data, find state code, name, or adm1_code
   extractState <- function(row) {
     fips <- row['stateFIPS']
-    stateCode <- US_stateCodes$stateCode[US_stateCodes$fips==paste0("US", fips)]
+    stateCode <- MazamaSpatialUtils::US_stateCodes$stateCode[US_stateCodes$fips==paste0("US", fips)]
     return(stateCode)
   }
   
@@ -58,7 +58,7 @@ convertPHDs <- function(nameOnly=FALSE) {
                              PHDName = .data$NAME,
                              contact = .data$CONTACT,
                              stateFIPS = .data$STATEID) 
-  SPDF$countryCode = 'US'
+  SPDF$countryCode <- 'US'
   SPDF$stateCode <- apply(SPDF@data, 1, extractState)
   
   # Assign a name and save the data
