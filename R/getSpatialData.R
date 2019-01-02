@@ -78,7 +78,7 @@ getSpatialData <- function(lon,
     # NOTE: We do this restructuring for ease of use later when using the
     # 'gIntersects' function
     SpatialPolygonsList <- list()
-    for (i in 1:length(SPDF)) {
+    for (i in seq_along(SPDF) ) {
       SPDF_Polygons <- SPDF@polygons[[i]]
       SpatialPolygonsList[i] <- sp::SpatialPolygons(list(SPDF_Polygons), proj4string=SPDF@proj4string)
     }
@@ -99,7 +99,7 @@ getSpatialData <- function(lon,
         if (class(buffer)=="try-error") break
         radiusIntersectsPolygon <- FALSE
         # Use gIntersects to determine whether each buffered point is contained within each polygon
-        for (k in 1:length(SpatialPolygonsList)) {
+        for (k in seq_along(SpatialPolygonsList)) {
           if ( rgeos::gIntersects(buffer, SpatialPolygonsList[[k]]) ) {
             validDF[pointIndex,] <- SPDF@data[k,]
             radiusIntersectsPolygon <- TRUE
@@ -117,7 +117,7 @@ getSpatialData <- function(lon,
   locationsDF <- data.frame(matrix(NA, ncol=ncol(validDF), nrow=length(lon)))
   colnames(locationsDF) <- colnames(validDF)
   # Place the valid points in their correct position in the locations data frame
-  for (i in 1:length(validIndices)) {
+  for (i in seq_along(validIndices)) {
     locationsDF[validIndices[i],] <- validDF[i,]
   }
 

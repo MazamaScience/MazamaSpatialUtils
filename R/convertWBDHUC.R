@@ -177,7 +177,7 @@ convertWBDHUC <- function(dsnPath=NULL, level=8, extension="", nameOnly=FALSE, s
     warning(geterrmessage(),'\n')
     lon <- rep(as.numeric(NA), nrow(SPDF))
     lat <- rep(as.numeric(NA), nrow(SPDF))
-    for (i in 1:nrow(SPDF)) {
+    for (i in seq_len(nrow(SPDF)) ) {
       bbox <- sp::bbox(SPDF[i,])
       lon[i] <- mean(bbox[1,])
       lat[i] <- mean(bbox[2,])
@@ -195,7 +195,7 @@ convertWBDHUC <- function(dsnPath=NULL, level=8, extension="", nameOnly=FALSE, s
    
   # Hack to change missing stateCodes to the value from allStateCodes
   
-  for (i in 1:nrow(SPDF)){
+  for (i in seq_len(nrow(SPDF)) ){
     if (is.na(SPDF@data$stateCode[i])){
       SPDF@data$stateCode[i] <- SPDF@data$allStateCodes[i]      
     }
