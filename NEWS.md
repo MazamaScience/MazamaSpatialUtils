@@ -1,3 +1,9 @@
+# MazamaSpatialutils 0.5.9
+
+  * New convert function for public health districts
+  * New convert function for GACCs
+  * more testing
+
 # MazamaSpatialUtils 0.5.8
 
   * New convert functions for weather zones

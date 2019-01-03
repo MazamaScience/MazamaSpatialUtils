@@ -35,6 +35,7 @@ Depends:
 Imports:
     countrycode,
     dplyr,
+    geojsonio,
     lubridate,
     rgdal,
     rgeos,
