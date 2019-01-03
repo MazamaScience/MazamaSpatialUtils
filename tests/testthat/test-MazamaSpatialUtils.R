@@ -50,7 +50,68 @@ test_that("Returns expected output", {
    expect_equal(countryToCode(c("United States", "Canada")), c("US", "CA"))
 })
 
-# TODO: Unit test for stateToCode()
-# TODO: Unit test for codeToState()
+# -----------------------------------------------------------------------------
+context("stateToCode()")
 
+setup_spatial_data <- function() {
+  if (!exists('NaturalEarthAdm1')) {
+    tryCatch(getSpatialDataDir(), 
+             error = function(error) {
+               setSpatialDataDir("~/Data/Spatial") 
+             })
+    tryCatch(loadSpatialData("NaturalEarthAdm1"),
+             error = function(error) {
+               message("Could not load NaturalEarthAdm1")
+             })
+  }
+  if (!exists("NaturalEarthAdm1")) {
+    skip("Could not load NaturalEarthAdm1")
+  }
+  
+}
+
+test_that("returns expected output", {
+  skip_on_cran()
+  setup_spatial_data()
+  
+  expect_equal(stateToCode("Washington"), "WA")
+  expect_equal(stateToCode("Barcelona"), "CT")
+})
+
+
+# -----------------------------------------------------------------------------
+context("codeToState") 
+
+test_that("returns expected output", {
+  skip_on_cran()
+  setup_spatial_data()
+  
+  expect_equal(codeToState("WA", "US"), "Washington")
+  expect_equal(codeToState("CT", "ES"), "Barcelona")
+})
+
+test_that("warns when there are multiple states for a code", {
+  skip_on_cran()
+  setup_spatial_data()
+  
+  expect_warning(codeToState("WA"), "9 states with code")
+  expect_warning(codeToState("CT"), "20 states with code")
+})
+
+# -----------------------------------------------------------------------------
+context("dissolve")
+
+test_that("errors are handled intellegently", {
+  expect_error(dissolve(SimpleCountries, field = "missing"), "Field 'missing' not found")
+})
+
+test_that("creates SPDF", {
+  expect_is(dissolve(SimpleCountries, field = "UN_region"), "SpatialPolygonsDataFrame")
+})
+
+test_that("dissolves into correct number of polygons", {
+  regions <- dissolve(SimpleCountries, field = "UN_region")
+  
+  expect_equal(length(unique(SimpleCountries$UN_region)), length(regions$UN_region))
+})
   

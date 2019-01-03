@@ -215,6 +215,16 @@ codeToState <- function(stateCodes, countryCodes=NULL,
   stateTable <- SPDF@data[!is.na(SPDF@data$stateCode),]
   # Filter by countryCodes to make searching faster
   if (!is.null(countryCodes)) stateTable <- stateTable[stateTable$countryCode %in% countryCodes,]
+  # Test to see if any state codes have duplicate names
+  for (stateCode in stateCodes) {
+    repeatCount <- sum(stateTable$stateCode == stateCode)
+    if (repeatCount > 1) {
+      warning(
+        paste0(repeatCount, " states with code '", stateCode, "'. ",
+               "Returning the first instance. ", 
+               "Please specify countryCode to return the state name from the desired country."))
+    }
+  }
   # Create a vector of state names identified by state code
   allStates <- stateTable$stateName
   names(allStates) <- stateTable$stateCode
@@ -299,6 +309,9 @@ simplify <- function(SPDF, keep = 0.05, ...) {
 #' regions@data
 
 dissolve <- function(SPDF, field = NULL, sum_fields = NULL, copy_fields = NULL, ...) {
+  if (!field %in% names(SPDF)) {
+    stop(paste0("Field '", field, "' not found."))
+  }
   SPDF_dissolved <- rmapshaper::ms_dissolve(SPDF, field, sum_fields, copy_fields, ...)
   return(SPDF_dissolved)
 }
