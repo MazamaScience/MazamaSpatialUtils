@@ -22,12 +22,12 @@ convertTerrestrialEcoregions <- function(nameOnly=FALSE, simplify=TRUE) {
   # Build appropriate request URL for terrestrial ecoregions
   url <- "https://c402277.ssl.cf1.rackcdn.com/publications/15/files/original/official_teow.zip?1349272619"
   
-  filePath <- paste(dataDir,"official_teow.zip",sep='/')
+  filePath <- file.path(dataDir,'official_teow.zip')
   utils::download.file(url,filePath)
   utils::unzip(filePath,exdir=dataDir)
   
   # Convert shapefile into SpatialPolygonsDataFrame
-  dsnPath <- paste(dataDir,'official',sep='/')
+  dsnPath <- file.path(dataDir,'official')
   SPDF <- convertLayer(dsn=dsnPath,layerName='wwf_terr_ecos')
   
   # > names(SPDF@data)

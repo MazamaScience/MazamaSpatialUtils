@@ -28,7 +28,7 @@ convertNWSFireZones <- function(nameOnly = FALSE, simplify = TRUE) {
   utils::download.file(url,filePath)
   
   # NOTE:  This zip file has no directory so extra subdirectory needs to be created
-  utils::unzip(filePath,exdir=paste0(dataDir,'/NWSFireZones'))
+  utils::unzip(filePath,exdir=file.path(dataDir,'NWSFireZones'))
   dsnPath <- file.path(dataDir,'NWSFireZones')
   SPDF <- convertLayer(dsn=dsnPath, layerName='fz02oc18')
   

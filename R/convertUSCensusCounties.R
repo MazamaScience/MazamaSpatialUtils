@@ -23,14 +23,14 @@ convertUSCensusCounties <- function(nameOnly=FALSE) {
   # Build appropriate request URL for US County Borders data
   url <- 'http://www2.census.gov/geo/tiger/GENZ2013/cb_2013_us_county_20m.zip'
   
-  filePath <- paste(dataDir,basename(url),sep='/')
+  filePath <- file.path(dataDir,basename(url))
   utils::download.file(url,filePath)
   # NOTE:  This zip file has no directory so extra subdirectory needs to be created
-  utils::unzip(filePath,exdir=paste0(dataDir, '/counties'))
+  utils::unzip(filePath,exdir=file.path(dataDir,'counties'))
   
   # Convert shapefile into SpatialPolygonsDataFrame
   # NOTE:  The 'counties' directory has been created
-  dsnPath <- paste(dataDir,'counties',sep='/')
+  dsnPath <- file.path(dataDir,'counties')
   shpName <- 'cb_2013_us_county_20m'
   SPDF <- convertLayer(dsn=dsnPath, layerName=shpName, encoding='latin1')
   

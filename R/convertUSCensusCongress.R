@@ -25,14 +25,14 @@ convertUSCensusCongress <- function(nameOnly=FALSE) {
   # Build appropriate request URL for US Census Sates data
   url <- 'http://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_us_cd115_500k.zip'
   
-  filePath <- paste(dataDir,basename(url),sep='/')
+  filePath <- file.path(dataDir,basename(url))
   utils::download.file(url,filePath)
   # NOTE:  This zip file has no directory so extra subdirectory needs to be created
-  utils::unzip(filePath,exdir=paste0(dataDir,'/congress'))
+  utils::unzip(filePath,exdir=file.path(dataDir,'congress'))
   
   # Convert shapefile into SpatialPolygonsDataFrame
   # NOTE:  The 'states' directory has been created
-  dsnPath <- paste(dataDir,'congress',sep='/')
+  dsnPath <- file.path(dataDir,'congress')
   shpName <- 'cb_2016_us_cd115_500k'
   SPDF <- convertLayer(dsn=dsnPath,layerName=shpName)
   

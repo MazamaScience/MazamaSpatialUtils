@@ -48,7 +48,7 @@ convertOSMTimezones <- function(dsnPath=NULL, nameOnly=FALSE) {
   # Build appropriate request URL for world timezones
   url <- "https://github.com/evansiroky/timezone-boundary-builder/releases/download/2017a/timezones.shapefile.zip"
 
-  filePath <- paste(dataDir,basename(url),sep='/')
+  filePath <- file.path(dataDir,basename(url))
   
   # NOTE:  "403 Forbidden" when downloading automatically. Support manually downloaded file.
   if ( is.null(dsnPath) ) {
@@ -58,7 +58,7 @@ convertOSMTimezones <- function(dsnPath=NULL, nameOnly=FALSE) {
   }
   
   # Convert shapefile into SpatialPolygonsDataFrame
-  dsnPath <- paste(dataDir,'dist',sep='/')
+  dsnPath <- file.path(dataDir,'dist')
   SPDF <- convertLayer(dsn=dsnPath,layerName='combined_shapefile')
   
   # Rename "TZID" to "timezone"

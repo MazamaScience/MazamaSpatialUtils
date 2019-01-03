@@ -40,7 +40,7 @@ convertCARBAirBasins <- function(nameOnly=FALSE, simplify=FALSE) {
   
   # Convert shapefile into SpatialPolygonsDataFrame
   # NOTE:  The 'counties' directory has been created
-  dsnPath <- paste(dataDir,'ca_air_basins',sep='/')
+  dsnPath <- file.path(dataDir,'ca_air_basins')
   shpName <- 'CaAirBasin'
   SPDF <- convertLayer(dsn=dsnPath, layerName=shpName)
   

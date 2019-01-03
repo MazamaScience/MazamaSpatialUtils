@@ -49,12 +49,12 @@ convertSimpleTimezones <- function(nameOnly=FALSE) {
   # Build appropriate request URL for world timezones
   url <- "http://efele.net/maps/tz/world/tz_world.zip"
 
-  filePath <- paste(dataDir,basename(url),sep='/')
+  filePath <- file.path(dataDir,basename(url))
   utils::download.file(url,filePath)
   utils::unzip(filePath,exdir=dataDir)
   
   # Convert shapefile into SpatialPolygonsDataFrame
-  dsnPath <- paste(dataDir,'world',sep='/')
+  dsnPath <- file.path(dataDir,'world')
   SPDF <- convertLayer(dsn=dsnPath,layerName='tz_world')
 
   # Rename "TZID" to "timezone"

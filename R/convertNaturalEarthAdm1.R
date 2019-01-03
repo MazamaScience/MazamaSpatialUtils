@@ -34,14 +34,14 @@ convertNaturalEarthAdm1 <- function(nameOnly=FALSE) {
                 adm, '_',
                 level, '.zip')
 
-  filePath <- paste(dataDir,basename(url),sep='/')
+  filePath <- file.path(dataDir,basename(url))
   utils::download.file(url,filePath)
   # NOTE:  This zip file has no directory so extra subdirectory needs to be created
-  utils::unzip(filePath,exdir=paste0(dataDir, '/adm'))
+  utils::unzip(filePath,exdir=file.path(dataDir,'adm'))
 
   # Convert shapefile into SpatialPolygonsDataFrame
   # NOTE:  The 'adm' directory has been created
-  dsnPath <- paste(dataDir,'adm',sep='/')
+  dsnPath <- file.path(dataDir,'adm')
   shpName <- paste('ne', '10m_admin', adm, level, sep='_')
   SPDF <- convertLayer(dsn=dsnPath, layerName=shpName)
 

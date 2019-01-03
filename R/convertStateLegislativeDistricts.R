@@ -61,12 +61,12 @@ convertStateLegislativeDistricts <- function(stateCode,
   url <- paste0("www2.census.gov/geo/tiger/GENZ2017/shp/", shpName, ".zip")
   
   # download and unzip shapefile
-  filePath <- paste(dataDir, basename(url), sep="/")
+  filePath <- file.path(dataDir,basename(url))
   utils::download.file(url, filePath)
-  utils::unzip(filePath, exdir=paste0(dataDir, "/", datasetName))
+  utils::unzip(filePath, exdir=file.path(dataDir, datasetName))
   
   # Convert shapefile to SpatialPolygonsDataframe
-  dsnPath <- paste(dataDir, datasetName, sep="/")
+  dsnPath <- file.path(dataDir,datasetName)
   shpName <- stringr::str_replace(basename(url), ".zip", "")
   SPDF <- convertLayer(dsn = dsnPath, layerName = shpName)
   

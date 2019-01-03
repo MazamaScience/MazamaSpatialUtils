@@ -25,12 +25,12 @@ convertIndianLands <- function(nameOnly=FALSE) {
   # Build appropriate request URL for terrestrial ecoregions
   url <- "https://prd-tnm.s3.amazonaws.com/StagedProducts/Small-scale/data/Boundaries/indlanp010g.shp_nt00968.tar.gz"
   
-  filePath <- paste(dataDir, basename(url),sep='/')
+  filePath <- file.path(dataDir,basename(url))
   utils::download.file(url,filePath)
-  utils::untar(filePath,exdir=paste0(dataDir, "/indlan"))
+  utils::untar(filePath,exdir=file.path(dataDir,'indlan'))
   
   # Convert shapefile into SpatialPolygonsDataFrame
-  dsnPath <- paste(dataDir,'indlan',sep='/')
+  dsnPath <- file.path(dataDir,'indlan')
   SPDF <- convertLayer(dsn=dsnPath,layerName='indlanp010g')
   
   # Rationalize naming:

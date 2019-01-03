@@ -67,7 +67,6 @@ setup_spatial_data <- function() {
   if (!exists("NaturalEarthAdm1")) {
     skip("Could not load NaturalEarthAdm1")
   }
-  
 }
 
 test_that("returns expected output", {
