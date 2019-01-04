@@ -36,14 +36,14 @@ convertSimpleCountries <- function(nameOnly=FALSE) {
   # Build appropriate request URL for TM World Borders data
   url <- 'http://thematicmapping.org/downloads/TM_WORLD_BORDERS-0.3.zip'
   
-  filePath <- paste(dataDir,basename(url),sep='/')
+  filePath <- file.path(dataDir,basename(url))
   utils::download.file(url,filePath)
   # NOTE:  This zip file has no directory so extra subdirectory needs to be created
-  utils::unzip(filePath,exdir=paste0(dataDir,'/world'))
+  utils::unzip(filePath,exdir=file.path(dataDir,'world'))
 
   # Convert shapefile into SpatialPolygonsDataFrame
   # NOTE:  The 'world' directory has been created
-  dsnPath <- paste(dataDir,'world',sep='/')
+  dsnPath <- file.path(dataDir,'world')
   SPDF <- convertLayer(dsn=dsnPath, layerName='TM_WORLD_BORDERS-0.3')
 
   # Rationalize naming:

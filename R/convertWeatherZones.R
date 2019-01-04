@@ -28,7 +28,7 @@ convertWeatherZones <- function(nameOnly = FALSE, simplify = TRUE) {
   utils::download.file(url,filePath)
   
   # NOTE:  This zip file has no directory so extra subdirectory needs to be created
-  utils::unzip(filePath,exdir=paste0(dataDir,'/weatherZones'))
+  utils::unzip(filePath,exdir=file.path(dataDir,'weatherZones'))
   dsnPath <- file.path(dataDir,'weatherZones')
   SPDF <- convertLayer(dsn=dsnPath, layerName='z_02oc18')
   

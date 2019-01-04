@@ -39,14 +39,14 @@ convertUSCensusCBSA <- function(nameOnly=FALSE, simplify=FALSE) {
   # Build appropriate request URL for US County Borders data
   url <- 'http://www2.census.gov/geo/tiger/TIGER2017/CBSA/tl_2017_us_cbsa.zip'
   
-  filePath <- paste(dataDir,basename(url),sep='/')
+  filePath <- file.path(dataDir,basename(url))
   utils::download.file(url,filePath)
   # NOTE:  This zip file has no directory so extra subdirectory needs to be created
-  utils::unzip(filePath,exdir=paste0(dataDir, '/tl_2017_us_cbsa'))
+  utils::unzip(filePath,exdir=file.path(dataDir,'tl_2017_us_cbsa'))
   
   # Convert shapefile into SpatialPolygonsDataFrame
   # NOTE:  The 'counties' directory has been created
-  dsnPath <- paste(dataDir,'tl_2017_us_cbsa',sep='/')
+  dsnPath <- file.path(dataDir,'tl_2017_us_cbsa')
   shpName <- 'tl_2017_us_cbsa'
   SPDF <- convertLayer(dsn=dsnPath, layerName=shpName)###, encoding='latin1')
   

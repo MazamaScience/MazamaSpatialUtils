@@ -20,7 +20,7 @@ convertGACC <- function(nameOnly=FALSE, simplify = TRUE) {
   
   if (nameOnly) return(datasetName)
   
-  # Build appropriate request URL for US County Borders data
+  # Build appropriate request URL for GACC regions dataset
   url <- "https://opendata.arcgis.com/datasets/72213d9266eb4aefa4403a1bf21dfd61_0.geojson"
   
   # Convert read geojson in as shapefile
@@ -46,7 +46,7 @@ convertGACC <- function(nameOnly=FALSE, simplify = TRUE) {
                              label = .data$GACC_Label,
                              location = .data$Location, 
                              contactPhone = .data$Contact_Phone,
-                             GACC_NWCG_Code = GACC_NWCG_Code)
+                             GACC_NWCG_Code = .data$GACC_NWCG_Code)
   
   SPDF$countryCode <- 'US'
   SPDF$stateCode <- stringr::str_extract(SPDF$location, "[[:upper:]]{2}$")

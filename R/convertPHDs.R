@@ -23,14 +23,14 @@ convertPHDs <- function(nameOnly=FALSE) {
   # Build appropriate request URL for US County Borders data
   url <- 'http://mazamascience.com/Shapefiles/PHDs.tgz'
   
-  filePath <- paste(dataDir,basename(url),sep='/')
+  filePath <- file.path(dataDir,basename(url))
   utils::download.file(url,filePath)
   # NOTE:  This zip file has no directory so extra subdirectory needs to be created
   utils::untar(filePath, exdir=dataDir)
   
   # Convert shapefile into SpatialPolygonsDataFrame
   # NOTE:  The 'counties' directory has been created
-  dsnPath <- paste(dataDir,'PHDs',sep='/')
+  dsnPath <- file.path(dataDir,'PHDs')
   shpName <- 'LocalPHDs'
   SPDF <- convertLayer(dsn=dsnPath, layerName=shpName, encoding='latin1')
   

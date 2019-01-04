@@ -25,9 +25,9 @@ convertWorldEEZ <- function(nameOnly=FALSE) {
   } 
   
   # Unzip the downloaded file
-  filePath <- paste(dataDir,'World_EEZ_v8_20140228_LR.zip',sep='/')
-  utils::unzip(filePath,exdir=paste0(dataDir, '/', datasetName))
-  dsnPath <- paste(dataDir, 'WorldEEZ', sep='/')
+  filePath <- file.path(dataDir,'World_EEZ_v8_20140228_LR.zip')
+  utils::unzip(filePath,exdir=file.path(dataDir,datasetName))
+  dsnPath <- file.path(dataDir,'WorldEEZ')
 
   # Convert shapefile into SpatialPolygonsDataFrame
   # NOTE:  The 'WorldEEZ' directory has been created

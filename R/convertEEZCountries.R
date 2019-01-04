@@ -36,8 +36,8 @@ convertEEZCountries <- function(dsnPath=NULL, nameOnly=FALSE) {
   if (nameOnly) return(datasetName)
   
   # Unzip the downloaded file
-  utils::unzip(dsnPath,exdir=paste0(dataDir, '/', "EEZ"))
-  dsnPath <- paste(dataDir, 'EEZ', sep='/')
+  utils::unzip(dsnPath,exdir=file.path(dataDir,'EEZ'))
+  dsnPath <- file.path(dataDir,'EEZ')
   
   # Convert shapefile into SpatialPolygonsDataFrame
   # NOTE:  The 'EEZCountries' directory has been created
