@@ -32,13 +32,13 @@ getSpatialData <- function(lon,
                            useBuffering=FALSE,
                            verbose=FALSE) {
 
-  # Sanity check -- same number of lats and lons and datetimes
+  # Sanity check -- same number of lats and lons 
   if ( length(lon) != length(lat) ) {
     stop(paste("ERROR in getSpatialData:  arguments 'lon' and 'lat' must have the same length."))
   }
 
   # Convert any lon into the range -180:180
-  lon <- ( (((lon + 360) %% 360) + 180) %% 360 ) - 180
+  # lon <- ( (((lon + 360) %% 360) + 180) %% 360 ) - 180
 
   # check if longitude and latitude falls in the right range
   if ( min(lon, na.rm=TRUE) < -180 ||
@@ -77,10 +77,11 @@ getSpatialData <- function(lon,
     # SpatialPolygons.
     # NOTE: We do this restructuring for ease of use later when using the
     # 'gIntersects' function
+    # TODO:  implicit list embedding of S4 objects is depreciated, so we should find an alternative.
     SpatialPolygonsList <- list()
     for (i in seq_along(SPDF) ) {
       SPDF_Polygons <- SPDF@polygons[[i]]
-      SpatialPolygonsList[i] <- sp::SpatialPolygons(list(SPDF_Polygons), proj4string=SPDF@proj4string)
+      suppressWarnings(SpatialPolygonsList[i] <- sp::SpatialPolygons(list(SPDF_Polygons), proj4string=SPDF@proj4string))
     }
 
     # Loop over points of interest, trying to find an intersecting polygon

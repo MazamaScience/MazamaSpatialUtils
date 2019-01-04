@@ -129,6 +129,20 @@ setSpatialDataDir <- function(dataDir) {
   return(invisible(old))
 }
 
+#' @keywords environment
+#' @keywords internal
+#' @export
+#' @title Remove Package Data Directory
+#' @description Resets the package data dir to NULL. Used for internal testing. 
+#' @return Silently returns previous value of data directory.
+#' @seealso SpatialDataDir
+#' @seealso getSpatialDataDir
+#' @seealso setSpatialDataDir
+removeSpatialDataDir <- function() {
+  old <- spatialEnv$dataDir
+  spatialEnv$dataDir <- NULL
+}
+
 
 # ----- Code <-> Name conversion functions  ------------------------------------
 
