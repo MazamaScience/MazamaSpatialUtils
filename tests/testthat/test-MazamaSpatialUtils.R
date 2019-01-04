@@ -1,4 +1,29 @@
 # -----------------------------------------------------------------------------
+# Convenience functions
+
+setup_spatial_data <- function() {
+   
+  # try to set up spatial data. Skip if fails.  
+  spatialDataDir <- try(getSpatialDataDir(), silent = TRUE)
+  
+  if (!exists('NaturalEarthAdm1')) {
+    tryCatch(getSpatialDataDir(), 
+             error = function(error) {
+               setSpatialDataDir("~/Data/Spatial") 
+             })
+    tryCatch(loadSpatialData("NaturalEarthAdm1"),
+             error = function(error) {
+               message("Could not load NaturalEarthAdm1")
+             })
+  }
+  if (!exists("NaturalEarthAdm1")) {
+    skip("Could not load NaturalEarthAdm1")
+  }
+  return (spatialDataDir)
+  
+}
+
+# -----------------------------------------------------------------------------
 testthat::context("Environment dataDir")
 
 
@@ -66,26 +91,6 @@ test_that("Returns expected output", {
 # -----------------------------------------------------------------------------
 context("stateToCode()")
 
-setup_spatial_data <- function() {
-  
-  spatialDataDir <- try(getSpatialDataDir(), silent = TRUE)
-  
-  if (!exists('NaturalEarthAdm1')) {
-    tryCatch(getSpatialDataDir(), 
-             error = function(error) {
-               setSpatialDataDir("~/Data/Spatial") 
-             })
-    tryCatch(loadSpatialData("NaturalEarthAdm1"),
-             error = function(error) {
-               message("Could not load NaturalEarthAdm1")
-             })
-  }
-  if (!exists("NaturalEarthAdm1")) {
-    skip("Could not load NaturalEarthAdm1")
-  }
-  return (spatialDataDir)
-  
-}
 
 test_that("returns expected output", {
   
@@ -94,7 +99,7 @@ test_that("returns expected output", {
   spatialDataDir <- setup_spatial_data()
   
   expect_equal(stateToCode("Washington"), "WA")
-  expect_equal(stateToCode("Barcelona"), "CT")
+  expect_equal(stateToCode("Cantabria"), "CB")
   
   # Teardown
   if (class(spatialDataDir) == "character") {
@@ -116,7 +121,7 @@ test_that("returns expected output", {
   spatialDataDir <- setup_spatial_data()
   
   expect_equal(codeToState("WA", "US"), "Washington")
-  expect_equal(codeToState("CT", "ES"), "Barcelona")
+  expect_equal(codeToState("CB", "ES"), "Cantabria")
   
   # Teardown
   if (class(spatialDataDir) == "character") {
@@ -134,7 +139,7 @@ test_that("warns when there are multiple states for a code", {
   spatialDataDir <- setup_spatial_data()
   
   expect_warning(codeToState("WA"), "9 states with code")
-  expect_warning(codeToState("CT"), "20 states with code")
+  expect_warning(codeToState("CB"), "12 states with code")
   
   # Teardown
   if (class(spatialDataDir) == "character") {

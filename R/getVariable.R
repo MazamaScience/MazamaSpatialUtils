@@ -37,9 +37,12 @@ getVariable <- function(lon, lat, dataset=NULL, variable=NULL, countryCodes=NULL
   SPDF <- get(dataset)
   
   # Sanity check
-  if ( !(variable %in% names(SPDF)) ) {
-    stop(paste0('Dataset ',dataset,' does not contain the variable ',variable), call.=FALSE)
+  if ( !is.null(variable) ) {
+    if ( !(variable %in% names(SPDF)) ) {
+      stop(paste0('Dataset ',dataset,' does not contain the variable ',variable), call.=FALSE)
+    }
   }
+  
   
   # Subset by country before searching
   if (!is.null(countryCodes)) SPDF <- SPDF[SPDF$countryCode %in% countryCodes,]

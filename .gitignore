@@ -16,3 +16,6 @@ vignettes/*.pdf
 
 # Data files
 *.zip
+
+# other
+.DS_Store
