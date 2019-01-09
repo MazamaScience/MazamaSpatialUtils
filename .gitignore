@@ -19,3 +19,4 @@ vignettes/*.pdf
 
 # other
 .DS_Store
+localShiny/localCache
