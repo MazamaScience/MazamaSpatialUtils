@@ -1,26 +1,20 @@
 # Function which plots a map representing bridge data
 # based on user parameters
 
-bridgePlot <- function(data, SPDF, FUN, style, title = "") {
+bridgePlot <- function(data, outputData, SPDF, FUN, style, title = "", stateOutline = NULL) {
   
-  df <- summarizeByPolygon(data$longitude, data$latitude,
-                           value = data$yearBuilt,
-                           SPDF = SPDF, FUN = eval(parse(text = FUN)))
-  df[is.na(df)] <- 0
-  
-  # Get the correct plot order
-  plotOrder <- SPDF$polygonID[SPDF$polygonID %in% df$polygonID]
-  plotOrder <- data.frame(polygonID = plotOrder, stringsAsFactors = FALSE)
-  plotDF <- dplyr::left_join(plotOrder, df, by='polygonID')
+  logger.trace("bridgePlot()")
+  logger.trace(str(list(style = style)))
   
   # Plot colors by quantiles
-  breaks <- quantile(subset(df, summaryValue > 0)$summaryValue)
-  colIndices <- .bincode(plotDF$summaryValue, breaks)
+  breaks <- quantile(subset(outputData, summaryValue > 0)$summaryValue)
+  colIndices <- .bincode(outputData$summaryValue, breaks)
   colorPalette <- RColorBrewer::brewer.pal(4, 'Blues')
   colors <- colorPalette[colIndices]
   
   if (style == "base_spdf_plus_points"){
     
+    logger.trace("plotting...")
     plot(SPDF, col = colors)
     points(data$longitude, data$latitude, pch = 2)
     legend("topright", legend = names(breaks)[1:4], fill = colors, title = "Density by area")
@@ -28,11 +22,13 @@ bridgePlot <- function(data, SPDF, FUN, style, title = "") {
     
   } else if (style == "points_plus_state"){
     
-    plot(wa_outline)
+    logger.trace("plotting...")
+    plot(stateOutline)
     points(data$longitude, data$latitude, pch = 2)
   
   } else if (style == "base_spdf") {
     
+    logger.trace("plotting...")
     plot(SPDF, col = colors)
     legend("topright", legend = names(breaks)[1:4], fill = colors, title = "Density by area")
     title(title)

@@ -1,26 +1,17 @@
 # This function creates a table with bridge data
 
-bridgeTable <- function(data, SPDF, style) {
-
-  # Prepare data for plotting
-  df <- summarizeByPolygon(data$longitude, data$latitude,
-                           value = data$yearBuilt,
-                           SPDF = SPDF, FUN = eval(parse(text = FUN)))
-  df[is.na(df)] <- 0
+bridgeTable <- function(data, outputData, SPDF, FUN, style, variable) {
+  logger.trace("bridgeTable()")
+  logger.trace(str(list(FUN = FUN, 
+                        style = style)))
   
-  
-  # Get the correct plot order
-  plotOrder <- SPDF$polygonID[SPDF$polygonID %in% df$polygonID]
-  plotOrder <- data.frame(polygonID = plotOrder, stringsAsFactors = FALSE)
-  plotDF <- dplyr::left_join(plotOrder, df, by='polygonID')
-  
+  names(outputData)[which(names(outputData) == "summaryValue")] <- paste0(FUN, "_", variable)
   if (style == "other"){
-    data
+    tableDF <- data
   } else if (style == "original_plus_summary"){
-    tableDF <- merge(data, df)
-    tableDF
+    tableDF <- merge(data, outputData)
   } else if (style == "summary_df") {
-    tableDF <- dplyr::left_join(plotOrder, df, by='polygonID')
-    tableDF
+    tableDF <- outputData
   }
+  return(tableDF)
 }
