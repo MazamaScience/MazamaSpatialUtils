@@ -8,4 +8,4 @@
 ^NEWS\.md$
 ^\.travis\.yml$
 ^_pkgdown\.yml$
-^vignettes/examples
+^vignettes/

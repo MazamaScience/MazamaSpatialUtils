@@ -1,3 +1,9 @@
+# MazamaSpatialUtils 0.5.10
+
+  * refactored shiny app from localShiny and added it to package in inst
+  * added `runExample()` to run shiny examples
+  
+
 # MazamaSpatialutils 0.5.9
 
   * New convert function for public health districts

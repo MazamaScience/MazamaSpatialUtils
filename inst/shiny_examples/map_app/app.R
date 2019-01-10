@@ -4,11 +4,12 @@ library(MazamaCoreUtils)
 library(sp)
 
 # shiny options
-shinyOptions(cache = diskCache("localCache"))
+cacheDir <- file.path(dirname(tempdir()), "map_app_cache")
+shinyOptions(cache = diskCache(cacheDir))
 
 # Prep
-if (!dir.exists("localCache")) dir.create("localCache")
-setSpatialDataDir("~/Data/Spatial/")
+# make sure SpatialDataDir is set. 
+getSpatialDataDir()
 loadSpatialData('NaturalEarthAdm1')
 wa_outline <- subset(NaturalEarthAdm1, countryName == "United States" & stateCode == "WA")
 logger.setup()
@@ -25,31 +26,9 @@ for (file in helperFiles) {
 
 
 ui <- fluidPage(
-  titlePanel("Uploading File for use in SummarizePolygons"),
+  titlePanel("National Bridge Inventory Aggregated Data"),
   sidebarLayout(
     sidebarPanel(
-      
-      h2("Input file"),
-      
-      # File input settings
-      fileInput('inputDataFile', 'Choose CSV File',
-                accept=c('text/csv',
-                         'text/comma-separated-values,text/plain',
-                         '.csv')),
-      checkboxGroupInput('header', 'CSV file has Header',
-                         choices = 'TRUE', selected = 'TRUE'),
-      radioButtons('sep', 'Separator',
-                   c(Comma=',',
-                     Semicolon=';',
-                     Tab='\t'),
-                   ','),
-      radioButtons('quote', 'Quote',
-                   c(None='',
-                     'Double Quote'='"',
-                     'Single Quote'="'"),
-                   '"'),
-      
-      tags$hr(),
       
       h2("Plot Settings"),
       
@@ -62,7 +41,10 @@ ui <- fluidPage(
                     HUC12 = 'WBDHU12'),
                   selected = 'WBDHU6'),
       selectInput('variable', 'Variable to Aggregate', 
-                  character(0)),
+                  c("yearBuilt", 
+                    "averageCarCount",
+                    "age"),
+                  selected = "yearBuilt"),
       selectInput('FUN', 'Function',
                   c(MIN = 'min',
                     MEAN = 'mean',
@@ -95,38 +77,7 @@ ui <- fluidPage(
 server <- function(input, output, session){
   
   # Define reactive variables
-  reactiveInputData <- reactive({
-    
-    logger.trace("reactiveInputData()")
-    inputFile <- input$inputDataFile
-    req(inputFile)
-    data <- reactiveFileReader(10000, session, filePath = inputFile$datapath, readr::read_delim,
-                                    delim = input$sep, quote = input$quote)
-    
-    
-    
-    return(data())
-  })
-  
-  # Update options for aggregating variable
-  observe({
-    
-    data <- reactiveInputData()
-    classes <- sapply(data, class)
-    choices <- names(data)[which(classes != "character")]
-    
-    if (is.null(choices)) {
-      choices <- character(0)
-    }
-    
-    # add options for aggregating variable
-    logger.trace("updateSelectInput()")
-    updateSelectInput(session, "variable",
-                      label = 'Variable to Aggregate',
-                      choices = choices
-    )
-  })
-  
+  inputData <- get(load("data/wa_bridges.RData"))
   
   reactiveSPDF <- reactive({
     
@@ -145,11 +96,11 @@ server <- function(input, output, session){
     
     logger.trace("reactiveOutputData()")
     uniqueCode <- digest::digest(c("outputData", input$inputDatafile$name, input$SPDF, input$FUN, input$variable))
-    filePath <- paste0("localCache/", uniqueCode, ".RData")
+    filePath <- paste0(cacheDir, "/", uniqueCode, ".RData")
     
     if (!file.exists(filePath)) {
       # Get data
-      data <- reactiveInputData()
+      data <- inputData
       SPDF <- reactiveSPDF()
       if (!"polygonID" %in% names(SPDF)) {
         SPDF$polygonID <- SPDF$HUC
@@ -185,7 +136,7 @@ server <- function(input, output, session){
   output$bridgeMap <- renderCachedPlot(
     expr = {
       title <- paste(parse(text=input$SPDF), "with", parse(text=input$FUN), "function")
-      bridgePlot(reactiveInputData(), 
+      bridgePlot(inputData, 
                  reactiveOutputData(), 
                  reactiveSPDF(), 
                  input$FUN, 
@@ -201,7 +152,7 @@ server <- function(input, output, session){
   
   output$bridgeTable <- renderTable({
     
-    bridgeTable(reactiveInputData(), 
+    bridgeTable(inputData, 
                 reactiveOutputData(), 
                 reactiveSPDF(), 
                 input$FUN, 
@@ -215,7 +166,7 @@ server <- function(input, output, session){
     filename = 'summary_data.csv',
     content = function(file) {
       logger.trace("download data")
-      write.csv(reactiveInputData(), file)
+      write.csv(inputData, file)
     }
   )
   

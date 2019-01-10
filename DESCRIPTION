@@ -1,6 +1,6 @@
 Type: Package
 Package: MazamaSpatialUtils
-Version: 0.5.8
+Version: 0.5.10
 Title: Spatial Data Download and Utility Functions
 Authors@R: c(
     person("Jonathan", "Callahan", email="jonathan.s.callahan@gmail.com", role=c("aut","cre")), 
@@ -42,6 +42,7 @@ Imports:
     rlang,
     rmapshaper,
     rvest (>= 0.3.0),
+    shiny,
     stringr,
     utils,
     xml2
