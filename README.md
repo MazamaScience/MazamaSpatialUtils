@@ -195,6 +195,11 @@ setSpatialDataDir('~/Data/Spatial')
 runExample()
 ```
 
+### Mapshaper
+
+Instructions for installing the javascript `mapshaper` utility and using it to
+simplify large shapefiles are found in the `localMapshaper/` directory.
+
 ----
 
 This project is supported by Mazama Science.
