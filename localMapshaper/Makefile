@@ -1,3 +1,10 @@
+################################################################################
+# Makefile for downloading, converting, and simplifying WBDHUC polygons from 
+# https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Hydrography/WBD/National/GDB
+#
+# SPATIAL_DATA_DIR can be overridden with a command like
+# make SPATIAL_DATA_DIR=<your/data/dir> download_wbd
+#
 
 # Variables that can be overridden in the command line
 SPATIAL_DATA_DIR=~/Data/Spatial
