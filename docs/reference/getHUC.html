@@ -63,7 +63,7 @@ If allData=TRUE, additional data is returned." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.5.7</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.5.10</span>
       </span>
     </div>
 
@@ -130,7 +130,8 @@ If allData=TRUE, additional data is returned." />
     
     </div>
 
-    <pre class="usage"><span class='fu'>getHUC</span>(<span class='no'>lon</span>, <span class='no'>lat</span>, <span class='no'>SPDF</span>, <span class='kw'>HUCs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>allData</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>getHUC</span>(<span class='no'>lon</span>, <span class='no'>lat</span>, <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='st'>"WBDHU10_02"</span>, <span class='kw'>HUCs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>allData</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -144,8 +145,8 @@ If allData=TRUE, additional data is returned." />
       <td><p>vector of latitudes in decimal degrees</p></td>
     </tr>
     <tr>
-      <th>SPDF</th>
-      <td><p>spatial polygons dataset of HUCs</p></td>
+      <th>dataset</th>
+      <td><p>name of spatial dataset to use</p></td>
     </tr>
     <tr>
       <th>HUCs</th>

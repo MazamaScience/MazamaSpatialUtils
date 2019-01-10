@@ -1,7 +1,7 @@
-library(shiny)
-library(MazamaSpatialUtils)
 library(MazamaCoreUtils)
+library(MazamaSpatialUtils)
 library(sp)
+library(shiny)
 
 # shiny options
 cacheDir <- file.path(dirname(tempdir()), "map_app_cache")
@@ -11,7 +11,7 @@ shinyOptions(cache = diskCache(cacheDir))
 # make sure SpatialDataDir is set. 
 getSpatialDataDir()
 loadSpatialData('NaturalEarthAdm1')
-wa_outline <- subset(NaturalEarthAdm1, countryName == "United States" & stateCode == "WA")
+wa_outline <- subset(NaturalEarthAdm1, countryCode == "US" & stateCode == "WA")
 logger.setup()
 logger.setLevel("TRACE")
 
@@ -22,11 +22,11 @@ for (file in helperFiles) {
 }
 
 
-# UI ----------------------------------------------------------------------
+# UI ---------------------------------------------------------------------------
 
 
 ui <- fluidPage(
-  titlePanel("National Bridge Inventory Aggregated Data"),
+  titlePanel("National Bridge Inventory Aggregated Data for Washington"),
   sidebarLayout(
     sidebarPanel(
       
@@ -51,9 +51,9 @@ ui <- fluidPage(
                     MAX = 'max'),
                   selected = 'mean'),
       selectInput('style', 'Desired output figure style',
-                  c(`Colored SPDF` = 'base_spdf',
+                  c(`Colored SPDF only` = 'base_spdf',
                     `Colored SPDF with points` = 'base_spdf_plus_points',
-                    `Points with state outline` = 'points_plus_state')),
+                    `Points only` = 'points_plus_state')),
       
       # Download data settings
       selectInput('output_file', 'Desired output file contents',
@@ -72,7 +72,7 @@ ui <- fluidPage(
 )
 
 
-# Server ------------------------------------------------------------------
+# Server -----------------------------------------------------------------------
 
 server <- function(input, output, session){
   
@@ -108,9 +108,11 @@ server <- function(input, output, session){
       
       # Aggregate data based on FUN
       logger.trace("Aggregating data by %s", input$variable)
-      df <- summarizeByPolygon(data$longitude, data$latitude,
+      df <- summarizeByPolygon(data$longitude, 
+                               data$latitude,
                                value = data[[input$variable]],
-                               SPDF = SPDF, FUN = eval(parse(text = input$FUN)))
+                               SPDF = SPDF, 
+                               FUN = eval(parse(text = input$FUN)))
       logger.trace("Successfully aggregated data")
       df[is.na(df)] <- 0
       

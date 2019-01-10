@@ -2,7 +2,7 @@
 
   * refactored shiny app from localShiny and added it to package in inst
   * added `runExample()` to run shiny examples
-  
+  * updated `README.md`
 
 # MazamaSpatialutils 0.5.9
 

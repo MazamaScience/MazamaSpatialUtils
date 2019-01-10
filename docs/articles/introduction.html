@@ -29,7 +29,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.5.7</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.5.10</span>
       </span>
     </div>
 
@@ -85,7 +85,7 @@
       <h1>Introduction to MazamaSpatialUtils</h1>
                         <h4 class="author">Mazama Science</h4>
             
-            <h4 class="date">2018-10-31</h4>
+            <h4 class="date">2019-01-10</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/MazamaScience/MazamaSpatialUtils/blob/master/vignettes/introduction.Rmd"><code>vignettes/introduction.Rmd</code></a></small>
       <div class="hidden name"><code>introduction.Rmd</code></div>
@@ -328,8 +328,8 @@ cons &lt;-<span class="st"> </span><span class="kw">read.csv</span>(<span class=
                  <span class="dt">skip=</span><span class="dv">6</span>, <span class="dt">stringsAsFactors=</span><span class="ot">FALSE</span>, <span class="dt">na.strings=</span><span class="st">'na'</span>)
 
 <span class="co"># Only work with ISO-encoded columns of data</span>
-prodCountryCodes &lt;-<span class="st"> </span><span class="kw">names</span>(prod)[ stringr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/stringr/topics/str_length">str_length</a></span>(<span class="kw">names</span>(prod)) <span class="op">==</span><span class="st"> </span><span class="dv">2</span> ]
-consCountryCodes &lt;-<span class="st"> </span><span class="kw">names</span>(cons)[ stringr<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/stringr/topics/str_length">str_length</a></span>(<span class="kw">names</span>(cons)) <span class="op">==</span><span class="st"> </span><span class="dv">2</span> ]
+prodCountryCodes &lt;-<span class="st"> </span><span class="kw">names</span>(prod)[ stringr<span class="op">::</span><span class="kw"><a href="https://stringr.tidyverse.org/reference/str_length.html">str_length</a></span>(<span class="kw">names</span>(prod)) <span class="op">==</span><span class="st"> </span><span class="dv">2</span> ]
+consCountryCodes &lt;-<span class="st"> </span><span class="kw">names</span>(cons)[ stringr<span class="op">::</span><span class="kw"><a href="https://stringr.tidyverse.org/reference/str_length.html">str_length</a></span>(<span class="kw">names</span>(cons)) <span class="op">==</span><span class="st"> </span><span class="dv">2</span> ]
 
 <span class="co"># Use the last row (most recent data)</span>
 lastRow &lt;-<span class="st"> </span><span class="kw">nrow</span>(prod)
