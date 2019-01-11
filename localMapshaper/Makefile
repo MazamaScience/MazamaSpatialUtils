@@ -18,7 +18,7 @@ download_wbd:
 
 convert_to_shapefile:
 	cd $(SPATIAL_DATA_DIR);\
-	ogr2ogr WBD WBD_National_GDB.gdb -f "ESRI Shapefile"
+	ogr2ogr WBD WBD/WBD.gdb -f "ESRI Shapefile"
 
 simplify_hu2:
 	cd $(SPATIAL_DATA_DIR);\
@@ -63,3 +63,5 @@ simplify_hu14:
 	mv WBDHU14_01.* WBD;mv WBDHU14_02.* WBD;
 
 simplify_all: simplify_hu2 simplify_hu4 simplify_hu6 simplify_hu8 simplify_hu10 simplify_hu12 simplify_hu14
+
+convert_and_simplify: convert_to_shapefile simplify_all
