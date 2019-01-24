@@ -23,4 +23,22 @@ wa@data$yearBuilt
 
 # TODO:  Should summarizeByPolygon return an SPDF with a new column of data?
 
+# Example for a talk
+nbi <- nbi_wa
+library(dplyr)
+loadSpatialData('USCensusCounties')
+wa <- subset(USCensusCounties, stateCode == 'WA')
+
+ageByPolygon <- summarizeByPolygon(nbi$longitude,
+                                   nbi$latitude,
+                                   nbi$age,
+                                   wa,
+                                   FUN=mean)
+
+left_join(wa@data, ageByPolygon, by="polygonID") %>%
+  select(countyName, summaryValue) %>% 
+  arrange(summaryValue) %>%
+  rename(county = countyName,
+         mean_age = summaryValue)
+  
 

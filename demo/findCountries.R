@@ -9,11 +9,11 @@ lons <- seq(5,25,2)
 lats <- seq(30,50,2)
 
 # Get country names
-countryNames <- getCountryName(lons, lats)
+countryNames <- getCountryName(lons, lats, dataset='SimpleCountries')
 print(countryNames)
 
 # Get all information in the dataset
-countryDF <- getCountryName(lons, lats, allData=TRUE)
+countryDF <- getCountryName(lons, lats, dataset='SimpleCountries', allData=TRUE)
 print(countryDF)
 
 # Subset the SpatialPolygonsDataFrame to only include our countries
