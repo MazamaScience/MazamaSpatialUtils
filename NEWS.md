@@ -1,20 +1,24 @@
+# MazamaSpatialUtils 0.6.0
+
+ * changes associated with minor version bump
+ 
 # MazamaSpatialUtils 0.5.10
 
-  * refactored shiny app from localShiny and added it to package in inst
-  * added `runExample()` to run shiny examples
-  * updated `README.md`
+ * refactored shiny app from localShiny and added it to package in inst
+ * added `runExample()` to run shiny examples
+ * updated `README.md`
 
 # MazamaSpatialutils 0.5.9
 
-  * New convert function for public health districts
-  * New convert function for GACCs
-  * more testing
+ * New convert function for public health districts
+ * New convert function for GACCs
+ * more testing
 
 # MazamaSpatialUtils 0.5.8
 
-  * New convert functions for weather zones
-  * Argument consistency with `getHUC()`
-  * added `dissolve()` wrapper for `rmapshaper::ms_dissolve()`
+ * New convert functions for weather zones
+ * Argument consistency with `getHUC()`
+ * added `dissolve()` wrapper for `rmapshaper::ms_dissolve()`
 
 # MazamaSpatialUtils 0.5.7
 

@@ -1,3 +1,6 @@
+library(MazamaSpatialUtils)
+load('OSMTimezones')
+
 # create a random sampling of 500 points, where longitude is between 
 # -8 and 35, and latitude is between 39 and 58 (points in or near Europe)
 longitude <- runif(500, -8, 35)
@@ -5,6 +8,7 @@ latitude  <- runif(500, 39, 58)
 
 # use getTimezone to determine which timezone each point is in using both the old and new timezone shapefiles
 OSMTimezones_05 <- rmapshaper::ms_simplify(OSMTimezones, .05)
+OSMTimezones_02 <- rmapshaper::ms_simplify(OSMTimezones, .02)
 a <- getTimezone(longitude, latitude, dataset = "SimpleTimezones")
 b <- getTimezone(longitude, latitude, dataset = "OSMTimezones_05")
 

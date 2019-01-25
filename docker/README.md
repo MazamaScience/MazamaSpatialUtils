@@ -15,7 +15,7 @@ $ docker build -t mazamascience/spatialutils:0.5.4  -t mazamascience/spatialutil
 $ docker images
 REPOSITORY                        TAG                 IMAGE ID            CREATED             SIZE
 mazamascience/spatialutils        latest              9633b7194e6d        4 days ago          2.35GB
-mazamascience/spatialutils        0.5.4               9633b7194e6d        4 days ago          2.35GB
+mazamascience/spatialutils        0.6.0               9633b7194e6d        4 days ago          2.35GB
 ...
 ```
 
@@ -71,7 +71,7 @@ Loading required package: sp
 ```
 docker login
 ...
-docker push mazamascience/spatialutils:0.5.4
+docker push mazamascience/spatialutils:0.6.0
 ```
 
 
@@ -80,7 +80,7 @@ docker push mazamascience/spatialutils:0.5.4
 A recent image can also be obtained from DockerHub with:
 
 ```
-docker pull mazamascience/spatialutils:0.5.4
+docker pull mazamascience/spatialutils:0.6.0
 ```
 
 

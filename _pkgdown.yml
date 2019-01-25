@@ -7,5 +7,5 @@ articles:
       Background and examples for successfully working with the 
       MazamaSpatialUtils package.
     contents:
-    - introduction
-    - examples/ebolamap
+      - MazamaSpatialUtils
+      - examples/ebolamap

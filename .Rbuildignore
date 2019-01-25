@@ -1,11 +1,25 @@
+# Ignore RStudio files
 ^.*\.Rproj$
 ^\.Rproj\.user$
+
+# Ignore various yaml files associated with package building packages
+^\.lintr$
+
+# Ignore LICENSE file which is included for display on Github
+^LICENSE$
+
+# Ignore all directories beginning with "local"
+^local*
+
+# Ignore directories associated with pkgdown
+^_pkgdown\.yml$
+^pkgdown/
+^docs$
+
+# Ignore other directories
 ^app$
 ^docker$
-^docs$
-^local.*$
-^LICENSE$
-^NEWS\.md$
+
+# Ignore configuration files for other tools
 ^\.travis\.yml$
-^_pkgdown\.yml$
-^vignettes/
+
