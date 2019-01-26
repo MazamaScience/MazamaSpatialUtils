@@ -1,34 +1,84 @@
-FROM rocker/tidyverse:3.5.1
+FROM rocker/tidyverse:3.5.2
 MAINTAINER Jonathan Callahan <jonathan@mazamascience.com>
 
-#######################################################################
-# For MazamaSpatialUtils
+################################################################################
+# From https://github.com/rocker-org/rocker-versioned/blob/master/verse/3.5.2/Dockerfile
+
 RUN apt-get update \
   && apt-get install -y --no-install-recommends \
-    git \
-    libcurl4-openssl-dev \
+   # ...
+    ## for V8-based javascript wrappers
+    libv8-dev # libv8-3.14-dev
+   # ....
+
+
+################################################################################
+# From https://hub.docker.com/r/rocker/geospatial/dockerfile
+#
+# We will run most of the steps in the rocker/geospatial:3.5.2 image but leave 
+# off the parts we don't need that make it so huge.
+# 
+# We are also avoid unnecessary system libraries by starting with
+#   FROM rocker/tidyverse:3.5.2
+# instead of
+#   FROM rocker/verse:3.5.2
+
+RUN apt-get update \
+  && apt-get install -y --no-install-recommends \
+   # lbzip2 \
+   # libfftw3-dev \
     libgdal-dev \
     libgeos-dev \
+   # libgsl0-dev \
+   # libgl1-mesa-dev \
+   # libglu1-mesa-dev \
+   # libhdf4-alt-dev \
+   # libhdf5-dev \
     libjq-dev \
+   # liblwgeom-dev \
     libproj-dev \
     libprotobuf-dev \
+   # libnetcdf-dev \
+   # libsqlite3-dev \
     libssl-dev \
     libudunits2-dev \
-    libv8-dev \
+   # netcdf-bin \
     protobuf-compiler \
-    wget \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/ \
-  && rm -rf /tmp/downloaded_packages/ /tmp/*.rds \
-  ## Install R packages from CRAN
-  && install2.r --error -r "https://cran.rstudio.com" \
-    devtools \
-    maps \
+   # tk-dev \
+   # unixodbc-dev \
+  && install2.r --error \
+    RColorBrewer \
+   # RandomFields \
+   # RNetCDF \
+   # classInt \
+   # deldir \
+   # gstat \
+   # hdf5r \
+   # lidR \
     mapdata \
     maptools \
-    remotes \
+   # mapview \
+   # ncdf4 \
+   # proj4 \
+   # raster \
     rgdal \
-    rgeos \
+    rgeos 
+   # rlas \
+   # sf \
+   # sp \
+   # spacetime \
+   # spatstat \
+   # spdep \
+   # geoR \
+   # geosphere \
+  ## from bioconductor && R -e "BiocManager::install('rhdf5')"
+
+
+################################################################################
+# For MazamaSpatialUtils
+
+RUN install2.r --error -r "https://cran.rstudio.com" \
+    maps \
     rmapshaper \
     MazamaSpatialUtils
 

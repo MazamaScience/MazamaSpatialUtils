@@ -8,18 +8,14 @@ A docker image with all required prerequisites can be built with the `Makefile` 
 make production_build
 ```
 
-This is just shorthand for the following `docker build` line:
+You should then be able to see something like the following:
 
 ```
-$ docker build -t mazamascience/spatialutils:0.5.4  -t mazamascience/spatialutils:latest .
-$ docker images
-REPOSITORY                        TAG                 IMAGE ID            CREATED             SIZE
-mazamascience/spatialutils        latest              9633b7194e6d        4 days ago          2.35GB
-mazamascience/spatialutils        0.6.0               9633b7194e6d        4 days ago          2.35GB
+$ docker images | grep spatialutils
+mazamascience/spatialutils          0.6.0                   0378d2f89da7        4 minutes ago       2.52GB
+mazamascience/spatialutils          latest                  0378d2f89da7        4 minutes ago       2.52GB
 ...
 ```
-
-> It is best practice to create versioned images and tag the most recent one with "latest".
 
 Spatial data required by the **MazamaSpatialUtils** package already exists in the docker image in `/home/mazama/data/Spatial`.
 
