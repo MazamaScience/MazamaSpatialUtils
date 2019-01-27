@@ -1,8 +1,13 @@
+---
+title: "MazamaSpatialUtils"
+pagetitle: MazamaSpatialUtils
+---
+
 [![CRAN\_Status\_Badge](http://www.r-pkg.org/badges/version/MazamaSpatialUtils)](https://cran.r-project.org/package=MazamaSpatialUtils)
 [![Downloads](http://cranlogs.r-pkg.org/badges/MazamaSpatialUtils)](https://cran.r-project.org/package=MazamaSpatialUtils)
 [![Build Status](https://travis-ci.org/MazamaScience/MazamaSpatialUtils.svg?branch=master)](https://travis-ci.org/MazamaScience/MazamaSpatialUtils)
 
-# <img src="docs/logo.png" align="left" style="padding-right:20px;"/> MazamaSpatialUtils
+# MazamaSpatialUtils
 
 ```
 A suite of conversion scripts to create internally standardized spatial

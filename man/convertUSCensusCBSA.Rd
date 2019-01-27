@@ -22,6 +22,10 @@ A US Core Based Statistical Areas (CBSA) shapefile is downloaded and converted t
 SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
 in the spatial data directory which is set with \code{setSpatialDataDir()}.
 
+The CBSA datasets was obtained from the following URL:
+
+https://catalog.data.gov/dataset/tiger-line-shapefile-2017-nation-u-s-current-metropolitan-statistical-area-micropolitan-statist
+
 From the Census Bureau:
 
 Metropolitan and Micropolitan Statistical Areas are together termed Core Based Statistical 
@@ -35,9 +39,6 @@ Statistical Areas, based on urban clusters of at least 10,000 population but les
 50,000 population.
 
 Boundaries are those defined by OMB based on the 2010 Census, published in 2013, and updated in 2015.
-}
-\references{
-\url{https://catalog.data.gov/dataset/tiger-line-shapefile-2017-nation-u-s-current-metropolitan-statistical-area-micropolitan-statist}
 }
 \seealso{
 setSpatialDataDir

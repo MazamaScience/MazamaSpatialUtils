@@ -15,6 +15,7 @@
 ^_pkgdown\.yml$
 ^pkgdown/
 ^docs$
+^logo\.png$
 
 # Ignore other directories
 ^app$

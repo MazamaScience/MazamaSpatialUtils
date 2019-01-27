@@ -8,6 +8,10 @@
 #' SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
 #' in the spatial data directory which is set with \code{setSpatialDataDir()}.
 #' 
+#' The CBSA datasets was obtained from the following URL:
+#' 
+#' https://catalog.data.gov/dataset/tiger-line-shapefile-2017-nation-u-s-current-metropolitan-statistical-area-micropolitan-statist
+#' 
 #' From the Census Bureau:
 #' 
 #' Metropolitan and Micropolitan Statistical Areas are together termed Core Based Statistical 
@@ -23,7 +27,6 @@
 #' Boundaries are those defined by OMB based on the 2010 Census, published in 2013, and updated in 2015.
 #' 
 #' @return Name of the dataset being created.
-#' @references \url{https://catalog.data.gov/dataset/tiger-line-shapefile-2017-nation-u-s-current-metropolitan-statistical-area-micropolitan-statist}
 #' @seealso setSpatialDataDir
 #' @seealso getUSCounty
 convertUSCensusCBSA <- function(nameOnly=FALSE, simplify=FALSE) {
