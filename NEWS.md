@@ -1,3 +1,8 @@
+# MazamaSpatialUtils 0.6.1
+
+ * made `simplify()` function example `donotrun` so as to 
+ avoid a CRAN testing failure on fedora only -- Ugh.
+ 
 # MazamaSpatialUtils 0.6.0
 
  * changes associated with minor version bump

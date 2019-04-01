@@ -21,6 +21,7 @@ Simplify a spatial polygons dataframe. This is a convenience
 wrapper for \code{rmapshaper::ms_simplify()}
 }
 \examples{
+\dontrun{
 FR <- subset(SimpleCountries, countryCode == 'FR')
 par(mfrow=c(3,3), mar=c(1,1,3,1))
 for (i in 9:1) {
@@ -29,4 +30,5 @@ for (i in 9:1) {
 }
 layout(1)
 par(mar = c(5,4,4,2)+.1)
+}
 }

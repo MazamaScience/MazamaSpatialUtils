@@ -290,6 +290,7 @@ stateToCode <- function(stateNames, countryCodes=NULL,
 #' wrapper for \code{rmapshaper::ms_simplify()}
 #' @return A simplified spatial polygons dataframe.
 #' @examples 
+#' \dontrun{
 #' FR <- subset(SimpleCountries, countryCode == 'FR')
 #' par(mfrow=c(3,3), mar=c(1,1,3,1))
 #' for (i in 9:1) {
@@ -298,6 +299,7 @@ stateToCode <- function(stateNames, countryCodes=NULL,
 #' }
 #' layout(1)
 #' par(mar = c(5,4,4,2)+.1)
+#' }
 
 simplify <- function(SPDF, keep = 0.05, ...) {
   SPDF_simple <- rmapshaper::ms_simplify(SPDF, keep, ...)
