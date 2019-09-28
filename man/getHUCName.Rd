@@ -2,7 +2,7 @@
 % Please edit documentation in R/getHUCName.R
 \name{getHUCName}
 \alias{getHUCName}
-\title{Return HUC Names at Specified Locations}
+\title{Return HUC names at specified locations}
 \usage{
 getHUCName(lon, lat, dataset = "WBDHU10_02", HUCs = NULL,
   allData = FALSE)
@@ -23,9 +23,9 @@ Vector of HUC names.
 }
 \description{
 Uses spatial comparison to determine which HUC polygons the 
-    locations fall into and returns the HUC names for those polygons.
+locations fall into and returns the HUC names for those polygons.
     
-    If \code{allData=TRUE}, additional data is returned.
+If \code{allData = TRUE}, additional data is returned.
 }
 \seealso{
 getSpatialData

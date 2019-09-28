@@ -2,7 +2,7 @@
 % Please edit documentation in R/MazamaSpatialUtils.R
 \name{setSpatialDataDir}
 \alias{setSpatialDataDir}
-\title{Set Package Data Directory}
+\title{Set package data directory}
 \usage{
 setSpatialDataDir(dataDir)
 }

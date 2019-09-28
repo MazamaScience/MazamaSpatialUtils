@@ -1,5 +1,5 @@
 library(MazamaSpatialUtils)
-load('OSMTimezones')
+loadSpatialData('OSMTimezones')
 
 # create a random sampling of 500 points, where longitude is between 
 # -8 and 35, and latitude is between 39 and 58 (points in or near Europe)

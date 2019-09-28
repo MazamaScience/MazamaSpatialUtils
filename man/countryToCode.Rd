@@ -2,7 +2,7 @@
 % Please edit documentation in R/MazamaSpatialUtils.R
 \name{countryToCode}
 \alias{countryToCode}
-\title{Convert Country Names to Country Codes}
+\title{Convert country names to country codes}
 \usage{
 countryToCode(countryNames)
 }
@@ -13,6 +13,7 @@ countryToCode(countryNames)
 A vector of ISO 3166-1 alpha-2 codes or NA.
 }
 \description{
-Converts a vector of English country names to the corresponding ISO 3166-1 alpha-2 codes.
+Converts a vector of English country names to the corresponding 
+ISO 3166-1 alpha-2 codes.
 }
 \keyword{conversion}

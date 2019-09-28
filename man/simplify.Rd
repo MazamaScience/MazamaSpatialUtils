@@ -23,10 +23,10 @@ wrapper for \code{rmapshaper::ms_simplify()}
 \examples{
 \dontrun{
 FR <- subset(SimpleCountries, countryCode == 'FR')
-par(mfrow=c(3,3), mar=c(1,1,3,1))
+par(mfrow = c(3, 3), mar = c(1, 1, 3, 1))
 for (i in 9:1) {
   keep <- 0.1 * i
-  plot(simplify(FR, keep), main=paste0("keep = ",keep))
+  plot(simplify(FR, keep), main=paste0("keep = ", keep))
 }
 layout(1)
 par(mar = c(5,4,4,2)+.1)

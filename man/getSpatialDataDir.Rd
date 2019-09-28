@@ -2,7 +2,7 @@
 % Please edit documentation in R/MazamaSpatialUtils.R
 \name{getSpatialDataDir}
 \alias{getSpatialDataDir}
-\title{Get Package Data Directory}
+\title{Get package data directory}
 \usage{
 getSpatialDataDir()
 }

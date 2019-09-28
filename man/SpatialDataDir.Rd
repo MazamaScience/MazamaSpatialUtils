@@ -3,7 +3,7 @@
 \docType{data}
 \name{SpatialDataDir}
 \alias{SpatialDataDir}
-\title{Directory for Spatial Data}
+\title{Directory for spatial data}
 \format{Absolute path string.}
 \description{
 This package maintains an internal directory location which users can set

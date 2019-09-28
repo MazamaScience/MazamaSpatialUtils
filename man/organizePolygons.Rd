@@ -2,7 +2,7 @@
 % Please edit documentation in R/organizePolygons.R
 \name{organizePolygons}
 \alias{organizePolygons}
-\title{Organize Ungrouped Polygons}
+\title{Organize ungrouped polygons}
 \usage{
 organizePolygons(dataset, uniqueID, sumColumns = NULL)
 }
@@ -24,6 +24,6 @@ If sumColumns is NULL and there are multiple rows that aren't duplicated but hav
 the same 'uniqueID', the original SpatialPolygonsDataFrame will be returned.
 }
 \examples{
-SPDF <- organizePolygons(SimpleTimezones, 'timezone', NULL)
+SPDF <- organizePolygons(SimpleTimezones, "timezone", NULL)
 }
 \keyword{internal}

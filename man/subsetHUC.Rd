@@ -8,24 +8,27 @@ subsetHUC(SPDF, parentHUCs = NULL, stateCodes = NULL,
   allStateCodes = NULL)
 }
 \arguments{
-\item{SPDF}{a spatial polygons dataframe created using the convertUSGSHUC function}
+\item{SPDF}{a spatial polygons dataframe created using the convertUSGSHUC 
+function}
 
 \item{parentHUCs}{a character vector specifying one or more containing HUCs}
 
 \item{stateCodes}{a character vector specifying one or more containing states}
 
-\item{allStateCodes}{similar to stateCode, but will also include HUCs who touch the 
-state but whose centroid is in a different state.}
+\item{allStateCodes}{similar to stateCode, but will also include HUCs who 
+touch the state but whose centroid is in a different state.}
 }
 \value{
 a SpatialPolygons Dataframe subsetted to the appropriate specifications.
 }
 \description{
-A SpatialPolygons Dataframe is broken into smaller pieces based on
-HUC code or state. The SpatialPolygons Dataframe must have the required fields 
-'stateCode', 'HUC', and 'allStateCodes' and is intended to come from the convertUSGSHUC function.
-The difference between stateCode and allStateCodes is that stateCode has just one two-digit ISO 
-code while allStateCodes can have more than one. This allows us to include in the subset HUCs where part of the 
-watershed is in the specified state even though the centroid is in a different state.
+A SpatialPolygons Dataframe is broken into smaller pieces based 
+on HUC code or state. The SpatialPolygons Dataframe must have the required 
+fields 'stateCode', 'HUC', and 'allStateCodes' and is intended to come from 
+the \code{convertUSGSHUC()} function. The difference between stateCode and 
+allStateCodes is that stateCode has just one two-digit ISO code while 
+allStateCodes can have more than one. This allows us to include in the subset 
+HUCs where part of the watershed is in the specified state even though the 
+centroid is in a different state.
 }
 \keyword{datagen}

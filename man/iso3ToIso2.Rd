@@ -2,7 +2,7 @@
 % Please edit documentation in R/MazamaSpatialUtils.R
 \name{iso3ToIso2}
 \alias{iso3ToIso2}
-\title{Convert from ISO3 to ISO2 Country Codes}
+\title{Convert from ISO3 to ISO2 country codes}
 \usage{
 iso3ToIso2(countryCodes)
 }
@@ -13,6 +13,7 @@ iso3ToIso2(countryCodes)
 A vector of ISO2 country codes
 }
 \description{
-Converts a vector of ISO 3166-1 alpha-3 codes to the corresponding ISO 3166-1 alpha-2 codes.
+Converts a vector of ISO 3166-1 alpha-3 codes to the 
+corresponding ISO 3166-1 alpha-2 codes.
 }
 \keyword{conversion}

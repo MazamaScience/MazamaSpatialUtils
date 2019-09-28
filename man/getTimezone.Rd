@@ -2,7 +2,7 @@
 % Please edit documentation in R/getTimezone.R
 \name{getTimezone}
 \alias{getTimezone}
-\title{Return Olson Timezones at Specified Locations}
+\title{Return Olson timezones at specified locations}
 \usage{
 getTimezone(lon, lat, dataset = "SimpleTimezones", countryCodes = NULL,
   allData = FALSE, useBuffering = FALSE)
@@ -18,19 +18,20 @@ getTimezone(lon, lat, dataset = "SimpleTimezones", countryCodes = NULL,
 
 \item{allData}{logical specifying whether a full dataframe should be returned}
 
-\item{useBuffering}{logical flag specyfing the use of location buffering to find the nearest polygon if not target polygon is found}
+\item{useBuffering}{logical flag specyfing the use of location buffering to 
+find the nearest polygon if not target polygon is found}
 }
 \value{
 Vector of Olson timezones.
 }
 \description{
 Uses spatial comparison to determine which timezone polygons the 
-    locations fall into and returns the Olson timezone strings for those polygons.
+locations fall into and returns the Olson timezone strings for those polygons.
     
-    Specification of \code{countryCodes} limits spatial searching to the specified
-    countries and greatly improves performance.
+Specification of \code{countryCodes} limits spatial searching to the 
+specified countries and greatly improves performance.
     
-    If \code{allData=TRUE}, additional data is returned.
+If \code{allData=TRUE}, additional data is returned.
 }
 \examples{
 lon <- seq(-120,-60,5)

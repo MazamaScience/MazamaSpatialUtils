@@ -91,7 +91,8 @@ convertStateLegislativeDistricts <- function(stateCode,
   SPDF$areaWater <- as.numeric(SPDF$areaWater)
   
   # Group polygons with the same identifier (legislativeDistrict)
-  SPDF <- organizePolygons(SPDF, uniqueID='legislativeDistrict', 
+  SPDF <- organizePolygons(SPDF, 
+                           uniqueID='legislativeDistrict', 
                            sumColumns=c('areaLand', 'areaWater'))
   
   # Assign name to data and save it

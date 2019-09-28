@@ -1,6 +1,6 @@
 #' @keywords internal
 #' @export
-#' @title Organize Ungrouped Polygons
+#' @title Organize ungrouped polygons
 #' @param dataset object of class SpatialPolygonsDataFrame
 #' @param uniqueID unique identifier to determine which values are duplicated
 #' @param sumColumns vector of column names to be summed
@@ -10,31 +10,38 @@
 #' If sumColumns is NULL and there are multiple rows that aren't duplicated but have
 #' the same 'uniqueID', the original SpatialPolygonsDataFrame will be returned.
 #' @return SpatialPolygonsDataFrame composed of grouped polygons.
-#' @examples SPDF <- organizePolygons(SimpleTimezones, 'timezone', NULL)
-organizePolygons <- function(dataset, uniqueID, sumColumns=NULL) {
+#' @examples SPDF <- organizePolygons(SimpleTimezones, "timezone", NULL)
+organizePolygons <- function(
+  dataset, 
+  uniqueID, 
+  sumColumns = NULL
+) {
   
   # Test if the unique identifier is a character string
   if ( !is.character(uniqueID) ) {
-    stop(paste0('The uniqueID, "',uniqueID,'" must be a character string.'), call.=FALSE)
+    stop(paste0("The uniqueID, \"", uniqueID, "\" must be a character string."), 
+         call. = FALSE)
   }
-
+  
   # Test if the dataset is of class SpatialPolygonsDataFrame
-  if ( !class(dataset)=='SpatialPolygonsDataFrame' ) {
-    stop(paste0(dataset,' not found. Please use loadSpatialData().'), call.=FALSE)
+  if ( !class(dataset) == "SpatialPolygonsDataFrame" ) {
+    stop(paste0(dataset, " not found. Please use loadSpatialData()."), 
+         call. = FALSE)
   }
-
+  
   # Test if the dataframe already contains grouped polygons. If so,
   # add polygonID and return the dataframe.
   if ( !any(duplicated(dataset@data[,uniqueID])) ) {
     dataset@data[,'polygonID'] <- as.character(dataset@data[,uniqueID])
     rownames(dataset@data) <- as.character(dataset@data[,uniqueID])
-    # Also useful to add the uniqueID to each individual sp::Polygons object in dataset@polygons
+    # Also useful to add the uniqueID to each individual sp::Polygons object in 
+    # dataset@polygons
     for ( i in seq_along(dataset@polygons) ) {
       dataset@polygons[[i]]@ID <- as.character(dataset@data[i,uniqueID])
     }
     return(dataset)
   }
-
+  
   # Determine which values are duplicated and create an updated dataframe
   if ( is.null(sumColumns) ) {
     dupMask <- duplicated(dataset@data)
@@ -42,14 +49,17 @@ organizePolygons <- function(dataset, uniqueID, sumColumns=NULL) {
     dupMask <- duplicated(dataset@data[,uniqueID])
   }
   nonDups <- dataset[!dupMask,]
-
-  # Test if there are any rows that have non-duplicated data but no columns specified for summation
+  
+  # Test if there are any rows that have non-duplicated data but no columns 
+  # specified for summation
   if ( any(duplicated(nonDups@data[,uniqueID])) && is.null(sumColumns) ) {
-    message(paste0('There are duplicated ',uniqueID,' rows with different values. ',
-                   'Please specify columns to be summed. Returning original dataframe.'))
+    message(paste0("There are duplicated ",
+                   uniqueID,
+                   " rows with different values. ",
+                   "Please specify columns to be summed. Returning original dataframe."))
     return(dataset)
   }
-
+  
   # Create an empty list to store each list Polygons
   srl <- list()
   
@@ -57,17 +67,17 @@ organizePolygons <- function(dataset, uniqueID, sumColumns=NULL) {
   for (i in seq_along(nonDups)) {
     x <- nonDups@data[,uniqueID][i]
     allX <- which(dataset@data[,uniqueID] == x)
-
-    # Create an emply list to store the Polygons corresponding 'x'
+    
+    # Create an emply list to store the Polygons corresponding "x"
     newPolygons <- list()
     for (index in seq_along(allX)) {
       newPolygons[[index]] <- dataset@polygons[[ allX[index] ]]@Polygons[[1]]
     }
-
+    
     # Create an object of class Polygons
     polys <- sp::Polygons(newPolygons, x)
     srl[[i]] <- polys
-
+    
     # If a vector of column names is given, sum up those columns and replace the old row
     if ( !is.null(sumColumns) ) {
       for (j in seq_along(sumColumns)) {
@@ -75,15 +85,15 @@ organizePolygons <- function(dataset, uniqueID, sumColumns=NULL) {
       }
     }
   }
-
+  
   # Create an object SpatialPolygons
   proj4 <- dataset@proj4string
-  SP <- sp::SpatialPolygons(srl, proj4string=proj4)
-
+  SP <- sp::SpatialPolygons(srl, proj4string = proj4)
+  
   # Build a SpatialPolygonsDataFrame from the dataframe and SpatialPolygons
   rownames(nonDups@data) <- nonDups@data[,uniqueID]
   SPDF <- sp::SpatialPolygonsDataFrame(SP, nonDups@data)
-  SPDF@data[,'polygonID'] <- SPDF@data[,uniqueID]
+  SPDF@data[,"polygonID"] <- SPDF@data[,uniqueID]
   
   return(SPDF)
 }

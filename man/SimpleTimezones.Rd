@@ -3,7 +3,7 @@
 \docType{data}
 \name{SimpleTimezones}
 \alias{SimpleTimezones}
-\title{World Timezone Polygons}
+\title{World timezone polygons}
 \format{A SpatialPolygonsDataFrame with 1106 elements and 6 columns of data.}
 \description{
 SimpleTimezones is a simplified world timezones dataset suitable for global maps

@@ -6,7 +6,7 @@ testthat::test_that("handles errors correctly", {
   testthat::expect_error(getVariable(dataset = "SimpleCountries"),
                          'argument "lon" is missing, with no default')
   testthat::expect_error(getVariable(0,100, dataset = "SimpleCountries"))
-  testthat::expect_error(getVariable(10, 10), "Missing database")
+  testthat::expect_error(getVariable(10, 10), "Missing dataset")
 })
 
 testthat::test_that("returns correct name", {

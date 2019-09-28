@@ -3,7 +3,7 @@
 \docType{data}
 \name{SimpleCountriesEEZ}
 \alias{SimpleCountriesEEZ}
-\title{World Country EEZ Polygons}
+\title{World country EEZ polygons}
 \format{A SpatialPolygonsDataFrame with 261 elements and 6 columns of data.}
 \description{
 SimpleCountriesEEZ is a simplified world borders dataset with a  

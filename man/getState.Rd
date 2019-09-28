@@ -2,7 +2,7 @@
 % Please edit documentation in R/getState.R
 \name{getState}
 \alias{getState}
-\title{Return State Names at Specified Locations}
+\title{Return state names at specified locations}
 \usage{
 getState(lon, lat, dataset = "NaturalEarthAdm1", countryCodes = NULL,
   allData = FALSE, useBuffering = FALSE)
@@ -18,20 +18,21 @@ getState(lon, lat, dataset = "NaturalEarthAdm1", countryCodes = NULL,
 
 \item{allData}{logical specifying whether a full dataframe should be returned}
 
-\item{useBuffering}{logical flag specifying the use of location buffering to find the nearest polygon if no target polygon is found}
+\item{useBuffering}{logical flag specifying the use of location buffering to 
+find the nearest polygon if no target polygon is found}
 }
 \value{
 Vector of state names in English.
 }
 \description{
 Uses spatial comparison to determine which 'state' polygons the 
-    locations fall into and returns the ISO 3166-2 2-character state code
-    strings for those polygons.
+locations fall into and returns the ISO 3166-2 2-character state code
+strings for those polygons.
     
-    Specification of \code{countryCodes} limits spatial searching to the specified
-    countries and greatly improves performance.
+Specification of \code{countryCodes} limits spatial searching to the 
+specified countries and greatly improves performance.
     
-    If \code{allData=TRUE}, additional data is returned.
+If \code{allData = TRUE}, additional data is returned.
 }
 \examples{
 \dontrun{

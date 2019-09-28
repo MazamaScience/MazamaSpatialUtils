@@ -1,4 +1,5 @@
 #' @export
+#' @importFrom rlang .data
 #' @title Summarize values by polygon
 #' @param longitude vector of longitudes
 #' @param latitude vector of latitudes
@@ -24,8 +25,9 @@ summarizeByPolygon <- function(longitude,
                                varName="summaryValue") {
   
   # Check the vectors of longitude, latitude and value have the same length
-  if ( any(length(longitude) != length(latitude), length(longitude) != length(value),
-           length(latitude) != length(value)) ) {
+  if ( any(length(longitude) != length(latitude), 
+           length(longitude) != length(value),
+           length(latitude)  != length(value)) ) {
     stop("longitude, latitude and value should have the same length")
   }
   
@@ -43,8 +45,10 @@ summarizeByPolygon <- function(longitude,
   # To speed things up, only work with unique locations
   df_unique <- df[!duplicated(df$location),]
   # Find polygonIDs associated with locations
-  df_unique$polygonID <- getSpatialData(lon=df_unique$longitude, lat=df_unique$latitude,
-                                        SPDF=SPDF, useBuffering=useBuffering)$polygonID
+  df_unique$polygonID <- getSpatialData(lon=df_unique$longitude, 
+                                        lat=df_unique$latitude,
+                                        SPDF=SPDF, 
+                                        useBuffering=useBuffering)$polygonID
   
   # NOTE:  We drop locations that do not fall into any polygon
   df_unique <- df_unique[!is.na(df_unique$polygonID),]
@@ -58,14 +62,25 @@ summarizeByPolygon <- function(longitude,
   # NOTE:  We drop locations that do not fall into any polygon
   df <- df[!is.na(df$polygonID),]
   
-  df <- dplyr::group_by_(df, "polygonID") # see dplyr "Non-standard evaluation" vignette
-  df <- dplyr::summarise(df, FUN(value))
-  df <- as.data.frame(df)
-  names(df)[2] <- varName
-  rownames(df) <- df$polygonID
+  # df <- dplyr::group_by_(df, "polygonID") # see dplyr "Non-standard evaluation" vignette
+  # df <- dplyr::summarise(df, FUN(value))
+  # df <- as.data.frame(df)
+  # names(df)[2] <- varName
+  # rownames(df) <- df$polygonID
+  # 
+  # returnDF <- dplyr::left_join(SPDF@data, df, by="polygonID")
+  # rownames(returnDF) <- returnDF$polygonID
   
-  returnDF <- dplyr::left_join(SPDF@data, df, by="polygonID")
-  rownames(returnDF) <- returnDF$polygonID
+  summary <-
+    df %>%
+    dplyr::group_by(.data$polygonID) %>%
+    dplyr::summarise(DUMMY = FUN(value))
+  
+  DUMMY <- summary$DUMMY
+  names(DUMMY) <- summary$polygonID
+  
+  returnDF <- SPDF@data
+  returnDF[[varName]] <- DUMMY[SPDF@data$polygonID]
   
   return(returnDF[,c("polygonID",varName)])
   

@@ -2,7 +2,7 @@
 % Please edit documentation in R/MazamaSpatialUtils.R
 \name{removeSpatialDataDir}
 \alias{removeSpatialDataDir}
-\title{Remove Package Data Directory}
+\title{Remove package data directory}
 \usage{
 removeSpatialDataDir()
 }

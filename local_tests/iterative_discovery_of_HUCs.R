@@ -40,6 +40,7 @@ if (FALSE) {
   # How fast is this?
   HU10Codes_B <- brute_force_HU10_codes()
   SPDF_B <- subsetHUC(WA10, parentHUCs = HU10Codes_B)
+  plot(SPDF_B)
   plot(SPDF_B, border='cyan', add=T)
   
   # Is this faster? (NO)

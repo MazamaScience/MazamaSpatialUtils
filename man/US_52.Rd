@@ -3,13 +3,13 @@
 \docType{data}
 \name{US_52}
 \alias{US_52}
-\title{US State Codes}
+\title{US state codes}
 \format{A vector with 52 elements}
 \usage{
 US_52
 }
 \description{
-State codes for the 50 states +DC +PR (Puerto Rico)
+State codes for the 50 states +DC +PR (Puerto Rico).
 }
 \details{
 US state codes

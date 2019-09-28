@@ -2,7 +2,7 @@
 % Please edit documentation in R/getStateCode.R
 \name{getStateCode}
 \alias{getStateCode}
-\title{Return State ISO Codes at Specified Locations}
+\title{Return state ISO codes at specified locations}
 \usage{
 getStateCode(lon, lat, dataset = "NaturalEarthAdm1",
   countryCodes = NULL, allData = FALSE, useBuffering = FALSE)
@@ -18,20 +18,21 @@ getStateCode(lon, lat, dataset = "NaturalEarthAdm1",
 
 \item{allData}{logical specifying whether a full dataframe should be returned}
 
-\item{useBuffering}{logical flag specifying the use of location buffering to find the nearest polygon if no target polygon is found}
+\item{useBuffering}{logical flag specifying the use of location buffering to 
+find the nearest polygon if no target polygon is found}
 }
 \value{
 Vector of ISO-3166-2 alpha-2 state codes.
 }
 \description{
 Uses spatial comparison to determine which 'state' polygons the 
-    locations fall into and returns the ISO 3166 2-character state code
-    strings for those polygons.
+locations fall into and returns the ISO 3166 2-character state code
+strings for those polygons.
     
-    Specification of \code{countryCodes} limits spatial searching to the specified
-    countries and greatly improves performance.
+Specification of \code{countryCodes} limits spatial searching to the 
+specified countries and greatly improves performance.
     
-    If \code{allData=TRUE}, additional data is returned.
+If \code{allData = TRUE}, additional data is returned.
 }
 \examples{
 \dontrun{

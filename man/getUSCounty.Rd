@@ -2,10 +2,10 @@
 % Please edit documentation in R/getUSCounty.R
 \name{getUSCounty}
 \alias{getUSCounty}
-\title{Return US County Name at Specified Locations}
+\title{Return US county name at specified locations}
 \usage{
 getUSCounty(lon, lat, dataset = "USCensusCounties", stateCodes = NULL,
-  allData = FALSE)
+  allData = FALSE, useBuffering = FALSE)
 }
 \arguments{
 \item{lon}{vector of longitudes in decimal degrees}
@@ -17,24 +17,27 @@ getUSCounty(lon, lat, dataset = "USCensusCounties", stateCodes = NULL,
 \item{stateCodes}{vector of stateCodes used to limit the search}
 
 \item{allData}{logical specifying whether a full dataframe should be returned}
+
+\item{useBuffering}{logical flag specifying the use of location buffering to 
+find the nearest polygon if no target polygon is found}
 }
 \value{
 Vector of county names in English.
 }
 \description{
 Uses spatial comparison to determine which county polygons the 
-    locations fall into and returns the county name strings for those polygons.
+locations fall into and returns the county name strings for those polygons.
     
-    Specification of \code{stateCodes} limits spatial searching to the specified states
-    and greatly improves performance.
+Specification of \code{stateCodes} limits spatial searching to the specified 
+states and greatly improves performance.
     
-    If \code{allData=TRUE}, additional data is returned.
+If \code{allData = TRUE}, additional data is returned.
 }
 \examples{
 \dontrun{
-lon <- seq(-140,-90)
-lat <- seq(20,70)
-getUSCounty(lon,lat)
+lon <- seq(-140, -90)
+lat <- seq(20, 70)
+getUSCounty(lon, lat)
 }
 }
 \references{

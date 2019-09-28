@@ -2,7 +2,7 @@
 % Please edit documentation in R/installSpatialData.R
 \name{installSpatialData}
 \alias{installSpatialData}
-\title{Install Spatial Datasets}
+\title{Install spatial datasets}
 \usage{
 installSpatialData(urlBase = "http://mazamascience.com/RData/Spatial",
   file = "mazama_spatial_files-0.5.tar.gz")
@@ -16,7 +16,7 @@ installSpatialData(urlBase = "http://mazamascience.com/RData/Spatial",
 Nothing.
 }
 \description{
-Install spatial datasets found  at \code{url} into the directory previously 
-set with \code{setSpatialDataDir()}.
+Install spatial datasets found  at \code{url} into the directory 
+previously set with \code{setSpatialDataDir()}.
 }
 \keyword{environment}

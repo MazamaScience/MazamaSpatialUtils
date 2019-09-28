@@ -1,6 +1,6 @@
 #' @keywords locator
 #' @export
-#' @title Return SpatialDataframe Variable at Specified Locations
+#' @title Return SPDF variable at specified locations
 #' @param lon vector of longitudes in decimal degrees
 #' @param lat vector of latitudes in decimal degrees
 #' @param dataset name of spatial dataset to use
@@ -8,51 +8,74 @@
 #' @param countryCodes vector of countryCodes
 #' @param allData logical specifying whether a full dataframe should be returned
 #' @description Uses spatial comparison to determine which polygons the 
-#'     locations fall into and returns the variable associated with those polygons.
+#' locations fall into and returns the variable associated with those polygons.
 #'     
-#'     If \code{allData=TRUE}, the entire dataframe is returned.
+#' If \code{allData = TRUE}, the entire dataframe is returned.
 #' @return Vector or dataframe.
 #' @examples
 #' \dontrun{
-#' loadSpatialData('NaturalEarthAdm1')
-#' lon <- seq(0,50)
-#' lat <- seq(0,50)
-#' getVariable(lon,lat,'NaturalEarthAdm1','gns_lang')
+#' loadSpatialData("NaturalEarthAdm1")
+#' lon <- seq(0, 50)
+#' lat <- seq(0, 50)
+#' getVariable(lon, lat, "NaturalEarthAdm1", "gns_lang")
 #' }
 #' @seealso getSpatialData
-getVariable <- function(lon, lat, dataset=NULL, variable=NULL, countryCodes=NULL, allData=FALSE) {
+getVariable <- function(
+  lon, 
+  lat, 
+  dataset = NULL, 
+  variable = NULL, 
+  countryCodes = NULL, 
+  allData = FALSE
+) {
   
-  # Sanity check
+  # ----- Validate parameters -------------------------------------------------- 
+  
+  # Check existence of dataset
   if ( is.null(dataset) || !exists(dataset) ) {
-    stop('Missing database. Please loadSpatialData("',dataset,'")',call.=FALSE)
+    stop("Missing dataset. Please loadSpatialData(\"", dataset, "\")",
+         call. = FALSE)
   }
-  # check if longitude and latitude falls in the right range
-  if ( min(lon, na.rm=TRUE) < -180 || 
-       max(lon, na.rm=TRUE) > 180 || 
-       min(lat, na.rm=TRUE) < -90 || 
-       max(lat, na.rm=TRUE) > 90 ) {
-    stop('Longitude or latitude is not specified in the correct range. Please try again.')
-  } 
-
+  
+  # Check lon, lat ranges
+  if ( min(lon, na.rm = TRUE) < -180 || 
+       max(lon, na.rm = TRUE) > 180) {
+    stop("'lon' must be specified in the range -180:180.")
+  }
+  if ( min(lat, na.rm = TRUE) < -90 || 
+       max(lat, na.rm = TRUE) > 90 ) {
+    stop("'lat' must be specified in the range -90:90.")
+  }
+  
+  # ----- Get the data ---------------------------------------------------------
+  
   SPDF <- get(dataset)
   
-  # Sanity check
+  # Check variable name
   if ( !is.null(variable) ) {
     if ( !(variable %in% names(SPDF)) ) {
-      stop(paste0('Dataset ',dataset,' does not contain the variable ',variable), call.=FALSE)
+      stop(paste0('Dataset ',
+                  dataset,
+                  ' does not contain the variable ',
+                  variable), 
+           call.=FALSE)
     }
   }
   
-  
   # Subset by country before searching
-  if (!is.null(countryCodes)) SPDF <- SPDF[SPDF$countryCode %in% countryCodes,]
+  if ( !is.null(countryCodes) ) 
+    SPDF <- SPDF[SPDF$countryCode %in% countryCodes,]
   
   locationsDF <- getSpatialData(lon, lat, SPDF)
   
   if (allData) {
+    
     return(locationsDF)
+    
   } else {
-    return(locationsDF[[variable]])    
+    
+    return(locationsDF[[variable]])
+    
   }
   
 }

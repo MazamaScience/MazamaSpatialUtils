@@ -3,7 +3,7 @@
 \docType{data}
 \name{SimpleCountries}
 \alias{SimpleCountries}
-\title{World Country Polygons}
+\title{World country polygons}
 \format{A SpatialPolygonsDataFrame with 246 elements and 7 columns of data.}
 \description{
 SimpleCountries is a simplified world borders dataset suitable for global maps

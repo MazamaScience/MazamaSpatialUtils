@@ -12,8 +12,10 @@ runExample(appName = "map_app", ...)
 \item{...}{parameters passed on to \code{runApp()}.}
 }
 \description{
-This function will run the specified shiny app. By default, the app will open in a new window. 
-By default, it will run in the foreground in your R console, meaning that you have to stop the app to use R again.
-The default app is 'map_app' which requires that the WBDHUC datasets and NaturalEarthAdm1 be downloaded to 
+This function will run the specified shiny app. By default, the 
+app will open in a new window. By default, it will run in the foreground in 
+your R console, meaning that you have to stop the app to use R again. The 
+default app is "map_app" which requires that the WBDHUC datasets and 
+\code{NaturalEarthAdm1} be downloaded to 
 SpatialDataDir. They can be installed with \code{\link{convertWBDHUC}}.
 }

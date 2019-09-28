@@ -2,7 +2,7 @@
 % Please edit documentation in R/MazamaSpatialUtils.R
 \name{stateToCode}
 \alias{stateToCode}
-\title{Convert State Names to State Codes}
+\title{Convert state names to state codes}
 \usage{
 stateToCode(stateNames, countryCodes = NULL,
   dataset = "NaturalEarthAdm1")
@@ -18,10 +18,12 @@ stateToCode(stateNames, countryCodes = NULL,
 A vector of ISO 3166-2 codes or NA.
 }
 \description{
-Converts a vector of state names to an ISO 3166-2 two character state codes.
+Converts a vector of state names to an ISO 3166-2 two character 
+state codes.
 }
 \details{
-For this function to work, you must first run \code{initializeSpatialData()} to
+For this function to work, you must first run 
+\code{initializeSpatialData()} to
 download, convert and install the necessary spatial data.
 }
 \examples{

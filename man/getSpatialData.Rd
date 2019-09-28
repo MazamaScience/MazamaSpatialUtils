@@ -22,21 +22,22 @@ find the nearest polygon if not target polygon is found.}
 Vector or dataframe of data.
 }
 \description{
-All locations are first converted to \code{SpatialPoints} objects.
-The \pkg{sp::over()} function is then used to determine which polygon from \code{SPDF}
-each location falls in. The dataframe row associated with each polygon is then
-associated with each location.
+All locations are first converted to \code{SpatialPoints} 
+objects. The \pkg{sp::over()} function is then used to determine which 
+polygon from \code{SPDF} each location falls in. The dataframe row associated 
+with each polygon is then associated with each location.
 }
 \details{
 Occasionally for coastal locations the precise coordinates
 lie outside the boundaries of a low resolution SpatialPolygonsDataFrame.
-To account for this any location that remains unassociated after the first pass 
-is then buffered to create a small circle around the original location. All 
-polygons are then checked to see if there is any intersection with the now 
-larger buffered locations. Each point is then checked for an intersecting 
+To account for this any location that remains unassociated after the first 
+pass is then buffered to create a small circle around the original location. 
+All polygons are then checked to see if there is any intersection with the 
+now larger buffered locations. Each point is then checked for an intersecting 
 polygon at the following radii: 1km, 2km, 5km, 10km, 20km, 50km, 100km, 200km.
 If a buffered location is more than 200km away from any polygon, a value of 
-\code{NA} (or data frame row with all \code{NA}s) is returned for that location.
+\code{NA} (or data frame row with all \code{NA}s) is returned for that 
+location.
 
 Missing or invalid values in the incoming \code{lon} or \code{lat} vectors 
 result in \code{NA}s at those positions in the returned vector or data frame.

@@ -17,8 +17,9 @@ with uniformly named identifiers including:
 \item{ latitude -- degrees North}
 \item{ area -- m^2}
 }
-The parameters listed above will be found in the @data slot of each spatial dataset whose source
-data has an equivalent field. The only field guaranteed to exist in every dataset is \code{countryCode}.
+The parameters listed above will be found in the @data slot of each spatial 
+dataset whose source data has an equivalent field. The only field guaranteed 
+to exist in every dataset is \code{countryCode}.
 
 The following additional standards are applied during the data conversion process:
 \itemize{

@@ -2,7 +2,7 @@
 % Please edit documentation in R/getVariable.R
 \name{getVariable}
 \alias{getVariable}
-\title{Return SpatialDataframe Variable at Specified Locations}
+\title{Return SPDF variable at specified locations}
 \usage{
 getVariable(lon, lat, dataset = NULL, variable = NULL,
   countryCodes = NULL, allData = FALSE)
@@ -25,16 +25,16 @@ Vector or dataframe.
 }
 \description{
 Uses spatial comparison to determine which polygons the 
-    locations fall into and returns the variable associated with those polygons.
+locations fall into and returns the variable associated with those polygons.
     
-    If \code{allData=TRUE}, the entire dataframe is returned.
+If \code{allData = TRUE}, the entire dataframe is returned.
 }
 \examples{
 \dontrun{
-loadSpatialData('NaturalEarthAdm1')
-lon <- seq(0,50)
-lat <- seq(0,50)
-getVariable(lon,lat,'NaturalEarthAdm1','gns_lang')
+loadSpatialData("NaturalEarthAdm1")
+lon <- seq(0, 50)
+lat <- seq(0, 50)
+getVariable(lon, lat, "NaturalEarthAdm1", "gns_lang")
 }
 }
 \seealso{

@@ -2,7 +2,7 @@
 % Please edit documentation in R/getCountry.R
 \name{getCountry}
 \alias{getCountry}
-\title{Return Country Names at Specified Locations}
+\title{Return country names at specified locations}
 \usage{
 getCountry(lon, lat, dataset = "SimpleCountriesEEZ",
   countryCodes = NULL, allData = FALSE, useBuffering = FALSE)
@@ -18,21 +18,22 @@ getCountry(lon, lat, dataset = "SimpleCountriesEEZ",
 
 \item{allData}{logical specifying whether a full dataframe should be returned}
 
-\item{useBuffering}{logical flag specifying the use of location buffering to find the nearest polygon if no target polygon is found}
+\item{useBuffering}{logical flag specifying the use of location buffering to 
+find the nearest polygon if no target polygon is found}
 }
 \value{
 Vector of country names in English.
 }
 \description{
 Uses spatial comparison to determine which country polygons the 
-    locations fall into and returns the country name for those polygons.
+locations fall into and returns the country name for those polygons.
     
-    If \code{allData=TRUE}, additional data is returned.
+If \code{allData = TRUE}, additional data is returned.
 }
 \examples{
-lon <- seq(0,50)
-lat <- seq(0,50)
-getCountry(lon,lat)
+lon <- seq(0, 50)
+lat <- seq(0, 50)
+getCountry(lon, lat)
 }
 \references{
 \url{http://www.naturalearthdata.com/downloads/10m-cultural-vectors/}

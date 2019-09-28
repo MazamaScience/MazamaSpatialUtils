@@ -3,7 +3,7 @@
 \docType{data}
 \name{US_stateCodes}
 \alias{US_stateCodes}
-\title{Dataframe of US State Codes}
+\title{Dataframe of US state codes}
 \format{A dataframe with 51 rows and 6 columns of data.}
 \description{
 US_stateCodes contains the following columns of data for the
