@@ -1,6 +1,9 @@
 # MazamaSpatialUtils 0.6.3
 
-* Updated `summarizeByPolygoin()` to modern dplyr syntax.
+* Added `useBuffering` argument to `getUSCounties()`.
+* Addressed bug in `loadSpatialData()` which errored out when a directory 
+existed with the same name as the dataset trying to be loaded.
+* Updated `summarizeByPolygon()` to modern dplyr syntax.
 * Added `%>%` operator.
 * Code style refactoring.
 

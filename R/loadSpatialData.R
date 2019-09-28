@@ -28,7 +28,11 @@ loadSpatialData <- function(
   # Use package internal data directory
   dataDir <- getSpatialDataDir()
   
+  # Find paths that match the pattern
   filePaths <- list.files(dataDir, pattern, full.names = TRUE)
+  
+  # Exclude directories
+  filePaths <- filePaths[!dir.exists(filePaths)]
   
   if ( length(filePaths) == 0 ) {
     
