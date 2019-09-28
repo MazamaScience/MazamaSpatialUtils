@@ -3,6 +3,9 @@
 
 setup_spatial_data <- function() {
    
+  skip_on_cran()
+  skip_on_travis()
+  
   # try to set up spatial data. Skip if fails.  
   spatialDataDir <- try(getSpatialDataDir(), silent = TRUE)
   
@@ -28,6 +31,9 @@ testthat::context("Environment dataDir")
 
 
 testthat::test_that("setSpatialDataDir and getSpatialDataDir work correctly", {
+  
+  skip_on_cran()
+  skip_on_travis()
   
   # Setup
   spatialDataDir <- try(getSpatialDataDir(), silent = TRUE)
@@ -93,9 +99,11 @@ context("stateToCode()")
 
 
 test_that("returns expected output", {
+
+  skip_on_cran()
+  skip_on_travis()
   
   # Setup
-  skip_on_cran()
   spatialDataDir <- setup_spatial_data()
   
   expect_equal(stateToCode("Washington"), "WA")
@@ -115,9 +123,11 @@ test_that("returns expected output", {
 context("codeToState") 
 
 test_that("returns expected output", {
+
+  skip_on_cran()
+  skip_on_travis()
   
   # Setup
-  skip_on_cran()
   spatialDataDir <- setup_spatial_data()
   
   expect_equal(codeToState("WA", "US"), "Washington")
@@ -134,8 +144,10 @@ test_that("returns expected output", {
 
 test_that("warns when there are multiple states for a code", {
   
-  # Setup
   skip_on_cran()
+  skip_on_travis()
+
+  # Setup
   spatialDataDir <- setup_spatial_data()
   
   expect_warning(codeToState("WA"), "9 states with code")
@@ -162,10 +174,7 @@ test_that("creates SPDF", {
 })
 
 test_that("dissolves into correct number of polygons", {
-  
-  # setup
   regions <- dissolve(SimpleCountries, field = "UN_region")
-  
   expect_equal(length(unique(SimpleCountries$UN_region)), length(regions$UN_region))
 })
   

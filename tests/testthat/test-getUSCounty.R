@@ -1,8 +1,10 @@
 # -----------------------------------------------------------------------------
 testthat::context("getUSCounty()")
 
-
 setup_counties <- function() {
+
+  skip_on_cran()
+  skip_on_travis()
   
   spatialDataDir <- try(getSpatialDataDir(), silent = TRUE)
   
@@ -24,9 +26,11 @@ setup_counties <- function() {
 }
 
 testthat::test_that("handles errors correctly", {
+
+  skip_on_cran()
+  skip_on_travis()
   
   # Setup
-  skip_on_cran()
   spatialDataDir <- setup_counties()
   
   testthat::expect_error(getUSCounty())
@@ -35,16 +39,21 @@ testthat::test_that("handles errors correctly", {
   testthat::expect_error(getUSCounty(0,100))
   testthat::expect_error(getUSCounty(-400, 0))
   
-  # Setup
-  skip_on_cran()
-  spatialDataDir <- setup_counties()
+  # Teardown
+  if (class(spatialDataDir) == "character") {
+    setSpatialDataDir(spatialDataDir)
+  } else {
+    removeSpatialDataDir()
+  }
   
 })
 
 testthat::test_that("returns correct name", {
   
-  # Setup
   skip_on_cran()
+  skip_on_travis()
+  
+  # Setup
   spatialDataDir <- setup_counties()
   
   testthat::expect_match(getUSCounty(-112.97, 35.1), "Yavapai")
@@ -62,8 +71,11 @@ testthat::test_that("returns correct name", {
 })
 
 testthat::test_that("subsetting by stateCode works", {
-  # Setup
+  
   skip_on_cran()
+  skip_on_travis()
+  
+  # Setup
   spatialDataDir <- setup_counties()
   
   testthat::expect_match(getUSCounty(-112.97, 35.1, stateCodes = "AZ"), "Yavapai")
@@ -77,11 +89,15 @@ testthat::test_that("subsetting by stateCode works", {
   } else {
     removeSpatialDataDir()
   }
+  
 })
 
 testthat::test_that("allData returns are correct dimension and type", {
-  # Setup
+  
   skip_on_cran()
+  skip_on_travis()
+  
+  # Setup
   spatialDataDir <- setup_counties()
   
   testthat::expect_s3_class(getUSCounty(-114, 32, allData=TRUE), "data.frame")
@@ -95,5 +111,6 @@ testthat::test_that("allData returns are correct dimension and type", {
   } else {
     removeSpatialDataDir()
   }
+  
 })
 

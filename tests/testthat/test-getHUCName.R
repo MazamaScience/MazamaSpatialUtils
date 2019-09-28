@@ -1,8 +1,10 @@
 # -----------------------------------------------------------------------------
 testthat::context("getHUCName()")
 
-
 setup_HUCs <- function() {
+  
+  skip_on_cran()
+  skip_on_travis()
   
   spatialDataDir <- try(getSpatialDataDir(), silent = TRUE)
   
@@ -24,9 +26,11 @@ setup_HUCs <- function() {
 }
 
 testthat::test_that("handles errors correctly", {
+
+  skip_on_cran()
+  skip_on_travis()
   
   # Setup
-  skip_on_cran()
   spatialDataDir <- setup_HUCs()
   
   testthat::expect_error(getHUCName())
@@ -35,16 +39,21 @@ testthat::test_that("handles errors correctly", {
   testthat::expect_error(getHUCName(0,100, dataset = "WBDHU4_02"))
   testthat::expect_error(getHUCName(-400, 0, dataset = "WBDHU4_02"))
   
-  # Setup
-  skip_on_cran()
-  spatialDataDir <- setup_HUCs()
+  # Teardown
+  if (class(spatialDataDir) == "character") {
+    setSpatialDataDir(spatialDataDir)
+  } else {
+    removeSpatialDataDir()
+  }
   
 })
 
 testthat::test_that("returns correct name", {
+
+  skip_on_cran()
+  skip_on_travis()
   
   # Setup
-  skip_on_cran()
   spatialDataDir <- setup_HUCs()
   
   testthat::expect_match(getHUCName(-114, 32, dataset = "WBDHU4_02"), "Sonora")
@@ -63,8 +72,11 @@ testthat::test_that("returns correct name", {
 
 
 testthat::test_that("allData returns are correct dimension and type", {
-  # Setup
+
   skip_on_cran()
+  skip_on_travis()
+  
+  # Setup
   spatialDataDir <- setup_HUCs()
   
   testthat::expect_s3_class(getHUCName(-114, 32, dataset = "WBDHU4_02", allData=TRUE), "data.frame")
@@ -78,5 +90,6 @@ testthat::test_that("allData returns are correct dimension and type", {
   } else {
     removeSpatialDataDir()
   }
+  
 })
 

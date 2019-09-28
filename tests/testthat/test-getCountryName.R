@@ -1,7 +1,6 @@
 # -----------------------------------------------------------------------------
 testthat::context("getCountryName()")
 
-
 testthat::test_that("handles errors correctly", {
   testthat::expect_error(getCountryName(),
                          'argument "lon" is missing, with no default')

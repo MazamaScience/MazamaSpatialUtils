@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.4</span>
       </span>
     </div>
 
@@ -95,7 +95,7 @@
       <h1>Introduction to MazamaSpatialUtils</h1>
                         <h4 class="author">Mazama Science</h4>
             
-            <h4 class="date">2019-09-27</h4>
+            <h4 class="date">2019-09-28</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/MazamaScience/MazamaSpatialUtils/blob/master/vignettes/MazamaSpatialUtils.Rmd"><code>vignettes/MazamaSpatialUtils.Rmd</code></a></small>
       <div class="hidden name"><code>MazamaSpatialUtils.Rmd</code></div>
@@ -338,8 +338,8 @@ cons &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/u
                  <span class="dt">skip=</span><span class="dv">6</span>, <span class="dt">stringsAsFactors=</span><span class="ot">FALSE</span>, <span class="dt">na.strings=</span><span class="st">'na'</span>)
 
 <span class="co"># Only work with ISO-encoded columns of data</span>
-prodCountryCodes &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(prod)[ stringr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/stringr/man/str_length.html">str_length</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(prod)) <span class="op">==</span><span class="st"> </span><span class="dv">2</span> ]
-consCountryCodes &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(cons)[ stringr<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/stringr/man/str_length.html">str_length</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(cons)) <span class="op">==</span><span class="st"> </span><span class="dv">2</span> ]
+prodCountryCodes &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(prod)[ stringr<span class="op">::</span><span class="kw"><a href="https://stringr.tidyverse.org/reference/str_length.html">str_length</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(prod)) <span class="op">==</span><span class="st"> </span><span class="dv">2</span> ]
+consCountryCodes &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(cons)[ stringr<span class="op">::</span><span class="kw"><a href="https://stringr.tidyverse.org/reference/str_length.html">str_length</a></span>(<span class="kw"><a href="https://rdrr.io/r/base/names.html">names</a></span>(cons)) <span class="op">==</span><span class="st"> </span><span class="dv">2</span> ]
 
 <span class="co"># Use the last row (most recent data)</span>
 lastRow &lt;-<span class="st"> </span><span class="kw"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span>(prod)

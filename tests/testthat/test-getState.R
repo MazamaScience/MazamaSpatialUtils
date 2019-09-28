@@ -3,6 +3,9 @@ testthat::context("getState()")
 
 setup_spatial_data <- function() {
   
+  skip_on_cran()
+  skip_on_travis()
+  
   # try to set up spatial data. Skip if fails.  
   spatialDataDir <- try(getSpatialDataDir(), silent = TRUE)
   
@@ -24,9 +27,11 @@ setup_spatial_data <- function() {
 }
 
 testthat::test_that("handles errors correctly", {
+
+  skip_on_cran()
+  skip_on_travis()
   
   # Setup
-  skip_on_cran()
   spatialDataDir <- setup_spatial_data()
   
   testthat::expect_error(getState())
@@ -35,16 +40,21 @@ testthat::test_that("handles errors correctly", {
   testthat::expect_error(getState(0,100))
   testthat::expect_error(getState(-400, 0))
   
-  # Setup
-  skip_on_cran()
-  spatialDataDir <- setup_spatial_data()
+  # Teardown
+  if (class(spatialDataDir) == "character") {
+    setSpatialDataDir(spatialDataDir)
+  } else {
+    removeSpatialDataDir()
+  }
   
 })
 
 testthat::test_that("returns correct name", {
+
+  skip_on_cran()
+  skip_on_travis()
   
   # Setup
-  skip_on_cran()
   spatialDataDir <- setup_spatial_data()
   
   testthat::expect_match(getState(-108, 48), "Montana")
@@ -63,9 +73,11 @@ testthat::test_that("returns correct name", {
 
 
 testthat::test_that("subsetting with countryCodes works", {
+
+  skip_on_cran()
+  skip_on_travis()
   
   # Setup
-  skip_on_cran()
   spatialDataDir <- setup_spatial_data()
   
   testthat::expect_match(getState(2.1, 41.38, countryCodes=c("ES")), "Barcelona")
@@ -82,8 +94,11 @@ testthat::test_that("subsetting with countryCodes works", {
 
 
 testthat::test_that("allData returns are correct dimension and type", {
-  # Setup
+
   skip_on_cran()
+  skip_on_travis()
+  
+  # Setup
   spatialDataDir <- setup_spatial_data()
   
   testthat::expect_s3_class(getState(-114, 32, allData=TRUE), "data.frame")
@@ -97,5 +112,6 @@ testthat::test_that("allData returns are correct dimension and type", {
   } else {
     removeSpatialDataDir()
   }
+  
 })
 

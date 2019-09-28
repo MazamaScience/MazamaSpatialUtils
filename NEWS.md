@@ -1,3 +1,7 @@
+# MazamaSpatialUtils 0.6.4
+
+* Modified test infrastructure to address CRAN issues.
+
 # MazamaSpatialUtils 0.6.3
 
 * Added `useBuffering` argument to `getUSCounties()`.

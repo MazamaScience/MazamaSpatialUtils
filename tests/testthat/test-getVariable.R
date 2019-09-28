@@ -1,7 +1,6 @@
 # -----------------------------------------------------------------------------
 testthat::context("getVariable()")
 
-
 testthat::test_that("handles errors correctly", {
   testthat::expect_error(getVariable(dataset = "SimpleCountries"),
                          'argument "lon" is missing, with no default')

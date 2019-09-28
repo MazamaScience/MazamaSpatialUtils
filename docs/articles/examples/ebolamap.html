@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.4</span>
       </span>
     </div>
 
@@ -141,7 +141,7 @@ ebolaCountries &lt;-<span class="st"> </span><span class="kw"><a href="https://r
 <a href="#acquiring-data" class="anchor"></a>Acquiring Data</h2>
 <p>Using <code>rvest</code>, we acquire the necessary Ebola counts per province/county in one central table. While the table also includes information for a 2014 population estimate and the total number of Ebola cases, we are solely interested in the column referring to cases/1000 pop as this is what we will be graphing.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">url &lt;-<span class="st"> "http://www.johnstonsarchive.net/policy/westafrica-ebola.html"</span>
-raw &lt;-<span class="st"> </span>xml2<span class="op">::</span><span class="kw"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html</a></span>(url)
+raw &lt;-<span class="st"> </span>xml2<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/xml2/man/read_xml.html">read_html</a></span>(url)
 tables &lt;-<span class="st"> </span>rvest<span class="op">::</span><span class="kw"><a href="https://rvest.tidyverse.org/reference/html_nodes.html">html_nodes</a></span>(raw, <span class="st">"table"</span>)
 ebolaTable &lt;-<span class="st"> </span>rvest<span class="op">::</span><span class="kw"><a href="https://rvest.tidyverse.org/reference/html_table.html">html_table</a></span>(tables[[<span class="dv">3</span>]])</code></pre></div>
 <p>Using this table, we can sort the cases/100 pop for each province/county into seven levels, which we pull from the original graph in order to achieve as close a copy as possible. Note that these levels are not linear. We also pull the colors used in the legend of the original graph, again with the goal of providing a close match to the original graph. We sort the data into these seven levels, with corresponding colors. We also add to the end an additional color, the color white, in order to take into account those values from the data which are NA (Values of NA indicate that there were 0 Ebola cases reported, resulting in a NA value for cases/100 pop).</p>
