@@ -176,14 +176,16 @@ copied to the aggregated feature</p></td>
     <p>A spatial polygons dataframe with aggregated shapes.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>regions</span> <span class='kw'>&lt;-</span> <span class='fu'>dissolve</span>(<span class='no'>SimpleCountries</span>, <span class='kw'>field</span> <span class='kw'>=</span> <span class='st'>"UN_region"</span>, <span class='kw'>sum_fields</span> <span class='kw'>=</span> <span class='st'>"area"</span>)
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+<span class='no'>regions</span> <span class='kw'>&lt;-</span> <span class='fu'>dissolve</span>(<span class='no'>SimpleCountries</span>, <span class='kw'>field</span> <span class='kw'>=</span> <span class='st'>"UN_region"</span>, <span class='kw'>sum_fields</span> <span class='kw'>=</span> <span class='st'>"area"</span>)
 <span class='fu'><a href='https://rdrr.io/r/graphics/plot.html'>plot</a></span>(<span class='no'>regions</span>)</div><div class='img'><img src='dissolve-1.png' alt='' width='700' height='433' /></div><div class='input'><span class='no'>regions</span>@<span class='kw'>data</span></div><div class='output co'>#&gt;           area UN_region
 #&gt; 1 2.935972e+13         2
 #&gt; 2 3.098127e+13       142
 #&gt; 3 2.195570e+13       150
 #&gt; 4 3.883882e+13        19
 #&gt; 5 8.486370e+12         9
-#&gt; 6 0.000000e+00         0</div></pre>
+#&gt; 6 0.000000e+00         0</div><div class='input'># }
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>

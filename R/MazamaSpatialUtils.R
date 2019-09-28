@@ -367,9 +367,11 @@ simplify <- function(
 #' convenience wrapper for \code{rmapshaper::ms_dissolve()}
 #' @return A spatial polygons dataframe with aggregated shapes.
 #' @examples 
+#' \donttest{
 #' regions <- dissolve(SimpleCountries, field = "UN_region", sum_fields = "area")
 #' plot(regions)
 #' regions@data
+#' }
 
 dissolve <- function(
   SPDF, 

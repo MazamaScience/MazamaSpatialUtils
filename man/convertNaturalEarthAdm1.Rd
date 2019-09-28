@@ -25,7 +25,7 @@ divisions beneath the level of the country or nation. This makes sense in the Un
 other countries this level is known as 'province', 'territory' or some other term.
 }
 \references{
-\url{http//www.naturalearthdata.com/download}
+\url{http://www.naturalearthdata.com/downloads/}
 
 \url{http://www.statoids.com/ihasc.html}
 }

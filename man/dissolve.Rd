@@ -27,7 +27,9 @@ Aggregate shapes in a spatial polygons dataframe. This is a
 convenience wrapper for \code{rmapshaper::ms_dissolve()}
 }
 \examples{
+\donttest{
 regions <- dissolve(SimpleCountries, field = "UN_region", sum_fields = "area")
 plot(regions)
 regions@data
+}
 }
