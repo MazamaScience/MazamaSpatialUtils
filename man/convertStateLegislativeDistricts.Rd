@@ -4,8 +4,7 @@
 \alias{convertStateLegislativeDistricts}
 \title{Convert US dtate legislative districts shapefile}
 \usage{
-convertStateLegislativeDistricts(stateCode, house = "Upper",
-  nameOnly = FALSE)
+convertStateLegislativeDistricts(stateCode, house = "Upper", nameOnly = FALSE)
 }
 \arguments{
 \item{stateCode}{ISO 3166-2 alpha-2 state code.}

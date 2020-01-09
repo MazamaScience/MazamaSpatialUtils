@@ -3,7 +3,6 @@
 \docType{package}
 \name{MazamaSpatialUtils}
 \alias{MazamaSpatialUtils}
-\alias{MazamaSpatialUtils-package}
 \title{Mazama Science spatial data and utility functions.}
 \description{
 This package contains code to convert various spatial datasets into .RData files 

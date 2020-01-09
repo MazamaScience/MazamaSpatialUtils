@@ -4,8 +4,14 @@
 \alias{getTimezone}
 \title{Return Olson timezones at specified locations}
 \usage{
-getTimezone(lon, lat, dataset = "SimpleTimezones", countryCodes = NULL,
-  allData = FALSE, useBuffering = FALSE)
+getTimezone(
+  lon,
+  lat,
+  dataset = "SimpleTimezones",
+  countryCodes = NULL,
+  allData = FALSE,
+  useBuffering = FALSE
+)
 }
 \arguments{
 \item{lon}{vector of longitudes in decimal degrees}

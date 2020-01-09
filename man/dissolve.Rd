@@ -4,8 +4,7 @@
 \alias{dissolve}
 \title{Aggregate shapes in a SpatialPolygonsDataFrame}
 \usage{
-dissolve(SPDF, field = NULL, sum_fields = NULL, copy_fields = NULL,
-  ...)
+dissolve(SPDF, field = NULL, sum_fields = NULL, copy_fields = NULL, ...)
 }
 \arguments{
 \item{SPDF}{object of class SpatialPolygonsDataFrame}

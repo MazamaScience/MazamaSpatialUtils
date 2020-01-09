@@ -4,8 +4,13 @@
 \alias{convertWBDHUC}
 \title{Convert USGS hydrologic unit shapefiles}
 \usage{
-convertWBDHUC(dsnPath = NULL, level = 8, extension = "",
-  nameOnly = FALSE, simplify = FALSE)
+convertWBDHUC(
+  dsnPath = NULL,
+  level = 8,
+  extension = "",
+  nameOnly = FALSE,
+  simplify = FALSE
+)
 }
 \arguments{
 \item{dsnPath}{directory where the WBD HUC datasets are found}

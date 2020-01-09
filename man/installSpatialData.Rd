@@ -4,8 +4,10 @@
 \alias{installSpatialData}
 \title{Install spatial datasets}
 \usage{
-installSpatialData(urlBase = "http://mazamascience.com/RData/Spatial",
-  file = "mazama_spatial_files-0.5.tar.gz")
+installSpatialData(
+  urlBase = "http://mazamascience.com/RData/Spatial",
+  file = "mazama_spatial_files-0.5.tar.gz"
+)
 }
 \arguments{
 \item{urlBase}{location of spatial data files}

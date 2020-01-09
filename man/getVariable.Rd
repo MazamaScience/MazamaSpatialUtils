@@ -4,8 +4,14 @@
 \alias{getVariable}
 \title{Return SPDF variable at specified locations}
 \usage{
-getVariable(lon, lat, dataset = NULL, variable = NULL,
-  countryCodes = NULL, allData = FALSE)
+getVariable(
+  lon,
+  lat,
+  dataset = NULL,
+  variable = NULL,
+  countryCodes = NULL,
+  allData = FALSE
+)
 }
 \arguments{
 \item{lon}{vector of longitudes in decimal degrees}

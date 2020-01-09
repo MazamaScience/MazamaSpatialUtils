@@ -4,8 +4,7 @@
 \alias{getHUC}
 \title{Return HUCs at specified locations}
 \usage{
-getHUC(lon, lat, dataset = "WBDHU10_02", HUCs = NULL,
-  allData = FALSE)
+getHUC(lon, lat, dataset = "WBDHU10_02", HUCs = NULL, allData = FALSE)
 }
 \arguments{
 \item{lon}{vector of longitudes in decimal degrees}

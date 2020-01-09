@@ -4,8 +4,14 @@
 \alias{getUSCounty}
 \title{Return US county name at specified locations}
 \usage{
-getUSCounty(lon, lat, dataset = "USCensusCounties", stateCodes = NULL,
-  allData = FALSE, useBuffering = FALSE)
+getUSCounty(
+  lon,
+  lat,
+  dataset = "USCensusCounties",
+  stateCodes = NULL,
+  allData = FALSE,
+  useBuffering = FALSE
+)
 }
 \arguments{
 \item{lon}{vector of longitudes in decimal degrees}

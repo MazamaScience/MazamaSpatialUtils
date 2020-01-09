@@ -4,8 +4,14 @@
 \alias{getCountry}
 \title{Return country names at specified locations}
 \usage{
-getCountry(lon, lat, dataset = "SimpleCountriesEEZ",
-  countryCodes = NULL, allData = FALSE, useBuffering = FALSE)
+getCountry(
+  lon,
+  lat,
+  dataset = "SimpleCountriesEEZ",
+  countryCodes = NULL,
+  allData = FALSE,
+  useBuffering = FALSE
+)
 }
 \arguments{
 \item{lon}{vector of longitudes in decimal degrees}

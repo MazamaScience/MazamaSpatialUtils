@@ -4,8 +4,7 @@
 \alias{subsetHUC}
 \title{Subset pre-formatted HUC files into smaller groupings.}
 \usage{
-subsetHUC(SPDF, parentHUCs = NULL, stateCodes = NULL,
-  allStateCodes = NULL)
+subsetHUC(SPDF, parentHUCs = NULL, stateCodes = NULL, allStateCodes = NULL)
 }
 \arguments{
 \item{SPDF}{a spatial polygons dataframe created using the convertUSGSHUC 

@@ -4,8 +4,7 @@
 \alias{getHUCName}
 \title{Return HUC names at specified locations}
 \usage{
-getHUCName(lon, lat, dataset = "WBDHU10_02", HUCs = NULL,
-  allData = FALSE)
+getHUCName(lon, lat, dataset = "WBDHU10_02", HUCs = NULL, allData = FALSE)
 }
 \arguments{
 \item{lon}{vector of longitudes in decimal degrees}
