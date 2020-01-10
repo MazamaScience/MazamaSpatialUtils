@@ -20,7 +20,10 @@
 #' @note March, 2004 version.
 #' @references \url{https://www.arb.ca.gov/ei/gislib/gislib.htm}
 
-convertCARBAirBasins <- function(nameOnly=FALSE, simplify=FALSE) {
+convertCARBAirBasins <- function(
+  nameOnly=FALSE, 
+  simplify=FALSE
+) {
 
   # Use package internal data directory
   dataDir <- getSpatialDataDir()
