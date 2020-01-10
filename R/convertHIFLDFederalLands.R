@@ -57,8 +57,8 @@ convertTODO <- function(
   # NOTE:  You have to look at the downloaded data to determin shpName
 
   # Convert shapefile into SpatialPolygonsDataFrame
-  dsnPath <- file.path(dataDir,'ca_air_basins')
-  shpName <- 'CaAirBasin'
+  dsnPath <- file.path(dataDir,'hifld_fed_lands')
+  shpName <- 'Federal_Lands'
   SPDF <- convertLayer(dsn = dsnPath, layerName = shpName)
 
   # ----- Select useful columns and rename -------------------------------------
@@ -67,10 +67,24 @@ convertTODO <- function(
   # NOTE:  Reasonable names will be constructed as "subTypeNoun" e.g.:
   # NOTE:    waterSurfaceArea, landSurfaceArea, k12StudentCount, collegeStudentCount
 
-  # > head(SPDF@data, 5)
-  # TODO:  PASTE ORIGINAL RESULTS HERE
+  # ORIGINAL DATA FIELDS
+  #    FID        AREA PERIMETER FEDLANP020                  FEATURE1               FEATURE2 FEATURE3 AGBUR  URL
+  # 0 3001 0.000243925 0.0629446      38752                      Null                   <NA>     <NA>  <NA> <NA>
+  # 1 3002 0.000272340 0.0667056      38851                      Null                   <NA>     <NA>  <NA> <NA>
+  # 2 3003 0.000882379 0.1434380      38888                      Null                   <NA>     <NA>  <NA> <NA>
+  # 3 3004 0.070895200 1.0945700      38915 Wilderness Study Area BLM Public Domain Land BLM     <NA>   BLM <NA>
+  # 4 3005 0.003993660 0.4887370      39189                      Null                   <NA>     <NA>  <NA> <NA>
+  #   NAME1 NAME2 NAME3 STATE STATE_FIPS Shape_Leng   SHAPE__Are SHAPE__Len
+  # 0                                   <NA>  <NA>  <NA>  <NA>       <NA> 0.06294457 0.0002439255 0.06294457
+  # 1                                   <NA>  <NA>  <NA>  <NA>       <NA> 0.06670559 0.0002723400 0.06670559
+  # 2                                   <NA>  <NA>  <NA>  <NA>       <NA> 0.14343765 0.0008823793 0.14343765
+  # 3 Mormon Mountains Wilderness Study Area  <NA>  <NA>    NV         32 1.09456795 0.0708952214 1.09456795
+  # 4                                   <NA>  <NA>  <NA>  <NA>       <NA> 0.48873716 0.0039936604 0.48873716
+  
+  # > names(SPDF@data)
+  # [1] "FID"        "AREA"       "PERIMETER"  "FEDLANP020" "FEATURE1"   "FEATURE2"   "FEATURE3"   "AGBUR"      "URL"        "NAME1"      "NAME2"      "NAME3"      "STATE"      "STATE_FIPS" "Shape_Leng"
+  # [16] "SHAPE__Are" "SHAPE__Len"
 
-  # TODO Example from convertWeatherZones.R
   #
   # SPDF@data <- dplyr::select(
   #   SPDF@data,
