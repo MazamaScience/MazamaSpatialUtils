@@ -1,7 +1,7 @@
 #' @keywords datagen
 #' @export
 #' 
-#' @title Convert TODO shapefiles
+#' @title Convert HIFLD Federal Lands shapefiles
 #' 
 #' @param nameOnly Logical specifying whether to only return the name without 
 #' creating the file.
@@ -20,7 +20,9 @@
 #' 
 #' @references \url{TODO: DATA_URL}
 
-convertTODO <- function(
+library(tidyverse)
+
+convertHIFLDFederalLands <- function(
   nameOnly = FALSE,
   simplify = TRUE
 ) {
@@ -61,20 +63,6 @@ convertTODO <- function(
   shpName <- 'Federal_Lands'
   SPDF <- convertLayer(dsn = dsnPath, layerName = shpName)
   
-  # ORIGINAL DATA LOOKS LIKE...
-  #    FID        AREA PERIMETER FEDLANP020                  FEATURE1               FEATURE2 FEATURE3 AGBUR  URL
-  # 0 3001 0.000243925 0.0629446      38752                      Null                   <NA>     <NA>  <NA> <NA>
-  # 1 3002 0.000272340 0.0667056      38851                      Null                   <NA>     <NA>  <NA> <NA>
-  # 2 3003 0.000882379 0.1434380      38888                      Null                   <NA>     <NA>  <NA> <NA>
-  # 3 3004 0.070895200 1.0945700      38915 Wilderness Study Area BLM Public Domain Land BLM     <NA>   BLM <NA>
-  # 4 3005 0.003993660 0.4887370      39189                      Null                   <NA>     <NA>  <NA> <NA>
-  #   NAME1 NAME2 NAME3 STATE STATE_FIPS Shape_Leng   SHAPE__Are SHAPE__Len
-  # 0                                   <NA>  <NA>  <NA>  <NA>       <NA> 0.06294457 0.0002439255 0.06294457
-  # 1                                   <NA>  <NA>  <NA>  <NA>       <NA> 0.06670559 0.0002723400 0.06670559
-  # 2                                   <NA>  <NA>  <NA>  <NA>       <NA> 0.14343765 0.0008823793 0.14343765
-  # 3 Mormon Mountains Wilderness Study Area  <NA>  <NA>  NV         32 1.09456795 0.0708952214 1.09456795
-  # 4                                   <NA>  <NA>  <NA>  <NA>       <NA> 0.48873716 0.0039936604 0.48873716
-  
   # Original Fields [from `names(SPDF@data)`] mapped to new names
   # "FID" --------> (drop)        
   # "AREA" -------> (drop)       
@@ -94,12 +82,17 @@ convertTODO <- function(
   # "SHAPE__Are" -> (drop)
   # "SHAPE__Len" -> (drop)
   
+  # ----- Delete features where "FEATURE1" = Null (these are not govt. lands)
+  SPDF <- subset(SPDF, FEATURE1 != "Null")
+  
   # ----- Select useful columns and rename -------------------------------------
   
-  # NOTE:  Convert names to human readable, unabbreviated, lowerCamelCase names.
-  # NOTE:  Reasonable names will be constructed as "subTypeNoun" e.g.:
-  # NOTE:  waterSurfaceArea, landSurfaceArea, k12StudentCount, collegeStudentCount
-  #
+  # Replace "-" with "," in STATE field
+  SPDF@data$STATE <- stringr::str_replace(SPDF@data$STATE, '-', ',') 
+  
+  # NOTE:  including SPDF$allStateCodes to show all of the states that overlap 
+  # with each polygon.
+  
   SPDF@data <- dplyr::select(
     SPDF@data,
     areaID = .data$FEDLANP020,
@@ -111,77 +104,81 @@ convertTODO <- function(
     primaryName = .data$NAME1,
     secondaryName = .data$NAME2,
     tertiaryName = .data$NAME3,
-    stateCode = .data$STATE,
+    allStateCodes = .data$STATE,
     stateFIPS = .data$STATE_FIPS
   )
   
   # ----- Organize polygons ----------------------------------------------------
-  
   # any(duplicated(SPDF@data$areaID)) is FALSE
   
-  # ----- Add country and state codes ------------------------------------------
+  # ----- Add stateCode --------------------------------------------------------
+  # TO DO: Needs to have the centroid state calculated
+  # Use MazamaSPatialUtils::getStateCode() on polygon centers
   
-  # NOTE:  Several functions allow filtering by countryCode and stateCode as a
-  # NOTE:  way of reducing the number of polygons that need to be searched.
-  # NOTE:  These variables should be included inevery dataset.
-  # NOTE:
-  # NOTE:  These might be assumed or read from a column (that might be coded in
-  # NOTE:  some other way). Or, you might have to use MazamaSpatialUtils::getStateCode()
-  # NOTE:  on the polygon centers.
+  # ----- Add country code -----------------------------------------------------
+  SPDF$countryCode <- "US"
   
-  SPDF$countryCode <- "US" # TODO?
-  # SPDF$stateCode <- "CA"   # TODO?
+  # ----- Split the primaryLandType field into primaryLandOwner ----------------
+  # TO DO: figure out how to make this fit in 80 char
+  agency_regexp <- "(?=\\sBIA|\\sBLM|\\sBOR|\\sDOD|\\sFS|\\sFWS|\\sNPS|\\sOTHER|\\sDOE|\\sDOJ|\\sNASA|\\sARS|\\sGSA|\\sDOT|\\sUSDA|\\sCIA)"
   
-  # NOTE:  Some datasets may also wish to include SPDF$allStateCodes to show
-  # NOTE:  all of the states that overlap with each polygon. An example where
-  # NOTE:  this is done is convertWBDHUC.R. (judgement call)
+  SPDF@data <- SPDF@data %>% separate(col = "primaryLandType",
+                                      c("primaryLandType", "primaryLandOwner"),
+                                      sep = agency_regexp)
+  # Remove the space left in primaryLandOwner field
+  SPDF@data$primaryLandOwner <- stringr::str_replace(SPDF@data$primaryLandOwner, 
+                                                     ' ', 
+                                                     '')
+  # This generates 38 "unsplit" records
+  # Have a look at the records that aren't splitting correctlty.
+  missing_data <- subset(SPDF@data, is.na(primaryLandOwner))
   
-  # ----- Name and save the data -----------------------------------------------
-  
-  message("Saving full resolution version...\n")
-  assign(datasetName, SPDF)
-  save(list = c(datasetName), file = paste0(dataDir,'/',datasetName,'.RData'))
-  rm(list = datasetName)
-  
-  # ----- Simplify -------------------------------------------------------------
-  
-  if ( simplify ) {
-    # Create new, simplified datsets: one with 5%, 2%, and one with 1% of the vertices of the original
-    # NOTE:  This may take several minutes.
-    message("Simplifying to 5%...\n")
-    SPDF_05 <- rmapshaper::ms_simplify(SPDF, 0.05)
-    SPDF_05@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
-    datasetName_05 <- paste0(datasetName, "_05")
-    message("Saving 5% version...\n")
-    assign(datasetName_05, SPDF_05)
-    save(list = datasetName_05, file = paste0(dataDir,"/",datasetName_05, '.RData'))
-    rm(list = c("SPDF_05",datasetName_05))
-    
-    message("Simplifying to 2%...\n")
-    SPDF_02 <- rmapshaper::ms_simplify(SPDF, 0.02)
-    SPDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
-    datasetName_02 <- paste0(datasetName, "_02")
-    message("Saving 2% version...\n")
-    assign(datasetName_02, SPDF_02)
-    save(list = datasetName_02, file = paste0(dataDir,"/",datasetName_02, '.RData'))
-    rm(list = c("SPDF_02",datasetName_02))
-    
-    message("Simplifying to 1%...\n")
-    SPDF_01 <- rmapshaper::ms_simplify(SPDF, 0.01)
-    SPDF_01@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
-    datasetName_01 <- paste0(datasetName, "_01")
-    message("Saving 1% version...\n")
-    assign(datasetName_01, SPDF_01)
-    save(list = datasetName_01, file = paste0(dataDir,"/",datasetName_01, '.RData'))
-    rm(list = c("SPDF_01",datasetName_01))
-  }
-  
-  # ----- Clean up and return --------------------------------------------------
-  
-  unlink(filePath, force = TRUE)
-  unlink(dsnPath, recursive = TRUE, force = TRUE)
-  
-  return(invisible(datasetName))
+  # 
+  # # ----- Name and save the data -----------------------------------------------
+  # message("Saving full resolution version...\n")
+  # assign(datasetName, SPDF)
+  # save(list = c(datasetName), file = paste0(dataDir,'/',datasetName,'.RData'))
+  # rm(list = datasetName)
+  # 
+  # # ----- Simplify -------------------------------------------------------------
+  # 
+  # if ( simplify ) {
+  #   # Create new, simplified datsets: one with 5%, 2%, and one with 1% of the vertices of the original
+  #   # NOTE:  This may take several minutes.
+  #   message("Simplifying to 5%...\n")
+  #   SPDF_05 <- rmapshaper::ms_simplify(SPDF, 0.05)
+  #   SPDF_05@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+  #   datasetName_05 <- paste0(datasetName, "_05")
+  #   message("Saving 5% version...\n")
+  #   assign(datasetName_05, SPDF_05)
+  #   save(list = datasetName_05, file = paste0(dataDir,"/",datasetName_05, '.RData'))
+  #   rm(list = c("SPDF_05",datasetName_05))
+  #   
+  #   message("Simplifying to 2%...\n")
+  #   SPDF_02 <- rmapshaper::ms_simplify(SPDF, 0.02)
+  #   SPDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+  #   datasetName_02 <- paste0(datasetName, "_02")
+  #   message("Saving 2% version...\n")
+  #   assign(datasetName_02, SPDF_02)
+  #   save(list = datasetName_02, file = paste0(dataDir,"/",datasetName_02, '.RData'))
+  #   rm(list = c("SPDF_02",datasetName_02))
+  #   
+  #   message("Simplifying to 1%...\n")
+  #   SPDF_01 <- rmapshaper::ms_simplify(SPDF, 0.01)
+  #   SPDF_01@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+  #   datasetName_01 <- paste0(datasetName, "_01")
+  #   message("Saving 1% version...\n")
+  #   assign(datasetName_01, SPDF_01)
+  #   save(list = datasetName_01, file = paste0(dataDir,"/",datasetName_01, '.RData'))
+  #   rm(list = c("SPDF_01",datasetName_01))
+  # }
+  # 
+  # # ----- Clean up and return --------------------------------------------------
+  # 
+  # unlink(filePath, force = TRUE)
+  # unlink(dsnPath, recursive = TRUE, force = TRUE)
+  # 
+  # return(invisible(datasetName))
   
 }
 
