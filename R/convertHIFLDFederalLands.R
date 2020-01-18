@@ -1,5 +1,8 @@
 #' @keywords datagen
+#' 
 #' @export
+#' @importFrom tidyr separate
+#' 
 #' @title Convert HIFLD Federal Lands shapefiles
 #' 
 #' @param nameOnly Logical specifying whether to only return the name without 
@@ -10,12 +13,12 @@
 #' 
 #' @return Name of the dataset being created.
 #' 
-#' @description Returns a SpatialPolygonsDataFrame of U.S. Federal Lands. This 
+#' @description Creates a SpatialPolygonsDataFrame of U.S. Federal Lands. This 
 #' data set consists of federally owned or administered lands and Indian 
 #' Reservations of the United States, Puerto Rico, and the U.S. Virgin Islands.
 #' Only areas of 640 acres or more are included.
 #' 
-#' Originally obtained from Homeland Infrastructure Foundation-Level Data (HIFLD):
+#' Source data are obtained from Homeland Infrastructure Foundation-Level Data (HIFLD):
 #' \url{https://hifld-geoplatform.opendata.arcgis.com}
 #' 
 #'@details The dataset can be downloaded from 
@@ -31,9 +34,7 @@ convertHIFLDFederalLands <- function(
   simplify = TRUE
 ) {
   
-  
   # ----- Setup ----------------------------------------------------------------
-  library(tidyverse)
   
   loadSpatialData("USCensusStates")
   
@@ -57,7 +58,7 @@ convertHIFLDFederalLands <- function(
   utils::download.file(url,filePath)
   
   # NOTE:  This zip file has no directory so extra subdirectory needs to be created
-  utils::unzip(filePath,exdir=file.path(dataDir, 'hifld_fed_lands'))
+  utils::unzip(filePath, exdir = file.path(dataDir, 'hifld_fed_lands'))
   
   # ----- Convert to SPDF ------------------------------------------------------
   
@@ -85,8 +86,8 @@ convertHIFLDFederalLands <- function(
   # "SHAPE__Are" -> (drop)
   # "SHAPE__Len" -> (drop)
   
-  # ----- Only keep features where "FEATURE1" != Null (these are not govt. lands)
-  SPDF <- subset(SPDF, FEATURE1 != "Null")
+  # Only keep features where "FEATURE1" != Null (these are not govt. lands)
+  SPDF <- subset(SPDF, SPDF$FEATURE1 != "Null")
   
   # ----- Select useful columns and rename -------------------------------------
   
@@ -119,38 +120,46 @@ convertHIFLDFederalLands <- function(
   # TO DO: figure out how to make this fit in 80 char
   agency_regexp <- "(?=\\sBIA|\\sBLM|\\sBOR|\\sDOD|\\sFS|\\sFWS|\\sNPS|\\sOTHER|\\sDOE|\\sDOJ|\\sNASA|\\sARS|\\sGSA|\\sDOT|\\sUSDA|\\sCIA|\\sTVA|\\sMWAA)"
   
-  SPDF@data <- SPDF@data %>% separate(col = "primaryLandType",
-                                      c("primaryLandType", "primaryLandOwner"),
-                                      sep = agency_regexp)
+  SPDF@data <- 
+    SPDF@data %>% 
+    tidyr::separate(col = "primaryLandType",
+                    c("primaryLandType", "primaryLandOwner"),
+                    sep = agency_regexp)
+  
   # Remove the space left in primaryLandOwner field
   SPDF@data$primaryLandOwner <- stringr::str_replace(SPDF@data$primaryLandOwner, ' ', '')
   
   #Split secondaryLandType ins secondaryLandOwner -------------------------
-  SPDF@data <- SPDF@data %>% separate(col = "secondaryLandType",
-                                      c("secondaryLandType", "secondaryLandOwner"),
-                                      sep = agency_regexp)
+  SPDF@data <- 
+    SPDF@data %>% 
+    tidyr::separate(col = "secondaryLandType",
+                    c("secondaryLandType", "secondaryLandOwner"),
+                    sep = agency_regexp)
+  
   # Remove the space left in secondaryLandOwner field
   SPDF@data$secondaryLandOwner <- stringr::str_replace(SPDF@data$secondaryLandOwner, ' ', '')
   
   
   # Split secondaryLandType ins tertiaryLandOwner -------------------------
-  SPDF@data <- SPDF@data %>% separate(col = "tertiaryLandType",
-                                      c("tertiaryLandType", "tertiaryLandOwner"),
-                                      sep = agency_regexp)
+  SPDF@data <- 
+    SPDF@data %>% 
+    tidyr::separate(col = "tertiaryLandType",
+                    c("tertiaryLandType", "tertiaryLandOwner"),
+                    sep = agency_regexp)
+  
   # Remove the space left in tertiaryLandOwner field
   SPDF@data$tertiaryLandOwner <- stringr::str_replace(SPDF@data$tertiaryLandOwner, ' ', '')
   
-  # All records should have a primaryLandOwner, check
-  # View(subset(SPDF@data, is.na(primaryLandOwner)) == 0)
+  # NOTE:  All records should have a primaryLandOwner, check
+  # NOTE:    View(subset(SPDF@data, is.na(primaryLandOwner)) == 0)
   
   # ----- Organize polygons ----------------------------------------------------
   # any(duplicated(SPDF@data$areaID)) is FALSE
   
   # ----- Add stateCode --------------------------------------------------------
-  # TO DO: Needs to have the centroid state calculated
-  # Use MazamaSPatialUtils::getStateCode() on polygon centers
+  
   # Get latitude and longitude from polygon centroids 
-  centroids <- rgeos::gCentroid(SPDF, byid=TRUE)
+  centroids <- rgeos::gCentroid(SPDF, byid = TRUE)
   lon <- sp::coordinates(centroids)[,1]
   lat <- sp::coordinates(centroids)[,2]
   
@@ -158,7 +167,12 @@ convertHIFLDFederalLands <- function(
   SPDF$latitude <- lat
   
   # Use longitude and latitude to get one state code for each polygon
-  SPDF$stateCode <- getStateCode(SPDF$longitude, SPDF$latitude, dataset='USCensusStates', useBuffering=TRUE)
+  SPDF$stateCode <- getStateCode(
+    SPDF$longitude, 
+    SPDF$latitude, 
+    dataset = 'USCensusStates', 
+    useBuffering = TRUE
+  )
   
   # ----- Add country code -----------------------------------------------------
   SPDF$countryCode <- "US"

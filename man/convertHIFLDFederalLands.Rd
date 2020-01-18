@@ -17,12 +17,12 @@ versions of the file that are simplified to 5\%, 2\% and 1\%.}
 Name of the dataset being created.
 }
 \description{
-Returns a SpatialPolygonsDataFrame of U.S. Federal Lands. This 
+Creates a SpatialPolygonsDataFrame of U.S. Federal Lands. This 
 data set consists of federally owned or administered lands and Indian 
 Reservations of the United States, Puerto Rico, and the U.S. Virgin Islands.
 Only areas of 640 acres or more are included.
 
-Originally obtained from Homeland Infrastructure Foundation-Level Data (HIFLD):
+Source data are obtained from Homeland Infrastructure Foundation-Level Data (HIFLD):
 \url{https://hifld-geoplatform.opendata.arcgis.com}
 }
 \details{

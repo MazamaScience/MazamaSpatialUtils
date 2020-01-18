@@ -79,7 +79,7 @@ a dataframe with polygon IDs and summary values." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.5</span>
       </span>
     </div>
 
@@ -105,7 +105,7 @@ a dataframe with polygon IDs and summary values." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/examples/ebolamap.html">Ebola Map Example</a>
+      <a href="../articles/articles/ebolamap.html">Ebola Map Example</a>
     </li>
   </ul>
 </li>
@@ -144,8 +144,15 @@ will summarize given values by spatial polygon using the <code>FUN</code> and re
 a dataframe with polygon IDs and summary values.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>summarizeByPolygon</span>(<span class='no'>longitude</span>, <span class='no'>latitude</span>, <span class='no'>value</span>, <span class='no'>SPDF</span>,
-  <span class='kw'>useBuffering</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='no'>FUN</span>, <span class='kw'>varName</span> <span class='kw'>=</span> <span class='st'>"summaryValue"</span>)</pre>
+    <pre class="usage"><span class='fu'>summarizeByPolygon</span>(
+  <span class='no'>longitude</span>,
+  <span class='no'>latitude</span>,
+  <span class='no'>value</span>,
+  <span class='no'>SPDF</span>,
+  <span class='kw'>useBuffering</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='no'>FUN</span>,
+  <span class='kw'>varName</span> <span class='kw'>=</span> <span class='st'>"summaryValue"</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

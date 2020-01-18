@@ -1,3 +1,9 @@
+# MazamaSpatialUtils 0.6.5
+
+* New `convertHILFDFederalLands()` function.
+* Addedd **tidyr** package to Imports.
+* Updated docker image.
+
 # MazamaSpatialUtils 0.6.4
 
 * Modified test infrastructure to address CRAN issues.
@@ -19,6 +25,7 @@ avoid a CRAN testing failure on fedora only -- Ugh.
 # MazamaSpatialUtils 0.6.0
 
 * changes associated with minor version bump
+
 # MazamaSpatialUtils 0.5.10
 
 * refactored shiny app from localShiny and added it to package in inst
@@ -149,7 +156,6 @@ dataframe rows with all NA.
 * Addition of buffered search so that locations can find nearby polygons.
 * Addition of `convertWorldEEZ()` function.
 
-
 # MazamaSpatialUtils 0.2.4
 
 * Updated default projection from 
@@ -164,7 +170,6 @@ to support libproj >= 4.9.1
 
 * User specification of `SpatialDataDir` is now required.
 * Minor documentation improvements.
-
 
 # MazamaSpatialUtils 0.2.1 -- addition of GADM and USGS HUC8
 

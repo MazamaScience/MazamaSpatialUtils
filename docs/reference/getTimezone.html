@@ -81,7 +81,7 @@ If allData=TRUE, additional data is returned." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.5</span>
       </span>
     </div>
 
@@ -107,7 +107,7 @@ If allData=TRUE, additional data is returned." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/examples/ebolamap.html">Ebola Map Example</a>
+      <a href="../articles/articles/ebolamap.html">Ebola Map Example</a>
     </li>
   </ul>
 </li>
@@ -148,8 +148,14 @@ specified countries and greatly improves performance.</p>
 <p>If <code>allData=TRUE</code>, additional data is returned.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>getTimezone</span>(<span class='no'>lon</span>, <span class='no'>lat</span>, <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='st'>"SimpleTimezones"</span>, <span class='kw'>countryCodes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>allData</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>useBuffering</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>getTimezone</span>(
+  <span class='no'>lon</span>,
+  <span class='no'>lat</span>,
+  <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='st'>"SimpleTimezones"</span>,
+  <span class='kw'>countryCodes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>allData</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>useBuffering</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">

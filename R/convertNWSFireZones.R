@@ -48,14 +48,16 @@ convertNWSFireZones <- function(nameOnly = FALSE, simplify = TRUE) {
   # NOTE:  plot(subset(WorldTimezones, timezone == "America/Nome"), border = "blue", add = TRUE)
   
   
-  SPDF@data <- dplyr::select(.data = SPDF@data,
-                      stateCode = .data$STATE,
-                      weatherForecastOffice = .data$CWA,
-                      zoneNumber = .data$ZONE,
-                      name = .data$NAME,
-                      zoneID = .data$STATE_ZONE,
-                      longitude = .data$LON,
-                      latitude = .data$LAT)
+  SPDF@data <- dplyr::select(
+    .data = SPDF@data,
+    stateCode = .data$STATE,
+    weatherForecastOffice = .data$CWA,
+    zoneNumber = .data$ZONE,
+    name = .data$NAME,
+    zoneID = .data$STATE_ZONE,
+    longitude = .data$LON,
+    latitude = .data$LAT
+  )
   
   
   # Organize polygons
