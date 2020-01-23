@@ -12,8 +12,8 @@
 # [X] 2. Get all of the National Parks
 # [ ] 3. Determine what parks have a monitor station in them (or nearby?)
 #   - [X] Are there in fact any parks with monitors?
-#   - [ ] How many of the total parks have a station?
-#   - [ ] Is this a meaningful data set to look at?
+#   - [X] How many of the total parks have a station?
+#   - [X] Is this a meaningful data set to look at? (no, not enough total coverage)
 # [X] 4. Isolate the in_park stations
 # [X] 5. Pull the in-park monitor data for the months of Jun - Sep 2018
 # [ ] 6. Figure out which parks had alot of smoke
@@ -25,6 +25,7 @@
 library(PWFSLSmoke)
 library(MazamaSpatialUtils)
 library(rmapshaper)
+library(raster)
 
 setSpatialDataDir("~/Data/Spatial")
 loadSpatialData("HIFLDFederalLands")
@@ -66,7 +67,7 @@ conus_states_01@data$rmapshaperid <- NULL
 
 # ---- Get the National Parks out of the HIFLDFederalLands data ----------------
 loadSpatialData("HIFLDFederalLands")
-nps_lands <- subset(HIFLDFederalLands, HIFLDFederalLands@data$agencyCode == "NPS")
+nps_lands <- subset(HIFLDFederalLands, HIFLDFederalLands@data$agencyCode %in% c("NPS", "FS"))
 
 # Quick and dirty plot of what we have so far
 dev.off()
@@ -98,3 +99,40 @@ length(lcc_nps_monitor)
 # Going to have to think about this a bit.  I could do a buffered search and tie 
 # nearby monitor locations to parks that don't have any.  Or I could switch to 
 # using a different feature type from the Fed Lands data.
+
+# Let's get the names of all the parks for which there are monitors.  Since 
+# there may be more than one monitor in a park, I'm going to attach the park 
+# name from federal lands to the lcc_nps_monitor points as a new column.  This 
+# appears to be most easily done using the raster package, but I'm going to also 
+# test the rgeos::gIntersection 
+
+# raster::instersect
+# intersect(x, y)
+# if x is a SpatialPoints* object: SpatialPoints*
+
+joined_lcc_nps_monitor <- raster::intersect(lcc_nps_monitor, lcc_nps_lands)
+
+joined_lcc_nps_monitor <- subset(joined_lcc_nps_monitor, 
+                                 select = c("monitorID", "longitude", "latitude", "stateCode", "countryCode", "primaryLandType", "agencyCode", "primaryName", "stateCode" ))
+
+# So how are are the monitors distributed?
+print(dplyr::select(joined_lcc_nps_monitor@data, primaryName, stateCode) %>% group_by(primaryName, stateCode) %>% summarise(n()))
+
+# 1 Acadia National Park                               1
+# 2 Badlands National Park                             1
+# 3 Bryce Canyon National Park                         1
+# 4 Crater Lake National Park                          1
+# 5 Glacier National Park                              2
+# 6 Indiana Dunes National Lakeshore                   1
+# 7 Joshua Tree National Park                          1
+# 8 Kaloko-Honokohau National Historical Park          3
+# 9 Kings Canyon National Park                         4
+# 10 Mississippi National River And Recreation Area     1
+# 11 Padre Island National Seashore                     1
+# 12 Sequoia National Park                              9
+# 13 Shenandoah National Park                           1
+# 14 Theodore Roosevelt National Park                   1
+# 15 Wind Cave National Park                            1
+# 16 Yellowstone National Park                          1
+# 17 Yosemite National Park                             7
+# 18 Yosemite Wilderness                                2
