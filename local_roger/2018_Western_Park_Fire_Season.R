@@ -37,13 +37,13 @@ loadSpatialData("USCensusStates")
 # create a subset of Western states 
 west_states <- subset(USCensusStates, (USCensusStates@data$stateCode %in% 
                                          west_codes))
-plot(west_states)
 
 # Get the monitor locations into a SpatialPointsDataFrame. This will allow us to 
 # use rgeos and do some spatial subsetting
 
 monitor_location_df <- subset(west_monitors$meta, 
-                              select = c("monitorID", "longitude", "latitude", "stateCode", "countryCode"))
+                              select = c("monitorID", "longitude", "latitude", 
+                                         "stateCode", "countryCode"))
 
 xy <- monitor_location_df[c("longitude", "latitude")]
 
@@ -86,7 +86,8 @@ dev.off()
 plot(merc_west_states, col = "grey90", border = "white")
 
 # Color fed_ands by agency
-agency_idx <- as.factor(c("NPS", "FS"))
+agency_idx <- as.factor(merc_fed_lands@data$agencyCode)
+agency_idx <- factor(agency_idx, levels = c("FS", "NPS"))
 color_list <- c("forestgreen", "goldenrod")
 plot(merc_fed_lands, col = color_list[agency_idx], add = TRUE, border = "transparent")
 # plot(merc_monitor, col = "forestgreen", add = TRUE)
