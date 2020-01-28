@@ -70,7 +70,7 @@ convertHIFLDFederalLands <- function(
   # "FID" --------> (drop)        
   # "AREA" -------> (drop)       
   # "PERIMETER" --> (drop)  
-  # "FEDLANP020" -> "areaID": unique id from original "fedlanp020" data
+  # "FEDLANP020" -> "polygonID": unique id from original "fedlanp020" data
   # "FEATURE1" ---> "primaryLandType": primary land type and owning agency      
   # "FEATURE2" ---> "secondaryLandType": secondary land type and owning agency    
   # "FEATURE3" ---> "tertiaryLandType": tertiary land type and owning agency   
@@ -103,7 +103,7 @@ convertHIFLDFederalLands <- function(
   
   SPDF@data <- dplyr::select(
     SPDF@data,
-    areaID = .data$FEDLANP020,
+    polygonID = .data$FEDLANP020,
     primaryLandType = .data$FEATURE1,
     secondaryLandType = .data$FEATURE2,
     tertiaryLandType = .data$FEATURE3,
@@ -144,7 +144,7 @@ convertHIFLDFederalLands <- function(
   # View(subset(SPDF@data, is.na(primaryLandOwner)) == 0)
   
   # ----- Organize polygons ----------------------------------------------------
-  # any(duplicated(SPDF@data$areaID)) is FALSE
+  # any(duplicated(SPDF@data$polygonID)) is FALSE
   
   # ----- Add stateCode --------------------------------------------------------
   # TO DO: Needs to have the centroid state calculated
