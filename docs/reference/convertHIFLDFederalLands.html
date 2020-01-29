@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convert (Simple) World Borders Shapefile — convertTMWorldBordersSimple • MazamaSpatialUtils</title>
+<title>Convert HIFLD Federal Lands shapefiles — convertHIFLDFederalLands • MazamaSpatialUtils</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,8 +42,13 @@
 
 
 
-<meta property="og:title" content="Convert (Simple) World Borders Shapefile — convertTMWorldBordersSimple" />
-<meta property="og:description" content="Returns a SpatialPolygonsDataFrame for a simple world divisions" />
+<meta property="og:title" content="Convert HIFLD Federal Lands shapefiles — convertHIFLDFederalLands" />
+<meta property="og:description" content="Creates a SpatialPolygonsDataFrame of U.S. Federal Lands. This 
+data set consists of federally owned or administered lands and Indian 
+Reservations of the United States, Puerto Rico, and the U.S. Virgin Islands.
+Only areas of 640 acres or more are included.
+Source data are obtained from Homeland Infrastructure Foundation-Level Data (HIFLD):
+https://hifld-geoplatform.opendata.arcgis.com" />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -131,23 +136,34 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Convert (Simple) World Borders Shapefile</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/MazamaSpatialUtils/blob/master/R/convertTMWorldBordersSimple.R'><code>R/convertTMWorldBordersSimple.R</code></a></small>
-    <div class="hidden name"><code>convertTMWorldBordersSimple.Rd</code></div>
+    <h1>Convert HIFLD Federal Lands shapefiles</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/MazamaSpatialUtils/blob/master/R/convertHIFLDFederalLands.R'><code>R/convertHIFLDFederalLands.R</code></a></small>
+    <div class="hidden name"><code>convertHIFLDFederalLands.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Returns a SpatialPolygonsDataFrame for a simple world divisions</p>
+    <p>Creates a SpatialPolygonsDataFrame of U.S. Federal Lands. This 
+data set consists of federally owned or administered lands and Indian 
+Reservations of the United States, Puerto Rico, and the U.S. Virgin Islands.
+Only areas of 640 acres or more are included.</p>
+<p>Source data are obtained from Homeland Infrastructure Foundation-Level Data (HIFLD):
+<a href='https://hifld-geoplatform.opendata.arcgis.com'>https://hifld-geoplatform.opendata.arcgis.com</a></p>
     </div>
 
-    <pre class="usage"><span class='fu'>convertTMWorldBordersSimple</span>(<span class='kw'>nameOnly</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>convertHIFLDFederalLands</span>(<span class='kw'>nameOnly</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>nameOnly</th>
-      <td><p>logical specifying whether to only return the name without creating the file</p></td>
+      <td><p>Logical specifying whether to only return the name without 
+creating the file.</p></td>
+    </tr>
+    <tr>
+      <th>simplify</th>
+      <td><p>Logical specifying whether to create "_05", _02" and "_01" 
+versions of the file that are simplified to 5%, 2% and 1%.</p></td>
     </tr>
     </table>
 
@@ -156,19 +172,14 @@
     <p>Name of the dataset being created.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>A world borders shapefile is downloaded and converted to a
-SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
-in the package <code>SpatialDataDir</code> which is set with <code><a href='setSpatialDataDir.html'>setSpatialDataDir()</a></code>.</p>
-<p>This shapefile is a greatly simplified version of the TMWorldBorders shapefile and is especially suited
-for spatial searches. This is the default dataset used in <code><a href='getCountry.html'>getCountry()</a></code> and <code><a href='getCountryCode.html'>getCountryCode()</a></code>.
-Users may wish to use a higher resolution dataset when plotting.</p>
+    <p>The dataset can be downloaded from 
+<a href='https://opendata.arcgis.com/datasets/2bb32a6e72414e28aaf72f9dc99d3412_0.zip'>https://opendata.arcgis.com/datasets/2bb32a6e72414e28aaf72f9dc99d3412_0.zip</a></p>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>This is a 7/21/2017 revision of the January 2005 map layer.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p><a href='http://thematicmapping.org/downloads/'>http://thematicmapping.org/downloads/</a></p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>setSpatialDataDir</p>
-<p>getCountry, getCountryCode</p></div>
+    <p><a href='https://hifld-geoplatform.opendata.arcgis.com/datasets/federal-lands'>https://hifld-geoplatform.opendata.arcgis.com/datasets/federal-lands</a></p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -177,8 +188,8 @@ Users may wish to use a higher resolution dataset when plotting.</p>
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
       <li><a href="#details">Details</a></li>
+      <li><a href="#note">Note</a></li>
       <li><a href="#references">References</a></li>
-      <li><a href="#see-also">See also</a></li>
     </ul>
 
   </div>
