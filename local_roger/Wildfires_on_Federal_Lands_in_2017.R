@@ -50,7 +50,11 @@ west_fires_2017 <- subset(MTBSBurnArea, MTBSBurnArea@data$year == "2017"
 
 # Reproject fires to match the other data dets and plot on top of map
 merc_west_fires_2017 <- spTransform(west_fires_2017, CRS("+init=epsg:3857"))
-plot(merc_west_fires_2017, col="red", border="transparent", add=TRUE)
+
+# Intersect the fires with the nps and fs lands and only keep
+merc_fires_2017_fed_lands <- merc_west_fires_2017[merc_fed_lands,]
+
+plot(merc_fires_2017_fed_lands, col="red", border="transparent", add=TRUE)
 
 # Add a title
-title("2017 Fires on NPS and FS Lands", cex = 1.8)
+title("2017 Wildfires Greater than 1000 Acres on NPS and FS Lands", cex = 1.8)
