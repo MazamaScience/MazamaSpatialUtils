@@ -79,7 +79,7 @@ merc_fed_lands <- spTransform(fed_lands, CRS("+init=epsg:3857"))
 merc_monitor <- spTransform(monitor_spdf, CRS("+init=epsg:3857") )
 
 # Let's seee if there are any monitors that intersect with NPS lands
-merc_fed_monitor <- merc_monitor[merc_nps_lands,]
+merc_fed_monitor <- merc_monitor[merc_fed_lands,]
 
 # Replotting to show everything
 dev.off()
