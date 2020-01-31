@@ -104,7 +104,7 @@
 #   # NOTE:  In these cases, the polygons and associated dataframe need to be 
 #   # NOTE:  reorganized. These cases can be identified by checking:
 #   # NOTE:
-#   # NOTE:    any(dupilcated(SPDF@data[[UNIQUE_ID]]))
+#   # NOTE:    any(duplicated(SPDF@data[[UNIQUE_ID]]))
 #   # NOTE:
 #   # NOTE:  This is done with organizePolygons().
 #   
