@@ -32,7 +32,7 @@ convertMTBSBurnArea <- function(
   # NOTE:  except for known acronymes.
   
   # Specify the name of the dataset and file being created
-  datasetName <- "MTBSBurnArea"
+  datasetName <- "MTBSBurnAreas"
   
   if (nameOnly)
     return(datasetName)
@@ -45,7 +45,7 @@ convertMTBSBurnArea <- function(
   filePath <- file.path(dataDir,basename(url))
   utils::download.file(url,filePath)
   
-  utils::unzip(filePath,exdir=dataDir)
+  utils::unzip(filePath,exdir = dataDir)
   
   # ----- Convert to SPDF ------------------------------------------------------
   
@@ -79,11 +79,16 @@ convertMTBSBurnArea <- function(
     acres = .data$Acres
   )
   
-  # ----- Organize polygons ----------------------------------------------------
   
   # Create unique ID that is just a sequential value
   IDs <- seq(1, length(SPDF))
   SPDF@data$ID <- IDs
+  
+  # ----- Organize polygons ----------------------------------------------------
+  SPDF <- organizePolygons(SPDF, "ID")
+  
+  # Drop the extraneous ID column
+  SPDF@data$ID <- NULL
   
   # Get correct lat/lon centroids for new polygons
   # Fix potentially bad topology first.
@@ -91,8 +96,8 @@ convertMTBSBurnArea <- function(
   # Error in TopologyFunc(spgeom, id, byid, "rgeos_pointonsurface") :
   #   TopologyException: Input geom 1 is invalid: Self-intersection at or near
   #   point -119.73617914821601 38.0183025223321 at -119.73617914821601 38.0183025223321
-  SPDF <- suppressWarnings( rgeos::gBuffer(SPDF, byid=TRUE, width=0) )
-  centroids <- rgeos::gPointOnSurface(SPDF, byid=TRUE)
+  SPDF <- suppressWarnings( rgeos::gBuffer(SPDF, byid = TRUE, width = 0) )
+  centroids <- rgeos::gPointOnSurface(SPDF, byid = TRUE)
   
   SPDF@data$longitude <- centroids$x
   SPDF@data$latitude <- centroids$y

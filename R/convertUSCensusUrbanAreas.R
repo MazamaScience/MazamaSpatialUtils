@@ -124,12 +124,16 @@ convertUSCensusUrbanAreas <- function(
     latitude = .data$INTPTLAT10
   )
   
-  # ----- Organize polygons ----------------------------------------------------
-  # NOTE: any(duplicated(SPDF@data[["urbanAreaID"]])) == FALSE
-  
   # Create unique ID that is just a sequential value
   IDs <- seq(1, length(SPDF))
   SPDF@data$ID <- IDs
+  
+  # ----- Organize polygons ----------------------------------------------------
+  # NOTE: any(duplicated(SPDF@data[["urbanAreaID"]])) == FALSE
+  SPDF <- organizePolygons(SPDF, "ID")
+  
+  # Drop the extraneous ID column
+  SPDF@data$ID <- NULL
   
   # ----- Add country and state codes ------------------------------------------
   # Use longitude and latitude to get one state code for each polygon

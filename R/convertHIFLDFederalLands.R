@@ -104,7 +104,7 @@ convertHIFLDFederalLands <- function(
   
   SPDF@data <- dplyr::select(
     SPDF@data,
-    polygonID = .data$FEDLANP020,
+    ID = .data$FEDLANP020,
     primaryLandType = .data$FEATURE1,
     secondaryLandType = .data$FEATURE2,
     tertiaryLandType = .data$FEATURE3,
@@ -154,7 +154,11 @@ convertHIFLDFederalLands <- function(
   # NOTE:    View(subset(SPDF@data, is.na(primaryLandOwner)) == 0)
   
   # ----- Organize polygons ----------------------------------------------------
-  # any(duplicated(SPDF@data$polygonID)) is FALSE
+  # any(duplicated(SPDF@data$ID)) is FALSE
+  SPDF <- organizePolygons(SPDF, "ID")
+  
+  # Drop the extraneous ID column
+  SPDF@data$ID <- NULL
   
   # ----- Add stateCode --------------------------------------------------------
   
