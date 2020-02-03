@@ -47,19 +47,25 @@ that we currently use. These convert functions all follow the same recipe:
 
 Other datasets can be added following the same procedure.
 
-The ‘package internal standards’ are very simple. Every spatial dataset will
-have at least one of the following, consistently named columns of data:
+The 'package internal standards' are very simple.
 
- * `polygonID` – unique identifier associated with each polygon
- * `countryCode` – ISO 3166-1 alpha-2
- * `stateCode` – ISO 3166-2 alpha-2
- * `timezone` – Olson timezone
+1) Every spatial dataset **must** contain the following columns:
 
-If another column contains this data, that column must be renamed or
-duplicated with the internally standardized name. This simple level of
-consistency makes it possible to generate maps for any data that is ISO encoded.
-It also makes it possible to create functions that return the country, state or
-timezone associated with a set of locations.
+* polygonID -- unique identifier for each polygon
+* countryCode -- country at centroid of polygon (ISO 3166-1 alpha-2)
+
+2) Spatial datasets with timezone data **must** contain the following column:
+
+* timezone -- Olson timezone
+
+3) Spatial datasets at scales smaller than the nation-state **should** contain the following column:
+
+* stateCode -- 'state' at centroid of polygon (ISO 3166-2 alpha-2)
+
+If other columns contain these data, those columns must be renamed or duplicated with the 
+internally standardized name. This simple level of consistency makes it possible to generate 
+maps for any data that is ISO encoded. It also makes it possible to create functions that 
+return the country, state or timezone associated with a set of locations.
 
 ## Installation
 
