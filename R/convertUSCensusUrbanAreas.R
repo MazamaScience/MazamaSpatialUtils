@@ -113,6 +113,13 @@ convertUSCensusUrbanAreas <- function(
   SPDF@data$INTPTLAT10 <- as.numeric(SPDF@data$INTPTLAT10)
   SPDF@data$INTPTLON10 <- as.numeric(SPDF@data$INTPTLON10)
   
+  # Convert UATYP10 values into human-readable forms
+  is_urban <- SPDF@data$UATYP10 == "U"
+  is_cluster <-  SPDF@data$UATYP10 == "C"
+  
+  SPDF@data$UATYP10[is_urban] <- "urbanizedArea"
+  SPDF@data$UATYP10[is_cluster] <- "urbanCluster"
+  
   SPDF@data <- dplyr::select(
     SPDF@data,
     urbanAreaID = .data$GEOID10,
