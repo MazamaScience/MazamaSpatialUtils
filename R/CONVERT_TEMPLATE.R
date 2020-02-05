@@ -60,6 +60,10 @@
 #   dsnPath <- file.path(dataDir,'ca_air_basins')
 #   shpName <- 'CaAirBasin'
 #   SPDF <- convertLayer(dsn = dsnPath, layerName = shpName)
+#
+#   # Fix potentially bad topology first.
+#   # https://postgis.net/workshops/postgis-intro/validity.html#st-buffer
+#   SPDF <- suppressWarnings( rgeos::gBuffer(SPDF, byid = TRUE, width = 0) )
 #   
 #   # ----- Select useful columns and rename -------------------------------------
 # 
