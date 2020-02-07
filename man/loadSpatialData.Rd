@@ -4,7 +4,7 @@
 \alias{loadSpatialData}
 \title{Load spatial datasets}
 \usage{
-loadSpatialData(pattern = "*")
+loadSpatialData(pattern = "*\\\\.[rR][dD]a?t?a")
 }
 \arguments{
 \item{pattern}{regular expression used to match filenames}
@@ -16,7 +16,8 @@ global environment.
 \description{
 Load datasets found in the directory previously set with 
 \code{setSpatialDataDir()}. 
-Only files matching \code{pattern} will be loaded.
+Only files matching \code{pattern} will be loaded. 
+By default, only \code{.RData} and \code{.rda} files are matched.
 
 Core datastes available for the package include:
 \itemize{

@@ -4,7 +4,8 @@
 #' @param pattern regular expression used to match filenames
 #' @description Load datasets found in the directory previously set with 
 #' \code{setSpatialDataDir()}. 
-#' Only files matching \code{pattern} will be loaded.
+#' Only files matching \code{pattern} will be loaded. 
+#' By default, only \code{.RData} and \code{.rda} files are matched.
 #' 
 #' Core datastes available for the package include:
 #' \itemize{
@@ -22,7 +23,7 @@
 #' @seealso setSpatialDataDir
 #' @seealso installSpatialData
 loadSpatialData <- function(
-  pattern = "*"
+  pattern = "*\\.[rR][dD]a?t?a"
 ) {
   
   # Use package internal data directory
