@@ -5,7 +5,7 @@
 #' @param datestamp HMS datestamp in the format "YYYYmmdd"
 #' @param nameOnly logical specifying whether to only return the name without creating the file
 #' @description Previously downloaded smoke shapefiles from the NOAA
-#' \href{http://www.ospo.noaa.gov/Products/land/hms.html}{Hazard Mapping System} are converted to a
+#' \href{https://www.ospo.noaa.gov/Products/land/hms.html}{Hazard Mapping System} are converted to a
 #' SpatialPolygonsDataFrame with additional columns of data. The resulting file will be
 #' created in the spatial data directory which is set with \code{setSpatialDataDir()}.
 #' @details The full set of archived HMS Smoke shapefiles can be downloaded from NOAA with the
