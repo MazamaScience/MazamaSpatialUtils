@@ -1,5 +1,15 @@
 # MazamaSpatialUtils 0.6.5
 
+* `loadSpatialData()` now recognizes both `.RData` and `.rda` files.
+* Improved documentation
+* New convert functions:
+  - `convertEPARegions()`
+  - `convertMTBSBurnArea()`
+  - `convertUSCensusUrbanAreas()`
+  - `convertUSFSRangerDistricts()`
+
+# MazamaSpatialUtils 0.6.5
+
 * New `convertHILFDFederalLands()` function.
 * Addedd **tidyr** package to Imports.
 * Updated docker image.

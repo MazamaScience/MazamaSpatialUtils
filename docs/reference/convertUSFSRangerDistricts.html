@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convert Level 1 (State) Borders Shapefile — convertNaturalEarthAdm1 • MazamaSpatialUtils</title>
+<title>Convert USFS Ranger District shapefiles — convertUSFSRangerDistricts • MazamaSpatialUtils</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,8 +42,17 @@
 
 
 
-<meta property="og:title" content="Convert Level 1 (State) Borders Shapefile — convertNaturalEarthAdm1" />
-<meta property="og:description" content="Returns a SpatialPolygonsDataFrame for a 1st level administrative divisions" />
+<meta property="og:title" content="Convert USFS Ranger District shapefiles — convertUSFSRangerDistricts" />
+<meta property="og:description" content="Returns a SpatialPolygonsDataFrame for USFS Ranger Districts
+The USFSRangerDistricts layer is a polygon shapefile coverage representing 
+US Forest Service ranger district administrative boundaries.  Ranger 
+districts are sub units of National Forests intended to identify the specific 
+organizational units that administer areas.
+The purpose of the data is to provide display, identification, and analysis 
+tools for determining current boundary information for Forest Service 
+managers, GIS Specialists, and others.
+See https://data.fs.usda.gov/geodata/edw/edw_resources/meta/S_USA.RangerDistrict.xml
+for more information on this data set." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -131,45 +140,50 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Convert Level 1 (State) Borders Shapefile</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/MazamaSpatialUtils/blob/master/R/convertNaturalEarthAdm1.R'><code>R/convertNaturalEarthAdm1.R</code></a></small>
-    <div class="hidden name"><code>convertNaturalEarthAdm1.Rd</code></div>
+    <h1>Convert USFS Ranger District shapefiles</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/MazamaSpatialUtils/blob/master/R/convertUSFSRangerDistricts.R'><code>R/convertUSFSRangerDistricts.R</code></a></small>
+    <div class="hidden name"><code>convertUSFSRangerDistricts.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Returns a SpatialPolygonsDataFrame for a 1st level administrative divisions</p>
+    <p>Returns a SpatialPolygonsDataFrame for USFS Ranger Districts</p>
+<p>The USFSRangerDistricts layer is a polygon shapefile coverage representing 
+US Forest Service ranger district administrative boundaries.  Ranger 
+districts are sub units of National Forests intended to identify the specific 
+organizational units that administer areas.</p>
+<p>The purpose of the data is to provide display, identification, and analysis 
+tools for determining current boundary information for Forest Service 
+managers, GIS Specialists, and others.</p>
+<p>See https://data.fs.usda.gov/geodata/edw/edw_resources/meta/S_USA.RangerDistrict.xml
+for more information on this data set.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>convertNaturalEarthAdm1</span>(<span class='kw'>nameOnly</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>convertUSFSRangerDistricts</span>(<span class='kw'>nameOnly</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>nameOnly</th>
-      <td><p>logical specifying whether to only return the name without creating the file</p></td>
+      <td><p>Logical specifying whether to only return the name without 
+creating the file.</p></td>
+    </tr>
+    <tr>
+      <th>simplify</th>
+      <td><p>Logical specifying whether to create "_05", _02" and "_01" 
+versions of the file that are simplified to 5%, 2% and 1%.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Name of the dataset being created.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>A state border shapefile is downloaded and converted to a
-SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
-in the spatial data directory which is set with <code><a href='setSpatialDataDir.html'>setSpatialDataDir()</a></code>.</p>
-<p>Within the <span class="pkg">MazamaSpatialUtils</span> package the phrase 'state' refers to administrative
-divisions beneath the level of the country or nation. This makes sense in the United 'States'. In
-other countries this level is known as 'province', 'territory' or some other term.</p>
+    <p>Refreshed Feb 3, 2020.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p><a href='http://www.naturalearthdata.com/downloads/'>http://www.naturalearthdata.com/downloads/</a></p>
-<p><a href='http://www.statoids.com/ihasc.html'>http://www.statoids.com/ihasc.html</a></p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>setSpatialDataDir</p>
-<p>getState, getStateCode</p></div>
+    <p><a href=''https://data.fs.usda.gov/geodata/edw/edw_resources/shp/S_USA.RangerDistrict.zip''>'https://data.fs.usda.gov/geodata/edw/edw_resources/shp/S_USA.RangerDistrict.zip'</a></p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -177,9 +191,8 @@ other countries this level is known as 'province', 'territory' or some other ter
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
+      <li><a href="#note">Note</a></li>
       <li><a href="#references">References</a></li>
-      <li><a href="#see-also">See also</a></li>
     </ul>
 
   </div>

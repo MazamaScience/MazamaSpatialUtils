@@ -41,7 +41,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.6</span>
       </span>
     </div>
 
@@ -117,18 +117,21 @@ longitude/latitude pairs. (They also make cool maps.)</code></pre>
 <li>modify the dataframe in the <code>@data</code> slot so that it adheres to package internal standards</li>
 </ul>
 <p>Other datasets can be added following the same procedure.</p>
-<p>The ‘package internal standards’ are very simple. Every spatial dataset will have at least one of the following, consistently named columns of data:</p>
+<p>The ‘package internal standards’ are very simple.</p>
+<p>1) Every spatial dataset <strong>must</strong> contain the following columns:</p>
 <ul>
-<li>
-<code>polygonID</code> – unique identifier associated with each polygon</li>
-<li>
-<code>countryCode</code> – ISO 3166-1 alpha-2</li>
-<li>
-<code>stateCode</code> – ISO 3166-2 alpha-2</li>
-<li>
-<code>timezone</code> – Olson timezone</li>
+<li>polygonID – unique identifier for each polygon</li>
+<li>countryCode – country at centroid of polygon (ISO 3166-1 alpha-2)</li>
 </ul>
-<p>If another column contains this data, that column must be renamed or duplicated with the internally standardized name. This simple level of consistency makes it possible to generate maps for any data that is ISO encoded. It also makes it possible to create functions that return the country, state or timezone associated with a set of locations.</p>
+<p>2) Spatial datasets with timezone data <strong>must</strong> contain the following column:</p>
+<ul>
+<li>timezone – Olson timezone</li>
+</ul>
+<p>3) Spatial datasets at scales smaller than the nation-state <strong>should</strong> contain the following column:</p>
+<ul>
+<li>stateCode – ‘state’ at centroid of polygon (ISO 3166-2 alpha-2)</li>
+</ul>
+<p>If other columns contain these data, those columns must be renamed or duplicated with the internally standardized name. This simple level of consistency makes it possible to generate maps for any data that is ISO encoded. It also makes it possible to create functions that return the country, state or timezone associated with a set of locations.</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
@@ -277,6 +280,7 @@ runExample()</a></code></pre>
 <h2>Developers</h2>
 <ul class="list-unstyled">
 <li>Jonathan Callahan <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Roger Andre <br><small class="roles"> Author </small>  </li>
 <li>Tom Bergamaschi <br><small class="roles"> Author </small>  </li>
 <li>Ruby Fore <br><small class="roles"> Author </small>  </li>
 <li>Will Leahy <br><small class="roles"> Author </small>  </li>
@@ -292,7 +296,7 @@ runExample()</a></code></pre>
 
 
       <footer><div class="copyright">
-  <p>Developed by Jonathan Callahan, Tom Bergamaschi, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
+  <p>Developed by Jonathan Callahan, Roger Andre, Tom Bergamaschi, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
 </div>
 
 <div class="pkgdown">

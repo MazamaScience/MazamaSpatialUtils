@@ -1,9 +1,10 @@
 Type: Package
 Package: MazamaSpatialUtils
-Version: 0.6.5
+Version: 0.6.6
 Title: Spatial Data Download and Utility Functions
 Authors@R: c(
     person("Jonathan", "Callahan", email="jonathan.s.callahan@gmail.com", role=c("aut","cre")), 
+    person("Roger", "Andre", email="randre@gmail.com", role=c("aut")),
     person("Tom", "Bergamaschi", email="tbergama@gmail.com", role=c("aut")),
     person("Ruby", "Fore", email="ruby.a.fore@gmail.com", role=c("aut")),
     person("Will", "Leahy", email="procterw@gmail.com", role=c("aut")),
@@ -13,6 +14,7 @@ Authors@R: c(
     person("Alice", "Yang", email="wenhuy@uw.edu", role=c("aut"))
     )
 Author: Jonathan Callahan [aut, cre],
+    Roger Andre [aut],
     Tom Bergamaschi [aut],
     Ruby Fore [aut],
     Will Leahy [aut],
@@ -37,6 +39,7 @@ Imports:
     dplyr,
     geojsonio,
     lubridate,
+    magrittr,
     rgdal,
     rgeos,
     rlang,
@@ -46,8 +49,7 @@ Imports:
     stringr,
     tidyr,
     utils,
-    xml2,
-    magrittr
+    xml2
 Suggests:
     knitr,
     maps,

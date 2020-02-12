@@ -45,7 +45,8 @@
 <meta property="og:title" content="Load spatial datasets — loadSpatialData" />
 <meta property="og:description" content="Load datasets found in the directory previously set with 
 setSpatialDataDir(). 
-Only files matching pattern will be loaded.
+Only files matching pattern will be loaded. 
+By default, only .RData and .rda files are matched.
 Core datastes available for the package include:
 TMWorldBorders -- high resolution country polygons (higher 
 resolution than SimpleCountries)
@@ -89,7 +90,7 @@ These can be installed with installSpatialData()." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.6</span>
       </span>
     </div>
 
@@ -151,7 +152,8 @@ These can be installed with installSpatialData()." />
     <div class="ref-description">
     <p>Load datasets found in the directory previously set with 
 <code><a href='setSpatialDataDir.html'>setSpatialDataDir()</a></code>. 
-Only files matching <code>pattern</code> will be loaded.</p>
+Only files matching <code>pattern</code> will be loaded. 
+By default, only <code>.RData</code> and <code>.rda</code> files are matched.</p>
 <p>Core datastes available for the package include:</p><ul>
 <li><p><code>TMWorldBorders</code> -- high resolution country polygons (higher 
 resolution than <code>SimpleCountries</code>)</p></li>
@@ -164,7 +166,7 @@ resolution than <code>SimpleTimezones</code>)</p></li>
 <p>These can be installed with <code><a href='installSpatialData.html'>installSpatialData()</a></code>.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>loadSpatialData</span>(<span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"*"</span>)</pre>
+    <pre class="usage"><span class='fu'>loadSpatialData</span>(<span class='kw'>pattern</span> <span class='kw'>=</span> <span class='st'>"*\\.[rR][dD]a?t?a"</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -199,7 +201,7 @@ global environment.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Jonathan Callahan, Tom Bergamaschi, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
+  <p>Developed by Jonathan Callahan, Roger Andre, Tom Bergamaschi, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
 </div>
 
 <div class="pkgdown">
