@@ -1,3 +1,5 @@
+Draft_Dataset_Info
+Draft_Dataset_Info
 
 Spatial Data Sets Available in MazamaSpatialUtils
 =======================================
@@ -32,17 +34,17 @@ Additional datasets are available via the use of specific `convert<dataset>()` f
 [`HIFLDFederalLands`:](#hifldfederallands) U.S. Federal Lands
 [`HMSSmoke`:](#hmssmoke) NOAA Hazard Mapping System Smoke (HMSS) areas
 [`MTBSBurnAreas`:](#mtbsburnareas)  MTBS Burn Areas from 1984 - 2017
-`NWSFireZones`: convertNWSFireZones.R
-`PHDs`: convertPHDs.R
-`SimpleCountries`: convertSimpleCountries.R
-`SimpleCountriesEEZ`: convertSimpleCountriesEEZ.R
-`SimpleTimezones`: convertSimpleTimezones.R
-`<state_code>_HouseLegislativeDistricts`: convertStateLegislativeDistricts.R
-`TMWorldBordersSimple`: convertTMWorldBordersSimple.R
-`USCensusCBSA`: convertUSCensusCBSA.R
-`USCensusUrbanAreas`: convertUSCensusUrbanAreas.R
-`USFSRangerDistricts`: convertUSFSRangerDistricts.R
-`WBDHU<level>`: convertWBDHUC.R
+[`NWSFireZones`:](#nwsfirezones) NWS weather forecast zones
+[`PHDs`:](#phds) Public Health Districts for Washington, Oregon, Idaho, and California
+[`SimpleCountries`:](#simplecountries) Simplified version of the TMWorldBorders shapefile
+[`SimpleCountriesEEZ`:](#simplecountriesEEZ) Simplified version of EEZCountries
+[`SimpleTimezones`:](#simpletimezones) Timezones of the world
+[`HouseLegislativeDistricts`:](#houselegislativedistricts) U.S. State Legislative Districts, by chamber
+[`TMWorldBordersSimple`:](#tmworldborderssimple) Simplified version of the TMWorldBorders layer
+[`USCensusCBSA`:](#uscensuscbsa) U.S. Census Core Based Statistical Areas
+[`USCensusUrbanAreas`:](#uscensusurbanareas) U.S. Census Urban Areas
+[`USFSRangerDistricts`:](#usfsrangerdistricts) U.S. Forest Service Ranger districts
+[`WBDHU`:](#wbdhu) Watershed boundary hydrologic units
 `weatherZones`: convertWeatherZones.R
 `WorldEEZ`: convertWorldEEZ.R
 
@@ -94,3 +96,72 @@ Use `convertMTBSBurnArea()` to download and convert this datset.
 The MTBSBurnAreas layer is a `SpatialPolygonsDataFrame` representing all large wildland fires (includes wildfire, wildland fire use, and prescribed fire) in the conterminous United States (CONUS), Alaska, Hawaii, and Puerto Rico for the period of 1984 through 2017.  All fires reported as greater than 1,000 acres in the western U.S. and greater than 500 acres in the eastern U.S. are mapped across all ownerships.
 
 August 22, 2019 Version
+
+#### NWSFireZones
+Use `convertNWSFireZones()` to download and convert this data set.
+
+The NWSFireZones layer is a `SpatialPolygonsDataFrame` representing weather forecast zones.  These areas are used to delineate the Fire Weather Zones that are used by National Weather Service (NWS) in the fire weather forecast program.
+
+#### PHDs
+Use `convertPHDs()` to download and convert this data set.
+
+The PHDs layer is a `SpatialPolygonsDataFrame` representing Public Health Districts for Washington, Oregon, Idaho, and California.  This is Mazama internal data obtained from USFS AirFire.
+
+#### SimpleCountries
+Use `convertSimpleCountries()` to download and convert this data set.
+
+The SimpleCountries layer is a `SpatialPolygonsDataFrame` representing Country/area borders.  It is a greatly simplified version of the TMWorldBorders shapefile and is especially suited for spatial searches. Users may wish to use a higher resolution dataset when plotting.
+
+30 July 2008 Version
+
+#### SimpleCountriesEEZ
+Use `convertSimpleCountriesEEZ()` to download and convert this data set.
+
+The SimpleCountriesEEZ layer is a `SpatialPolygonsDataFrame` representing simple world divisions which match those in the EEZCountries layer. Polygons for coastal countries include a 200 mile buffer, corresponding to their Exclusive Economic Zones, so this layer is especially suited for spatial searches.   This is the default dataset used in `getCountry()` and `getCountryCode()`.
+
+#### SimpleTimeZones
+Use `convertSimpleTimezones()` to download and convert this data set.
+
+The SimpleTimeZones layer is a `SpatialPolygonsDataFrame` representing timezones of the world.
+
+May 28, 2016 Version
+
+#### HouseLegislativeDistricts
+Use `convertStateLegislativeDistricts()` to download and convert this data set.
+
+This creates a `SpatialPolygonsDataFrame` for U.S. State Legislative Districts.  User input is required to specify the `stateCode` (2-digit ISO 3166) and which `house` (Upper or Lower chamber) the data should represent.  For example, to obtain data on the Washington State Senate Legislative Districts, run `convertStateLegislativeDistricts(stateCode = "WA", house = "Upper")`.  This will generate a file named `WA_upperHouseLegislativeDistricts.RData`
+
+#### TMWorldBordersSimple
+Use `convertTMWorldBordersSimple()` to download and convert this data set.
+
+The TMWorldBordersSimple layer is a simplified version of the TMWorldBorders layer which is useful for spatial searches.  Users may wish to use a higher resolution dataset when plotting.
+
+#### USCensusCBSA
+Use `convertUSCensusCBSA()` to download and convert this data set.
+
+The USCensusCBSA layer is a `SpatialPolygonsDataFrame` which represents Core Based Statistical Areas (CBSAs) as defined by the Office of Management and Budget (OMB).  CBSAs consist of the county or counties or equivalent entities associated with at least one core (urbanized area or urban cluster) of at least 10,000 population, plus adjacent counties having a high degree of social and economic integration with the core as measured through commuting ties with the counties associated with the core.
+
+2017 Version
+
+#### USCensusUrbanAreas
+Use `convertUSCensusUrbanAreas()` to download and convert this data set.
+
+The USCensusUrbanAreas layer is a SpatialPolygonsDataFrame which represent the urban areas delineated by the US Census that represent densely developed territory.  There are two types of urban areas: urbanized areas (UAs) that contain 50,000 or more people and urban clusters (UCs) that contain at least 2,500 people, but fewer than 50,000 people.
+
+December 2, 2017 Version
+
+#### USFSRangerDistricts
+Use `convertUSFSRangerDistricts()` to download and convert this data set.
+
+The USFSRangerDistricts layer is a SpatialPolygonsDataFrame representing U.S. Forest Service ranger district administrative boundaries.  Ranger districts are sub units of National Forests intended to identify the specific organizational units that administer areas.
+
+Feb 3, 2020 Version
+
+#### WBDHU
+Use `convertWBDHUC()` to download and convert this data set.
+
+This creates a `SpatialPolygonsDataFrame` that represents a specific level of hydrologic unit  from national Watershed Boundary Dataset (WBD).  This is a seamless, national dataset which represents the area of the landscape that drains to a portion of the stream network.
+
+User input is required to specify the `level` of data to generate.   The `level` must be one of the following: [2, 4, 6, 8, 10, 12 or 14].  To generate a Level 8 data set, run `convertWBDHUC(level = 8)` which will generate a file named `WBDHU8.RData`.
+
+
