@@ -1,5 +1,3 @@
-Draft_Dataset_Info
-Draft_Dataset_Info
 
 Spatial Data Sets Available in MazamaSpatialUtils
 =======================================
@@ -45,8 +43,8 @@ Additional datasets are available via the use of specific `convert<dataset>()` f
 [`USCensusUrbanAreas`:](#uscensusurbanareas) U.S. Census Urban Areas
 [`USFSRangerDistricts`:](#usfsrangerdistricts) U.S. Forest Service Ranger districts
 [`WBDHU`:](#wbdhu) Watershed boundary hydrologic units
-`weatherZones`: convertWeatherZones.R
-`WorldEEZ`: convertWorldEEZ.R
+[`weatherZones`:](#weatherzones) NWS public weather forecast zones
+[`WorldEEZ`:](#worldeez) World Exclusive Economic Zones Boundaries of countries
 
 #### CA_AirBasins:
 Use `convertCARBAirBasins()` to download and convert this dataset.
@@ -164,4 +162,14 @@ This creates a `SpatialPolygonsDataFrame` that represents a specific level of hy
 
 User input is required to specify the `level` of data to generate.   The `level` must be one of the following: [2, 4, 6, 8, 10, 12 or 14].  To generate a Level 8 data set, run `convertWBDHUC(level = 8)` which will generate a file named `WBDHU8.RData`.
 
+#### WeatherZones
+Use `convertWeatherZones()` to download and convert this data set.
 
+This creates a `SpatialPolygonsDataFrame` that represents public zone weather forecast areas.  The NWS issues forecasts, and some watches and warnings, for public zones which are usually the same as counties but in many cases are subsets of counties. Counties are subset into smaller zones to allow for more accurate forecasts because of differences in weather within a county due to such things as elevation, or proximity to large bodies of water.
+
+#### WorldEEZ
+Use `convertWorldEEZ()` to download and convert this data set.
+
+This creates a `SpatialPolygonsDataFrame` that represents World Exclusive Economic Zones Boundaries.  An exclusive economic zone is a sea zone prescribed by the 1982 United Nations Convention on the Law of the Sea over which a state has special rights regarding the exploration and use of marine resources, including energy production from water and wind.
+
+Version 8
