@@ -1,13 +1,30 @@
 # installedSpatialData()
 #
-# Should invisibly return the full set of all installed data including 
-# simplified versions by default.  If verbose = TRUE (default), it can spit out 
-# a human readable, nicely formatted bunch of text using the descriptions in 
-# harmonizedDatasets.
+# This returns all of the .RData files in the Data dir and displays them like so.
+#
+# The following Spatial Datasets are installed:
+#   EEZCountries - country boundaries including Exclusive Economic Zones
+#   EPARegions - U.S. EPA region boundaries
+#   Foo -
+#   HIFLDFederalLands - U.S. Federal Lands
+#   MTBSBurnAreas - MTBS Burn Areas from 1984 - 2017
+#   NaturalEarthAdm1 - state/province/oblast level boundaries
+#   OSMTimezones - Open Street Map high resolution time zones
+#   TMWorldBorders - high resolution country level boundaries
+#   TMWorldBorders_01 -
+#   TMWorldBorders_05 -
+#   USCensusCounties - US county level boundaries
+#   USCensusStates - US state level boundaries
+#   USCensusUrbanAreas - U.S. Census Urban Areas
+#   USFSRangerDistricts - U.S. Forest Service Ranger districts
+#   WorldTimezones - high resolution timezones
+#
+# Datasets which lack a description are still shown.
+
+library(dplyr)
 
 # Taken from dataset documentation
-# TODO: Needs additional simplified versions added to the list
-harmonizedDatsets <- list(
+datsetInventory <- list(
   "SimpleCountries" = "country outlines",
   "SimpleCountriesEEZ" = "country outlines including Exclusive Economic Zones over water",
   "SimpleTimezones" = "timezones",
@@ -44,18 +61,14 @@ harmonizedDatsets <- list(
   "weatherZones" = "NWS public weather forecast zones",
   "WorldEEZ" = "World Exclusive Economic Zones Boundaries of countries")
 
-installed_datasets <- list.files(getSpatialDataDir()) %>% 
+installed_datasets <- list.files(getSpatialDataDir(), pattern = "*\\.[rR][dD]a?t?a") %>%
   stringr::str_extract(".*[^\\.RData]") %>%  # extract all characters up to ".RData"
-  stringr::str_replace("_0\\d$","") %>%      # remove _0# (could use this technique above)
-  sort() %>% 
+  #stringr::str_replace("_0\\d$","") %>%      # remove _0# (could use this technique above)
+  sort() %>%
   unique()
 
-# yields:
-# > installed_datasets
-# [1] "EEZCountries"        "EPARegions.rd"       "HIFLDFederalLands"   "MTBSBurnAre"        
-# [5] "NaturalEarthAdm1"    "OSMTimezones"        "TMWorldBorders"      "USCensusCounties"   
-# [9] "USCensusStates"      "USCensusUrbanAreas"  "USFSRangerDistricts" "WorldTimezones"    
+message("The following Spatial Datasets are installed:")
 
-# NOTE: This output is not quite right, as it doesn't strip the ".rd" on EPARegions and 
-# eliminates the _01..._05 versions, which contradicts the instructions for, 
-# "all installed data including simplified versions by default"
+for (dataset in installed_datasets) {
+  message(sprintf("  %s - %s", dataset, suppressWarnings(stringr::str_replace(datsetInventory[dataset], "NULL", ""))))
+}
