@@ -56,8 +56,12 @@ for (my_date in map_dates) {
 
 
 # ---- Load Census tracts geographic boundaries --------------------------------
-#setwd("local_roger/Bay_Area_Air_Kincade")
+setwd("local_roger/Bay_Area_Air_Kincade")
 load("ca_census_tracts.RData")
+
+# Dump all the fields we don't need
+ca_census_tracts@data <- subset(ca_census_tracts@data, 
+                                select = c("STATEFP", "COUNTYFP", "TRACTCE"))
 
 
 # ---- GIS Stuff ---------------------------------------------------------------
@@ -87,7 +91,7 @@ sf_air <- simpleClip(airSensorData, sf_region)
 # ---- Plot Air points using Jon's colors -------------------------------------#
 
 # Use a fun palette with 9 levels (10 breaks)
-PAL <- wes_palette("Zissou1", 9, type = "continuous")
+PAL <- wes_palette("Zissou1", 10, type = "continuous")
 BREAKS <- c(0, 5, 10, 15, 20, 25, 50, 100, 250, 2000)
 
 # Use the same intervals to generate a new vector colors
@@ -138,7 +142,7 @@ head(sf_air@data)
 #  to the census tract polygons.
 sf_air_data <- sf_air@data
 sf_air_data$pm25_1day <- as.double(sf_air_data$pm25_1day) # Fallout from clip
-dplyr::glimpse(sf_air_data) # TODO: How did date become a factor?
+sf_air_data$date <- as.character(sf_air_data$date)
 sf_tract_air_medians <- aggregate(.~TRACTCE+date, sf_air_data, mean)
 
 # That leaves us data that looks like this:
@@ -162,3 +166,49 @@ sf_tract_air_medians <- aggregate(.~TRACTCE+date, sf_air_data, mean)
 # 2168  010401 20191029      9.46
 
 # ---- Attach the daily pm25 medians to the census tracts ----------------------
+
+# This turns out to be amazingly easy using reshape and a left-join
+wide_pm25 <- reshape(sf_tract_air_medians, 
+                     direction = "wide", 
+                     idvar = "TRACTCE", 
+                     timevar = "date")
+
+sf_tract_data <- dplyr::left_join(sf_tracts@data, wide_pm25, by = "TRACTCE") 
+
+# Check that the TRACTCE counts match up
+length(sf_tracts@data$TRACTCE) == length(sf_tract_data$TRACTCE)
+
+# Replace the sf_tracts@data with the new one
+sf_tracts@data <- sf_tract_data
+
+# This gives us a SPDF with a dataframe that contains entries like this:
+sample <- subset(sf_tract_data, TRACTCE %in% c("010401", "332000"))
+# dplyr::glimpse(sample)                 
+# Observations: 2
+# Variables: 8
+# $ COUNTYFP           <chr> "013", "113"
+# $ TRACTCE            <chr> "332000", "010401"
+# $ pm25_1day.20191024 <dbl> NA, 3.73
+# $ pm25_1day.20191025 <dbl> NA, 4.71
+# $ pm25_1day.20191026 <dbl> NA, 7.04
+# $ pm25_1day.20191027 <dbl> NA, 6.5
+# $ pm25_1day.20191028 <dbl> NA, 4.11
+# $ pm25_1day.20191029 <dbl> NA, 9.46
+#
+# 2 census tracts, 1 with daily values, one without.
+
+# ---- Plot Using spplot -------------------------------------------------------
+land.layer <- list("sp.polygons", land, fill = "gray90", border = "transparent")
+
+spplot(sf_tracts,
+       zcol="pm25_1day.20191025", # column to use for gradient
+       sp.layout=land.layer,       # layout instructions for labels
+       col.regions = PAL,   # palette to use
+       cuts = 9,                  # number of numbers to put on legend
+       col = "gray90",            # border line color
+       main=list(label="Air Quality by Tract 2019-10-25",cex=2,font=1)  # Title
+)
+
+# This is not giving me the density that I got the other day when I worked with
+# a single day's data (20191029).  Need to investigate whether I'm losing data,
+# or what else is causing problem.
