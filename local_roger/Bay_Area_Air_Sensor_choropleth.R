@@ -44,7 +44,7 @@ for (my_date in map_dates) {
   air_data <- pas_load(my_date, timezone = "America/Los_Angeles") %>%
     pas_filter(DEVICE_LOCATIONTYPE == "outside") %>%
     pas_filter(stateCode == "CA") %>%
-    dplyr::select(ID, label, longitude, latitude, pm25_1day) %>%
+    dplyr::select(longitude, latitude, pm25_1day) %>%
     # NOTE:  summarizeByPolygon doesn't remove NA so we do it here
     dplyr::filter(!is.na(pm25_1day))
   air_data$date <- my_date # add a date column
@@ -60,7 +60,7 @@ for (my_date in map_dates) {
 load("ca_census_tracts.RData")
 
 
-# ---- Clip census tracts data to SF Region ------------------------------------
+# ---- GIS Stuff ---------------------------------------------------------------
 
 # Define our region or interest
 sf_region <- bbox <- as(raster::extent(-123.08, -121.65, 37.167, 38.7), 
@@ -74,12 +74,15 @@ proj4string(sf_region) <- proj
 sf_tracts <- simpleClip(ca_census_tracts, sf_region)
 
 # Dissolve tracts so we just have a landmass to plot points on
-land <- dissolve(sf_tracts, "STATEFP", border = "transparent")
+land <- dissolve(sf_tracts, "STATEFP")
 
 # Convert the Air data into a Spatial Data Frame
 airSensorData <- as.data.frame(airSensorData) # Will NOT convert as a tibble
 coordinates(airSensorData) <- ~longitude+latitude
 proj4string(airSensorData) <- proj
+
+# Clip the Air Data
+sf_air <- simpleClip(airSensorData, sf_region)
 
 # ---- Plot Air points using Jon's colors -------------------------------------#
 
@@ -88,7 +91,7 @@ PAL <- wes_palette("Zissou1", 9, type = "continuous")
 BREAKS <- c(0, 5, 10, 15, 20, 25, 50, 100, 250, 2000)
 
 # Use the same intervals to generate a new vector colors
-binCode <- .bincode(airSensorData$pm25_1day, BREAKS)
+binCode <- .bincode(sf_air$pm25_1day, BREAKS)
 cols_sensor <- PAL[binCode]
 
 # Plot land and sensor points
@@ -96,8 +99,8 @@ raster::plot(land, col = "gray90", border = "transparent")
 plot(sf_region, add = TRUE)
 
 points(
-  x = airSensorData$longitude,
-  y = airSensorData$latitude,
+  x = sf_air$longitude,
+  y = sf_air$latitude,
   pch = 16,
   cex = 0.5,
   col = cols_sensor
@@ -113,4 +116,49 @@ title("PurpleAir Sensors, Oct 24 - Oct 29")
 
 # ---- Aggregate Air data by census tracts -------------------------------------
 
+# Step 1. Create a census tract id vector for each air_point
+point_tract_codes <- sp::over(sf_air, sf_tracts[,"TRACTCE"])
+head(point_tract_codes)
 
+# Step 2. Attach the tract ids back to the air_points
+sf_air@data$TRACTCE <- point_tract_codes$TRACTCE
+head(sf_air@data)
+
+#   pm25_1day     date TRACTCE
+# 1      3.78 20191024  506702
+# 2      5.81 20191024  026100
+# 3      5.28 20191024  026100
+# 4     15.83 20191024  026100
+# 5      5.84 20191024  026100
+# 6      7.29 20191024  026100
+
+# Step 3. Aggregate air data by date and tract id and get the median of pm25.
+#  At this point, we don't care about the air point locations anymore, so we can
+#  just grab the @data.  We're going to use it to attach the air_median data 
+#  to the census tract polygons.
+sf_air_data <- sf_air@data
+sf_air_data$pm25_1day <- as.double(sf_air_data$pm25_1day) # Fallout from clip
+dplyr::glimpse(sf_air_data) # TODO: How did date become a factor?
+sf_tract_air_medians <- aggregate(.~TRACTCE+date, sf_air_data, mean)
+
+# That leaves us data that looks like this:
+# head(sf_tract_air_medians)
+#   TRACTCE     date    pm25_1day
+# 1  010401 20191024      3.73
+# 2  010500 20191024      6.27
+# 3  010510 20191024      2.46
+# 4  010512 20191024      2.56
+# 5  010600 20191024      7.39
+# 6  010602 20191024      3.23
+
+# Looking at one Census tract, we can see the daily medians for the week
+# > subset(sf_tract_air_medians, TRACTCE == '010401')
+#      TRACTCE     date    pm25_1day
+# 1     010401 20191024      3.73
+# 440   010401 20191025      4.71
+# 886   010401 20191026      7.04
+# 1336  010401 20191027      6.50
+# 1786  010401 20191028      4.11
+# 2168  010401 20191029      9.46
+
+# ---- Attach the daily pm25 medians to the census tracts ----------------------
