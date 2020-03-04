@@ -1,5 +1,4 @@
-# 6 days of Purple Air Sensor data in the BayArea - 10/24/2019 - 10/29/2019
-
+# Simple clipping function that matches ESRI clip function
 simpleClip <- function(
   # Returns the intersection of spdf_1 and spdf 2
   # but only returns attributes for spdf_1
@@ -23,6 +22,8 @@ library(tibble)
 
 setArchiveBaseUrl("http://smoke.mazamascience.com/data/PurpleAir")
 
+# 6 days of Purple Air Sensor data in the BayArea - 10/24/2019 - 10/29/2019
+
 map_dates <- c("20191024", 
                "20191025", 
                "20191026", 
@@ -40,6 +41,7 @@ airSensorData <- tibble::tibble(
   date = character()
 )
 
+# Fetch the data for each day
 for (my_date in map_dates) {
   air_data <- pas_load(my_date, timezone = "America/Los_Angeles") %>%
     pas_filter(DEVICE_LOCATIONTYPE == "outside") %>%
@@ -48,15 +50,13 @@ for (my_date in map_dates) {
     # NOTE:  summarizeByPolygon doesn't remove NA so we do it here
     dplyr::filter(!is.na(pm25_1day))
   air_data$date <- my_date # add a date column
-  head(air_data)
-  
-  # Combine the day's data into the larger container
+  # Add/bind the day's data into the larger container
   airSensorData <- rbind(airSensorData, air_data)
 }
 
 
 # ---- Load Census tracts geographic boundaries --------------------------------
-setwd("local_roger/Bay_Area_Air_Kincade")
+#setwd("./local_roger/Bay_Area_Air_Kincade")
 load("ca_census_tracts.RData")
 
 # Dump all the fields we don't need
@@ -88,36 +88,6 @@ proj4string(airSensorData) <- proj
 # Clip the Air Data
 sf_air <- simpleClip(airSensorData, sf_region)
 
-# ---- Plot Air points using Jon's colors -------------------------------------#
-
-# Use a fun palette with 9 levels (10 breaks)
-PAL <- wes_palette("Zissou1", 10, type = "continuous")
-BREAKS <- c(0, 5, 10, 15, 20, 25, 50, 100, 250, 2000)
-
-# Use the same intervals to generate a new vector colors
-binCode <- .bincode(sf_air$pm25_1day, BREAKS)
-cols_sensor <- PAL[binCode]
-
-# Plot land and sensor points
-raster::plot(land, col = "gray90", border = "transparent")
-plot(sf_region, add = TRUE)
-
-points(
-  x = sf_air$longitude,
-  y = sf_air$latitude,
-  pch = 16,
-  cex = 0.5,
-  col = cols_sensor
-)
-
-legend(
-  "topright", 
-  legend = paste0(round(BREAKS[1:9])," - ", round(BREAKS[2:10])), 
-  fill = PAL
-)
-
-title("PurpleAir Sensors, Oct 24 - Oct 29")
-
 # ---- Aggregate Air data by census tracts -------------------------------------
 
 # Step 1. Create a census tract id vector for each air_point
@@ -143,7 +113,7 @@ head(sf_air@data)
 sf_air_data <- sf_air@data
 sf_air_data$pm25_1day <- as.double(sf_air_data$pm25_1day) # Fallout from clip
 sf_air_data$date <- as.character(sf_air_data$date)
-sf_tract_air_medians <- aggregate(.~TRACTCE+date, sf_air_data, mean)
+sf_tract_air_medians <- aggregate(.~TRACTCE+date, sf_air_data, median)
 
 # That leaves us data that looks like this:
 # head(sf_tract_air_medians)
@@ -181,34 +151,60 @@ length(sf_tracts@data$TRACTCE) == length(sf_tract_data$TRACTCE)
 # Replace the sf_tracts@data with the new one
 sf_tracts@data <- sf_tract_data
 
-# This gives us a SPDF with a dataframe that contains entries like this:
-sample <- subset(sf_tract_data, TRACTCE %in% c("010401", "332000"))
-# dplyr::glimpse(sample)                 
-# Observations: 2
-# Variables: 8
-# $ COUNTYFP           <chr> "013", "113"
-# $ TRACTCE            <chr> "332000", "010401"
-# $ pm25_1day.20191024 <dbl> NA, 3.73
-# $ pm25_1day.20191025 <dbl> NA, 4.71
-# $ pm25_1day.20191026 <dbl> NA, 7.04
-# $ pm25_1day.20191027 <dbl> NA, 6.5
-# $ pm25_1day.20191028 <dbl> NA, 4.11
-# $ pm25_1day.20191029 <dbl> NA, 9.46
-#
-# 2 census tracts, 1 with daily values, one without.
 
 # ---- Plot Using spplot -------------------------------------------------------
-land.layer <- list("sp.polygons", land, fill = "gray90", border = "transparent")
+#land.layer <- list("sp.polygons", land, fill = "gray90", border = "transparent")
 
-spplot(sf_tracts,
-       zcol="pm25_1day.20191025", # column to use for gradient
-       sp.layout=land.layer,       # layout instructions for labels
-       col.regions = PAL,   # palette to use
-       cuts = 9,                  # number of numbers to put on legend
-       col = "gray90",            # border line color
-       main=list(label="Air Quality by Tract 2019-10-25",cex=2,font=1)  # Title
-)
+# spplot(sf_tracts,
+#        zcol="pm25_1day.20191029", # column to use for gradient
+#        sp.layout=land.layer,       # layout instructions for labels
+#        col.regions = PAL,   # palette to use
+#        cuts = 9,                  # number of numbers to put on legend
+#        col = "gray90",            # border line color
+#        main=list(label="Air Quality by Tract 2019-10-25",cex=2,font=1)  # Title
+# )
 
 # This is not giving me the density that I got the other day when I worked with
 # a single day's data (20191029).  Need to investigate whether I'm losing data,
 # or what else is causing problem.
+
+# ---- Plot using original method and calculating new breaks -------------------
+
+PAL <- wes_palette("Zissou1", 9, type = "continuous")
+BREAKS <- c(0, 5, 10, 15, 20, 25, 50, 100, 250, 2000)
+
+# Use the same intervals to generate a new vector colors
+binCode <- .bincode(sf_tracts$pm25_1day.20191029, BREAKS)
+cols_tract <- PAL[binCode]
+cols_tract[is.na(cols_tract)] <- "#CCCCCC"
+
+# Create some color vectors for a few days
+oct24_bins <- .bincode(sf_tracts$pm25_1day.20191024, BREAKS)
+oct24_colors <- PAL[oct24_bins]
+oct24_colors[is.na(oct24_colors)] <- "#CCCCCC"
+
+oct26_bins <- .bincode(sf_tracts$pm25_1day.20191026, BREAKS)
+oct26_colors <- PAL[oct26_bins]
+oct26_colors[is.na(oct26_colors)] <- "#CCCCCC"
+
+oct29_bins <- .bincode(sf_tracts$pm25_1day.20191029, BREAKS)
+oct29_colors <- PAL[oct29_bins]
+oct29_colors[is.na(oct29_colors)] <- "#CCCCCC"
+
+# Set 3 columns to plot side-by-side
+par(mfrow=c(1,3))
+
+# Map 1
+plot(sf_tracts, col = oct24_colors, border = "transparent", lwd = 0.5)
+plot(sf_region, add = TRUE, lwd = 1.5)
+title("Oct 24, 2019")
+
+# Map 2
+plot(sf_tracts, col = oct26_colors, border = "transparent", lwd = 0.5)
+plot(sf_region, add = TRUE, lwd = 1.5)
+title("Oct 26, 2019")
+
+# Map 3
+plot(sf_tracts, col = oct29_colors, border = "transparent", lwd = 0.5)
+plot(sf_region, add = TRUE, lwd = 1.5)
+title("Oct 29, 2019")
