@@ -96,7 +96,8 @@ timezones.
 
 ### Core Datasets
 
-Additional datasets are available at http://mazamascience.com/RData/Spatial/
+Additional datasets are available at 
+http://data.mazamascience.com/MazamaSpatialUtils/Spatial/
 and can be loaded with the following commands:
 
 ```
@@ -134,7 +135,8 @@ polygons retain only 5% of the vertices of the original .
 ### Additional Datasets
 
 Mazama Science regularly generates new datasets that adhere to package standards.
-These can be download manually from http://mazamascience.com/RData/Spatial/. As
+These can be download manually from 
+http://data.mazamascience.com/MazamaSpatialUtils/Spatial/. As
 of Jan 10, 2019, the full list of available datasets includes:
 
 ```
