@@ -1,4 +1,8 @@
-# MazamaSpatialUtils 0.6.5
+# MazamaSpatialUtils 0.6.7
+
+* 
+
+# MazamaSpatialUtils 0.6.6
 
 * `loadSpatialData()` now recognizes both `.RData` and `.rda` files.
 * Improved documentation

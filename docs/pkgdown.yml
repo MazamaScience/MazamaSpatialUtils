@@ -4,4 +4,5 @@ pkgdown_sha: ~
 articles:
   MazamaSpatialUtils: MazamaSpatialUtils.html
   ebolamap: articles/ebolamap.html
+  available-data: available-data.html
 
