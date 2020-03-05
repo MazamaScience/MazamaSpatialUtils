@@ -9,7 +9,7 @@ dissolve(SPDF, field = NULL, sum_fields = NULL, copy_fields = NULL, ...)
 \arguments{
 \item{SPDF}{object of class SpatialPolygonsDataFrame}
 
-\item{field}{proportion of points to retain (0-1; default 0.05)}
+\item{field}{the field to dissolve on}
 
 \item{sum_fields}{fields to sum}
 
