@@ -149,8 +149,8 @@ Generally speaking, there are 5 operations commonly performed while doing spatia
 (Taken from [5 common ArcToolbox Tools](https://www.lib.umd.edu/binaries/content/assets/public/gov-info-gis/research-and-instruction/spatial-analysis-workbook.pdf) section of online paper by Univ. or Maryland.)
 
 1. Buffer
-2. Clip
-3. Intersect
+2. Intersect
+3. Clip
 4. Dissolve
 5. Spatial Join
 
@@ -159,7 +159,7 @@ The _raster_ package provides the functionality to do all of these operations.
 ## Buffer
 
 The `buffer()` function uses the units of the map projection as the units by which to 
-buffer objects.  Often a buffer is used to define a zone around a specific point.  Here, we will create a 100,000 buffer around Point 2.
+buffer objects.  Often a buffer is used to define a zone around a specific point.  Here, we will create a 250,000 meter buffer around Point 2.
 
 ```
 # Subset a single point out of set
@@ -200,5 +200,14 @@ plot(buffer_zone, add = TRUE)
 plot(bbox, add=TRUE)
 ```
 
+## Intersection
 
+One problem, or perhaps "side-effect" of creating buffers is that the resulting feature will lack any sort of attribute information.  This can be rectified by using the _intersection()_ function.
+
+```{r}
+summary(buffer_zone)
+
+point_2_zone <- raster::intersect(point_2, buffer_zone)
+summary(point_2_zone)
+```
 
