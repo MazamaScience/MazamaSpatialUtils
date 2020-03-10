@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<meta name="author" content="Roger Andre, Mazama Science" />
+
+<meta name="date" content="2020-03-09" />
+
+<title>Basic GIS Operations in R</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+
+
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Basic GIS Operations in R</h1>
+<h4 class="author">Roger Andre, Mazama Science</h4>
+<h4 class="date">March 9, 2020</h4>
+
+
+
+<div id="objective" class="section level2">
+<h2>Objective</h2>
+<p>The goal of this document is to show how basic spatial operations common to Geographic Information Systems (GIS) can be done in R using S4 objects and the <em>sp</em> and <em>raster</em> packages. I have chosen to focus on vector data, specifically point and polygon sets, as those are the ones most commonly encountered when using the MazamaSpatialUtils.</p>
+</div>
+<div id="creating-spatial-polygon-data-frames" class="section level2">
+<h2>Creating Spatial Polygon Data Frames</h2>
+<p>An easy way to create a rectangular Spatial Polygon Data Frame is to use the Bounding Box, or extent, of another spatial feature to define the geometry of the feature you want to create. A separate data frame with feature attributes can then be attached to this geometry to form a SpatialPolygonsDataFrame.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(raster)</a>
+<a class="sourceLine" id="cb1-2" title="2"></a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="co"># polygon A</span></a>
+<a class="sourceLine" id="cb1-4" title="4">poly_a &lt;-<span class="st"> </span><span class="kw">as</span>(raster<span class="op">::</span><span class="kw">extent</span>(<span class="fl">2.0</span>, <span class="fl">11.0</span>, <span class="fl">9.0</span>, <span class="fl">15.0</span>), <span class="st">&quot;SpatialPolygons&quot;</span>)</a>
+<a class="sourceLine" id="cb1-5" title="5">df_a &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">name=</span><span class="st">&quot;A&quot;</span>, <span class="dt">id=</span><span class="dv">1</span>, <span class="dt">county=</span><span class="dv">1</span>, <span class="dt">type=</span><span class="st">&quot;tract&quot;</span>, <span class="dt">zone=</span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb1-6" title="6"></a>
+<a class="sourceLine" id="cb1-7" title="7">spdf_a &lt;-<span class="st"> </span><span class="kw">SpatialPolygonsDataFrame</span>(poly_a,df_a)</a></code></pre></div>
+<p>If multiple features are present, it’s possible to bind them all into a single multiploygon feature. Here 4 separate polygons; <em>“spdf_a”, “spdf_b”, “spdf_c”</em> and <em>“spdf_d”</em> are combined into a single new feature named <em>“spdf_abcd”</em>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="co"># Define a coordinate reference system to use on all features</span></a>
+<a class="sourceLine" id="cb2-2" title="2">grs80 &lt;-<span class="st"> </span><span class="kw">CRS</span>(<span class="st">&quot;+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs +towgs84=0,0,0 +units=m&quot;</span>)</a>
+<a class="sourceLine" id="cb2-3" title="3"></a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="co"># &quot;Bind&quot; Polys A,B,C &amp; D into one multipolygon SPDF</span></a>
+<a class="sourceLine" id="cb2-5" title="5">spdf_abcd &lt;-<span class="st"> </span>raster<span class="op">::</span><span class="kw">bind</span>(spdf_a, spdf_b, spdf_c, spdf_d, <span class="dt">keepnames=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb2-6" title="6"><span class="kw">proj4string</span>(spdf_abcd) &lt;-<span class="st"> </span>grs80</a>
+<a class="sourceLine" id="cb2-7" title="7"></a>
+<a class="sourceLine" id="cb2-8" title="8"><span class="kw">summary</span>(spdf_abcd)</a></code></pre></div>
+<pre><code>## Object of class SpatialPolygonsDataFrame
+## Coordinates:
+##   min max
+## x   2  20
+## y   2  15
+## Is projected: FALSE 
+## proj4string :
+## [+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs +towgs84=0,0,0
+## +units=m]
+## Data attributes:
+##  name        id           county     type        zone    
+##  A:1   Min.   :1.00   Min.   :1   tract:4   Min.   :1.0  
+##  B:1   1st Qu.:1.75   1st Qu.:1             1st Qu.:1.0  
+##  C:1   Median :2.50   Median :1             Median :1.5  
+##  D:1   Mean   :2.50   Mean   :1             Mean   :1.5  
+##        3rd Qu.:3.25   3rd Qu.:1             3rd Qu.:2.0  
+##        Max.   :4.00   Max.   :1             Max.   :2.0</code></pre>
+<p>Note that a CRS has been assigned to the new feature. This is needed in order to do spatial comparisons bewteen this feature and others later on.</p>
+</div>
+<div id="creating-spatial-points-data-frames" class="section level2">
+<h2>Creating Spatial Points Data Frames</h2>
+<p>There are multiple ways in which points can be converted into Spatial Point Data Frames.<br />
+They share the same basic idea though - take a regular data frame which contains X and Y values that define point coordinates and then convert it into a <code>SpatialPointsDataFrame</code> function. Two ways are shown below. In both cases, a data frame is used to define the point locations and attributes of the data.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="co"># Create a data frame with coordinates and some data, temperature readings, perhaps...</span></a>
+<a class="sourceLine" id="cb4-2" title="2">temp_df &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">text=</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="st">id  x  y  temp</span></a>
+<a class="sourceLine" id="cb4-4" title="4"><span class="st"> 1  5  21 50</span></a>
+<a class="sourceLine" id="cb4-5" title="5"><span class="st"> 2  18 20 49.5</span></a>
+<a class="sourceLine" id="cb4-6" title="6"><span class="st"> 3  9  13 52</span></a>
+<a class="sourceLine" id="cb4-7" title="7"><span class="st"> 4  17 13 51</span></a>
+<a class="sourceLine" id="cb4-8" title="8"><span class="st"> 5  7  12  53</span></a>
+<a class="sourceLine" id="cb4-9" title="9"><span class="st"> 6  23 12 50</span></a>
+<a class="sourceLine" id="cb4-10" title="10"><span class="st"> 7  12 11 52</span></a>
+<a class="sourceLine" id="cb4-11" title="11"><span class="st"> 8  6  7  57</span></a>
+<a class="sourceLine" id="cb4-12" title="12"><span class="st"> 9  10 7  57</span></a>
+<a class="sourceLine" id="cb4-13" title="13"><span class="st"> 10 15 7  55</span></a>
+<a class="sourceLine" id="cb4-14" title="14"><span class="st"> 11 16 3  54</span></a>
+<a class="sourceLine" id="cb4-15" title="15"><span class="st"> 12 22 3  54&quot;</span>)</a></code></pre></div>
+<div id="method-1" class="section level4">
+<h4>Method 1</h4>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="co"># Extract the x and y coordinates as a separate vector</span></a>
+<a class="sourceLine" id="cb5-2" title="2">xy &lt;-<span class="st"> </span>temp_df[<span class="kw">c</span>(<span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>)]</a>
+<a class="sourceLine" id="cb5-3" title="3"></a>
+<a class="sourceLine" id="cb5-4" title="4"><span class="co"># Convert the point df into a SpatialPointsDataFrame</span></a>
+<a class="sourceLine" id="cb5-5" title="5">temp_spdf &lt;-<span class="st"> </span><span class="kw">SpatialPointsDataFrame</span>(<span class="dt">coords =</span> xy, </a>
+<a class="sourceLine" id="cb5-6" title="6">                                    <span class="dt">data =</span> temp_df,</a>
+<a class="sourceLine" id="cb5-7" title="7">                                    <span class="dt">proj4string =</span> grs80)</a>
+<a class="sourceLine" id="cb5-8" title="8"></a>
+<a class="sourceLine" id="cb5-9" title="9"><span class="kw">summary</span>(temp_spdf)</a></code></pre></div>
+<pre><code>## Object of class SpatialPointsDataFrame
+## Coordinates:
+##   min max
+## x   5  23
+## y   3  21
+## Is projected: FALSE 
+## proj4string :
+## [+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs +towgs84=0,0,0
+## +units=m]
+## Number of points: 12
+## Data attributes:
+##        id              x               y              temp      
+##  Min.   : 1.00   Min.   : 5.00   Min.   : 3.00   Min.   :49.50  
+##  1st Qu.: 3.75   1st Qu.: 8.50   1st Qu.: 7.00   1st Qu.:50.75  
+##  Median : 6.50   Median :13.50   Median :11.50   Median :52.50  
+##  Mean   : 6.50   Mean   :13.33   Mean   :10.75   Mean   :52.88  
+##  3rd Qu.: 9.25   3rd Qu.:17.25   3rd Qu.:13.00   3rd Qu.:54.25  
+##  Max.   :12.00   Max.   :23.00   Max.   :21.00   Max.   :57.00</code></pre>
+</div>
+<div id="method-2" class="section level4">
+<h4>Method 2</h4>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="co"># Use the coordinates() function to define the coordinate fields</span></a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="kw">coordinates</span>(temp_df) &lt;-<span class="st"> </span><span class="er">~</span>x<span class="op">+</span>y</a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="kw">proj4string</span>(temp_df) &lt;-<span class="st"> </span>grs80</a>
+<a class="sourceLine" id="cb7-4" title="4"></a>
+<a class="sourceLine" id="cb7-5" title="5"><span class="kw">summary</span>(temp_df)</a></code></pre></div>
+<pre><code>## Object of class SpatialPointsDataFrame
+## Coordinates:
+##   min max
+## x   5  23
+## y   3  21
+## Is projected: FALSE 
+## proj4string :
+## [+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs +towgs84=0,0,0
+## +units=m]
+## Number of points: 12
+## Data attributes:
+##        id             temp      
+##  Min.   : 1.00   Min.   :49.50  
+##  1st Qu.: 3.75   1st Qu.:50.75  
+##  Median : 6.50   Median :52.50  
+##  Mean   : 6.50   Mean   :52.88  
+##  3rd Qu.: 9.25   3rd Qu.:54.25  
+##  Max.   :12.00   Max.   :57.00</code></pre>
+<p>Method 2 converts the data frame in place and in doing so, the columns with the coordinate values are moved out of the <code>@data</code> slot. This can be advantageous if you don’t need the coordinates for anything more than to define the point geometry.</p>
+</div>
+</div>
+<div id="basic-plotting" class="section level2">
+<h2>Basic Plotting</h2>
+<p>Now that we have some features created, what do they look like? The basic <code>plot()</code> function works extremely well with S4 Spatial objects. One thing to keep in mind, though, is that the first feature plotted defines the plot extents. One way to take advantage of this is to create a “map area” feature which can be used to both center subsequent plots and also to define a neatline for the map.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="co"># bbox (just needed to be able to plot 2 objects that don&#39;t share the same bbox)</span></a>
+<a class="sourceLine" id="cb9-2" title="2">bbox &lt;-<span class="st"> </span><span class="kw">as</span>(raster<span class="op">::</span><span class="kw">extent</span>(<span class="dv">0</span>, <span class="fl">27.0</span>, <span class="dv">0</span>, <span class="fl">27.0</span>), <span class="st">&quot;SpatialPolygons&quot;</span>)</a>
+<a class="sourceLine" id="cb9-3" title="3"></a>
+<a class="sourceLine" id="cb9-4" title="4"><span class="co"># Invisible bbox to set the plot extent</span></a>
+<a class="sourceLine" id="cb9-5" title="5"><span class="kw">plot</span>(bbox, <span class="dt">col =</span> <span class="st">&quot;transparent&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;transparent&quot;</span>)</a>
+<a class="sourceLine" id="cb9-6" title="6"></a>
+<a class="sourceLine" id="cb9-7" title="7"><span class="co"># Plot polygon features</span></a>
+<a class="sourceLine" id="cb9-8" title="8"><span class="kw">plot</span>(spdf_e, <span class="dt">col =</span> <span class="st">&quot;lightgreen&quot;</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb9-9" title="9"><span class="kw">plot</span>(spdf_abcd, <span class="dt">col =</span> <span class="st">&quot;pink&quot;</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb9-10" title="10"></a>
+<a class="sourceLine" id="cb9-11" title="11"><span class="co"># Plot the points and label them</span></a>
+<a class="sourceLine" id="cb9-12" title="12"><span class="kw">plot</span>(temp_spdf, <span class="dt">add =</span> <span class="ot">TRUE</span>, <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">pch =</span> <span class="dv">16</span>)</a>
+<a class="sourceLine" id="cb9-13" title="13"><span class="co"># Label the points</span></a>
+<a class="sourceLine" id="cb9-14" title="14"><span class="kw">text</span>(temp_spdf, <span class="dt">labels =</span> temp_spdf<span class="op">$</span>id, <span class="dt">pos =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb9-15" title="15"></a>
+<a class="sourceLine" id="cb9-16" title="16"><span class="co"># Overplot the bbox as a neatline</span></a>
+<a class="sourceLine" id="cb9-17" title="17"><span class="kw">plot</span>(bbox, <span class="dt">add =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p><img src="data:image/png;base64,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" style="display: block; margin: auto;" /></p>
+</div>
+<div id="basic-spatial-analysis-operations" class="section level2">
+<h2>Basic Spatial Analysis Operations</h2>
+<p>Generally speaking, there are 5 operations commonly performed while doing spatial analysis. (Taken from <a href="https://www.lib.umd.edu/binaries/content/assets/public/gov-info-gis/research-and-instruction/spatial-analysis-workbook.pdf">5 common ArcToolbox Tools</a> section of online paper by Univ. or Maryland.)</p>
+<ol style="list-style-type: decimal">
+<li>Buffer</li>
+<li>Intersect</li>
+<li>Clip</li>
+<li>Dissolve</li>
+<li>Spatial Join</li>
+</ol>
+<p>The <em>raster</em> package provides the functionality to do all of these operations.</p>
+</div>
+<div id="buffer" class="section level2">
+<h2>Buffer</h2>
+<p>The <code>buffer()</code> function uses the units of the map projection as the units by which to buffer objects. Often a buffer is used to define a zone around a specific point. Here, we will create a 250,000 meter buffer around Point 2.</p>
+<pre><code># Subset a single point out of set
+point_2 &lt;- subset(temp_spdf, id == 2)
+
+# Buffer around the point
+buffer_zone &lt;- buffer(point_2, width=500000)
+
+# plot the point
+plot(point_2, add = TRUE, col = &quot;black&quot;, pch = 16)
+text(point_2, labels = point_2$id, pos = 3)
+
+# plot the buffer
+plot(buffer_zone, add = TRUE)</code></pre>
+<p><img src="data:image/png;base64,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" style="display: block; margin: auto;" /></p>
+</div>
+<div id="intersection" class="section level2">
+<h2>Intersection</h2>
+<p>One problem, or perhaps “side-effect” of creating buffers is that the resulting feature will lack any sort of attribute information. This can be rectified by using the <em>intersection()</em> function.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="kw">summary</span>(buffer_zone)</a></code></pre></div>
+<pre><code>## Object of class SpatialPolygons
+## Coordinates:
+##         min      max
+## x 12.390806 21.60919
+## y  8.479751 17.51868
+## Is projected: FALSE 
+## proj4string :
+## [+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs +towgs84=0,0,0
+## +units=m]</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1">point_<span class="dv">2</span>_zone &lt;-<span class="st"> </span>raster<span class="op">::</span><span class="kw">intersect</span>(point_<span class="dv">2</span>, buffer_zone)</a>
+<a class="sourceLine" id="cb13-2" title="2"><span class="kw">summary</span>(point_<span class="dv">2</span>_zone)</a></code></pre></div>
+<pre><code>## Object of class SpatialPointsDataFrame
+## Coordinates:
+##   min max
+## x  17  17
+## y  13  13
+## Is projected: FALSE 
+## proj4string :
+## [+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs +towgs84=0,0,0
+## +units=m]
+## Number of points: 1
+## Data attributes:
+##        id          x            y           temp   
+##  Min.   :4   Min.   :17   Min.   :13   Min.   :51  
+##  1st Qu.:4   1st Qu.:17   1st Qu.:13   1st Qu.:51  
+##  Median :4   Median :17   Median :13   Median :51  
+##  Mean   :4   Mean   :17   Mean   :13   Mean   :51  
+##  3rd Qu.:4   3rd Qu.:17   3rd Qu.:13   3rd Qu.:51  
+##  Max.   :4   Max.   :17   Max.   :13   Max.   :51</code></pre>
+</div>
+
+
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
