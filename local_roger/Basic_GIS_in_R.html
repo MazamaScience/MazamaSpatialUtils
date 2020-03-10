@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<meta name="author" content="Roger Andre, Mazama Science" />
+
+<meta name="date" content="2020-03-09" />
+
+<title>Basic GIS Operations in R</title>
+
+
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css" data-origin="pandoc">
+a.sourceLine { display: inline-block; line-height: 1.25; }
+a.sourceLine { pointer-events: none; color: inherit; text-decoration: inherit; }
+a.sourceLine:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+code.sourceCode { white-space: pre-wrap; }
+a.sourceLine { text-indent: -1em; padding-left: 1em; }
+}
+pre.numberSource a.sourceLine
+  { position: relative; left: -4em; }
+pre.numberSource a.sourceLine::before
+  { content: attr(title);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; pointer-events: all; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {  }
+@media screen {
+a.sourceLine::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' || rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#header {
+text-align: center;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; }  code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
+
+</head>
+
+<body>
+
+
+
+
+<h1 class="title toc-ignore">Basic GIS Operations in R</h1>
+<h4 class="author"><em>Roger Andre, Mazama Science</em></h4>
+<h4 class="date"><em>March 9, 2020</em></h4>
+
+
+
+<div id="objective" class="section level2">
+<h2>Objective</h2>
+<p>The goal of this document is to show how basic spatial operations common to Geographic Information Systems (GIS) can be done in R using S4 objects and the <em>sp</em> and <em>raster</em> packages. I have chosen to focus on vector data, specifically point and polygon sets, as those are the ones most commonly encountered when using the MazamaSpatialUtils.</p>
+</div>
+<div id="creating-spatial-polygon-data-frames" class="section level2">
+<h2>Creating Spatial Polygon Data Frames</h2>
+<p>An easy way to create a rectangular Spatial Polygon Data Frame is to use the Bounding Box, or extent, of another spatial feature to define the geometry of the feature you want to create. A separate data frame with feature attributes can then be attached to this geometry to form a SpatialPolygonsDataFrame.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb1-1" title="1"><span class="kw">library</span>(raster)</a>
+<a class="sourceLine" id="cb1-2" title="2"></a>
+<a class="sourceLine" id="cb1-3" title="3"><span class="co"># polygon A</span></a>
+<a class="sourceLine" id="cb1-4" title="4">poly_a &lt;-<span class="st"> </span><span class="kw">as</span>(raster<span class="op">::</span><span class="kw">extent</span>(<span class="fl">2.0</span>, <span class="fl">11.0</span>, <span class="fl">9.0</span>, <span class="fl">15.0</span>), <span class="st">&quot;SpatialPolygons&quot;</span>)</a>
+<a class="sourceLine" id="cb1-5" title="5">df_a &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">name=</span><span class="st">&quot;A&quot;</span>, <span class="dt">id=</span><span class="dv">1</span>, <span class="dt">county=</span><span class="dv">1</span>, <span class="dt">type=</span><span class="st">&quot;tract&quot;</span>, <span class="dt">zone=</span><span class="dv">1</span>)</a>
+<a class="sourceLine" id="cb1-6" title="6"></a>
+<a class="sourceLine" id="cb1-7" title="7">spdf_a &lt;-<span class="st"> </span><span class="kw">SpatialPolygonsDataFrame</span>(poly_a,df_a)</a></code></pre></div>
+<p>If multiple features are present, it’s possible to bind them all into a single multiploygon feature. Here 4 separate polygons; <em>“spdf_a”, “spdf_b”, “spdf_c”</em> and <em>“spdf_d”</em> are combined into a single new feature named <em>“spdf_abcd”</em>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb2-1" title="1"><span class="co"># Define a coordinate reference system to use on all features</span></a>
+<a class="sourceLine" id="cb2-2" title="2">grs80 &lt;-<span class="st"> </span><span class="kw">CRS</span>(<span class="st">&quot;+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs +towgs84=0,0,0 +units=m&quot;</span>)</a>
+<a class="sourceLine" id="cb2-3" title="3"></a>
+<a class="sourceLine" id="cb2-4" title="4"><span class="co"># &quot;Bind&quot; Polys A,B,C &amp; D into one multipolygon SPDF</span></a>
+<a class="sourceLine" id="cb2-5" title="5">spdf_abcd &lt;-<span class="st"> </span>raster<span class="op">::</span><span class="kw">bind</span>(spdf_a, spdf_b, spdf_c, spdf_d, <span class="dt">keepnames=</span><span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb2-6" title="6"><span class="kw">proj4string</span>(spdf_abcd) &lt;-<span class="st"> </span>grs80</a>
+<a class="sourceLine" id="cb2-7" title="7"></a>
+<a class="sourceLine" id="cb2-8" title="8"><span class="kw">summary</span>(spdf_abcd)</a></code></pre></div>
+<pre><code>## Object of class SpatialPolygonsDataFrame
+## Coordinates:
+##   min max
+## x   2  20
+## y   2  15
+## Is projected: FALSE 
+## proj4string :
+## [+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs +towgs84=0,0,0
+## +units=m]
+## Data attributes:
+##  name        id           county     type        zone    
+##  A:1   Min.   :1.00   Min.   :1   tract:4   Min.   :1.0  
+##  B:1   1st Qu.:1.75   1st Qu.:1             1st Qu.:1.0  
+##  C:1   Median :2.50   Median :1             Median :1.5  
+##  D:1   Mean   :2.50   Mean   :1             Mean   :1.5  
+##        3rd Qu.:3.25   3rd Qu.:1             3rd Qu.:2.0  
+##        Max.   :4.00   Max.   :1             Max.   :2.0</code></pre>
+<p>Note that a CRS has been assigned to the new feature. This is needed in order to do spatial comparisons bewteen this feature and others later on.</p>
+</div>
+<div id="creating-spatial-points-data-frames" class="section level2">
+<h2>Creating Spatial Points Data Frames</h2>
+<p>There are multiple ways in which points can be converted into Spatial Point Data Frames.<br />
+They share the same basic idea though - take a regular data frame which contains X and Y values that define point coordinates and then convert it into a <code>SpatialPointsDataFrame</code> function. Two ways are shown below. In both cases, a data frame is used to define the point locations and attributes of the data.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb4-1" title="1"><span class="co"># Create a data frame with coordinates and some data, temperature readings, perhaps...</span></a>
+<a class="sourceLine" id="cb4-2" title="2">temp_df &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="dt">header =</span> <span class="ot">TRUE</span>, <span class="dt">text=</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb4-3" title="3"><span class="st">id  x  y  temp</span></a>
+<a class="sourceLine" id="cb4-4" title="4"><span class="st"> 1  5  21 50</span></a>
+<a class="sourceLine" id="cb4-5" title="5"><span class="st"> 2  18 20 49.5</span></a>
+<a class="sourceLine" id="cb4-6" title="6"><span class="st"> 3  9  13 52</span></a>
+<a class="sourceLine" id="cb4-7" title="7"><span class="st"> 4  17 13 51</span></a>
+<a class="sourceLine" id="cb4-8" title="8"><span class="st"> 5  7  12  53</span></a>
+<a class="sourceLine" id="cb4-9" title="9"><span class="st"> 6  23 12 50</span></a>
+<a class="sourceLine" id="cb4-10" title="10"><span class="st"> 7  12 11 52</span></a>
+<a class="sourceLine" id="cb4-11" title="11"><span class="st"> 8  6  7  57</span></a>
+<a class="sourceLine" id="cb4-12" title="12"><span class="st"> 9  10 7  57</span></a>
+<a class="sourceLine" id="cb4-13" title="13"><span class="st"> 10 15 7  55</span></a>
+<a class="sourceLine" id="cb4-14" title="14"><span class="st"> 11 16 3  54</span></a>
+<a class="sourceLine" id="cb4-15" title="15"><span class="st"> 12 22 3  54&quot;</span>)</a></code></pre></div>
+<div id="method-1" class="section level4">
+<h4>Method 1</h4>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" title="1"><span class="co"># Extract the x and y coordinates as a separate vector</span></a>
+<a class="sourceLine" id="cb5-2" title="2">xy &lt;-<span class="st"> </span>temp_df[<span class="kw">c</span>(<span class="st">&quot;x&quot;</span>, <span class="st">&quot;y&quot;</span>)]</a>
+<a class="sourceLine" id="cb5-3" title="3"></a>
+<a class="sourceLine" id="cb5-4" title="4"><span class="co"># Convert the point df into a SpatialPointsDataFrame</span></a>
+<a class="sourceLine" id="cb5-5" title="5">temp_spdf &lt;-<span class="st"> </span><span class="kw">SpatialPointsDataFrame</span>(<span class="dt">coords =</span> xy, </a>
+<a class="sourceLine" id="cb5-6" title="6">                                    <span class="dt">data =</span> temp_df,</a>
+<a class="sourceLine" id="cb5-7" title="7">                                    <span class="dt">proj4string =</span> grs80)</a>
+<a class="sourceLine" id="cb5-8" title="8"></a>
+<a class="sourceLine" id="cb5-9" title="9"><span class="kw">summary</span>(temp_spdf)</a></code></pre></div>
+<pre><code>## Object of class SpatialPointsDataFrame
+## Coordinates:
+##   min max
+## x   5  23
+## y   3  21
+## Is projected: FALSE 
+## proj4string :
+## [+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs +towgs84=0,0,0
+## +units=m]
+## Number of points: 12
+## Data attributes:
+##        id              x               y              temp      
+##  Min.   : 1.00   Min.   : 5.00   Min.   : 3.00   Min.   :49.50  
+##  1st Qu.: 3.75   1st Qu.: 8.50   1st Qu.: 7.00   1st Qu.:50.75  
+##  Median : 6.50   Median :13.50   Median :11.50   Median :52.50  
+##  Mean   : 6.50   Mean   :13.33   Mean   :10.75   Mean   :52.88  
+##  3rd Qu.: 9.25   3rd Qu.:17.25   3rd Qu.:13.00   3rd Qu.:54.25  
+##  Max.   :12.00   Max.   :23.00   Max.   :21.00   Max.   :57.00</code></pre>
+</div>
+<div id="method-2" class="section level4">
+<h4>Method 2</h4>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" title="1"><span class="co"># Use the coordinates() function to define the coordinate fields</span></a>
+<a class="sourceLine" id="cb7-2" title="2"><span class="kw">coordinates</span>(temp_df) &lt;-<span class="st"> </span><span class="er">~</span>x<span class="op">+</span>y</a>
+<a class="sourceLine" id="cb7-3" title="3"><span class="kw">proj4string</span>(temp_df) &lt;-<span class="st"> </span>grs80</a>
+<a class="sourceLine" id="cb7-4" title="4"></a>
+<a class="sourceLine" id="cb7-5" title="5"><span class="kw">summary</span>(temp_df)</a></code></pre></div>
+<pre><code>## Object of class SpatialPointsDataFrame
+## Coordinates:
+##   min max
+## x   5  23
+## y   3  21
+## Is projected: FALSE 
+## proj4string :
+## [+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs +towgs84=0,0,0
+## +units=m]
+## Number of points: 12
+## Data attributes:
+##        id             temp      
+##  Min.   : 1.00   Min.   :49.50  
+##  1st Qu.: 3.75   1st Qu.:50.75  
+##  Median : 6.50   Median :52.50  
+##  Mean   : 6.50   Mean   :52.88  
+##  3rd Qu.: 9.25   3rd Qu.:54.25  
+##  Max.   :12.00   Max.   :57.00</code></pre>
+<p>Method 2 converts the data frame in place and in doing so, the columns with the coordinate values are moved out of the <code>@data</code> slot. This can be advantageous if you don’t need the coordinates for anything more than to define the point geometry.</p>
+</div>
+</div>
+<div id="basic-plotting" class="section level2">
+<h2>Basic Plotting</h2>
+<p>Now that we have some features created, what do they look like? The basic <code>plot()</code> function works extremely well with S4 Spatial objects. One thing to keep in mind, though, is that the first feature plotted defines the plot extents. One way to take advantage of this is to create a “map area” feature which can be used to both center subsequent plots and also to define a neatline for the map.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb9-1" title="1"><span class="co"># bbox (just needed to be able to plot 2 objects that don&#39;t share the same bbox)</span></a>
+<a class="sourceLine" id="cb9-2" title="2">bbox &lt;-<span class="st"> </span><span class="kw">as</span>(raster<span class="op">::</span><span class="kw">extent</span>(<span class="dv">0</span>, <span class="fl">27.0</span>, <span class="dv">0</span>, <span class="fl">27.0</span>), <span class="st">&quot;SpatialPolygons&quot;</span>)</a>
+<a class="sourceLine" id="cb9-3" title="3"></a>
+<a class="sourceLine" id="cb9-4" title="4"><span class="co"># Invisible bbox to set the plot extent</span></a>
+<a class="sourceLine" id="cb9-5" title="5"><span class="kw">plot</span>(bbox, <span class="dt">col =</span> <span class="st">&quot;transparent&quot;</span>, <span class="dt">border =</span> <span class="st">&quot;transparent&quot;</span>)</a>
+<a class="sourceLine" id="cb9-6" title="6"></a>
+<a class="sourceLine" id="cb9-7" title="7"><span class="co"># Plot polygon features</span></a>
+<a class="sourceLine" id="cb9-8" title="8"><span class="kw">plot</span>(spdf_e, <span class="dt">col =</span> <span class="st">&quot;lightgreen&quot;</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb9-9" title="9"><span class="kw">plot</span>(spdf_abcd, <span class="dt">col =</span> <span class="st">&quot;pink&quot;</span>, <span class="dt">add =</span> <span class="ot">TRUE</span>)</a>
+<a class="sourceLine" id="cb9-10" title="10"></a>
+<a class="sourceLine" id="cb9-11" title="11"><span class="co"># Plot the points and label them</span></a>
+<a class="sourceLine" id="cb9-12" title="12"><span class="kw">plot</span>(temp_spdf, <span class="dt">add =</span> <span class="ot">TRUE</span>, <span class="dt">col =</span> <span class="st">&quot;black&quot;</span>, <span class="dt">pch =</span> <span class="dv">16</span>)</a>
+<a class="sourceLine" id="cb9-13" title="13"><span class="co"># Label the points</span></a>
+<a class="sourceLine" id="cb9-14" title="14"><span class="kw">text</span>(temp_spdf, <span class="dt">labels =</span> temp_spdf<span class="op">$</span>id, <span class="dt">pos =</span> <span class="dv">3</span>)</a>
+<a class="sourceLine" id="cb9-15" title="15"></a>
+<a class="sourceLine" id="cb9-16" title="16"><span class="co"># Overplot the bbox as a neatline</span></a>
+<a class="sourceLine" id="cb9-17" title="17"><span class="kw">plot</span>(bbox, <span class="dt">add =</span> <span class="ot">TRUE</span>)</a></code></pre></div>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAqAAAAKgCAYAAABEPM/FAAAEGWlDQ1BrQ0dDb2xvclNwYWNlR2VuZXJpY1JHQgAAOI2NVV1oHFUUPrtzZyMkzlNsNIV0qD8NJQ2TVjShtLp/3d02bpZJNtoi6GT27s6Yyc44M7v9oU9FUHwx6psUxL+3gCAo9Q/bPrQvlQol2tQgKD60+INQ6Ium65k7M5lpurHeZe58853vnnvuuWfvBei5qliWkRQBFpquLRcy4nOHj4g9K5CEh6AXBqFXUR0rXalMAjZPC3e1W99Dwntf2dXd/p+tt0YdFSBxH2Kz5qgLiI8B8KdVy3YBevqRHz/qWh72Yui3MUDEL3q44WPXw3M+fo1pZuQs4tOIBVVTaoiXEI/MxfhGDPsxsNZfoE1q66ro5aJim3XdoLFw72H+n23BaIXzbcOnz5mfPoTvYVz7KzUl5+FRxEuqkp9G/Ajia219thzg25abkRE/BpDc3pqvphHvRFys2weqvp+krbWKIX7nhDbzLOItiM8358pTwdirqpPFnMF2xLc1WvLyOwTAibpbmvHHcvttU57y5+XqNZrLe3lE/Pq8eUj2fXKfOe3pfOjzhJYtB/yll5SDFcSDiH+hRkH25+L+sdxKEAMZahrlSX8ukqMOWy/jXW2m6M9LDBc31B9LFuv6gVKg/0Szi3KAr1kGq1GMjU/aLbnq6/lRxc4XfJ98hTargX++DbMJBSiYMIe9Ck1YAxFkKEAG3xbYaKmDDgYyFK0UGYpfoWYXG+fAPPI6tJnNwb7ClP7IyF+D+bjOtCpkhz6CFrIa/I6sFtNl8auFXGMTP34sNwI/JhkgEtmDz14ySfaRcTIBInmKPE32kxyyE2Tv+thKbEVePDfW/byMM1Kmm0XdObS7oGD/MypMXFPXrCwOtoYjyyn7BV29/MZfsVzpLDdRtuIZnbpXzvlf+ev8MvYr/Gqk4H/kV/G3csdazLuyTMPsbFhzd1UabQbjFvDRmcWJxR3zcfHkVw9GfpbJmeev9F08WW8uDkaslwX6avlWGU6NRKz0g/SHtCy9J30o/ca9zX3Kfc19zn3BXQKRO8ud477hLnAfc1/G9mrzGlrfexZ5GLdn6ZZrrEohI2wVHhZywjbhUWEy8icMCGNCUdiBlq3r+xafL549HQ5jH+an+1y+LlYBifuxAvRN/lVVVOlwlCkdVm9NOL5BE4wkQ2SMlDZU97hX86EilU/lUmkQUztTE6mx1EEPh7OmdqBtAvv8HdWpbrJS6tJj3n0CWdM6busNzRV3S9KTYhqvNiqWmuroiKgYhshMjmhTh9ptWhsF7970j/SbMrsPE1suR5z7DMC+P/Hs+y7ijrQAlhyAgccjbhjPygfeBTjzhNqy28EdkUh8C+DU9+z2v/oyeH791OncxHOs5y2AtTc7nb/f73TWPkD/qwBnjX8BoJ98VQNcC+8AAAA4ZVhJZk1NACoAAAAIAAGHaQAEAAAAAQAAABoAAAAAAAKgAgAEAAAAAQAAAqCgAwAEAAAAAQAAAqAAAAAAzDjxOwAAQABJREFUeAHt3QecXHX1N+CTZFNJhxRCIARQelGKEKT30JsgahQQRRBEiqCCFBsoWJAiRUAQwQIIIkgV6SihdxAU6UUgQEL6O7O8mz9LdrOzszN353fvMx/zye6t5zzngl+m3Okxt/QIDwIECBAgQIAAAQIZCfTM6DxOQ4AAAQIECBAgQKBZQAB1IRAgQIAAAQIECGQqIIBmyu1kBAgQIECAAAECAqhrgAABAgQIECBAIFMBATRTbicjQIAAAQIECBAQQF0DBAgQIECAAAECmQoIoJlyOxkBAgQIECBAgIAA6hogQIAAAQIECBDIVEAAzZTbyQgQIECAAAECBARQ1wABAgQIECBAgECmAgJoptxORoAAAQIECBAgIIC6BggQIECAAAECBDIVEEAz5XYyAgQIECBAgAABAdQ1QIAAAQIECBAgkKmAAJopt5MRIECAAAECBAgIoK4BAgQIECBAgACBTAUE0Ey5nYwAAQIECBAgQEAAdQ0QIECAAAECBAhkKiCAZsrtZAQIECBAgAABAgKoa4AAAQIECBAgQCBTAQE0U24nI0CAAAECBAgQEEBdAwQIECBAgAABApkKCKCZcjsZAQIECBAgQICAAOoaIECAAAECBAgQyFRAAM2U28kIECBAgAABAgQEUNcAAQIECBAgQIBApgICaKbcTkaAAAECBAgQICCAugYIECBAgAABAgQyFRBAM+V2MgIECBAgQIAAAQHUNUCAAAECBAgQIJCpgACaKbeTESBAgAABAgQICKCuAQIECBAgQIAAgUwFBNBMuZ2MAAECBAgQIEBAAHUNECBAgAABAgQIZCoggGbK7WQECBAgQIAAAQICqGuAAAECBAgQIEAgUwEBNFNuJyNAgAABAgQIEBBAXQMECBAgQIAAAQKZCgigmXI7GQECBAgQIECAgADqGiBAgAABAgQIEMhUQADNlNvJCBAgQIAAAQIEBFDXAAECBAgQIECAQKYCAmim3E5GgAABAgQIECAggLoGCBAgQIAAAQIEMhUQQDPldjICBAgQIECAAAEB1DVAgAABAgQIECCQqYAAmim3kxEgQIAAAQIECAigrgECBAgQIECAAIFMBQTQTLmdjAABAgQIECBAQAB1DRAgQIAAAQIECGQqIIBmyu1kBAgQIECAAAECAqhrgAABAgQIECBAIFMBATRTbicjQIAAAQIECBAQQF0DBAgQIECAAAECmQoIoJlyOxkBAgQIECBAgIAA6hogQIAAAQIECBDIVEAAzZTbyQgQIECAAAECBARQ1wABAgQIECBAgECmAgJoptxORoAAAQIECBAgIIC6BggQIECAAAECBDIVEEAz5XYyAgQIECBAgAABAdQ1QIAAAQIECBAgkKmAAJopt5MRIECAAAECBAgIoK4BAgQIECBAgACBTAUE0Ey5nYwAAQIECBAgQEAAdQ0QIECAAAECBAhkKiCAZsrtZAQIECBAgAABAgKoa4AAAQIECBAgQCBTAQE0U24nI0CAAAECBAgQEEBdAwQIECBAgAABApkKCKCZcjsZAQIECBAgQICAAOoaIECAAAECBAgQyFRAAM2U28kIECBAgAABAgQEUNcAAQIECBAgQIBApgICaKbcTkaAAAECBAgQICCAugYIECBAgAABAgQyFRBAM+V2MgIECBAgQIAAAQHUNUCAAAECBAgQIJCpgACaKbeTESBAgAABAgQICKCuAQIECBAgQIAAgUwFBNBMuZ2MAAECBAgQIEBAAHUNECBAgAABAgQIZCoggGbK7WQECBAgQIAAAQICqGuAAAECBAgQIEAgUwEBNFNuJyNAgAABAgQIEBBAXQMECBAgQIAAAQKZCgigmXI7GQECBAgQIECAgADqGiBAgAABAgQIEMhUQADNlNvJCBAgQIAAAQIEBFDXAAECBAgQIECAQKYCAmim3E5GgAABAgQIECAggLoGCBAgQIAAAQIEMhUQQDPldjICBAgQIECAAAEB1DVAgAABAgQIECCQqYAAmim3kxEgQIAAAQIECDQhKJ7AlClT4txzzy1e4zomQIAAAQIVCqy55poxYcKECre2WWcFeswtPTq7k+3TFthtt92iZ8+eMXLkyLQbUT0BAgQIEKiTwMknnxzTpk2Lfv361ekMxT6sZ0ALOP++ffvGpptuGpMmTSpg91omQIAAAQIdC5x55pnhObqOnardwntAq5WzHwECBAgQIECAQFUCAmhVbHYiQIAAAQIECBCoVkAArVbOfgQIECBAgAABAlUJCKBVsdmJAAECBAgQIECgWgEBtFo5+xEgQIAAAQIECFQlIIBWxWYnAgQIECBAgACBagUE0Grl7EeAAAECBAgQIFCVgABaFZudCBAgQIAAAQIEqhUQQKuVsx8BAgQIECBAgEBVAgJoVWx2IkCAAAECBAgQqFZAAK1Wzn4ECBAgQIAAAQJVCQigVbHZiQABAgQIECBAoFoBAbRaOfsRIECAAAECBAhUJSCAVsVmJwIECBAgQIAAgWoFBNBq5exHgAABAgQIECBQlYAAWhWbnQgQIECAAAECBKoVEECrlbMfAQIECBAgQIBAVQICaFVsdiJAgAABAgQIEKhWQACtVs5+BAgQIECAAAECVQkIoFWx2YkAAQIECBAgQKBaAQG0Wjn7ESBAgAABAgQIVCUggFbFZicCBAgQIECAAIFqBQTQauXsR4AAAQIECBAgUJWAAFoVm50IECBAgAABAgSqFRBAq5WzHwECBAgQIECAQFUCAmhVbHYiQIAAAQIECBCoVkAArVbOfgQIECBAgAABAlUJCKBVsdmJAAECBAgQIECgWgEBtFo5+xEgQIAAAQIECFQlIIBWxWYnAgQIECBAgACBagUE0Grl7EeAAAECBAgQIFCVQFNVe9mJAIHcCjz//PNx4YUX5rY/jREg0NgCa665Zmy00UaNXaTquiwggHaZ0AEI5Etg0602jYGrLRT9h/bPV2O6IUAgCYHDDz883nrrrRg8eHAS9SqyOgEBtDo3exHIrcAiIxaJpXYYF0tvtHRue9QYAQKNKzD5vHti7ty5jVugymoi4D2gNWF0EAIECBAgQIAAgUoFBNBKpWxHgAABAgQIECBQEwEBtCaMDkKAAAECBAgQIFCpgABaqZTtCBAgQIAAAQIEaiIggNaE0UEIECBAgAABAgQqFRBAK5WyHQECBAgQIECAQE0EBNCaMDoIAQIECBAgQIBApQICaKVStiNAgAABAgQIEKiJgABaE0YHIUCAAAECBAgQqFRAAK1UynYECBAgQIAAAQI1ERBAa8LoIAQIECBAgAABApUKCKCVStmOAAECBAgQIECgJgICaE0YHYQAAQIECBAgQKBSAQG0UinbESBAgAABAgQI1ERAAK0Jo4MQIECAAAECBAhUKiCAViplOwIECBAgQIAAgZoICKA1YXQQAgQIECBAgACBSgUE0EqlbEeAAAECBAgQIFATAQG0JowOQoAAAQIECBAgUKmAAFqplO0IECBAgAABAgRqIiCA1oTRQQgQIECAAAECBCoVEEArlbIdAQIECBAgQIBATQQE0JowOggBAgQIECBAgEClAgJopVK2I0CAAAECBAgQqImAAFoTRgchQIAAAQIECBCoVEAArVTKdgQIECBAgAABAjUREEBrwuggBAgQIECAAAEClQoIoJVK2Y4AAQIECBAgQKAmAgJoTRgdhAABAgQIECBAoFIBAbRSKdsRIECAAAECBAjUREAArQmjgxAgQIAAAQIECFQqIIBWKmU7AgQIECBAgACBmggIoDVhdBACBAgQIECAAIFKBQTQSqVsR4AAAQIECBAgUBMBAbQmjA5CgAABAgQIECBQqYAAWqmU7QgQIECAAAECBGoiIIDWhNFBCBAgQIAAAQIEKhUQQCuVsh0BAgQIECBAgEBNBATQmjA6CAECBAgQIECAQKUCAmilUrYjQIAAAQIECBCoiYAAWhNGByFAgAABAgQIEKhUQACtVMp2BAgQIECAAAECNREQQGvC6CAECBAgQIAAAQKVCgiglUrZjgABAgQIECBAoCYCAmhNGB2EQMSMGTNi9uzZKAgQIECAAIEOBATQDoCsJlCJwDPPPBNjxoyJv/71r5VsbhsCBAgQIFBoAQG00OPXfC0EyuFzu+22i9dff70Wh3MMAgQIECCQewEBNPcj1mA9BU4//fRYeeWVY+bMmfU8jWMTIECAAIFcCQiguRqnZrIW+P73vx8HHHBAXHXVVVmf2vkIECBAgECyAk3JVq5wAg0gcO+998aIESPiueeea4BqlECAAAECBNIQ8AxoGnNSZYMKlMOnBwECBAgQINA5AQG0c162JkCAAAECBAgQ6KKAANpFQLsTIECAAAECBAh0TkAA7ZyXrQkQIECAAAECBLooIIB2EdDuBAgQIECAAAECnRMQQDvnZWsCBAgQIECAAIEuCgigXQS0OwECBAgQ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BAok4LvgCzRsrRIomsDcOXOL1rJ+MxaYNX12XH3gNdGnf5+Mz5zf0019e2r06tUrvw3qrFlAAHUhECCQW4EePXrktjeNNYZAn6becchnD42RI0c2RkE5qGLpE5eOgQMH5qATLSxIQABdkI51BAgkLSCAJj2+JIrv1dQUm222WYwbNy6JehVJoFEEvAe0USahDgIECBAgQIBAQQQE0IIMWpsECBAgQIAAgUYREEAbZRLqIECAAAECBAgUREAALcigtUmAAAECBAgQaBQBAbRRJqEOAgQIECBAgEBBBATQggxamwQIECBAgACBRhEQQBtlEuogQIAAAQIECBREQAAtyKC1SYAAAQIECBBoFAEBtFEmoQ4CBAgQIECAQEEEBNCCDFqbBAgQIECAAIFGERBAG2US6iBAgAABAgQIFERAAC3IoLVJgAABAgQIEGgUAQG0USahDgIECBAgQIBAQQQE0IIMWpsECBAgQIAAgUYREEAbZRLqIECAAAECBAgUREAALcigtUmAAAECBAgQaBQBAbRRJqEOAgQIECBAgEBBBATQggxamwQIECBAgACBRhEQQBtlEuogQIAAAQIECBREQAAtyKC1SYAAAQIECBBoFAEBtFEmoQ4CBAgQIECAQEEEBNCCDFqbBAgQIECAAIFGERBAG2US6iBAgAABAgQIFERAAC3IoLVJgAABAgQIEGgUAQG0USahDgIECBAgQIBAQQQE0IIMWpsECBAgQIAAgUYREEAbZRLqIECAAAECBAgUREAALcigtUmAAIFqBGbPnh0zZs5c4K6VbLPAA1jZaYFm8xkz2t1vzpw57a6zgkAjCAigjTAFNRAgQKABBcohZvsffCu+fNqJ7VZXyTbt7mxFVQJl8+222y6+9KUvzbf/RRddFCuttFL07ds3hg8fHrvttls899xz821nAYHuFhBAu3sCzk+AAIEGFJg+c0Z89YyfxdWT72q3ukq2aXdnK6oSmD59euy///5x1VVXzbf/lVdeGXvssUesscYacf3118cJJ5wQd999d0ycODFmLODZ0vkOZAGBDASaMjiHUxAgQIBAQgKTn3o8Pv+zH8QLb7weI4YMbbPySrZpc0cLqxaYPHlyTJo0KV544YUYOXLkfMc59dRTY8kll4xzzz03evToERtssEEMHjw4dt9997jzzjtj/fXXn28fCwh0l4BnQLtL3nkJECDQoAK/uu4vsdjCi8Q9Pzkrlho1ps0qK9mmzR0trFrg7LPPjsUWWyzuvffeWGqppeY7zj777BNnnHFGc/hsWTl+/PjmH996662WRf4m0BACngFtiDEoggABAo0jcOwee7X7zGdLlZVs07Ktv2sjcNxxx8WIESPaPdhOO+0037oLL7wwmpqaml+Wn2+lBQS6UcAzoN2I79QECBBoRIH2Xnb/YK2VbPPB7f3cdYEFhc+2jn7bbbc1PyN68MEHx6KLLtrWJpYR6DYBAbTb6J2YAAECBAjUR6D8ns9tt9021l577Tj22GPrcxJHJdAFAQG0C3h2JUCAAAECjSZw4403xqabbhqrrbZalD8Z369fv0YrUT0EQgB1ERAgQIAAgZwI/O1vf4ttttmmOYCWb9U0cODAnHSmjbwJCKB5m6h+CBAgQKCQAg8//HBz+Nxhhx3ikksu8cxnIa+CdJr2Kfh0ZqVSAgQIECDQrsBBBx0Uc+fOjXXWWSfOOeecVtuV7wG67LLLtlrmFwLdKSCAdqe+cxMgQIAAgRoIvPjii83fflQ+1IEHHjjfEcv3EBVA52OxoBsFBNBuxHdqAgQINLrA7T86rcMSK9mmw4PYoFMCd9xxR6vty7dZKj/76UEgFQHvAU1lUuokQIAAAQIECOREQADNySC1QYAAAQIECBBIRUAATWVS6iRAgAABAgQI5ERAAM3JILVBgAABAgQIEEhFQABNZVLqJECAQDcKPP3SC7HPKT+KNQ7eJ7b57uFx5T9v78ZqnLpF4JFHHolJkybF6quvHuX7f5a/BcmDQAoCPgWfwpTUSIAAgW4UePz5Z2PCN/aLN999Z14VV0++K36+z4Hx1a13mrfMD9kKTJ48OTbYYIN49913m098zz33xBVXXBEXXHBBfOYzn8m2GGcj0EkBz4B2EszmBAgQKJrAkb85u1X4bOn/iF+fEW9Pm9ryq78zFjj00EPnhc+WU5dvxVS+If2sWbNaFvmbQEMKCKANORZFESBAoHEE7njs4TaLmTZjetz/zFNtrrOw/gIfvhdoyxlfe+21ePLJJ1t+9TeBhhQQQBtyLIoiQIBA4wgMGzio3WIWtK7dnayoicCwYcPaPc6C1rW7kxUEMhQQQDPEdioCBAikKDBp4y3aLHv1pZeNFZcY3+Y6C+sv8PnPf77Nk2y++eYxevToNtdZSKBRBATQRpmEOggQINCgAodsv1vsvdnWraorB8/ff+OYVsv8kq3AcccdF5/61KdanXSttdaK888/v9UyvxBoRAGfgm/EqaiJAAECDSTQs2fPOHP/w+KQHXaL+55+KkYPGx6fXH7l6NWrVwNVWbxS+vTpE7/73e/iyCOPjIcffjgWX3zxmDBhQvTo0aN4GDpOTkAATW5kCiZAgED3CCy72BJR/uPRWAIrr7xylP94EEhJwEvwKU1LrQQIECBAgACBHAgIoDkYohYIECBAgAABAikJCKApTUutBAgQIECAAIEcCAigORiiFggQIECAAAECKQkIoClNS60ECBAgQIAAgRwICKA5GKIWCBAgQIAAAQIpCQigKU1LrQQIECBAgACBHAgIoDkYohYIECBAgAABAikJCKApTUutBAgQIECAAIEcCAigORiiFggQIECAAAECKQkIoClNS60ECBAgQIAAgRwI+C74HAwx1RYGDhoYP7r8d3HWjVen2oK6G1xgyrvvxsHnnR6DFlqowStVXqoC/33pxejXr1+q5aubQLcJCKDdRu/EvzjttLjzzjtBEKibQFNTU8yaNatux3dgAqePGROjRo0CQYBAJwUE0E6C2bx2AgMGDIiNN964dgd0JAIECBAgQCAJAe8BTWJMiiRAgAABAgQI5EdAAM3PLHVCgAABAgQIEEhCQABNYkyKJECAAAECBAjkR0AAzc8sdUKAAAECBAgQSEJAAE1iTIokQIAAAQIECORHQADNzyx1QoAAAQIECBBIQkAATWJMiiRAgAABAgQI5EdAAM3PLHVCgAABAgQIEEhCQABNYkyKJECAAAECBAjkR0AAzc8sdUKAAAECBAgQSEJAAE1iTIokQIAAAQIECORHQADNzyx1QoAAAQIECBBIQkAATWJMiiRAgAABAgQI5EdAAM3PLHVCgAABAgQIEEhCQABNYkyKJECAAAECBAjkR0AAzc8sdUKAAAECBAgQSEJAAE1iTIokQIAAAQIECORHQADNzyx1QoAAAQIECBBIQkAATWJMiiRAgAABAgQI5EdAAM3PLHVCgAABAgQIEEhCQABNYkyKJECAAAECBAjkR0AAzc8sdUKAAAECBAgQSEJAAE1iTIokQIAAAQIECORHQADNzyx1QoAAAQIECBBIQkAATWJMiiRAgAABAgQI5EdAAM3PLHVCgAABAgQIEEhC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" style="display: block; margin: auto;" /></p>
+</div>
+<div id="basic-spatial-analysis-operations" class="section level2">
+<h2>Basic Spatial Analysis Operations</h2>
+<p>Generally speaking, there are 5 operations commonly performed while doing spatial analysis. (Taken from <a href="https://www.lib.umd.edu/binaries/content/assets/public/gov-info-gis/research-and-instruction/spatial-analysis-workbook.pdf">5 common ArcToolbox Tools</a> section of online paper by Univ. or Maryland.)</p>
+<ol style="list-style-type: decimal">
+<li>Buffer</li>
+<li>Intersect</li>
+<li>Clip</li>
+<li>Dissolve</li>
+<li>Spatial Join</li>
+</ol>
+<p>The <em>raster</em> package provides the functionality to do all of these operations.</p>
+</div>
+<div id="buffer" class="section level2">
+<h2>Buffer</h2>
+<p>The <code>buffer()</code> function uses the units of the map projection as the units by which to buffer objects. Often a buffer is used to define a zone around a specific point. Here, we will create a 250,000 meter buffer around the <em>temp_df</em> point feature with “id = 2”.</p>
+<pre><code># Subset a single point out of set
+point_2 &lt;- subset(temp_df, id == 2)
+
+# Buffer around the point
+buffer_zone &lt;- buffer(point_2, width=250000)
+
+# plot the buffer
+plot(buffer_zone, col = &quot;gray&quot;, add = TRUE)
+
+# plot the point
+plot(point_2, add = TRUE, col = &quot;black&quot;, pch = 16)
+text(point_2, labels = point_2$id, pos = 3)
+
+</code></pre>
+<p><img src="data:image/png;base64,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gBbKbTECBAgQIECAAAEB1B0gQIAAAQIECBAoVEAALZTbYgQIECBAgAABAgKoO0CAAAECBAgQIFCogABaKLfFCBAgQIAAAQIEBFB3gAABAgQIECBAoFABAbRQbosRIECAAAECBAgIoO4AAQIECBAgQIBAoQICaKHcFiNAgAABAgQIEBBA3QECBAgQIECAAIFCBQTQQrktRoAAAQIECBAgIIC6AwQIECBAgAABAoUKCKCFcluMAAECBAgQIEBAAHUHCBAgQIAAAQIEChUQQAvlthgBAgQIECBAgIAA6g4QIECAAAECBAgUKiCAFsptMQIECBAgQIAAAQHUHSBAgAABAgQIEChUQAAtlNtiBAgQIECAAAECAqg7QIAAAQIECBAgUKiAAFoot8UIECBAgAABAgQEUHeAAAECBAgQIECgUAEBtFBuixEgQIAAAQIECAig7gABAgQIECBAgEChAgJoodwWI0CAAAECBAgQEEDdAQIECBAgQIAAgUIFBNBCuS1GgAABAgQIECAggLoDBAgQIECAAAEChQoIoIVyW4wAAQIECBAgQEAAdQcIECBAgAABAgQKFRBAC+W2GAECBAgQIECAgADqDhAgQIAAAQIECBQqIIAWym0xAgQIECBAgAABAdQdIECAAAECBAgQKFRAAC2U22IECBAgQIAAAQICqDtAgAABAgQIECBQqIAAWii3xQgQIECAAAECBARQd4AAAQIECBAgQKBQAQG0UG6LESBAgAABAgQICKDuAAECBAgQIECAQKECAmih3BYjQIAAAQIECBAQQN0BAgQIECBAgACBQgUE0EK5LUaAAAECBAgQICCAugMECBAgQIAAAQKFCgighXJbjAABAgQIECBAQAB1BwgQIECAAAECBAoVEEAL5bYYAQIECBAgQICAAOoOECBAgAABAgQIFCoggBbKbTECBAgQIECAAAEB1B0gQIAAAQIECBAoVEAALZTbYgQIECBAgAABAgKoO0CAAAECBAgQIFCogABaKLfFCBAgQIAAAQIEBFB3gAABAgQIECBAoFABAbRQbosRIECAAAECBAgIoO4AAQIECBAgQIBAoQICaKHcFiNAgAABAgQIEBBA3QECBAgQIECAAIFCBQTQQrktRoAAAQIECBAgIIC6AwQIECBAgAABAoUKCKCFcluMAAECBAgQIECgHUHrCSxZsiQuvPDC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hfctiKceWBRz5z4U9zxydyy9bWmseG5lrFq+MjrXdEbbui/Zt/dtj35b9o1+W3XElqMHxuD9BsduO0yMQ3adGoNHDUppRQ0BAgUICKAFIFuCAAECBBoT6BjcL8b9/bj1fxqrNJoAgTIIbN5XfJdBQI8ECBAgQIAAAQKFCgighXJbjAABAgQIECBAQAB1BwgQIECAAAECBAoVEEAL5bYYAQIECBAgQICAAOoOECBAgAABAgQIFCoggBbKbTECBAgQIECAAAEB1B0gQIAAAQIECBAoVEAALZTbYgQIECBAgAABAgKoO0CAAAECBAgQIFCogABaKLfFCBAgQIAAAQIEBFB3gAABAgQIECBAoFABAbRQbosRIECAAAECBAgIoO4AAQIECBAgQIBAoQICaKHcFiNAgAABAgQIEBBA3QECBAgQIECAAIFCBQTQQrktRoAAAQIECBAgIIC6AwQIECBAgAABAoUKCKCFcluMAAECBAgQIEBAAHUHCBAgQIAAAQIEChUQQAvlthgBAgQIECBAgIAA6g4QIECAAAECBAgUKiCAFsptMQIECBAgQIAAAQHUHSBAgAABAgQIEChUQAAtlNtiBAgQIECAAAECAqg7QIAAAQIECBAgUKiAAFoot8UIECBAgAABAgQEUHeAAAECBAgQIECgUAEBtFBuixEgQIAAAQIECAig7gABAgQIECBAgEChAgJoodwWI0CAAAECBAgQEEDdAQIECBAgQIAAgUIFBNBCuS1GgAABAgQIECAggLoDBAgQIECAAAEChQoIoIVyW4wAAQIECBAgQEAAdQcIECBAgAABAgQKFRBAC+W2GAECBAgQIECAgADqDhAgQIAAAQIECBQqIIAWym0xAgQIECBAgAABAdQdIECAAAECBAgQKFRAAC2U22IECBAgQIAAAQICqDtAgAABAgQIECBQqIAAWii3xQgQIECAAAECBARQd4AAAQIECBAgQKBQAQG0UG6LESBAgAABAgQItCMg0FMCs2fPjq9/9avRq5f/H9RTZ9DVuvMffCSe+faimH317K6eLtdjayM6OzujV293rFwHV55uh+00LPb+wD7r/nesrTxN65RAEwgIoE1wCK3awkdO/nDst/XI2GbIVq1K0JT73uXwY5qyr5SmvnrFjDjs1fvGHuMnpJSrIVBX4DNfPD92OGKHGDJmSN2xBhAg8KKAAPqihfcKFhgyeHDsPGZcHLf/IQWvbLlWEbjgV1fHnuvC54ePOLpVtmyfBQuceeUlBa9oOQLVEPB1qWqco10QIECAAAECBEojIICW5qg0SoAAAQIECBCohoAAWo1ztAsCBAgQIECAQGkEBNDSHJVGCRAgQIAAAQLVEBBAq3GOdkGAAAECBAgQKI2AAFqao9IoAQIECBAgQKAaAgJoNc7RLggQIECAAAECpREQQEtzVBolQIAAAQIECFRDQACtxjnaBQECBAgQIECgNAICaGmOSqMECBAgQIAAgWoICKDVOEe7IECAAAECBAiURkAALc1RaZQAAQIECBAgUA0BAbQa52gXBAgQIECAAIHSCAigpTkqjRIgQIAAAQIEqiEggFbjHO2CAAECBAgQIFAaAQG0NEelUQIECBAgQIBANQQE0Gqco10QIECAAAECBEojIICW5qg0SoAAAQIECBCohoAAWo1ztAsCBAgQIECAQGkEBNDSHJVGCRAgQIAAAQLVEBBAq3GOdkGAAAECBAgQKI2AAFqao9IoAQIECBAgQKAaAgJoNc7RLggQIECAAAECpREQQEtzVBolQIAAAQIECFRDQACtxjnaBQECBAgQIECgNAICaGmOSqMECBAgQIAAgWoICKDVOEe7IECAAAECBAiURkAALc1RaZQAAQIECBAgUA0BAbQa52gXBAgQIECAAIHSCAigpTkqjRIgQIAAAQIEqiEggFbjHO2CAAECBAgQIFAaAQG0NEelUQIECBAgQIBANQQE0Gqco10QIECAAAECBEojIICW5qg0SoAAAQIECBCohoAAWo1ztAsCBAgQIECAQGkEBNDSHJVGCRAgQIAAAQLVEBBAq3GOdkGAAAECBAgQKI2AAFqao9IoAQIECBAgQKAaAgJoNc7RLggQIECAAAECpREQQEtzVBolQIAAAQIECFRDQACtxjnaBQECBAgQIECgNAICaGmOSqMECBAgQIAAgWoICKDVOEe7IECAAAECBAiURkAALc1RaZQAAQIECBAgUA0BAbQa52gXBAgQIECAAIHSCAigpTkqjRIgQIAAAQIEqiEggFbjHO2CAAECBAgQIFAaAQG0NEelUQIECBAgQIBANQQE0Gqco10QIECAAAECBEojIICW5qg0SoAAAQIECBCohoAAWo1ztAsCBAgQIECAQGkEBNDSHJVGCRAgQIAAAQLVEBBAq3GOdkGAAAECBAgQKI2AAFqao9IoAQIECBAgQKAaAgJoNc7RLggQIECAAAECpREQQEtzVBolQIAAAQIECFRDQACtxjnaBQECBAgQIECgNAICaGmOSqMECBAgQIAAgWoICKDVOEe7IECAAAECBAiURkAALc1RaZQAAQIECBAgUA0BAbQa52gXBAgQIECAAIHSCAigpTkqjRIgQIAAAQIEqiEggFbjHO2CAAECBAgQIFAaAQG0NEelUQIECBAgQIBANQQE0Gqco10QIECAAAECBEojIICW5qg0SoAAAQIECBCohoAAWo1ztAsCBAgQIECAQGkEBNDSHJVGCRAgQIAAAQLVEBBAq3GOdkGAAAECBAgQKI2AAFqao9IoAQIECBAgQKAaAgJoNc7RLggQIECAAAECpREQQEtzVBolQIAAAQIECFRDQACtxjnaBQECBAgQIECgNAICaGmOSqMECBAgQIAAgWoICKDVOEe7IECAAAECBAiURkAALc1RaZQAAQIECBAgUA0BAbQa52gXBAgQIECAAIHSCAigpTkqjRIgQIAAAQIEqiEggFbjHO2CAAECBAgQIFAaAQG0NEelUQIECBAgQIBANQQE0Gqco10QIECAAAECBEojIICW5qg0SoAAAQIECBCohoAAWo1ztAsCBAgQIECAQGkEBNDSHJVGCRAgQIAAAQLVEBBAq3GOdkGAAAECBAgQKI2AAFqao9IoAQIECBAgQKAaAgJoNc7RLggQIECAAAECpREQQEtzVBolQIAAAQIECFRDQACtxjnaBQECBAgQIECgNAICaGmOSqMECBAgQIAAgWoICKDVOEe7IECAAAECBAiURkAALc1RaZQAAQIECBAgUA0BAbQa52gXBAgQIECAAIHSCAigpTkqjRIgQIAAAQIEqiEggFbjHO2CAAECBAgQIFAaAQG0NEelUQIECBAgQIBANQQE0Gqco10QIECAAAECBEojIICW5qg0SoAAAQIECBCohoAAWo1ztAsCBAgQIECAQGkE2kvTqUYrJ7BkyZI475or49Kbr6/c3sq8oTWda6KtrS1i3X/L/nbPww/FRdf/In7xh9+WfSv6b1KBJxc8ve6flQr8w9KkvtqqroAAWt2zbfqdrensjPEjto3B/fs3fa8aLKdAvy36xJ7bTYj+ffuWcwO6bnqBjo51d2vt2qbvU4ME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RYAAAQIECBAgUFdAAK1LZAABAgQIECBAgECeAgJonprmIkCAAAECBAgQqCsggNYlMoAAAQIECBAgQCBPAQE0T01zESBAgAABAgQI1BUQQOsSGUCAAAECBAgQIJCngACap6a5CBAgQIAAAQIE6goIoHWJDCBAgAABAgQIEMhTQADNU9NcBAgQIECAAAECdQUE0LpEBhAgQIAAAQIECOQpIIDmqWkuAgQIECBAgACBugICaF0iAwgQIECAAAECBPIUEEDz1DQXAQIECBAgQIBAXQEBtC6RAQQIECBAgAABAnkKCKB5apqLAAECBAgQIECgroAAWpfIAAIECBAgQIAAgTwF2vOczFwEGhEYuOXAOPvKH8QF11/TSJmxBDILLFm2LD550Xmx5YABmWsMJNCIwPwnn4h+/fo1UmIsAQLrBARQ16DHBM4599y49dZbe2x9C1dfoL29PVavXl39jdphjwmcN3JkjBgxosfWtzCBsgoIoGU9uQr03b9//zj44IMrsBNbIECAAAECBBoR8BrQRrSMJUCAAAECBAgQ6LaAANptQhMQIECAAAECBAg0IiCANqJlLAECBAgQIECAQLcFBNBuE5qAAAECBAgQIECgEQEBtBEtYwkQIECAAAECBLotIIB2m9AEBAgQIECAAAECjQgIoI1oGUuAAAECBAgQINBtAQG024QmIECAAAECBAgQaERAAG1Ey1gCBAgQIECAAIFuCwig3SY0AQECBAgQIECAQCMCAmgjWsYSIECAAAECBAh0W0AA7TahCQgQIECAAAECBBoREEAb0TKWAAECBAgQIECg2wICaLcJTUCAAAECBAgQINCIgADaiJaxBAgQIECAAAEC3RYQQLtNaAICBAgQIECAAIFGBATQRrSMJUCAAAECBAgQ6LaAANptQhMQIECAAAECBAg0IiCANqJlLAECBAgQIECAQLcFBNBuE5qAAAECBAgQIECgEQEBtBEtYwkQIECAAAECBLotIIB2m9AEBAgQIECAAAECjQgIoI1oGUuAAAECBAgQINBtAQG024QmIECAAAECBAgQaERAAG1Ey1gCBAgQIECAAIFuCwig3SY0AQECBAgQIECAQCMCAmgjWsYSIECAAAECBAh0W0AA7TahCQgQIECAAAECBBoREEAb0TKWAAECBAgQIECg2wICaLcJTUCAAAECBAgQINCIgADaiJaxBAgQIECAAAEC3RZo7/YMJiidwNChQ+PLX/5ynH/++aXrXcMECBAgQKAIgeeffz569+5dxFItuUbb2nVvLbnzFt70ihUr4o477mhhAVsnQIAAAQKbFhg9enSMGzdu04M8mywggCbTKSRAgAABAgQIEEgR8BrQFDU1BAgQIECAAAECyQICaDKdQgIECBAgQIAAgRQBATRFTQ0BAgQIECBAgECygACaTKeQAAECBAgQIEAgRUAATVFTQ4AAAQIECBAgkCwggCbTKSRAgAABAgQIEEgREEBT1NQQIECAAAECBAgkCwigyXQKCRAgQIAAAQIEUgQE0BQ1NQQIECBAgAABAskCAmgynUICBAgQIECAAIEUAQE0RU0NAQIECBAgQIBAsoAAmkynkAABAgQIECBAIEVAAE1RU0OAAAECBAgQIJAsIIAm0ykkQIAAAQIECBBIERBAU9TUECBAgAABAgQIJAsIoMl0CgkQIECAAAECBFIEBNAUNTUECBAgQIAAAQLJAgJoMp1CAgQIECBAgACBFAEBNEVNDQECBAgQIECAQLKAAJpMp5AAAQIECBAgQCBFQABNUVNDgAABAgQIECCQLCCAJtMpJECAAAECBAgQSBEQQFPU1BAgQIAAAQIECCQLCKDJdAoJECBAgAABAgRSBATQFDU1BAgQIECAAAECyQICaDKdQgIECBAgQIAAgRQBATRFTQ0BAgQIECBAgECygACaTKeQAAECBAgQIEAgRUAATVFTQ4AAAQIECBAgkCwggCbTKSRAgAABAgQIEEgREEBT1NQQIECAAAECBAgkCwigyXQKCRAgQIAAAQIEUgQE0BQ1NQQIECBAgAABAskCAmgynUICBAgQIECAAIEUAQE0RU0NAQIECBAgQIBAsoAAmkynkAABAgQIECBAIEVAAE1RU0OAAAECBAgQIJAsIIAm0ykkQIAAAQIECBBIERBAU9TUECBAgAABAgQIJAsIoMl0CgkQIECAAAECBFIEBNAUNTUECBAgQIAAAQLJAgJoMp1CAgQIECBAgACBFAEBNEVNDQECBAgQIECAQLKAAJpMp5AAAQIECBAgQCBFQABNUVNDgAABAgQIECCQLCCAJtMpJECAAAECBAgQSBEQQFPU1BAgQIAAAQIECCQLCKDJdAoJECBAgAABAgRSBATQFDU1BAgQIECAAAECyQICaDKdQgIECBAgQIAAgRQBATRFTQ0BAgQIECBAgECygACaTKeQAAECBAgQIEAgRUAATVFTQ4AAAQIECBAgkCwggCbTKSRAgAABAgQIEEgREEBT1NQQIECAAAECBAgkCwigyXQKCRAgQIAAAQIEUgQE0BQ1NQQIECBAgAABAskCAmgynUICBAgQIECAAIEUAQE0RU0NAQIECBAgQIBAsoAAmkynkAABAgQIECBAIEVAAE1RU0OAAAECBAgQIJAsIIAm0ykkQIAAAQIECBBIERBAU9TUECBAgAABAgQIJAsIoMl0CgkQIECAAAECBFIEBNAUNTUECBAgQIAAAQLJAgJoMp1CAgQIECBAgACBFAEBNEVNDQECBAgQIECAQLKAAJpMp5AAAQIECBAgQCBFQABNUVNDgAABAgQIECCQLCCAJtMpJECAAAECBAgQSBEQQFPU1BAgQIAAAQIECCQLCKDJdAoJECBAgAABAgRSBATQFDU1BAgQIECAAAECyQICaDKdQgIECBAgQIAAgRQBATRFTQ0BAgQIECBAgECygACaTKeQAAECBAgQIEAgRUAATVFTQ4AAAQIECBAgkCwggCbTKSRAgAABAgQIEEgREEBT1NQQIECAAAECBAgkCwigyXQKCRAgQIAAAQIEUgQE0BQ1NQQIECBAgAABAskCAmgynUICBAgQIECAAIEUAQE0RU0NAQIECBAgQIBAsoAAmkynkAABAgQIECBAIEVAAE1RU0OAAAECBAgQIJAsIIAm0ykkQIAAAQIECBBIERBAU9TUECBAgAABAgQIJAsIoMl0CgkQIECAAAECBFIEBNAUNTUECBAgQIAAAQLJAgJoMp1CAgQIECBAgACBFAEBNEVNDQECBAgQIECAQLKAAJpMp5AAAQIECBAgQCBFQABNUVNDgAABAgQIECCQLCCAJtMpJECAAAECBAgQSBEQQFPU1BAgQIAAAQIECCQLCKDJdAoJECBAgAABAgRSBATQFDU1BAgQIECAAAECyQICaDKdQgIECBAgQIAAgRQBATRFTQ0BAgQIECBAgECygACaTKeQAAECBAgQIEAgRUAATVFTQ4AAAQIECBAgkCwggCbTKSRAgAABAgQIEEgREEBT1NQQIECAAAECBAgkCwigyXQKCRAgQIAAAQIEUgQE0BQ1NQQIECBAgAABAskCAmgynUICBAgQIECAAIEUAQE0RU0NAQIECBAgQIBAsoAAmkynkAABAgQIECBAIEVAAE1RU0OAAAECBAgQIJAsIIAm0ykkQIAAAQIECBBIERBAU9TUECBAgAABAgQIJAsIoMl0CgkQIECAAAECBFIEBNAUNTUECBAgQIAAAQLJAgJoMp1CAgQIECBAgACBFIH/AhEj9YaxIUlaAAAAAElFTkSuQmCC" style="display: block; margin: auto;" /></p>
+</div>
+<div id="intersect-and-over" class="section level2">
+<h2>Intersect and Over</h2>
+<p>One problem, or perhaps “side-effect” of creating buffers is that the resulting feature will lack any sort of attribute information. This can be rectified by using the <em>intersect()</em> and/or <em>over()</em> functions.</p>
+<p>The <em>over()</em> function returns the attributes</p>
+<p><em>intersect()</em> function returns the geographic intersection of 2 features AND the attributes that belong to each of them. In the case of our buffer zone, we would like to assign it the attributes of the point from which it was built. For So for example, if we intersect the new “buffer_zone” polygon (which lacks attributes) with the “point_2” feature, we get back a polygon with all of the point’s attributes.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb11-1" title="1"><span class="co"># SpatialPointsDataFrame with attributes</span></a>
+<a class="sourceLine" id="cb11-2" title="2">dplyr<span class="op">::</span><span class="kw">glimpse</span>(point_<span class="dv">2</span><span class="op">@</span>data)</a></code></pre></div>
+<pre><code>## Observations: 1
+## Variables: 2
+## $ id   &lt;int&gt; 2
+## $ temp &lt;dbl&gt; 49.5</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb13-1" title="1"><span class="co"># SpatialPolygon with no attributes</span></a>
+<a class="sourceLine" id="cb13-2" title="2"><span class="kw">summary</span>(buffer_zone)</a></code></pre></div>
+<pre><code>## Object of class SpatialPolygons
+## Coordinates:
+##        min      max
+## x 15.61095 20.38905
+## y 17.74145 22.25797
+## Is projected: FALSE 
+## proj4string :
+## [+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs +towgs84=0,0,0
+## +units=m]</code></pre>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb15-1" title="1"><span class="co"># Create a dataframe with a &quot;distance&quot; attribute/column/field</span></a>
+<a class="sourceLine" id="cb15-2" title="2">bz_df &lt;-<span class="st"> </span><span class="kw">data.frame</span>(<span class="dt">distance =</span> <span class="st">&quot;250000&quot;</span>)</a>
+<a class="sourceLine" id="cb15-3" title="3"></a>
+<a class="sourceLine" id="cb15-4" title="4"><span class="co"># Convert the SpatialPolygon into a SpatialPolygonsDataFrame and attach attributes</span></a>
+<a class="sourceLine" id="cb15-5" title="5">buffer_zone &lt;-<span class="st"> </span><span class="kw">SpatialPolygonsDataFrame</span>(buffer_zone, bz_df)</a>
+<a class="sourceLine" id="cb15-6" title="6"></a>
+<a class="sourceLine" id="cb15-7" title="7">point_<span class="dv">2</span>_zone &lt;-<span class="st"> </span>sp<span class="op">::</span><span class="kw">over</span>(buffer_zone, point_<span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb15-8" title="8">dplyr<span class="op">::</span><span class="kw">glimpse</span>(point_<span class="dv">2</span>_zone)</a></code></pre></div>
+<pre><code>## Observations: 1
+## Variables: 2
+## $ id   &lt;int&gt; 2
+## $ temp &lt;dbl&gt; 49.5</code></pre>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" title="1"><span class="kw">class</span>(point_<span class="dv">2</span>_zone)</a></code></pre></div>
+<pre><code>## [1] &quot;data.frame&quot;</code></pre>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb19-1" title="1"><span class="kw">typeof</span>(point_<span class="dv">2</span>_zone)</a></code></pre></div>
+<pre><code>## [1] &quot;list&quot;</code></pre>
+</div>
+
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

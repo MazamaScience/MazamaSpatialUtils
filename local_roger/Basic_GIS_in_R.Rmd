@@ -159,21 +159,23 @@ The _raster_ package provides the functionality to do all of these operations.
 ## Buffer
 
 The `buffer()` function uses the units of the map projection as the units by which to 
-buffer objects.  Often a buffer is used to define a zone around a specific point.  Here, we will create a 250,000 meter buffer around Point 2.
+buffer objects.  Often a buffer is used to define a zone around a specific point.  Here, we will create a 250,000 meter buffer around the _temp_df_ point feature with "id = 2".
 
 ```
 # Subset a single point out of set
-point_2 <- subset(temp_spdf, id == 2)
+point_2 <- subset(temp_df, id == 2)
 
 # Buffer around the point
 buffer_zone <- buffer(point_2, width=250000)
+
+# plot the buffer
+plot(buffer_zone, col = "gray", add = TRUE)
 
 # plot the point
 plot(point_2, add = TRUE, col = "black", pch = 16)
 text(point_2, labels = point_2$id, pos = 3)
 
-# plot the buffer
-plot(buffer_zone, add = TRUE)
+
 ```
 
 ```{r buffer_points, fig.width=7, fig.height=7, fig.align='center', message=FALSE, echo=FALSE}
@@ -186,28 +188,47 @@ plot(spdf_e, col = "lightgreen", add = TRUE)
 plot(spdf_abcd, col = "pink", add = TRUE)
 
 # Subset a single point out of set
-point_2 <- subset(temp_spdf, id == 2)
+point_2 <- subset(temp_df, id == 2)
 
 # Buffer around the point
 buffer_zone <- buffer(point_2, width=250000)
+
+# plot the buffer
+plot(buffer_zone, col = "gray", add = TRUE)
 
 # plot the point
 plot(point_2, add = TRUE, col = "black", pch = 16)
 text(point_2, labels = point_2$id, pos = 3)
 
-# plot the buffer
-plot(buffer_zone, add = TRUE)
 plot(bbox, add=TRUE)
 ```
 
-## Intersection
+## Intersect and Over
 
-One problem, or perhaps "side-effect" of creating buffers is that the resulting feature will lack any sort of attribute information.  This can be rectified by using the _intersection()_ function.
+One problem, or perhaps "side-effect" of creating buffers is that the resulting feature will lack any sort of attribute information.  This can be rectified by using the _intersect()_ and/or _over()_ functions.  
+
+The _over()_ function returns the attributes 
+
+_intersect()_ function returns the geographic intersection of 2 features AND the attributes that belong to each of them.  In the case of our buffer zone, we would like to assign it the attributes of the point from which it was built.  For So for example, if we intersect the new "buffer_zone" polygon (which lacks attributes) with the "point_2" feature, we get back a polygon with all of the point's attributes.
+
+
 
 ```{r}
+# SpatialPointsDataFrame with attributes
+dplyr::glimpse(point_2@data)
+
+# SpatialPolygon with no attributes
 summary(buffer_zone)
 
-point_2_zone <- raster::intersect(point_2, buffer_zone)
-summary(point_2_zone)
+# Create a dataframe with a "distance" attribute/column/field
+bz_df <- data.frame(distance = "250000")
+
+# Convert the SpatialPolygon into a SpatialPolygonsDataFrame and attach attributes
+buffer_zone <- SpatialPolygonsDataFrame(buffer_zone, bz_df)
+
+point_2_zone <- sp::over(buffer_zone, point_2)
+dplyr::glimpse(point_2_zone)
+class(point_2_zone)
+typeof(point_2_zone)
 ```
 
