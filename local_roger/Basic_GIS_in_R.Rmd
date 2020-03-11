@@ -27,7 +27,7 @@ library(raster)
 
 # polygon A
 poly_a <- as(raster::extent(2.0, 11.0, 9.0, 15.0), "SpatialPolygons")
-df_a <- data.frame(name="A", id=1, county=1, type="tract", zone=1)
+df_a <- data.frame(name="A", id="1", county="1", type="tract", zone="1")
 
 spdf_a <- SpatialPolygonsDataFrame(poly_a,df_a)
 ```
@@ -35,22 +35,22 @@ spdf_a <- SpatialPolygonsDataFrame(poly_a,df_a)
 ```{r polygon_bcde_creation, include=FALSE, message=FALSE}
 # polygon B
 poly_b <- as(raster::extent(11.0, 20.0, 9.0, 15.0), "SpatialPolygons")
-df_b <- data.frame(name="B", id=2, county=1, type="tract", zone=1)
+df_b <- data.frame(name="B", id="2", county="1", type="tract", zone="1")
 spdf_b <- SpatialPolygonsDataFrame(poly_b,df_b)
 
 # polygon C
 poly_c <- as(raster::extent(11.0, 20.0, 2.0, 9.0), "SpatialPolygons")
-df_c <- data.frame(name="C", id=3, county=1, type="tract", zone=2)
+df_c <- data.frame(name="C", id="3", county="1", type="tract", zone="2")
 spdf_c <- SpatialPolygonsDataFrame(poly_c,df_c)
 
 # polygon D
 poly_d <- as(raster::extent(2.0, 11.0, 2.0, 9.0), "SpatialPolygons")
-df_d <- data.frame(name="D", id=4, county=1, type="tract", zone=2)
+df_d <- data.frame(name="D", id="4", county="1", type="tract", zone="2")
 spdf_d <- SpatialPolygonsDataFrame(poly_d,df_d)
 
 # polygon E
 poly_e <- as(raster::extent(8.0, 25.0, 6.0, 25.0), "SpatialPolygons")
-df_e <- data.frame(name="E", id=1, county=2, type="forest")
+df_e <- data.frame(name="E", id="1", county="2", type="forest")
 spdf_e <- SpatialPolygonsDataFrame(poly_e,df_e)
 ```
 
@@ -65,6 +65,7 @@ grs80 <- CRS("+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs +towgs84=0,0,0 +u
 # "Bind" Polys A,B,C & D into one multipolygon SPDF
 spdf_abcd <- raster::bind(spdf_a, spdf_b, spdf_c, spdf_d, keepnames=TRUE)
 proj4string(spdf_abcd) <- grs80
+proj4string(spdf_e) <- grs80
 
 summary(spdf_abcd)
 ```
@@ -104,7 +105,7 @@ xy <- temp_df[c("x", "y")]
 temp_spdf <- SpatialPointsDataFrame(coords = xy, 
                                     data = temp_df,
                                     proj4string = grs80)
-
+temp_spdf@data$id <- as.character(temp_spdf@data$id)
 summary(temp_spdf)
 ```
 
@@ -113,6 +114,8 @@ summary(temp_spdf)
 # Use the coordinates() function to define the coordinate fields
 coordinates(temp_df) <- ~x+y
 proj4string(temp_df) <- grs80
+
+temp_df@data$id <- as.character(temp_df@data$id)
 
 summary(temp_df)
 ```
@@ -149,33 +152,30 @@ Generally speaking, there are 5 operations commonly performed while doing spatia
 (Taken from [5 common ArcToolbox Tools](https://www.lib.umd.edu/binaries/content/assets/public/gov-info-gis/research-and-instruction/spatial-analysis-workbook.pdf) section of online paper by Univ. or Maryland.)
 
 1. Buffer
-2. Intersect
-3. Clip
+2. Clip
+3. Intersect
 4. Dissolve
 5. Spatial Join
 
-The _raster_ package provides the functionality to do all of these operations.
+The _raster_ and _sp_ packages provide all the functionality needed to perform these operations.
 
 ## Buffer
 
-The `buffer()` function uses the units of the map projection as the units by which to 
-buffer objects.  Often a buffer is used to define a zone around a specific point.  Here, we will create a 250,000 meter buffer around the _temp_df_ point feature with "id = 2".
+The `buffer()` function buffers a specific distance away from a feature or group of features.  It uses the units of the map projection as the units for the buffer distance.  Often a buffer is used to define a zone around a specific point.  Here, we will create a 500,000 meter buffer around the _temp_df_ point feature with "id = 4".
 
 ```
 # Subset a single point out of set
-point_2 <- subset(temp_df, id == 2)
+point_4 <- subset(temp_df, id == 4)
 
 # Buffer around the point
-buffer_zone <- buffer(point_2, width=250000)
+buffer_zone <- buffer(point_4, width=500000)
 
 # plot the buffer
 plot(buffer_zone, col = "gray", add = TRUE)
 
 # plot the point
-plot(point_2, add = TRUE, col = "black", pch = 16)
-text(point_2, labels = point_2$id, pos = 3)
-
-
+plot(point_4, add = TRUE, col = "black", pch = 16)
+text(point_4, labels = point_4$id, pos = 3)
 ```
 
 ```{r buffer_points, fig.width=7, fig.height=7, fig.align='center', message=FALSE, echo=FALSE}
@@ -185,50 +185,224 @@ plot(bbox, col = "transparent", border = "transparent")
 
 # Plot polygon features
 plot(spdf_e, col = "lightgreen", add = TRUE)
+text(spdf_e, labels = spdf_e$name, pos = 3)
+
 plot(spdf_abcd, col = "pink", add = TRUE)
+text(spdf_abcd, labels = spdf_abcd$name, pos = 3)
 
 # Subset a single point out of set
-point_2 <- subset(temp_df, id == 2)
+point_4 <- subset(temp_df, id == 4)
 
 # Buffer around the point
-buffer_zone <- buffer(point_2, width=250000)
+buffer_zone <- buffer(point_4, width=500000)
 
 # plot the buffer
-plot(buffer_zone, col = "gray", add = TRUE)
+plot(buffer_zone, add = TRUE)
 
 # plot the point
-plot(point_2, add = TRUE, col = "black", pch = 16)
-text(point_2, labels = point_2$id, pos = 3)
+plot(point_4, add = TRUE, col = "black", pch = 16)
+text(point_4, labels = point_4$id, pos = 3)
 
 plot(bbox, add=TRUE)
 ```
 
-## Intersect and Over
+## Clip
 
-One problem, or perhaps "side-effect" of creating buffers is that the resulting feature will lack any sort of attribute information.  This can be rectified by using the _intersect()_ and/or _over()_ functions.  
+Clipping works a bit like a cookie-cutter.  It is done using the _intersect()_ function which takes an input geometry and calculates the spatial intersection with another geometry.  Here we will clip the pink "spdf_abcd" feature and the green "spdf_e" feature with the "buffer_zone" we created above. 
 
-The _over()_ function returns the attributes 
+```
+# Clip the features
+abcd_clip <- raster::intersect(spdf_abcd, buffer_zone)
+e_clip <- raster::intersect(spdf_e, buffer_zone)
 
-_intersect()_ function returns the geographic intersection of 2 features AND the attributes that belong to each of them.  In the case of our buffer zone, we would like to assign it the attributes of the point from which it was built.  For So for example, if we intersect the new "buffer_zone" polygon (which lacks attributes) with the "point_2" feature, we get back a polygon with all of the point's attributes.
+# Plot the new clipped features
+plot(e_clip, col = "lightgreen", add = TRUE)
+plot(abcd_clip, col = "pink", add = TRUE)
 
+# plot the point
+plot(point_4, add = TRUE, col = "black", pch = 16)
+text(point_4, labels = point_4$id, pos = 3)
+```
+```{r clip_region, fig.width=7, fig.height=7, fig.align='center', message=FALSE, echo=FALSE}
 
+# Clip the features with the buffer zone
+abcd_clip <- raster::intersect(spdf_abcd, buffer_zone)
+e_clip <- raster::intersect(spdf_e, buffer_zone)
 
-```{r}
-# SpatialPointsDataFrame with attributes
-dplyr::glimpse(point_2@data)
+# Invisible bbox to set the plot extent
+plot(bbox, col = "transparent", border = "transparent")
 
-# SpatialPolygon with no attributes
-summary(buffer_zone)
+# Plot the new clipped features
+plot(e_clip, col = "lightgreen", add = TRUE)
+plot(abcd_clip, col = "pink", add = TRUE)
 
-# Create a dataframe with a "distance" attribute/column/field
-bz_df <- data.frame(distance = "250000")
+# plot the point
+plot(point_4, add = TRUE, col = "black", pch = 16)
+text(point_4, labels = point_4$id, pos = 3)
 
-# Convert the SpatialPolygon into a SpatialPolygonsDataFrame and attach attributes
-buffer_zone <- SpatialPolygonsDataFrame(buffer_zone, bz_df)
-
-point_2_zone <- sp::over(buffer_zone, point_2)
-dplyr::glimpse(point_2_zone)
-class(point_2_zone)
-typeof(point_2_zone)
+plot(bbox, add=TRUE)
 ```
 
+It is very important to note that the new "_clip" features contain all of the attributes which were contained in the "spdf_abcd" and "spdf_e" SpatialPolygonsDataFrames.  In otherwords, the feature being clipped retained all of its original attribute information.
+
+```
+head(abcd_clip@data)
+##   name id county  type zone
+## 1    B  2      1 tract    1
+## 2    C  3      1 tract    2
+
+head(e_clip@data)
+##   name id county   type
+## 1    E  1      2 forest
+```
+
+This is ONLY because the "buffer_zone" feature lacked a data frame of its own and was simply a SpatialPolygon object, and not a SpatialPolygonsDataFrame.  
+
+```
+summary(buffer_zone)
+
+Object of class SpatialPolygons
+Coordinates:
+        min      max
+x 12.390806 21.60919
+y  8.479751 17.51868
+Is projected: FALSE 
+proj4string :
+[+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs +towgs84=0,0,0 +units=m]
+```
+The behavior of the _intersect()_ function is very different when both features are SpatialPolygonsDataFrames.  When 2 SpatialPolygonsDataFrames are intersected, the default behavior of the _intersect()_ function is to combine the attributes from both data sets.  Which brings us to the next type of operation.
+
+## Intersection
+
+The intersection operation computes the spatial intersection between 2 features and returns a new geometry that is this intersection area.  It also combines the feature attributes of both features.  In the example below, we are intersecting the 2 clipped features with each other.  Note the attributes and the geometry that are returned.
+
+```
+combined_clips <- intersect(abcd_clip, e_clip)
+head(combined_clips@data)
+
+##   name.1 id.1 county.1 type.1 zone name.2 id.2 county.2 type.2
+## 1      B    2        1  tract    1      E    1        2 forest
+## 2      C    3        1  tract    2      E    1        2 forest
+```
+
+```{r spdf_intersection, fig.width=7, fig.height=7, fig.align='center', message=FALSE, echo=FALSE}
+
+combined_clips <- intersect(abcd_clip, e_clip)
+
+# Invisible bbox to set the plot extent
+plot(bbox, col = "transparent", border = "transparent")
+
+# Plot the new clipped features
+plot(combined_clips, col = "pink", add = TRUE)
+
+plot(bbox, add=TRUE)
+```
+
+If we look at just the attributes from "abcd_clip" (a few lines above) we see that it only contains attributes from the original "spdf_abcd" feature set.
+
+This behavior is consistent with how the intersection tool works in other systems and in fact, here is a description of the difference between the "clip" and "intersection" functions in ArcGIS.
+
+> What's the **difference between** the **clip** tool and the **intersect** tool? The main **difference is** the resulting attributes. When you run the **clip** tool, only the input features attributes will be **in the** output. When you use the **intersect** tool, the attributes from all features will be **in the** output.
+
+When performing clipping operations with 2 SpatialPolygonsDataFrame features, it may be useful to create your own function which modifies the contents of the returned data frame to match the definition listed above.
+
+### !Intersection
+
+While this isn't listed as one of the 5 basic operations, I include it here because I think it's important and not generally easy to find a solution for.  Very often what we want is to compute the difference between 2 spatial features, rather than the area of intersection.  For example, in the clipped regions we've created above, the "e_clip" region is a full disk that extends behind the "abcd_clip" region. 
+
+If we only wanted the region of "e_clip" that DOESN'T intersect with "abcd_clip", it's very 
+R-like and easy to obtain that by subtracting one from the other.
+
+```
+# Subtract abcd_clip geometry from e_clip geometry
+disjoint_e_clip <- (e_clip - abcd_clip) 
+
+plot(disjoint_e_clip, col = "lightgreen", add = TRUE)
+```
+
+```{r spdf_disjoint, fig.width=7, fig.height=7, fig.align='center', message=FALSE, echo=FALSE}
+disjoint_e_clip <- (e_clip - abcd_clip) 
+
+# Invisible bbox to set the plot extent
+plot(bbox, col = "transparent", border = "transparent")
+
+# Plot the new clipped features
+plot(disjoint_e_clip, col = "lightgreen", add = TRUE)
+
+plot(bbox, add=TRUE)
+```
+As an added bonus, we retain the original attributes as well.
+```
+head(disjoint_e_clip@data)
+
+##   name id county   type
+## 1    E  1      2 forest
+```
+
+## Dissolve
+
+The Dissolve operation is a form of spatial aggregation in which the internal borders of a feature set are removed, or dissolved, leaving larger regions behind that are the result of aggregating by a specific value.  This aggregation value is usually defined by a column in the data set.  Appropriately enough, the function that does this for us is named _aggregate()_.  (Note that this is the _raster::aggregate_ function, as there are others such as the Base-R _aggregate_.)
+
+Our original "spdf_abcd" data set contains a "zone" field that we can use to dissolve the features with.
+
+```
+head(spdf_abcd@data)
+
+##     name id county  type zone
+## 1.1    A  1      1 tract    1
+## 1.2    B  2      1 tract    1
+## 1.3    C  3      1 tract    2
+## 1.4    D  4      1 tract    2
+```
+We can see the way that the zones are situated in the left plot below.  When we dissolve the features using the "zone" as the aggregation feature, we get the result in the plot on the right.
+
+```
+zoned_tracts <- aggregate(spdf_abcd, by='zone')
+```
+
+```{r dissolve, fig.width=7, fig.height=4, message=FALSE, echo=FALSE}
+par(mfrow=c(1,2))
+
+plot(bbox)
+plot(spdf_abcd, col = "pink", add=TRUE)
+text(spdf_abcd, labels = spdf_abcd$zone)
+title("Original Features, by Zone")
+
+zoned_tracts <- aggregate(spdf_abcd, 
+                                  by='zone')
+
+plot(bbox)
+plot(zoned_tracts, col = "pink", add=TRUE)
+text(zoned_tracts, labels = zoned_tracts$zone)
+title("Dissolved by Zone")
+```
+Most common dissolve tools will leave the field behind that was used to do the aggregation, in this case the "zone" attribute.  The _raster::aggregate_ function has some nice additional functionality in that it can also include other fields as well.  These can be aggregated in various ways, such as by selecting the 1st entry, or by calulating the mean value.
+
+Below we dissolve the data set by the "zone" field and then aggregate the "type" and "county" fields by keeping their 1st values in the set.   We also calculate the mean of the "id" field for the 2 values in each "zone".  
+
+```
+spdf_abcd@data$id <- as.numeric(spdf_abcd@data$id)
+
+zoned_tracts <- raster::aggregate(spdf_abcd, by='zone', 
+                                  sums=list(
+                                    list(function(x) x[1], c('type','county')),
+                                    list(function(x) mean(x), c('id'))
+                                    )
+                                  )
+```
+So we go from this,
+
+```
+##     name id county  type zone
+## 1.1    A  1      1 tract    1
+## 1.2    B  2      1 tract    1
+## 1.3    C  3      1 tract    2
+## 1.4    D  4      1 tract    2
+```
+to this.
+```
+##   zone  type county  id
+## 1    1 tract      1 1.5
+## 2    2 tract      1 3.5
+```
+This can be an exceptionally useful feature. 
