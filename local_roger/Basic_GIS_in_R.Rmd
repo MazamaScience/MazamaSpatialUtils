@@ -406,3 +406,73 @@ to this.
 ## 2    2 tract      1 3.5
 ```
 This can be an exceptionally useful feature. 
+
+## Spatial Join
+
+The Spatial Join operation is one where tabular data from one data set is attached to another based on spatial context.  This functionality is provided by the _sp::over_ function.  
+
+In our data, let's say that we want to assign the mean temperature value from the point data to each polygon that contains temperature values.  Here is how we do that.
+
+```{r}
+poly_temp_df <- sp::over(spdf_abcd, temp_spdf[,"temp"],  fn = mean)
+
+# Create a new column in the original data set with the new values
+spdf_abcd@data$temp <- poly_temp_df$temp
+```
+
+```{r spatial_union, fig.width=7, fig.height=4, message=FALSE, echo=FALSE}
+
+par(mfrow=c(1,2))
+
+# Invisible bbox to set the plot extent
+plot(bbox, col = "transparent", border = "transparent")
+
+# Plot polygon features
+plot(spdf_abcd, col = "pink", add = TRUE)
+
+# Plot the points and label them
+plot(temp_spdf, add = TRUE, col = "black", pch = 16)
+# Label the points
+text(temp_spdf, labels = temp_spdf$temp, pos = 3)
+
+# Overplot the bbox as a neatline
+plot(bbox, add = TRUE)
+
+title("Point Temperature Data")
+
+#---------- Plot 2 -------------
+# Invisible bbox to set the plot extent
+plot(bbox, col = "transparent", border = "transparent")
+
+# Plot polygon features
+plot(spdf_abcd, col = "pink", add = TRUE)
+
+# label them with new temp field
+text(spdf_abcd, labels = spdf_abcd$temp, pos = 3)
+
+# Overplot the bbox as a neatline
+plot(bbox, add = TRUE)
+
+title("Mean Temperature per Polygon")
+```
+
+Note that _over()_ returns a data frame with the same number of rows as the input feature that contains the matching attribute data from the feature being unioned.  Since here we requested that the "temp" data be aggregated by mean, we get back a table of mean temperatures for each polygon.
+
+```
+##     temp
+## 1.1 52.5
+## 1.2 51.5
+## 1.3 54.5
+## 1.4 57.0
+```
+
+If we join this data back to the input feature, we get something that looks like this.
+
+```
+##     name id county  type zone temp
+## 1.1    A  1      1 tract    1 52.5
+## 1.2    B  2      1 tract    1 51.5
+## 1.3    C  3      1 tract    2 54.5
+## 1.4    D  4      1 tract    2 57.0
+```
+Having to join the data back in this fashion means that if you are doing the same types of analysis often, it may be advantageous to create a helper function that takes in 2  SpatialDataFrames and returns a new one with the attribute data already attached.
