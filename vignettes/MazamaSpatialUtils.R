@@ -1,15 +1,15 @@
-## ---- echo=FALSE---------------------------------------------------------
+## ---- echo=FALSE--------------------------------------------------------------
 knitr::opts_chunk$set(fig.width=7, fig.height=5)
 
-## ---- eval = FALSE-------------------------------------------------------
+## ---- eval = FALSE------------------------------------------------------------
 #  setSpatialDataDir('~/Data/Spatial')
 #  installSpatialData()
 
-## ---- eval = FALSE-------------------------------------------------------
+## ---- eval = FALSE------------------------------------------------------------
 #  loadSpatialData('NaturalEarthAdm1')
 #  loadSpatialData('USCensus')
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 library(MazamaSpatialUtils)
 
 lon <- c(-122.3, -73.5, 21.1, 2.5)
@@ -22,7 +22,7 @@ getCountryCode(lon, lat)
 # Review all available data
 getCountry(lon, lat, allData=TRUE)
 
-## ---- eval=FALSE---------------------------------------------------------
+## ---- eval=FALSE--------------------------------------------------------------
 #  # Load states dataset if you haven't already
 #  loadSpatialData('NaturalEarthAdm1')
 #  
@@ -37,7 +37,7 @@ getCountry(lon, lat, allData=TRUE)
 #  states <- getState(lon, lat, allData=TRUE, countryCodes = countryCodes)
 #  states[c('countryCode', 'stateCode', 'stateName')]
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 # Find the timezones the points are in
 getTimezone(lon, lat)
 
@@ -50,7 +50,7 @@ getTimezone(lon, lat, countryCodes = countryCodes)
 # Review all available data
 getTimezone(lon, lat, allData=TRUE, countryCodes = countryCodes)
 
-## ---- eval=FALSE---------------------------------------------------------
+## ---- eval=FALSE--------------------------------------------------------------
 #  # Load counties dataset if you haven't already
 #  loadSpatialData("USCensusCounties")
 #  
@@ -61,7 +61,7 @@ getTimezone(lon, lat, allData=TRUE, countryCodes = countryCodes)
 #  getUSCounty(lon, lat, stateCodes=stateCodes)
 #  getUSCounty(lon, lat, allData=TRUE, stateCodes=stateCodes)
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 library(sp)         # For spatial plotting
 
 # Assign timezones polygons an index based on UTC_offset
@@ -71,7 +71,7 @@ colorIndices <- .bincode(SimpleTimezones@data$UTC_offset, breaks=seq(-12.5,12.5,
 plot(SimpleTimezones, col=rainbow(25)[colorIndices])
 title(line=0,'Timezone Offsets from UTC')
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 library(sp)         # For spatial plotting
 
 # Read in ISO-encoded oil production and consumption data
