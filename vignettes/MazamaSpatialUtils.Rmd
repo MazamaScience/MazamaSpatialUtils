@@ -9,7 +9,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, echo=FALSE}
+```{r setup, echo=FALSE}
 knitr::opts_chunk$set(fig.width=7, fig.height=5)
 ```
 
@@ -108,7 +108,7 @@ datasets that may be installed including:
 
 Install these with:
 
-```{r, eval = FALSE}
+```{r setSpatialData, eval = FALSE}
 setSpatialDataDir('~/Data/Spatial')
 installSpatialData()
 ```
@@ -117,7 +117,7 @@ This may take some time to download and untar the 170 Mb file.
 
 Once datasets have been installed, `loadSpatialData()` can be used load datasets found in the `SpatialDataDir` that match a particular pattern, *e.g*:
 
-```{r, eval = FALSE}
+```{r loadSpatialData, eval = FALSE}
 loadSpatialData('NaturalEarthAdm1')
 loadSpatialData('USCensus')
 ```
@@ -145,7 +145,7 @@ loading any additional datasets.
 
 In this example we'll find which countries a vector of points fall in. 
 
-```{r}
+```{r getCountry}
 library(MazamaSpatialUtils)
 
 lon <- c(-122.3, -73.5, 21.1, 2.5)
@@ -171,7 +171,7 @@ distributed with the package.
 
 (*The next block of code is not evaluated in the vignette.*)
 
-```{r, eval=FALSE}
+```{r getCodes, eval=FALSE}
 # Load states dataset if you haven't already
 loadSpatialData('NaturalEarthAdm1')
 
@@ -195,7 +195,7 @@ the previous functions. `allData=TRUE` will return other useful information such
 These functions use the package-internal `SimpleTimezones` dataset which can be used 
 without loading any additional datasets.
 
-```{r}
+```{r getTimezone}
 # Find the timezones the points are in
 getTimezone(lon, lat)
 
@@ -217,7 +217,7 @@ dataset is US specific.
 
 (*The next block of code is not evaluated in the vignette.*)
 
-```{r, eval=FALSE}
+```{r getUSCounty, eval=FALSE}
 # Load counties dataset if you haven't already
 loadSpatialData("USCensusCounties")
 
@@ -235,7 +235,7 @@ While identifying the states, countries and timezones associated with a set of
 locations is important, we can also generate some quick eye candy with these datasets.
 Let's color the timezones by the data variable 'UTC_offset'
 
-```{r}
+```{r timezoneMap}
 library(sp)         # For spatial plotting
 
 # Assign timezones polygons an index based on UTC_offset
@@ -253,7 +253,7 @@ it makes it easy to generate plots with any datasets that use that encoding. Her
 slightly more involved example using Energy data from the British Petroleum Statistical 
 Review that has been ISO-encoded.
 
-```{r}
+```{r netExport}
 library(sp)         # For spatial plotting
 
 # Read in ISO-encoded oil production and consumption data

@@ -67,6 +67,9 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="articles/articles/Basic_GIS_in_R.html">Basic GIS Operations in R</a>
+    </li>
+    <li>
       <a href="articles/articles/ebolamap.html">Ebola Map Example</a>
     </li>
     <li>
@@ -104,10 +107,10 @@
 <div id="mazamaspatialutils" class="section level1">
 <div class="page-header"><h1 class="hasAnchor">
 <a href="#mazamaspatialutils" class="anchor"></a>MazamaSpatialUtils</h1></div>
-<pre><code>A suite of conversion scripts to create internally standardized spatial
-polygons dataframes. Utility scripts use these datasets to return values such
-as country, state, timezone, watershed, etc. associated with a set of 
-longitude/latitude pairs. (They also make cool maps.)</code></pre>
+<pre><code>A suite of conversion functions to create internally standardized
+spatial polygons data frames. Utility functions use these data sets to
+return values such as country, state, timezone, watershed, etc. associated
+with a set of longitude/latitude pairs. (They also make cool maps.)</code></pre>
 <div id="background" class="section level2">
 <h2 class="hasAnchor">
 <a href="#background" class="anchor"></a>Background</h2>
@@ -158,7 +161,7 @@ longitude/latitude pairs. (They also make cool maps.)</code></pre>
 <div id="core-datasets" class="section level3">
 <h3 class="hasAnchor">
 <a href="#core-datasets" class="anchor"></a>Core Datasets</h3>
-<p>Additional datasets are available at <a href="http://mazamascience.com/RData/Spatial/" class="uri">http://mazamascience.com/RData/Spatial/</a> and can be loaded with the following commands:</p>
+<p>Additional datasets are available at <a href="http://data.mazamascience.com/MazamaSpatialUtils/Spatial/" class="uri">http://data.mazamascience.com/MazamaSpatialUtils/Spatial/</a> and can be loaded with the following commands:</p>
 <pre><code><a href="https://rdrr.io/r/base/files2.html"># Create a location where large spatial datasets will be stored
 dir.create('~/Data/Spatial', recursive = TRUE)
 
@@ -185,7 +188,7 @@ installSpatialData()</a></code></pre>
 <div id="additional-datasets" class="section level3">
 <h3 class="hasAnchor">
 <a href="#additional-datasets" class="anchor"></a>Additional Datasets</h3>
-<p>Mazama Science regularly generates new datasets that adhere to package standards. These can be download manually from <a href="http://mazamascience.com/RData/Spatial/" class="uri">http://mazamascience.com/RData/Spatial/</a>. As of Jan 10, 2019, the full list of available datasets includes:</p>
+<p>Mazama Science regularly generates new datasets that adhere to package standards. These can be download manually from <a href="http://data.mazamascience.com/MazamaSpatialUtils/Spatial/" class="uri">http://data.mazamascience.com/MazamaSpatialUtils/Spatial/</a>. As of Jan 10, 2019, the full list of available datasets includes:</p>
 <pre><code> * 24K  CA_AirBasins_01.RData
  * 44K  CA_AirBasins_02.RData
  * 100K CA_AirBasins_05.RData
