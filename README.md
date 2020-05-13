@@ -10,10 +10,10 @@ pagetitle: MazamaSpatialUtils
 # MazamaSpatialUtils
 
 ```
-A suite of conversion functions to create internally standardized spatial
-polygons dataframes. Utility functions use these datasets to return values
-such as country, state, timezone, watershed, etc. associated with a set of 
-longitude/latitude pairs. (They also make cool maps.)
+A suite of conversion functions to create internally standardized
+spatial polygons data frames. Utility functions use these data sets to
+return values such as country, state, timezone, watershed, etc. associated
+with a set of longitude/latitude pairs. (They also make cool maps.)
 ```
 
 ## Background

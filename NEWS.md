@@ -1,6 +1,6 @@
 # MazamaSpatialUtils 0.6.7
 
-* 
+* New "Basic GIS in R" article.
 
 # MazamaSpatialUtils 0.6.6
 
