@@ -8,4 +8,6 @@ articles:
       MazamaSpatialUtils package.
     contents:
       - MazamaSpatialUtils
-      - examples/ebolamap
+      - available-data
+      - articles/Basic_GIS_in_R
+      - articles/ebolamap

@@ -45,7 +45,8 @@ convertUSCensusUrbanAreas <- function(
   simplify = TRUE
 ) {
   
-  # ----- Setup ---------------------------------------------------------------
+  # ----- Setup ----------------------------------------------------------------
+  
   loadSpatialData("USCensusStates")
   
   # Use package internal data directory
@@ -136,6 +137,7 @@ convertUSCensusUrbanAreas <- function(
   SPDF@data$ID <- IDs
   
   # ----- Organize polygons ----------------------------------------------------
+  
   # NOTE: any(duplicated(SPDF@data[["urbanAreaID"]])) == FALSE
   SPDF <- organizePolygons(SPDF, "ID")
   
@@ -143,6 +145,7 @@ convertUSCensusUrbanAreas <- function(
   SPDF@data$ID <- NULL
   
   # ----- Add country and state codes ------------------------------------------
+  
   # Use longitude and latitude to get one state code for each polygon
   SPDF$stateCode <- getStateCode(
     SPDF@data$longitude, 
