@@ -4,7 +4,9 @@
 \name{SimpleCountries}
 \alias{SimpleCountries}
 \title{World country polygons}
-\format{A SpatialPolygonsDataFrame with 246 elements and 7 columns of data.}
+\format{
+A SpatialPolygonsDataFrame with 246 elements and 7 columns of data.
+}
 \description{
 SimpleCountries is a simplified world borders dataset suitable for global maps
 and quick spatial searches. This dataset is distributed with the package and is used by

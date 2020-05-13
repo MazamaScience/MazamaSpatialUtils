@@ -4,7 +4,9 @@
 \name{SimpleTimezones}
 \alias{SimpleTimezones}
 \title{World timezone polygons}
-\format{A SpatialPolygonsDataFrame with 1106 elements and 6 columns of data.}
+\format{
+A SpatialPolygonsDataFrame with 1106 elements and 6 columns of data.
+}
 \description{
 SimpleTimezones is a simplified world timezones dataset suitable for global maps
 and quick spatial searches. This dataset is distributed with the package and is used by

@@ -4,7 +4,9 @@
 \name{CONUS}
 \alias{CONUS}
 \title{CONUS state codes}
-\format{A vector with 49 elements}
+\format{
+A vector with 49 elements
+}
 \usage{
 CONUS
 }

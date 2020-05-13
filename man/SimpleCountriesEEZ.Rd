@@ -4,7 +4,9 @@
 \name{SimpleCountriesEEZ}
 \alias{SimpleCountriesEEZ}
 \title{World country EEZ polygons}
-\format{A SpatialPolygonsDataFrame with 261 elements and 6 columns of data.}
+\format{
+A SpatialPolygonsDataFrame with 261 elements and 6 columns of data.
+}
 \description{
 SimpleCountriesEEZ is a simplified world borders dataset with a  
 200 mile coastal buffer corresponding to Exclusive Economic Zones, suitable for 

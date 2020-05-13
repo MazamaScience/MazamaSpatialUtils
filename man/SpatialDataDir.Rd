@@ -4,7 +4,9 @@
 \name{SpatialDataDir}
 \alias{SpatialDataDir}
 \title{Directory for spatial data}
-\format{Absolute path string.}
+\format{
+Absolute path string.
+}
 \description{
 This package maintains an internal directory location which users can set
 using \code{setSpatialDataDir()}. All package functions use this directory whenever datasets
