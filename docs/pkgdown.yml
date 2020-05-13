@@ -3,5 +3,7 @@ pkgdown: 1.4.1
 pkgdown_sha: ~
 articles:
   MazamaSpatialUtils: MazamaSpatialUtils.html
+  Basic_GIS_in_R: articles/Basic_GIS_in_R.html
   ebolamap: articles/ebolamap.html
+  available-data: available-data.html
 

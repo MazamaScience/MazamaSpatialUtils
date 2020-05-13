@@ -5,8 +5,8 @@
 \title{Install spatial datasets}
 \usage{
 installSpatialData(
-  urlBase = "http://mazamascience.com/RData/Spatial",
-  file = "mazama_spatial_files-0.5.tar.gz"
+  urlBase = "http://data.mazamascience.com/MazamaSpatialUtils/Spatial",
+  file = "mazama_spatial_files-0.6.tar.gz"
 )
 }
 \arguments{

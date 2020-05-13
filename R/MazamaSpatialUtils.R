@@ -358,7 +358,7 @@ simplify <- function(
 #' @export
 #' @title Aggregate shapes in a SpatialPolygonsDataFrame
 #' @param SPDF object of class SpatialPolygonsDataFrame
-#' @param field proportion of points to retain (0-1; default 0.05)
+#' @param field the field to dissolve on
 #' @param sum_fields fields to sum
 #' @param copy_fields fields to copy. The first instance of each field will be 
 #' copied to the aggregated feature

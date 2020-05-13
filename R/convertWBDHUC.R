@@ -42,7 +42,13 @@
 # TODO:  how and why. Figure out why it is printing all those numbers when it runs and change.  
 
 
-convertWBDHUC <- function(dsnPath=NULL, level=8, extension="", nameOnly=FALSE, simplify=FALSE) {
+convertWBDHUC <- function(
+  dsnPath = NULL, 
+  level = 8, 
+  extension = "", 
+  nameOnly = FALSE, 
+  simplify = FALSE
+) {
   
   # Sanity check dsnPath
   if ( is.null(dsnPath) ) stop(paste0('Argument dsnPath must be specified.'))
@@ -58,12 +64,12 @@ convertWBDHUC <- function(dsnPath=NULL, level=8, extension="", nameOnly=FALSE, s
   datasetName <- paste0('WBDHU', level) 
   
   if (nameOnly) return(datasetName)
-
+  
   # Convert shapefile into SpatialPolygonsDataFrame
   layerName <- paste0('WBDHU', level, extension)
   message("Reading in data...\n")
-  SPDF <- convertLayer(dsn=dsnPath, layerName=layerName)
-
+  SPDF <- convertLayer(dsn=dsnPath, layerName = layerName)
+  
   # Rationalize naming:
   # * human readable full nouns with descriptive prefixes
   # * generally lowerCamelCase
@@ -142,7 +148,7 @@ convertWBDHUC <- function(dsnPath=NULL, level=8, extension="", nameOnly=FALSE, s
   
   SPDF <- SPDF[,usefulColumns]
   names(SPDF) <- c('loadDate','GNISCode','area','HUC','HUCName', 'allStateCodes')
-
+  
   # Change are from km^2 to m^2
   SPDF@data$area <- as.numeric(SPDF@data$area) * 1000000
   
@@ -152,11 +158,11 @@ convertWBDHUC <- function(dsnPath=NULL, level=8, extension="", nameOnly=FALSE, s
     message("Organizing polygons...\n")
     SPDF <- organizePolygons(SPDF, uniqueID='HUC', sumColumns='area')
   }
-
+  
   # TODO:  Larger HUCs are centered in the US, while at smaller levels the entire
   # TODO:  HUCs are in foreign countries (ie Canada). Find a way to eliminate smaller
   # TODO:  HUCs whose 'allStateCodes' is not a US State
-
+  
   # Calculate centroids to help add more metadata
   result <- try( {
     message("Calculating centroids...\n")
@@ -192,7 +198,7 @@ convertWBDHUC <- function(dsnPath=NULL, level=8, extension="", nameOnly=FALSE, s
   #NOTE: this takes quite a long time. 
   message("Getting stateCode...\n")
   suppressWarnings(SPDF$stateCode <- getStateCode(lon, lat, countryCodes=c('US')))
-   
+  
   # Hack to change missing stateCodes to the value from allStateCodes
   
   for (i in seq_len(nrow(SPDF)) ){
