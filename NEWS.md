@@ -1,3 +1,7 @@
+# MazamaSpatialUtils 0.6.8
+
+* New "Developer Style Guide" article.
+
 # MazamaSpatialUtils 0.6.7
 
 * New "Basic GIS in R" article.

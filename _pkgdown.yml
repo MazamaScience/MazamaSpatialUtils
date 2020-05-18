@@ -11,3 +11,4 @@ articles:
       - available-data
       - articles/Basic_GIS_in_R
       - articles/ebolamap
+      - Developer_Style_Guide
