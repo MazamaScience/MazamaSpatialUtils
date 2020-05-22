@@ -11,6 +11,8 @@
 #' @seealso getCountry, getCountryCode
 convertWorldEEZ <- function(nameOnly=FALSE) {
   
+  # ----- Setup ----------------------------------------------------------------
+  
   # Use package internal data directory
   dataDir <- getSpatialDataDir()
   
@@ -24,19 +26,25 @@ convertWorldEEZ <- function(nameOnly=FALSE) {
     stop('Shapefile directory does not exists. Please download and convert the shapefile desired.', call.=FALSE)
   } 
   
+  # ----- Get the data ---------------------------------------------------------
+  
   # Unzip the downloaded file
-  filePath <- file.path(dataDir,'World_EEZ_v8_20140228_LR.zip')
+  filePath <- file.path(dataDir,'World_EEZ_v11_20191118.zip')
   utils::unzip(filePath,exdir=file.path(dataDir,datasetName))
   dsnPath <- file.path(dataDir,'WorldEEZ')
 
+  # ----- Convert to SPDF ------------------------------------------------------
+  
   # Convert shapefile into SpatialPolygonsDataFrame
   # NOTE:  The 'WorldEEZ' directory has been created
   # NOTE:  Simplify the .shp file using Mapshaper prior to converting layer
-  SPDF <- convertLayer(dsn=dsnPath,layerName='World_EEZ_v8_2014')
+  SPDF <- convertLayer(dsn=dsnPath,layerName='World_EEZ_v11_20191118')
   
   #   > names(SPDF)
   #   [1] "OBJECTID"    "EEZ"        "Country"    "ID"        "Sovereign"  "Remarks"    "Sov_ID"     "EEZ_ID"     "ISO_3digit"  "MRGID"
   #   [11] "Date_chang" "Area_m2"    "Longitude"  "Latitude"  "MRGID_EEZ"
+  
+  # ----- Select useful columns and rename -------------------------------------
   
   # Rationalize naming:
   # * human readable full nouns with descriptive prefixes
@@ -57,12 +65,17 @@ convertWorldEEZ <- function(nameOnly=FALSE) {
   SPDF$countryCode <- iso3ToIso2(SPDF$ISO3)
   SPDF$countryName <- codeToCountry(SPDF$countryCode)
   
+  # ----- Organize polygons ----------------------------------------------------
+  
   SPDF <- organizePolygons(SPDF, uniqueID='countryCode')
+  
+  # ----- Name and save the data -----------------------------------------------
   
   # Assign a name and save the data for World EEZ
   assign(datasetName,SPDF)
   save(list=c(datasetName),file=paste0(dataDir,'/',datasetName,'.RData'))
   
+  # ----- Return --------------------------------------------------
+  
   return(invisible(datasetName))
 }
-
