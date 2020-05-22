@@ -97,6 +97,9 @@ convertUSCensusCounties <- function(nameOnly=FALSE) {
   # Group polygons with the same identifier (countyName)
   SPDF <- organizePolygons(SPDF, uniqueID='COUNTYNS', sumColumns=c('areaLand','areaWater'))
   
+  # ----- Simplify -------------------------------------------------------------
+  
+  
   # ----- Name and save the data -----------------------------------------------
   
   # Assign a name and save the data

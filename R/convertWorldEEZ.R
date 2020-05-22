@@ -83,6 +83,9 @@ convertWorldEEZ <- function(nameOnly=FALSE) {
   
   SPDF <- organizePolygons(SPDF, uniqueID='countryCode')
   
+  # ----- Simplify -------------------------------------------------------------
+  
+  
   # ----- Name and save the data -----------------------------------------------
   
   # Assign a name and save the data for World EEZ
