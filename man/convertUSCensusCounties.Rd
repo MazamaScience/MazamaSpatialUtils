@@ -21,7 +21,7 @@ SpatialPolygonsDataFrame with additional columns of data. The resulting file wil
 in the spatial data directory which is set with \code{setSpatialDataDir()}.
 }
 \references{
-\url{http://www2.census.gov/geo/tiger/GENZ2013}
+\url{https://www2.census.gov/geo/tiger/GENZ2019/}
 }
 \seealso{
 setSpatialDataDir

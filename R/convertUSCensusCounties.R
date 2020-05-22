@@ -36,9 +36,15 @@ convertUSCensusCounties <- function(nameOnly=FALSE) {
   
   # Convert shapefile into SpatialPolygonsDataFrame
   # NOTE:  The 'counties' directory has been created
-  dsnPath <- file.path(dataDir,'counties')
+  dsnPath <- file.path(dataDir, 'counties')
   shpName <- 'cb_2019_us_county_500k'
-  SPDF <- convertLayer(dsn=dsnPath, layerName=shpName, encoding='latin1')
+  SPDF <- convertLayer(dsn = dsnPath, layerName = shpName, encoding = 'latin1')
+
+  # > head(SPDF@data)
+  #   STATEFP COUNTYFP COUNTYNS       AFFGEOID GEOID     NAME LSAD      ALAND    AWATER
+  # 0      48      081 01383826 0500000US48081 48081     Coke   06 2361153195  42331832
+  # 1      48      273 01383922 0500000US48273 48273  Kleberg   06 2282572445 541041659
+  # 2      48      203 01383887 0500000US48203 48203 Harrison   06 2331138836  40651525
   
   # Rationalize naming:
   # * human readable full nouns with descriptive prefixes
