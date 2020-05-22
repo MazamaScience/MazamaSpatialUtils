@@ -25,6 +25,7 @@ convertUSCensusCounties <- function(nameOnly=FALSE) {
   # ----- Get the data ---------------------------------------------------------
   
   # Build appropriate request URL for US County Borders data
+  # NOTE: 500k means resolution level 1:500k. 
   url <- 'https://www2.census.gov/geo/tiger/GENZ2019/shp/cb_2019_us_county_500k.zip'
   
   filePath <- file.path(dataDir,basename(url))
@@ -73,17 +74,17 @@ convertUSCensusCounties <- function(nameOnly=FALSE) {
   SPDF$ALAND <- as.numeric(SPDF$ALAND)
   SPDF$AWATER <- as.numeric(SPDF$AWATER)
   
-  # New CountyFIPS: Concat STATEFP+COUNTYFP                   changed here 5/21/2020
+  # New CountyFIPS: Concat STATEFP+COUNTYFP                   
   SPDF$countyFIPS <-with(SPDF@data,paste0(STATEFP,COUNTYFP))
   
   
   SPDF@data <- dplyr::select(.data = SPDF@data, 
-                             countyFIPS = .data$countyFIPS,   #changed here 5/21/2020
+                             countyFIPS = .data$countyFIPS,   
                              areaLand = .data$ALAND,
                              areaWater = .data$AWATER,
                              countyName = .data$NAME,
                              stateFIPS = .data$STATEFP,
-                             county = .data$COUNTYFP,         #changed here 5/21/2020
+                             county = .data$COUNTYFP,         
                              COUNTYNS = .data$COUNTYNS) 
   SPDF$stateCode <- apply(SPDF@data, 1, extractState)
   SPDF$countryCode <- "US"
