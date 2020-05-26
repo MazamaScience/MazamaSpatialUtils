@@ -8,9 +8,11 @@
 #' SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
 #' in the spatial data directory which is set with \code{setSpatialDataDir()}.
 #' @return Name of the dataset being created.
-#' @references \url{https://hub.arcgis.com/items/72213d9266eb4aefa4403a1bf21dfd61}
+#' @references \url{https://hub.arcgis.com/datasets/7dc5f4a286bd47e0aaafa0ab05302fe9_0}
 #' @seealso setSpatialDataDir
 convertGACC <- function(nameOnly=FALSE, simplify = TRUE) {
+  
+  # ----- Setup ----------------------------------------------------------------
   
   # Use package internal data directory
   dataDir <- getSpatialDataDir()
@@ -20,12 +22,31 @@ convertGACC <- function(nameOnly=FALSE, simplify = TRUE) {
   
   if (nameOnly) return(datasetName)
   
-  # Build appropriate request URL for GACC regions dataset
-  url <- "https://opendata.arcgis.com/datasets/72213d9266eb4aefa4403a1bf21dfd61_0.geojson"
+  # ----- Get the data ---------------------------------------------------------
   
-  # Convert read geojson in as shapefile
-  SPDF <- geojsonio::geojson_read(url, what = "sp")
-
+  # NOTE: Update shows it's no longer a geojson file
+  # We can unzip the .zip and work with the shapefile directly without conversion
+  url <- "https://opendata.arcgis.com/datasets/7dc5f4a286bd47e0aaafa0ab05302fe9_0.zip"
+  
+  filePath <- file.path(dataDir,basename(url))
+  utils::download.file(url,filePath)
+  # NOTE:  This zip file has no directory so extra subdirectory needs to be created
+  utils::unzip(filePath,exdir=file.path(dataDir,'gacc'))
+  
+  # ----- Convert to SPDF ------------------------------------------------------
+  
+  # Convert shapefile into SpatialPolygonsDataFrame
+  # NOTE: Prior to update, it read in as geojson file
+  
+  dsnPath <- file.path(dataDir,'gacc')
+  shpName <- 'National_GACC_Current_20200226'
+  SPDF <- convertLayer(dsn = dsnPath, layerName = shpName)
+  
+  
+  # > names(SPDF@data)
+  # [1] "FID"        "GeometryID" "GACCName"   "GACCUnitID" "GACCAbbrev" "GACCLocati" "ContactPho" "Comments"   "DateCurren" "MapMethod"  "PrepLevel" 
+  # [12] "PL_GACC_ID" "SHAPE_Leng" "SHAPE_Area"
+  # ----- Select useful columns and rename -------------------------------------
   
   # Rationalize naming:
   # * human readable full nouns with descriptive prefixes
@@ -38,32 +59,48 @@ convertGACC <- function(nameOnly=FALSE, simplify = TRUE) {
   # * area (m^2)
   
   # Standardize naming in the SpatialPolygonsDataFrame
+  # NOTE: Updated from 2017 data to 2020. 
+  # What is the equivalence to GACC_NWCG_Code? Perhaps PL_GACC_ID?
+  # Changed old column GACCLabel to GACCAbbrev
   
   SPDF@data <- dplyr::select(.data = SPDF@data, 
-                             National_GACC_2017 = .data$FID_National_GACC_2017,
-                             uniID = .data$Unit_ID,
-                             GACCName = .data$GACC_Name, 
-                             label = .data$GACC_Label,
-                             location = .data$Location, 
-                             contactPhone = .data$Contact_Phone,
-                             GACC_NWCG_Code = .data$GACC_NWCG_Code)
+                             National_GACC_2020 = .data$FID,
+                             uniID = .data$GACCUnitID,
+                             GACCName = .data$GACCName, 
+                             label = .data$GACCAbbrev,
+                             location = .data$GACCLocati, 
+                             contactPhone = .data$ContactPho)
+                             #GACC_NWCG_Code = .data$GACC_NWCG_Code)
   
   SPDF$countryCode <- 'US'
   SPDF$stateCode <- stringr::str_extract(SPDF$location, "[[:upper:]]{2}$")
   
+  # > head(SPDF@data)
+  # National_GACC_2020    uniID                                                GACCName label      location contactPhone countryCode stateCode
+  # 0                  1  USAKACC                  Alaska Interagency Coordination Center  AICC Fairbanks, AK 907-356-5680          US        AK
+  # 1                  2 USWIEACC                        Eastern Area Coordination Center  EACC Milwaukee, WI 414-944-3811          US        WI
+  # 2                  3  USUTGBC                         Great Basin Coordination Center  GBCC     Boise, ID 800-844-5497          US        ID
+  # 3                  4 USCAONCC Northern California Geographic Area Coordination Center  ONCC   Redding, CA 530-226-2801          US        CA
+  
   # Assign a name and save the data
   assign(datasetName,SPDF)
   save(list=c(datasetName),file=paste0(dataDir,'/',datasetName,'.RData'))
+  
+  # ----- Simplify -------------------------------------------------------------
   
   # simplify
   if ( simplify ) {
     
     SPDF_05 <- rmapshaper::ms_simplify(SPDF, .05)
     datasetName_05 <- paste0(datasetName, "_05")
+    
+  # ----- Name and save the data -----------------------------------------------
     assign(datasetName_05, SPDF_05)
     save(list = datasetName_05, file = paste0(dataDir, "/", datasetName_05, ".RData"))
     
   }
+  
+  # ----- Clean up and return --------------------------------------------------
   
   return(invisible(datasetName))
 }
