@@ -71,7 +71,7 @@ convertUSCensusUrbanAreas <- function(
   # ----- Convert to SPDF ------------------------------------------------------
   
   # Convert shapefile into SpatialPolygonsDataFrame
-  dsnPath <- file.path(dataDir,'us_census_urban_areas')
+  dsnPath <- file.path(dataDir, 'us_census_urban_areas')
   shpName <- 'tl_2017_us_uac10'
   SPDF <- convertLayer(dsn = dsnPath, layerName = shpName)
   

@@ -1,3 +1,11 @@
+# MazamaSpatialUtils 0.6.9
+
+* Changed `US_stateCodes` dataset to include only `stateName`, `stateCode` and
+`stateFIPS` columns. It is now more complete with codes for all states and
+territories.
+* `convertLayer()` now properly passes encoding to `rgdal::readOGR()`.
+* Updated `convertUSCensusCounties()` to use 2019 data.
+
 # MazamaSpatialUtils 0.6.8
 
 * New "Developer Style Guide" article.

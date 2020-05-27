@@ -23,7 +23,7 @@ SpatialPolygonsDataFrame with additional columns of data. The resulting file wil
 in the spatial data directory which is set with \code{setSpatialDataDir()}.
 }
 \references{
-\url{https://hub.arcgis.com/items/72213d9266eb4aefa4403a1bf21dfd61}
+\url{https://hub.arcgis.com/datasets/7dc5f4a286bd47e0aaafa0ab05302fe9_0}
 }
 \seealso{
 setSpatialDataDir

@@ -3,6 +3,7 @@
 export("%>%")
 export(CONUS)
 export(US_52)
+export(US_stateCodes)
 export(codeToCountry)
 export(codeToState)
 export(convertCARBAirBasins)

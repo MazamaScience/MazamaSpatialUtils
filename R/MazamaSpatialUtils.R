@@ -321,7 +321,28 @@ stateToCode <- function(
   
 }
 
-# ----- Simplification  --------------------------------------------------------
+
+#' @keywords conversion
+#' @export
+#' @title Convert US state names to state codes
+#' @param stateNames state names to be converted
+#' @description Converts a vector of US state names to ISO 3166-2 two character 
+#' state codes.
+#' @examples 
+#' stateNameToCode("Washington")
+#' stateToCode("Barcelona")
+#' stateToCode("Shandong")
+#' @return A vector of ISO 3166-2 codes or NA.
+US_stateCodeToName <- function(
+  stateCode = NULL
+) {
+  stateName <- US_stateCodes$stateName
+  names(stateName) <- toupper(US_stateCodes$stateCode)
+  returnVal <- as.character(stateName[toupper(stateCode)])
+  return(returnVal)
+}
+  
+# ===== Mapshaper ==============================================================
 
 #' @export
 #' @title Simplify SpatialPolygonsDataFrame
@@ -352,8 +373,6 @@ simplify <- function(
   return(SPDF_simple)
 }
 
-
-# ----- Dissolve --------------------------------------------------------------
 
 #' @export
 #' @title Aggregate shapes in a SpatialPolygonsDataFrame
@@ -391,55 +410,3 @@ dissolve <- function(
 }
 
 
-# ----- State codes -----------------------------------------------------------
-
-#' @docType data
-#' @keywords datasets
-#' @name US_stateCodes
-#' @title Dataframe of US state codes
-#' @format A dataframe with 51 rows and 6 columns of data.
-#' @description US_stateCodes contains the following columns of data for the
-#' 50 United States plus the District of Columbia:
-#' \itemize{
-#' \item{\code{stateCode} -- e.g. MT}
-#' \item{\code{stateName} -- e.g. Montana}
-#' \item{\code{adm1_code} -- e.g. USA-3515}
-#' \item{\code{code_hasc} -- e.g. US.MT}
-#' \item{\code{fips} -- e.g. US30}
-#' }
-NULL
-
-
-#' CONUS state codes
-#'
-#' @export
-#' @docType data
-#' @name CONUS
-#' @title CONUS state codes
-#' @format A vector with 49 elements
-#' @description
-#' State codes for the 48 contiguous states +DC that make up the CONtinental US.
-
-CONUS <- c(     "AL","AZ","AR","CA","CO","CT","DE","FL","GA",
-                "ID","IL","IN","IA","KS","KY","LA","ME","MD",
-           "MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
-           "NM","NY","NC","ND","OH","OK","OR","PA","RI","SC",
-           "SD","TN","TX","UT","VT","VA","WA","WV","WI","WY",
-           "DC"     )
-
-#' US state codes
-#'
-#' @export
-#' @docType data
-#' @name US_52
-#' @title US state codes
-#' @format A vector with 52 elements
-#' @description
-#' State codes for the 50 states +DC +PR (Puerto Rico).
-
-US_52 <- c("AK","AL","AZ","AR","CA","CO","CT","DE","FL","GA",
-           "HI","ID","IL","IN","IA","KS","KY","LA","ME","MD",
-           "MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
-           "NM","NY","NC","ND","OH","OK","OR","PA","RI","SC",
-           "SD","TN","TX","UT","VT","VA","WA","WV","WI","WY",
-           "DC","PR")

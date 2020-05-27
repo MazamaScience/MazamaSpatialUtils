@@ -1,11 +1,12 @@
 Type: Package
 Package: MazamaSpatialUtils
-Version: 0.6.8
+Version: 0.6.9
 Title: Spatial Data Download and Utility Functions
 Authors@R: c(
     person("Jonathan", "Callahan", email="jonathan.s.callahan@gmail.com", role=c("aut","cre")), 
     person("Roger", "Andre", email="randre@gmail.com", role=c("aut")),
     person("Tom", "Bergamaschi", email="tbergama@gmail.com", role=c("aut")),
+    person("Tina", "Chen", email="chen.tinaa@gmail.com", role=c("aut")),
     person("Ruby", "Fore", email="ruby.a.fore@gmail.com", role=c("aut")),
     person("Will", "Leahy", email="procterw@gmail.com", role=c("aut")),
     person("Helen", "Miller", email="helen@ohana.org", role=c("aut")),
@@ -16,6 +17,7 @@ Authors@R: c(
 Author: Jonathan Callahan [aut, cre],
     Roger Andre [aut],
     Tom Bergamaschi [aut],
+    Tina Chen [aut],
     Ruby Fore [aut],
     Will Leahy [aut],
     Helen Miller [aut],
