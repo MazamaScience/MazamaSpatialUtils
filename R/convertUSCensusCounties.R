@@ -113,15 +113,7 @@ convertUSCensusCounties <- function(
   SPDF$ALAND <- as.numeric(SPDF$ALAND)
   SPDF$AWATER <- as.numeric(SPDF$AWATER)
   
-  #  Given row of USCensusCounties data, find state code, name, or adm1_code
-  extractState <- function(row) {
-    fips <- row['STATEFP']
-    stateCode <- MazamaSpatialUtils::US_stateCodes$stateCode[MazamaSpatialUtils::US_stateCodes$stateFIPS == fips]
-    return(stateCode)
-  }
-  
-  SPDF$stateCode <- apply(SPDF@data, 1, extractState)
-  
+  SPDF$stateCode <- US_stateFIPSToCode(SPDF$STATEFP)
   SPDF$countryCode <- "US"
   
   SPDF$countyFIPS <- paste0(SPDF@data$STATEFP, SPDF@data$COUNTYFP)
@@ -199,5 +191,6 @@ convertUSCensusCounties <- function(
   unlink(dsnPath, recursive = TRUE, force = TRUE)
   
   return(invisible(datasetName))
+  
 }
 

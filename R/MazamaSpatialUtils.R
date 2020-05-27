@@ -322,26 +322,6 @@ stateToCode <- function(
 }
 
 
-#' @keywords conversion
-#' @export
-#' @title Convert US state names to state codes
-#' @param stateNames state names to be converted
-#' @description Converts a vector of US state names to ISO 3166-2 two character 
-#' state codes.
-#' @examples 
-#' stateNameToCode("Washington")
-#' stateToCode("Barcelona")
-#' stateToCode("Shandong")
-#' @return A vector of ISO 3166-2 codes or NA.
-US_stateCodeToName <- function(
-  stateCode = NULL
-) {
-  stateName <- US_stateCodes$stateName
-  names(stateName) <- toupper(US_stateCodes$stateCode)
-  returnVal <- as.character(stateName[toupper(stateCode)])
-  return(returnVal)
-}
-  
 # ===== Mapshaper ==============================================================
 
 #' @export
