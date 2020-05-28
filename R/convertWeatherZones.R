@@ -1,26 +1,36 @@
 #' @keywords datagen
 #' @export
+#' 
 #' @title Convert NWS Public Forecast Zones Shapefile
+#' 
 #' @param nameOnly logical specifying whether to only return the name without creating the file
-#' @param simplify logical specifying whether to create "_05" version of the file that is simplified to 5\% 
+#' @param simplify Logical specifying whether to create "_05", _02" and "_01" 
+#' versions of the file that are simplified to 5\%, 2\% and 1\%.
+#'  
 #' @description Returns a SpatialPolygonsDataFrame for NWS weather forecast zones.
+#' 
 #' @details A weather forecast zones shapefile is downloaded and converted to a
 #' SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
 #' in the spatial data directory which is set with \code{setSpatialDataDir()}.
+#' 
 #' @note zoneID is the unique identifier, and is the state code followed by zoneNumber. 
+#' 
 #' @return Name of the dataset being created.
+#' 
 #' @references \url{https://www.weather.gov/gis/PublicZones}
+#' 
 #' @seealso setSpatialDataDir
 
-# ----- Setup ----------------------------------------------------------------
 
 convertWeatherZones <- function(nameOnly = FALSE, simplify = TRUE) {
+  
+  # ----- Setup ----------------------------------------------------------------
   
   # Use package internal data directory
   dataDir <- getSpatialDataDir()
   
   # Specify the name of the dataset and file being created
-  datasetName <- 'weatherZones'
+  datasetName <- 'WeatherZones'
   
   if (nameOnly) return(datasetName)
 
@@ -28,14 +38,14 @@ convertWeatherZones <- function(nameOnly = FALSE, simplify = TRUE) {
   
   # Build appropriate request URL for TM World Borders data
   url <- "https://www.weather.gov/source/gis/Shapefiles/WSOM/z_03mr20.zip"
-  filePath <- file.path(dataDir, "weatherZones.zip")
+  filePath <- file.path(dataDir, "WeatherZones.zip")
   utils::download.file(url,filePath)
   
   # ----- Convert to SPDF ------------------------------------------------------
   
   # NOTE:  This zip file has no directory so extra subdirectory needs to be created
-  utils::unzip(filePath,exdir=file.path(dataDir,'weatherZones'))
-  dsnPath <- file.path(dataDir,'weatherZones')
+  utils::unzip(filePath,exdir=file.path(dataDir,'WeatherZones'))
+  dsnPath <- file.path(dataDir,'WeatherZones')
   SPDF <- convertLayer(dsn=dsnPath, layerName='z_03mr20')
   
   # > names(SPDF)
@@ -89,21 +99,42 @@ convertWeatherZones <- function(nameOnly = FALSE, simplify = TRUE) {
   
   # ----- Name and save the data -----------------------------------------------
   
-  # Assign name and save the data
-  assign(datasetName,SPDF)
-  save(list=datasetName, file = paste0(dataDir,"/",datasetName, '.RData'))
-  rm(list=datasetName)
-  
+  # Assign a name and save the data
+  message("Saving full resolution version...\n")
+  assign(datasetName, SPDF)
+  save(list = c(datasetName), file = paste0(dataDir,'/', datasetName, '.rda'))
+  rm(list = datasetName)
   
   # ----- Simplify -------------------------------------------------------------
   
   if ( simplify ) {
     
+    message("Simplifying to 5%...\n")
     SPDF_05 <- rmapshaper::ms_simplify(SPDF, .05)
+    SPDF_05@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
     datasetName_05 <- paste0(datasetName, "_05")
+    message("Saving 5% version...\n")
     assign(datasetName_05, SPDF_05)
-    save(list = datasetName_05, file = paste0(dataDir, "/", datasetName_05, ".RData"))
+    save(list = datasetName_05, file = paste0(dataDir, "/", datasetName_05, ".rda"))
+    rm(list = c("SPDF_05",datasetName_05))
     
+    message("Simplifying to 2%...\n")
+    SPDF_02 <- rmapshaper::ms_simplify(SPDF, 0.02)
+    SPDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+    datasetName_02 <- paste0(datasetName, "_02")
+    message("Saving 2% version...\n")
+    assign(datasetName_02, SPDF_02)
+    save(list = datasetName_02, file = paste0(dataDir,"/",datasetName_02, '.rda'))
+    rm(list = c("SPDF_02",datasetName_02))
+    
+    message("Simplifying to 1%...\n")
+    SPDF_01 <- rmapshaper::ms_simplify(SPDF, 0.01)
+    SPDF_01@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+    datasetName_01 <- paste0(datasetName, "_01")
+    message("Saving 1% version...\n")
+    assign(datasetName_01, SPDF_01)
+    save(list = datasetName_01, file = paste0(dataDir,"/",datasetName_01, '.rda'))
+    rm(list = c("SPDF_01",datasetName_01))
   }
   
   # ----- Clean up and return --------------------------------------------------
