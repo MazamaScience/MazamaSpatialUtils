@@ -1,3 +1,7 @@
+# MazamaSpatialUtils 0.6.10
+
+* Updated `convertGACC()` to use 2020 data.
+
 # MazamaSpatialUtils 0.6.9
 
 * Changed `US_stateCodes` dataset to include only `stateName`, `stateCode` and

@@ -17,7 +17,7 @@ versions of the file that are simplified to 5\%, 2\% and 1\%.}
 Name of the dataset being created.
 }
 \description{
-Returns a SpatialPolygonsDataFrame for US Census Urban Areas
+Create a SpatialPolygonsDataFrame for US Census Urban Areas.
 
 The USCensusUrbanAreas layer is a polygon shapefile coverage representing the 
 urban areas delineated by the US Census that represent densely developed 

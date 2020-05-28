@@ -9,12 +9,14 @@
 #' @param simplify Logical specifying whether to create "_05", _02" and "_01" 
 #' versions of the file that are simplified to 5\%, 2\% and 1\%.
 #' 
-#' @description Returns a SpatialPolygonsDataFrame for US counties.
+#' @description Create a SpatialPolygonsDataFrame for US counties.
 #' 
 #' @details A US county borders shapefile is downloaded and converted to a 
 #' SpatialPolygonsDataFrame with additional columns of data. The resulting file 
 #' will be created in the spatial data directory which is set with 
 #' \code{setSpatialDataDir()}.
+#' 
+#' The source data is from 2019.
 #' 
 #' @note From the source documentation:
 #' 

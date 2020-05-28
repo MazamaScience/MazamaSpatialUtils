@@ -1,14 +1,19 @@
 #' @keywords datagen
 #' @export
-#' @title Convert World Exclusive Economic Zones Boundaries Shapefile
 #' 
-#' @param nameOnly logical specifying whether to only return the name without creating the file
+#' @title Convert World Exclusive Economic Zones shapefile
+#' 
+#' @param nameOnly logical specifying whether to only return the name without 
+#' creating the file
 #' @param simplify Logical specifying whether to create "_05", _02" and "_01" 
 #' versions of the file that are simplified to 5\%, 2\% and 1\%.
 #' 
-#' @description A world EEZ shapefile is downloaded and converted to a 
-#' SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
-#' in the spatial data directory which is set with \code{setSpatialDataDir()}.
+#' @description  Returns a SpatialPolygonsDataFrame for US counties.
+#' 
+#' @details A world EEZ shapefile is downloaded and converted to a 
+#' SpatialPolygonsDataFrame with additional columns of data. The resulting file 
+#' will be created in the spatial data directory which is set with 
+#' \code{setSpatialDataDir()}.
 #' 
 #' @return Name of the dataset being created.
 #' 
@@ -17,7 +22,10 @@
 #' @seealso setSpatialDataDir
 #' @seealso getCountry, getCountryCode
 #' 
-convertWorldEEZ <- function(nameOnly=FALSE) {
+convertWorldEEZ <- function(
+  nameOnly = FALSE,
+  simplify = TRUE
+) {
   
   # ----- Setup ----------------------------------------------------------------
   
@@ -27,10 +35,11 @@ convertWorldEEZ <- function(nameOnly=FALSE) {
   # Specify the name of the file being created
   datasetName <- 'WorldEEZ'
   
-  if (nameOnly) return(datasetName)
+  if (nameOnly) 
+    return(datasetName)
   
   # Test if the shapefile directory exists.
-  if (!file.exists(paste0(dataDir,'/',datasetName))) {
+  if ( !file.exists(paste0(dataDir,'/',datasetName)) ) {
     stop('Shapefile directory does not exists. Please download and convert the shapefile desired.', call.=FALSE)
   } 
   

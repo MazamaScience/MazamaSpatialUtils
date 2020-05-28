@@ -2,20 +2,28 @@
 % Please edit documentation in R/convertWorldEEZ.R
 \name{convertWorldEEZ}
 \alias{convertWorldEEZ}
-\title{Convert World Exclusive Economic Zones Boundaries Shapefile}
+\title{Convert World Exclusive Economic Zones shapefile}
 \usage{
-convertWorldEEZ(nameOnly = FALSE)
+convertWorldEEZ(nameOnly = FALSE, simplify = TRUE)
 }
 \arguments{
-\item{nameOnly}{logical specifying whether to only return the name without creating the file}
+\item{nameOnly}{logical specifying whether to only return the name without 
+creating the file}
+
+\item{simplify}{Logical specifying whether to create "_05", _02" and "_01" 
+versions of the file that are simplified to 5\%, 2\% and 1\%.}
 }
 \value{
 Name of the dataset being created.
 }
 \description{
+Returns a SpatialPolygonsDataFrame for US counties.
+}
+\details{
 A world EEZ shapefile is downloaded and converted to a 
-SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
-in the spatial data directory which is set with \code{setSpatialDataDir()}.
+SpatialPolygonsDataFrame with additional columns of data. The resulting file 
+will be created in the spatial data directory which is set with 
+\code{setSpatialDataDir()}.
 }
 \references{
 \url{http://www.marineregions.org/downloads.php}
