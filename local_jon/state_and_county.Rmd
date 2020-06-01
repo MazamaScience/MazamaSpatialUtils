@@ -1,0 +1,164 @@
+---
+title: "Exploring USCensusCounties and USCensusStates"
+author: "Tina Chen"
+date: "5/29/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(MazamaSpatialUtils)
+setSpatialDataDir('~/SpatialData')
+
+library(sp)
+library(tmap)
+library(tidyverse)
+library(rgdal)
+
+# Loading the datasets 
+#convertUSCensusCounties()
+#convertUSCensusStates()
+
+loadSpatialData("USCensusCounties")
+loadSpatialData("USCensusStates")
+```
+
+
+## Including Plots
+
+Testing the base map 
+```{r}
+# Takes a very looooong time to load because of resolution. I should go back and add in simplified version if it gets worse?
+
+subset(USCensusStates, stateCode %in% CONUS) %>% 
+  plot()
+subset(USCensusStates, stateCode == "WA") %>% 
+  plot
+subset(USCensusStates, stateCode == "CA") %>% 
+  plot
+
+# Would be more interesting if I just merge the data!
+```
+
+Part of my mistake...
+```{r}
+dataDir <- getSpatialDataDir()
+# CA County Boundaries 
+url <- 'https://data.ca.gov/dataset/e212e397-1277-4df3-8c22-40721b095f33/resource/b0007416-a325-4777-9295-368ea6b710e6/download/ca-county-boundaries.zip'
+
+filePath <- file.path(dataDir,basename(url))
+utils::download.file(url,filePath)
+utils::unzip(filePath,exdir=file.path(dataDir))
+layerName <- "CA_Counties_TIGER2016"
+
+# Should I convert it to SPDF or can I join a shapefile and SPDF? I think 
+data_projected <- readOGR(dsn = "/Users/Tina/SpatialData/CA_Counties", layer = layerName)
+
+#Wait, this is so silly! I have USCensusCounties loaded so why don't I just use that instead and subset California? The data looks awfully familiar...
+
+subset(USCensusCounties, stateCode == "CA") %>% 
+  plot()
+
+# Wow that was way easier... Okay great. With this, let's try to make it prettier! 
+
+rm(data_projected, dataDir, datasetName, layerName, url, filePath)
+```
+
+
+Merging with dataset: California-Focused
+
+```{r}
+ #Note to myself: First time making a choropleth plot! What is it? Thematic maps that are used to represent statistical data through various shading patterns. 
+
+california <- subset(USCensusCounties, stateCode == "CA") #let's use countyname
+
+# How many counties are there in CA? There should be 58
+unique(california@data$countyName) #checks out 
+
+# Let's highlight Los Angeles County and see
+subset(USCensusCounties, countyName == "Los Angeles") %>% 
+  plot()
+
+# Fun fact: There are two islands in LA County: Catalina Island (great for diving) and San Clemente Island.
+
+subset(USCensusCounties_01, countyName == "Los Angeles") %>% 
+  plot() # does not include the islands...interesting! 
+
+# Hopefully I can find d dataset later that can find all the cities in this county
+```
+
+
+COVID19 in California Based on Counties 
+```{r}
+# note to myself: That was a rabbit hole. Started reading about the injustices and racial differences across our nation. Why is our world so exhausting? Holy cow. How can I be an even better ally? With everything going on, it's so tough to focus. I need to work on not being influenced by the news during working hours. :(
+
+dataDir <- getSpatialDataDir()
+url <- 'https://data.chhs.ca.gov/dataset/6882c390-b2d7-4b9a-aefa-2068cee63e47/resource/6cd8d424-dfaa-4bdd-9410-a3d656e1176e/download/covid19data.csv'
+
+filePath <- file.path(dataDir,basename(url))
+utils::download.file(url,filePath) #cool, this is just a csv file 
+
+covid19data <- read.csv(filePath, header = TRUE) 
+
+# colnames(covid19data)
+# names(california@data)
+names(covid19data) <- gsub("\\.", "", names(covid19data)) #unnecessary- could've just renamed using select
+covid19data$MostRecentDate <- as.Date(covid19data$MostRecentDate, format = "%m/%d/%y")
+covid19data <- dplyr::select(
+  .data = covid19data,
+    countyName = .data$CountyName,
+    date = .data$MostRecentDate, 
+    totalCountConfirmed = .data$TotalCountConfirmed, #cumulative so let's select most recent 
+    totalCountDeaths = .data$TotalCountDeaths) %>% 
+  filter(date == as.Date("2020-05-30")) # There is one unassigned column 
+
+```
+
+
+
+```{r}
+# Use dplyr left_join to merge data onto SPDF@data. Create a choropleth plot
+
+#just realized... i could've just filtered by "CA" instead of subsetting a california SPDF! 
+#data_projected <- california@data %>% 
+#  left_join(covid19data, by = "countyName")
+
+# For some reason, it turned into a DF. 
+
+data_projected <- sp::merge(california, covid19data, by = "countyName")
+
+tm_shape(data_projected) +
+  tm_polygons("totalCountConfirmed")+
+  tm_layout(
+    title = "COVID-19 Map of California: Confirmed Cases by County",
+    title.size = 0.75,
+    main.title.position = c("CENTER", "TOP"),
+    legend.title.size = 0.75,
+    legend.position = c("left", "bottom"),
+    frame = FALSE
+  )
+# How would I make this map better: We can see that it's actually really disprop. LA County has a greater populaton in comparison to smaller counties throughout the state. I would merge it with population data as well to create a new proportion column. For next week... it took too long for me to figure out how to do certain things. Ugh.
+
+tm_shape(data_projected) +
+  tm_polygons("totalCountDeaths")+
+  tm_layout(
+    title = "COVID-19 Map of California: Confirmed Deaths by County",
+    title.size = 0.75,
+    main.title.position = c("CENTER", "TOP"),
+    legend.title.size = 0.75,
+    legend.position = c("left", "bottom"),
+    frame = FALSE
+  )
+
+# That's a bit better but it's still so ugly. Why is my title like that? Would have to balance as well. Also interested in just finding a dataset that's purely looking at LA County. 
+
+
+
+```
+
+
+Work in progress, not even remotely done. Definitely really like tmap but I still have a lot to embrace when it cmoes to shape files and the different layers! It's kind of similar to ggplot though, so that's nice! Definitely could have gotten more done but I had many questions along the way. This is so so fun!
+-Interested in understanding county population vulnerability (maybe food affordability?)
+-Crop yields by region
+-Glacial melting 
