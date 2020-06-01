@@ -1,0 +1,155 @@
+---
+title: "Exploring USCensusCounties and USCensusStates"
+author: "Tina Chen"
+date: "5/29/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(MazamaSpatialUtils)
+setSpatialDataDir('~/SpatialData')
+
+library(sp)
+library(tmap)
+library(tidyverse)
+library(rgdal)
+
+# Loading the datasets 
+#convertUSCensusCounties()
+#convertUSCensusStates()
+
+loadSpatialData("USCensusCounties")
+loadSpatialData("USCensusStates")
+```
+
+
+## Including Plots
+
+Testing the base map 
+```{r}
+# Takes a very looooong time to load because of resolution. I should go back and add in simplified version if it gets worse?
+
+subset(USCensusStates, stateCode %in% CONUS) %>% 
+  plot()
+subset(USCensusStates, stateCode == "WA") %>% 
+  plot
+subset(USCensusStates, stateCode == "CA") %>% 
+  plot
+
+# Would be more interesting if I just merge the data!
+```
+
+
+Merging with dataset: California-Focused
+
+```{r}
+ #Note to myself: First time making a choropleth plot! What is it? Thematic maps that are used to represent statistical data through various shading patterns. 
+
+subset(USCensusCounties, stateCode == "CA") %>% 
+  plot()
+
+california <- subset(USCensusCounties, stateCode == "CA") #let's use countyname
+
+# How many counties are there in CA? There should be 58
+unique(california@data$countyName) #checks out 
+
+# Let's highlight Los Angeles County and see
+subset(USCensusCounties, countyName == "Los Angeles") %>% 
+  plot()
+
+# Fun fact: There are two islands in LA County: Catalina Island (great for diving) and San Clemente Island.
+
+subset(USCensusCounties_01, countyName == "Los Angeles") %>% 
+  plot() # does not include the islands...interesting! 
+
+# Hopefully I can find d dataset later that can find all the cities in this county
+```
+
+
+COVID19 in California Based on Counties 
+```{r}
+# https://mgimond.github.io/Spatial/mapping-data-in-r.html
+
+dataDir <- getSpatialDataDir()
+url <- 'https://data.chhs.ca.gov/dataset/6882c390-b2d7-4b9a-aefa-2068cee63e47/resource/6cd8d424-dfaa-4bdd-9410-a3d656e1176e/download/covid19data.csv'
+
+filePath <- file.path(dataDir,basename(url))
+utils::download.file(url,filePath) #cool, this is just a csv file 
+
+covid19data <- read.csv(filePath, header = TRUE) 
+
+# colnames(covid19data)
+# names(california@data)
+
+covid19data$Most.Recent.Date <- as.Date(covid19data$Most.Recent.Date, format = "%m/%d/%y")
+covid19data <- dplyr::select(
+  .data = covid19data,
+    countyName = .data$County.Name,
+    date = .data$Most.Recent.Date, 
+    totalCountConfirmed = .data$Total.Count.Confirmed, #cumulative so let's select most recent 
+    totalCountDeaths = .data$Total.Count.Deaths) %>% 
+  filter(date == as.Date("2020-05-30")) # There is one unassigned column 
+
+# Use dplyr left_join to merge data onto SPDF@data. Create a choropleth plot. Update: When using that, it turned it into a data frame. Let's try merge.
+
+data_projected <- sp::merge(california, covid19data, by = "countyName")
+
+tm_shape(data_projected) +
+  tm_polygons("totalCountConfirmed")+
+  tm_layout(
+    title = "COVID-19 Map of California: Confirmed Cases by County",
+    title.size = 0.75,
+    main.title.position = c("CENTER", "TOP"),
+    legend.title.size = 0.75,
+    legend.position = c("left", "bottom"),
+    frame = FALSE
+  )
+# How would I make this map better: We can see that it's actually really disprop. LA County has a greater populaton in comparison to smaller counties throughout the state. I would merge it with population data as well to create a new proportion column. For next week... it took too long for me to figure out how to do certain things. Ugh.
+
+tm_shape(data_projected) +
+  tm_polygons("totalCountDeaths")+
+  tm_layout(
+    title = "COVID-19 Map of California: Confirmed Deaths by County",
+    title.size = 0.75,
+    main.title.position = c("CENTER", "TOP"),
+    legend.title.size = 0.75,
+    legend.position = c("left", "bottom"),
+    frame = FALSE
+  )
+
+# That's a bit better but it's still so ugly. Why is my title like that? Would have to balance as well. Also interested in just finding a dataset that's purely looking at LA County. 
+
+```
+
+
+City Data
+```{r}
+# Download table here: http://dashboard.publichealth.lacounty.gov/covid19_surveillance_dashboard/
+
+url <- 'http://publichealth.lacounty.gov/media/Coronavirus/locations.htm'
+raw <-rvest::html(url)
+tables <- rvest::html_nodes(raw, "table") # list of tables on the site
+test <- rvest::html_table(tables[[1]])
+
+#brute force to clean it quickly...
+
+a <-test[-(1:48),]
+a<-a[-(88:390),]
+colnames(a) <- as.character(unlist(a[1,]))
+cities <- a[-1,]
+rm(a, raw, tables, test)
+
+cities <- gsub(pattern = "City of ", replacement = "", cities$`CITY/COMMUNITY**`)
+# Scrape the web for the list of cities in LA County 
+# Download the boundaries shape file 
+
+
+```
+
+
+Work in progress, not even remotely done. Definitely really like tmap but I still have a lot to embrace when it cmoes to shape files and the different layers! It's kind of similar to ggplot though, so that's nice! Definitely could have gotten more done but I had many questions along the way. This is so so fun!
+-Interested in understanding county population vulnerability (maybe food affordability?)
+-Crop yields by region
+-Glacial melting 
