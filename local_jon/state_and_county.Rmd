@@ -41,35 +41,14 @@ subset(USCensusStates, stateCode == "CA") %>%
 # Would be more interesting if I just merge the data!
 ```
 
-Part of my mistake...
-```{r}
-dataDir <- getSpatialDataDir()
-# CA County Boundaries 
-url <- 'https://data.ca.gov/dataset/e212e397-1277-4df3-8c22-40721b095f33/resource/b0007416-a325-4777-9295-368ea6b710e6/download/ca-county-boundaries.zip'
-
-filePath <- file.path(dataDir,basename(url))
-utils::download.file(url,filePath)
-utils::unzip(filePath,exdir=file.path(dataDir))
-layerName <- "CA_Counties_TIGER2016"
-
-# Should I convert it to SPDF or can I join a shapefile and SPDF? I think 
-data_projected <- readOGR(dsn = "/Users/Tina/SpatialData/CA_Counties", layer = layerName)
-
-#Wait, this is so silly! I have USCensusCounties loaded so why don't I just use that instead and subset California? The data looks awfully familiar...
-
-subset(USCensusCounties, stateCode == "CA") %>% 
-  plot()
-
-# Wow that was way easier... Okay great. With this, let's try to make it prettier! 
-
-rm(data_projected, dataDir, datasetName, layerName, url, filePath)
-```
-
 
 Merging with dataset: California-Focused
 
 ```{r}
  #Note to myself: First time making a choropleth plot! What is it? Thematic maps that are used to represent statistical data through various shading patterns. 
+
+subset(USCensusCounties, stateCode == "CA") %>% 
+  plot()
 
 california <- subset(USCensusCounties, stateCode == "CA") #let's use countyname
 
@@ -91,7 +70,7 @@ subset(USCensusCounties_01, countyName == "Los Angeles") %>%
 
 COVID19 in California Based on Counties 
 ```{r}
-# note to myself: That was a rabbit hole. Started reading about the injustices and racial differences across our nation. Why is our world so exhausting? Holy cow. How can I be an even better ally? With everything going on, it's so tough to focus. I need to work on not being influenced by the news during working hours. :(
+# https://mgimond.github.io/Spatial/mapping-data-in-r.html
 
 dataDir <- getSpatialDataDir()
 url <- 'https://data.chhs.ca.gov/dataset/6882c390-b2d7-4b9a-aefa-2068cee63e47/resource/6cd8d424-dfaa-4bdd-9410-a3d656e1176e/download/covid19data.csv'
@@ -103,28 +82,17 @@ covid19data <- read.csv(filePath, header = TRUE)
 
 # colnames(covid19data)
 # names(california@data)
-names(covid19data) <- gsub("\\.", "", names(covid19data)) #unnecessary- could've just renamed using select
-covid19data$MostRecentDate <- as.Date(covid19data$MostRecentDate, format = "%m/%d/%y")
+
+covid19data$Most.Recent.Date <- as.Date(covid19data$Most.Recent.Date, format = "%m/%d/%y")
 covid19data <- dplyr::select(
   .data = covid19data,
-    countyName = .data$CountyName,
-    date = .data$MostRecentDate, 
-    totalCountConfirmed = .data$TotalCountConfirmed, #cumulative so let's select most recent 
-    totalCountDeaths = .data$TotalCountDeaths) %>% 
+    countyName = .data$County.Name,
+    date = .data$Most.Recent.Date, 
+    totalCountConfirmed = .data$Total.Count.Confirmed, #cumulative so let's select most recent 
+    totalCountDeaths = .data$Total.Count.Deaths) %>% 
   filter(date == as.Date("2020-05-30")) # There is one unassigned column 
 
-```
-
-
-
-```{r}
-# Use dplyr left_join to merge data onto SPDF@data. Create a choropleth plot
-
-#just realized... i could've just filtered by "CA" instead of subsetting a california SPDF! 
-#data_projected <- california@data %>% 
-#  left_join(covid19data, by = "countyName")
-
-# For some reason, it turned into a DF. 
+# Use dplyr left_join to merge data onto SPDF@data. Create a choropleth plot. Update: When using that, it turned it into a data frame. Let's try merge.
 
 data_projected <- sp::merge(california, covid19data, by = "countyName")
 
@@ -153,6 +121,29 @@ tm_shape(data_projected) +
 
 # That's a bit better but it's still so ugly. Why is my title like that? Would have to balance as well. Also interested in just finding a dataset that's purely looking at LA County. 
 
+```
+
+
+City Data
+```{r}
+# Download table here: http://dashboard.publichealth.lacounty.gov/covid19_surveillance_dashboard/
+
+url <- 'http://publichealth.lacounty.gov/media/Coronavirus/locations.htm'
+raw <-rvest::html(url)
+tables <- rvest::html_nodes(raw, "table") # list of tables on the site
+test <- rvest::html_table(tables[[1]])
+
+#brute force to clean it quickly...
+
+a <-test[-(1:48),]
+a<-a[-(88:390),]
+colnames(a) <- as.character(unlist(a[1,]))
+cities <- a[-1,]
+rm(a, raw, tables, test)
+
+cities <- gsub(pattern = "City of ", replacement = "", cities$`CITY/COMMUNITY**`)
+# Scrape the web for the list of cities in LA County 
+# Download the boundaries shape file 
 
 
 ```
