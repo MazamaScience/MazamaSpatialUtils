@@ -9,12 +9,13 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 
 library(MazamaSpatialUtils)
-setSpatialDataDir('~/SpatialData')
+setSpatialDataDir("~/Data/Spatial")
 
 library(sp)
 library(tmap)
 library(tidyverse)
 library(rgdal)
+library(stringr)
 
 # Loading the datasets 
 #convertUSCensusCounties()
@@ -25,46 +26,40 @@ loadSpatialData("USCensusStates")
 ```
 
 
-## Including Plots
-
-Testing the base map 
+Merging with dataset: California-Focused
 ```{r}
-# Takes a very looooong time to load because of resolution. I should go back and add in simplified version if it gets worse?
+#Note to myself: First time making a choropleth plot! What is it? Thematic maps that are used to represent statistical data through various shading patterns. 
 
-subset(USCensusStates, stateCode %in% CONUS) %>% 
+# Testing base maps
+
+# head(USCensusStates@data)
+
+USCensusStates %>% 
+  subset(stateCode == "CA") %>% 
   plot()
-subset(USCensusStates, stateCode == "WA") %>% 
-  plot
-subset(USCensusStates, stateCode == "CA") %>% 
-  plot
+
+USCensusCounties %>% 
+  subset(stateCode == "CA") %>% 
+  plot()
 
 # Would be more interesting if I just merge the data!
-```
-
-
-Merging with dataset: California-Focused
-
-```{r}
- #Note to myself: First time making a choropleth plot! What is it? Thematic maps that are used to represent statistical data through various shading patterns. 
-
-subset(USCensusCounties, stateCode == "CA") %>% 
-  plot()
-
-california <- subset(USCensusCounties, stateCode == "CA") #let's use countyname
+california <- USCensusCounties %>% 
+  subset(stateCode == "CA") #let's use countyname
 
 # How many counties are there in CA? There should be 58
 unique(california@data$countyName) #checks out 
 
 # Let's highlight Los Angeles County and see
-subset(USCensusCounties, countyName == "Los Angeles") %>% 
+USCensusCounties %>% 
+  subset(countyName == "Los Angeles") %>% 
   plot()
 
 # Fun fact: There are two islands in LA County: Catalina Island (great for diving) and San Clemente Island.
 
-subset(USCensusCounties_01, countyName == "Los Angeles") %>% 
-  plot() # does not include the islands...interesting! 
-
-# Hopefully I can find d dataset later that can find all the cities in this county
+# Simplified map (1%) should make the islands disappear
+USCensusCounties_01 %>% 
+  subset(countyName == "Los Angeles") %>% 
+  plot() 
 ```
 
 
@@ -73,6 +68,7 @@ COVID19 in California Based on Counties
 # https://mgimond.github.io/Spatial/mapping-data-in-r.html
 
 dataDir <- getSpatialDataDir()
+
 url <- 'https://data.chhs.ca.gov/dataset/6882c390-b2d7-4b9a-aefa-2068cee63e47/resource/6cd8d424-dfaa-4bdd-9410-a3d656e1176e/download/covid19data.csv'
 
 filePath <- file.path(dataDir,basename(url))
@@ -83,7 +79,9 @@ covid19data <- read.csv(filePath, header = TRUE)
 # colnames(covid19data)
 # names(california@data)
 
+# Turn to dates first
 covid19data$Most.Recent.Date <- as.Date(covid19data$Most.Recent.Date, format = "%m/%d/%y")
+
 covid19data <- dplyr::select(
   .data = covid19data,
     countyName = .data$County.Name,
@@ -92,44 +90,48 @@ covid19data <- dplyr::select(
     totalCountDeaths = .data$Total.Count.Deaths) %>% 
   filter(date == as.Date("2020-05-30")) # There is one unassigned column 
 
+# Note: Line graphs would be great, especially for the total count confirmed and total count deaths! 
+
 # Use dplyr left_join to merge data onto SPDF@data. Create a choropleth plot. Update: When using that, it turned it into a data frame. Let's try merge.
 
 data_projected <- sp::merge(california, covid19data, by = "countyName")
 
-tm_shape(data_projected) +
-  tm_polygons("totalCountConfirmed")+
-  tm_layout(
-    title = "COVID-19 Map of California: Confirmed Cases by County",
-    title.size = 0.75,
-    main.title.position = c("CENTER", "TOP"),
-    legend.title.size = 0.75,
-    legend.position = c("left", "bottom"),
-    frame = FALSE
-  )
-# How would I make this map better: We can see that it's actually really disprop. LA County has a greater populaton in comparison to smaller counties throughout the state. I would merge it with population data as well to create a new proportion column. For next week... it took too long for me to figure out how to do certain things. Ugh.
+# head(data_projected@data)  #unassigned should be gone
+
+# Trying to make this map https://www.latimes.com/projects/california-coronavirus-cases-tracking-outbreak/
 
 tm_shape(data_projected) +
-  tm_polygons("totalCountDeaths")+
+  tm_polygons("totalCountConfirmed", style = "fixed", palette = "Blues", title = "Confirmed Cases",
+              breaks = c(0, 480, 1420, 2320, 5240, 6470, 55000),
+              text.size = 0.75, legend.is.portrait = FALSE) +
   tm_layout(
-    title = "COVID-19 Map of California: Confirmed Deaths by County",
-    title.size = 0.75,
-    main.title.position = c("CENTER", "TOP"),
     legend.title.size = 0.75,
-    legend.position = c("left", "bottom"),
-    frame = FALSE
-  )
+    legend.position = c("right", "top"),
+    frame = TRUE
+  ) +
+    tm_legend(outside = FALSE) 
 
-# That's a bit better but it's still so ugly. Why is my title like that? Would have to balance as well. Also interested in just finding a dataset that's purely looking at LA County. 
-
+tm_shape(data_projected) +
+  tm_polygons("totalCountDeaths", style = "fixed", palette = "Blues", title = "Confirmed Death Cases",
+              breaks = c(0, 20, 80, 140, 200, 260, 2360),
+              text.size = 0.75, legend.is.portrait = FALSE) +
+  tm_layout(
+    legend.title.size = 0.75,
+    legend.position = c("right", "top"),
+    frame = TRUE
+  ) +
+    tm_legend(outside = FALSE) 
 ```
 
 
 City Data
 ```{r}
+# Scrape the web for the list of cities in LA County 
+
 # Download table here: http://dashboard.publichealth.lacounty.gov/covid19_surveillance_dashboard/
 
-url <- 'http://publichealth.lacounty.gov/media/Coronavirus/locations.htm'
-raw <-rvest::html(url)
+url_city <- 'http://publichealth.lacounty.gov/media/Coronavirus/locations.htm'
+raw <-rvest::html(url_city)
 tables <- rvest::html_nodes(raw, "table") # list of tables on the site
 test <- rvest::html_table(tables[[1]])
 
@@ -141,10 +143,52 @@ colnames(a) <- as.character(unlist(a[1,]))
 cities <- a[-1,]
 rm(a, raw, tables, test)
 
-cities <- gsub(pattern = "City of ", replacement = "", cities$`CITY/COMMUNITY**`)
-# Scrape the web for the list of cities in LA County 
-# Download the boundaries shape file 
+cities$`CITY/COMMUNITY**` <- gsub(pattern = "City of ", replacement = "", cities$`CITY/COMMUNITY**`)
 
+cities$countyName <- "Los Angeles"
+
+# Download the boundaries shape file 
+# Let's find a LA base map 
+
+url_boundary<- 'https://opendata.arcgis.com/datasets/7b0998f4e2ea42bda0068afc8eeaf904_19.zip'
+
+filePath3 <- file.path(dataDir,basename(url_boundary))
+utils::download.file(url_boundary,filePath3) 
+utils::unzip(filePath3,exdir=file.path(dataDir, 'lacities'))
+
+dsnPath <- file.path(dataDir, 'lacities')
+shpName <- 'LA%20County%20City%20Boundaries'
+  la_SPDF <- convertLayer(
+    dsn = dsnPath, 
+    layerName = shpName, 
+    encoding = 'UTF-8'
+  )
+
+la_SPDF@data <- dplyr::select(
+      .data = la_SPDF@data,
+      city = .data$CITY_LABEL,
+      city_number = .data$CITY_NO,
+      shapearea = .data$ShapeSTAre,
+      shapelen = .data$ShapeSTLen
+  )
+
+unique(la_SPDF@data$city) 
+
+#la_SPDF %>% 
+#  plot() # doesn't look right... 
+
+require(sp)
+data_projected_new <- sp::merge(data_projected, cities, by = "countyName",duplicateGeoms = TRUE) 
+
+la_cities_projected <- data_projected_new@data %>% 
+  filter(countyName == "Los Angeles")
+
+data_projected_new@data <- dplyr::filter(
+  .data = data_projected_new@data,
+  .data$countyName == "Los Angeles"
+  )
+
+data_projected_new %>% plot() # Hmm not what I expected... 
 
 ```
 
