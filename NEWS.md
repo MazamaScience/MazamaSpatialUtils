@@ -18,11 +18,6 @@ territories.
 
 * New "Basic GIS in R" article.
 
->>>>>>> master
-# MazamaSpatialUtils 0.6.7
-
-* New "Basic GIS in R" article.
-
 # MazamaSpatialUtils 0.6.6
 
 * `loadSpatialData()` now recognizes both `.RData` and `.rda` files.

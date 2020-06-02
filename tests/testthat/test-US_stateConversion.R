@@ -67,8 +67,8 @@ test_that("Returns expected output", {
 testthat::context("US_stateFIPSToCode()")
 
 test_that("Returns expected output", {
-  expect_equal(US_stateFIPSToCode("17"), "Illinois")
-  expect_equal(US_stateFIPSToCode(c("79", "48", "41", "01")),c("Wake Island", "Texas", "Oregon", "Alabama"))
+  expect_equal(US_stateFIPSToCode("17"), "IL")
+  expect_equal(US_stateFIPSToCode(c("79", "48", "41", "01")),c("WI", "TX", "OR", "AL"))
 })
 
 # ----- US_stateNameToCode ----------------------------------------------------------------
@@ -87,14 +87,4 @@ testthat::context("US_stateNameToFIPS()")
 test_that("Returns expected output", {
   expect_equal(US_stateNameToFIPS("Utah"), "49")
   expect_equal(US_stateNameToFIPS(c("South Carolina", "Puerto Rico", "New Mexico", "Georgia")),c("45", "72", "35", "13"))
-})
-
-# ----- US_stateFIPSToCode ----------------------------------------------------------------
-
-# Duplicates to HI (Hawaii and Howland Island and Michigan and Midway Islands)
-testthat::context("US_stateFIPSToCode()")
-
-test_that("Returns expected output", {
-  expect_equal(US_stateFIPSToCode("36"), "NY")
-  expect_equal(US_stateFIPSToCode(c("32", "30", "26", "02")),c("NV", "MT", "MI", "AK"))
 })
