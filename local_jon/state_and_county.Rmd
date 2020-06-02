@@ -1,0 +1,199 @@
+---
+title: "Exploring USCensusCounties and USCensusStates"
+author: "Tina Chen"
+date: "5/29/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(MazamaSpatialUtils)
+setSpatialDataDir("~/Data/Spatial")
+
+library(sp)
+library(tmap)
+library(tidyverse)
+library(rgdal)
+library(stringr)
+
+# Loading the datasets 
+#convertUSCensusCounties()
+#convertUSCensusStates()
+
+loadSpatialData("USCensusCounties")
+loadSpatialData("USCensusStates")
+```
+
+
+Merging with dataset: California-Focused
+```{r}
+#Note to myself: First time making a choropleth plot! What is it? Thematic maps that are used to represent statistical data through various shading patterns. 
+
+# Testing base maps
+
+# head(USCensusStates@data)
+
+USCensusStates %>% 
+  subset(stateCode == "CA") %>% 
+  plot()
+
+USCensusCounties %>% 
+  subset(stateCode == "CA") %>% 
+  plot()
+
+# Would be more interesting if I just merge the data!
+california <- USCensusCounties %>% 
+  subset(stateCode == "CA") #let's use countyname
+
+# How many counties are there in CA? There should be 58
+unique(california@data$countyName) #checks out 
+
+# Let's highlight Los Angeles County and see
+USCensusCounties %>% 
+  subset(countyName == "Los Angeles") %>% 
+  plot()
+
+# Fun fact: There are two islands in LA County: Catalina Island (great for diving) and San Clemente Island.
+
+# Simplified map (1%) should make the islands disappear
+USCensusCounties_01 %>% 
+  subset(countyName == "Los Angeles") %>% 
+  plot() 
+```
+
+
+COVID19 in California Based on Counties 
+```{r}
+# https://mgimond.github.io/Spatial/mapping-data-in-r.html
+
+dataDir <- getSpatialDataDir()
+
+url <- 'https://data.chhs.ca.gov/dataset/6882c390-b2d7-4b9a-aefa-2068cee63e47/resource/6cd8d424-dfaa-4bdd-9410-a3d656e1176e/download/covid19data.csv'
+
+filePath <- file.path(dataDir,basename(url))
+utils::download.file(url,filePath) #cool, this is just a csv file 
+
+covid19data <- read.csv(filePath, header = TRUE) 
+
+# colnames(covid19data)
+# names(california@data)
+
+# Turn to dates first
+covid19data$Most.Recent.Date <- as.Date(covid19data$Most.Recent.Date, format = "%m/%d/%y")
+
+covid19data <- dplyr::select(
+  .data = covid19data,
+    countyName = .data$County.Name,
+    date = .data$Most.Recent.Date, 
+    totalCountConfirmed = .data$Total.Count.Confirmed, #cumulative so let's select most recent 
+    totalCountDeaths = .data$Total.Count.Deaths) %>% 
+  filter(date == as.Date("2020-05-30")) # There is one unassigned column 
+
+# Note: Line graphs would be great, especially for the total count confirmed and total count deaths! 
+
+# Use dplyr left_join to merge data onto SPDF@data. Create a choropleth plot. Update: When using that, it turned it into a data frame. Let's try merge.
+
+data_projected <- sp::merge(california, covid19data, by = "countyName")
+
+# head(data_projected@data)  #unassigned should be gone
+
+# Trying to make this map https://www.latimes.com/projects/california-coronavirus-cases-tracking-outbreak/
+
+tm_shape(data_projected) +
+  tm_polygons("totalCountConfirmed", style = "fixed", palette = "Blues", title = "Confirmed Cases",
+              breaks = c(0, 480, 1420, 2320, 5240, 6470, 55000),
+              text.size = 0.75, legend.is.portrait = FALSE) +
+  tm_layout(
+    legend.title.size = 0.75,
+    legend.position = c("right", "top"),
+    frame = TRUE
+  ) +
+    tm_legend(outside = FALSE) 
+
+tm_shape(data_projected) +
+  tm_polygons("totalCountDeaths", style = "fixed", palette = "Blues", title = "Confirmed Death Cases",
+              breaks = c(0, 20, 80, 140, 200, 260, 2360),
+              text.size = 0.75, legend.is.portrait = FALSE) +
+  tm_layout(
+    legend.title.size = 0.75,
+    legend.position = c("right", "top"),
+    frame = TRUE
+  ) +
+    tm_legend(outside = FALSE) 
+```
+
+
+City Data
+```{r}
+# Scrape the web for the list of cities in LA County 
+
+# Download table here: http://dashboard.publichealth.lacounty.gov/covid19_surveillance_dashboard/
+
+url_city <- 'http://publichealth.lacounty.gov/media/Coronavirus/locations.htm'
+raw <-rvest::html(url_city)
+tables <- rvest::html_nodes(raw, "table") # list of tables on the site
+test <- rvest::html_table(tables[[1]])
+
+#brute force to clean it quickly...
+
+a <-test[-(1:48),]
+a<-a[-(88:390),]
+colnames(a) <- as.character(unlist(a[1,]))
+cities <- a[-1,]
+rm(a, raw, tables, test)
+
+cities$`CITY/COMMUNITY**` <- gsub(pattern = "City of ", replacement = "", cities$`CITY/COMMUNITY**`)
+
+cities$countyName <- "Los Angeles"
+
+# Download the boundaries shape file 
+# Let's find a LA base map 
+
+url_boundary<- 'https://opendata.arcgis.com/datasets/7b0998f4e2ea42bda0068afc8eeaf904_19.zip'
+
+filePath3 <- file.path(dataDir,basename(url_boundary))
+utils::download.file(url_boundary,filePath3) 
+utils::unzip(filePath3,exdir=file.path(dataDir, 'lacities'))
+
+dsnPath <- file.path(dataDir, 'lacities')
+shpName <- 'LA%20County%20City%20Boundaries'
+  la_SPDF <- convertLayer(
+    dsn = dsnPath, 
+    layerName = shpName, 
+    encoding = 'UTF-8'
+  )
+
+la_SPDF@data <- dplyr::select(
+      .data = la_SPDF@data,
+      city = .data$CITY_LABEL,
+      city_number = .data$CITY_NO,
+      shapearea = .data$ShapeSTAre,
+      shapelen = .data$ShapeSTLen
+  )
+
+unique(la_SPDF@data$city) 
+
+#la_SPDF %>% 
+#  plot() # doesn't look right... 
+
+require(sp)
+data_projected_new <- sp::merge(data_projected, cities, by = "countyName",duplicateGeoms = TRUE) 
+
+la_cities_projected <- data_projected_new@data %>% 
+  filter(countyName == "Los Angeles")
+
+data_projected_new@data <- dplyr::filter(
+  .data = data_projected_new@data,
+  .data$countyName == "Los Angeles"
+  )
+
+data_projected_new %>% plot() # Hmm not what I expected... 
+
+```
+
+
+Work in progress, not even remotely done. Definitely really like tmap but I still have a lot to embrace when it cmoes to shape files and the different layers! It's kind of similar to ggplot though, so that's nice! Definitely could have gotten more done but I had many questions along the way. This is so so fun!
+-Interested in understanding county population vulnerability (maybe food affordability?)
+-Crop yields by region
+-Glacial melting 
