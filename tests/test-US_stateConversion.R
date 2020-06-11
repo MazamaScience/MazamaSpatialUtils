@@ -23,17 +23,17 @@ setSpatialDataDir('~/Data/Spatial')
 # US_stateNameToCode US_stateNameToFIPS
 # US_stateFIPSToCode
 
-#?test_check
-#devtools::uses_testthat() 
-
-testthat::context("US_stateConversion()")
-
-
-# Check if stateCode is 2 letters. 
-# Check if stateFIPS is 2 digits.
-
 # Try to set up spatial data. Skip if fails.  
 spatialDataDir <- try(getSpatialDataDir(), silent = TRUE)
+
+
+testthat::context("US_stateCodes()")
+
+#test_that("Warns when there are multiple states for a code",{
+#  expect_warning(US_stateCodeToName("HI"), "Hawaii or Howland Island?")
+#  expect_warning(US_stateCodeToName("MI"), "Michigan or Midway Islands?")
+#})
+
 
 # ----- US_stateCodeToName ----------------------------------------------------------------
 
@@ -42,7 +42,7 @@ testthat::context("US_stateCodeToName()")
 test_that("Returns expected output", {
   expect_equal(US_stateCodeToName("VT"), "Vermont")
   expect_equal(US_stateCodeToName(c("SD", "NY", "WA", "CA")),c("South Dakota", "New York", "Washington", "California"))
-})
+  })
 
 # ----- US_stateCodeToFIPS ----------------------------------------------------------------
 
