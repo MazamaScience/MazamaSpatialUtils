@@ -1,6 +1,7 @@
 # MazamaSpatialUtils 0.6.10
 
 * Updated `convertGACC()` to use 2020 data.
+* Removed outlying territories from `US_stateCodes`.
 
 # MazamaSpatialUtils 0.6.9
 

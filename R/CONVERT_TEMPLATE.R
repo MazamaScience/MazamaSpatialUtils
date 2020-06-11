@@ -71,7 +71,7 @@
 #   # NOTE:  Reasonable names will be constructed as "subTypeNoun" e.g.:
 #   # NOTE:    waterSurfaceArea, landSurfaceArea, k12StudentCount, collegeStudentCount
 # 
-#   # > head(SPDF@data, 5)
+#   # > dplyr::glimpse(SPDF@data)
 #   # TODO:  PASTE ORIGINAL RESULTS HERE
 # 
 #   # TODO Example from convertWeatherZones.R
