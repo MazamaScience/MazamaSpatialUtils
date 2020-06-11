@@ -100,29 +100,76 @@ data_projected <- sp::merge(california, covid19data, by = "countyName")
 
 # Trying to make this map https://www.latimes.com/projects/california-coronavirus-cases-tracking-outbreak/
 
-tm_shape(data_projected) +
-  tm_polygons("totalCountConfirmed", style = "fixed", palette = "Blues", title = "Confirmed Cases",
-              breaks = c(0, 480, 1420, 2320, 5240, 6470, 55000),
-              text.size = 0.75, legend.is.portrait = FALSE) +
-  tm_layout(
-    legend.title.size = 0.75,
-    legend.position = c("right", "top"),
-    frame = TRUE
-  ) +
-    tm_legend(outside = FALSE) 
+# Let's create a vector with the labels of counties/"cities" we want
 
-tm_shape(data_projected) +
-  tm_polygons("totalCountDeaths", style = "fixed", palette = "Blues", title = "Confirmed Death Cases",
-              breaks = c(0, 20, 80, 140, 200, 260, 2360),
-              text.size = 0.75, legend.is.portrait = FALSE) +
-  tm_layout(
-    legend.title.size = 0.75,
-    legend.position = c("right", "top"),
-    frame = TRUE
-  ) +
-    tm_legend(outside = FALSE) 
+lacities_highlight <- c("Los Angeles", "San Diego", "San Francisco", "Sacramento")
+
+# Subset the SPDF
+data_projected %>% 
+  subset(countyName %in% lacities_highlight) %>%  
+  plot()
+
+# Wow, didn't realize how small San Francisco County was!
+
+lacities_highlight_map <- data_projected %>% 
+  subset(countyName %in% lacities_highlight) 
 ```
 
+
+Based on LA Time's Map: https://www.latimes.com/projects/california-coronavirus-cases-tracking-outbreak/ (June 3, 2020)
+```{r}
+# I tried my best to make them as similar as possible... I even made my own color palettes. The only big stylistic thing I changed was omitting Redding, CA. It would've printed its county name. Perhaps I can do more once I actually join it with city data. 
+
+cases_palette <- c('#ebebeb','#b3e4f1','#7ec6da','#51a9c9', '#2f83a9','#0c5c7e','#05344a')
+
+# Cumulative 
+tm_shape(data_projected) +
+  tm_borders(col = "white", lwd = 0.5) +
+  tm_polygons("totalCountConfirmed", 
+    style = "fixed", 
+    palette = cases_palette, 
+    title = "Confirmed cases",
+    breaks = c(0, 1, 480, 1420, 2320, 5240, 6470, 55000),
+    labels = c("0", "500", "1460", "2410", "5650", "7670", "58260"),
+    interval.closure = "right",
+    text.size = 0.75, 
+    legend.is.portrait = FALSE) +
+tm_shape(lacities_highlight_map) +
+  tm_dots("countyName", size = 0.2, col = "black", shape = 16) +
+  tm_text("countyName", just = "right", xmod = -.25, size = 1, col = "black", shadow = TRUE) +
+  tm_layout(
+    legend.title.size = 0.75,
+    legend.format = list(text.align = "right"),
+    legend.position = c("right", "top"),
+    frame = FALSE) +
+  tm_legend(outside = FALSE)
+
+# Death
+death_palette <- c('#ebebeb', '#d1d7da', '#b5bec9', '#93a7bc', '#708ba0', '#4b6373','#37404d')
+
+# Cumulative Deaths
+tm_shape(data_projected) +
+  tm_borders(col = "white", lwd = 0.5) +
+  tm_polygons("totalCountDeaths", 
+    style = "fixed", 
+    palette = death_palette, 
+    title = "Deaths",
+    breaks = c(0, 1, 20, 80, 140, 200, 260, 2360),
+    labels = c("0", "20", "80", "140", "200", "270", "2480"),
+    interval.closure = "right",
+    text.size = 1.5, 
+    legend.is.portrait = FALSE) +
+  tm_shape(lacities_highlight_map) +
+  tm_dots("countyName", size = 0.2, col = "black", shape = 16) +
+  tm_text("countyName", just = "right", xmod = -.25, size = 1, col = "black", shadow = TRUE) +
+ tm_layout(
+    legend.title.size = 0.75,
+    legend.format = list(text.align = "right"),
+    legend.position = c("right", "top"),
+    frame = FALSE) +
+  tm_legend(outside = FALSE) 
+
+```
 
 City Data
 ```{r}
@@ -138,13 +185,15 @@ test <- rvest::html_table(tables[[1]])
 #brute force to clean it quickly...
 
 a <-test[-(1:48),]
-a<-a[-(88:390),]
+#a<-a[-(88:390),]
 colnames(a) <- as.character(unlist(a[1,]))
 cities <- a[-1,]
-rm(a, raw, tables, test)
+rm(a, raw, tables)
 
-cities$`CITY/COMMUNITY**` <- gsub(pattern = "City of ", replacement = "", cities$`CITY/COMMUNITY**`)
+colnames(cities)[1] <- "city"
+cities$city <- gsub(pattern = "City of |[*]", replacement = "", cities$city)
 
+# All los angeles county 
 cities$countyName <- "Los Angeles"
 
 # Download the boundaries shape file 
@@ -158,7 +207,8 @@ utils::unzip(filePath3,exdir=file.path(dataDir, 'lacities'))
 
 dsnPath <- file.path(dataDir, 'lacities')
 shpName <- 'LA%20County%20City%20Boundaries'
-  la_SPDF <- convertLayer(
+  
+la_SPDF <- convertLayer(
     dsn = dsnPath, 
     layerName = shpName, 
     encoding = 'UTF-8'
@@ -172,23 +222,47 @@ la_SPDF@data <- dplyr::select(
       shapelen = .data$ShapeSTLen
   )
 
-unique(la_SPDF@data$city) 
+# What does it look like? 
+la_SPDF %>% 
+  plot()  #niiiiice
 
-#la_SPDF %>% 
-#  plot() # doesn't look right... 
+#unique(la_SPDF@data$city) 
 
-require(sp)
-data_projected_new <- sp::merge(data_projected, cities, by = "countyName",duplicateGeoms = TRUE) 
+la_SPDF@data<- la_SPDF@data %>% 
+  #filter(city_number !="0") %>% 
+  distinct(city_number, .keep_all = TRUE) %>% 
+  mutate(city = gsub(pattern = "City of ", replacement = "", city)) %>% 
+  mutate(city =gsub(pattern = "ñ", replacement = "n", city))
 
-la_cities_projected <- data_projected_new@data %>% 
-  filter(countyName == "Los Angeles")
+```
 
-data_projected_new@data <- dplyr::filter(
-  .data = data_projected_new@data,
-  .data$countyName == "Los Angeles"
-  )
+```{r}
 
-data_projected_new %>% plot() # Hmm not what I expected... 
+#require(sp)
+#la_cities_map <- sp::merge(la_SPDF, cities) 
+
+la_SPDF@data <- full_join(la_SPDF@data, cities, by = c('city'))
+
+# Where is Pasadena? Long Beach? I see, they were not included in the url.
+
+la_SPDF %>% plot()
+
+tm_shape(la_SPDF) +
+  tm_polygons("city") 
+
+
+
+# Last time I checked, there are 88 cities in LA County. Must be duplicates. Odd, why are there missing cities? Ahh, turns out when I filtered by "LA County," some of the places were NA. Let's filter it by removing all the cities without a city number "0" and then remove the duplicates!
+
+# Some of the cities are "missing" <- let's fill them in tomorrow and figure out why they're not! 
+
+# Map 
+
+# http://dashboard.publichealth.lacounty.gov/covid19_surveillance_dashboard/ Should be similar
+
+
+
+# Note: Going to have to stop now. When I used sp:merge, I am left with the specific cities in the LA County (la_SPDF, cities). When printed, you don't see the "LA County" shape. Messed around a little bit with the la_SPDF filter and when I plotted, it looked like what I want. Full_joined with the cities df but dimensions were not matching. Maybe I need to fill the NA's? Will come back to this. 
 
 ```
 
