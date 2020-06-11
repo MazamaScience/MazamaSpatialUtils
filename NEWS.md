@@ -2,6 +2,7 @@
 
 * Updated `convertGACC()` to use 2020 data.
 * Removed outlying territories from `US_stateCodes`.
+* Updated `convertUSCensusStates()` to use 2019 data.
 
 # MazamaSpatialUtils 0.6.9
 
