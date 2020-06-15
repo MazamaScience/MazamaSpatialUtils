@@ -1,5 +1,6 @@
 #' @keywords datagen
 #' @importFrom rlang .data
+#' @importFrom cleangeo clgeo_IsValid
 #' @export
 #' 
 #' @title Convert US county borders shapefile
@@ -134,7 +135,7 @@ convertUSCensusCounties <- function(
     ) 
 
   
-  # ----- Organize polygons ----------------------------------------------------
+  # ----- Clean SPDF -----------------------------------------------------------
   
   # TODO:  COUNTYNS is the polygon uniqueID but what is it?
   
@@ -144,6 +145,11 @@ convertUSCensusCounties <- function(
     uniqueID = 'COUNTYNS', 
     sumColumns = c('areaLand', 'areaWater')
   )
+  
+  # Clean topology errors
+  if ( !cleangeo::clgeo_IsValid(SPDF) ) {
+    SPDF <- cleangeo::clgeo_Clean(SPDF)
+  }
   
   # ----- Name and save the data -----------------------------------------------
   
@@ -161,28 +167,40 @@ convertUSCensusCounties <- function(
     message("Simplifying to 5%...\n")
     SPDF_05 <- rmapshaper::ms_simplify(SPDF, 0.05)
     SPDF_05@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+    # Clean topology errors
+    if ( !cleangeo::clgeo_IsValid(SPDF_05) ) {
+      SPDF_05 <- cleangeo::clgeo_Clean(SPDF_05)
+    }
     datasetName_05 <- paste0(datasetName, "_05")
     message("Saving 5% version...\n")
     assign(datasetName_05, SPDF_05)
-    save(list = datasetName_05, file = paste0(dataDir,"/",datasetName_05, '.rda'))
+    save(list = datasetName_05, file = paste0(dataDir,"/", datasetName_05, '.rda'))
     rm(list = c("SPDF_05",datasetName_05))
     
     message("Simplifying to 2%...\n")
     SPDF_02 <- rmapshaper::ms_simplify(SPDF, 0.02)
     SPDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+    # Clean topology errors
+    if ( !cleangeo::clgeo_IsValid(SPDF_02) ) {
+      SPDF_02 <- cleangeo::clgeo_Clean(SPDF_02)
+    }
     datasetName_02 <- paste0(datasetName, "_02")
     message("Saving 2% version...\n")
     assign(datasetName_02, SPDF_02)
-    save(list = datasetName_02, file = paste0(dataDir,"/",datasetName_02, '.rda'))
+    save(list = datasetName_02, file = paste0(dataDir,"/", datasetName_02, '.rda'))
     rm(list = c("SPDF_02",datasetName_02))
     
     message("Simplifying to 1%...\n")
     SPDF_01 <- rmapshaper::ms_simplify(SPDF, 0.01)
     SPDF_01@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+    # Clean topology errors
+    if ( !cleangeo::clgeo_IsValid(SPDF_01) ) {
+      SPDF_01 <- cleangeo::clgeo_Clean(SPDF_01)
+    }
     datasetName_01 <- paste0(datasetName, "_01")
     message("Saving 1% version...\n")
     assign(datasetName_01, SPDF_01)
-    save(list = datasetName_01, file = paste0(dataDir,"/",datasetName_01, '.rda'))
+    save(list = datasetName_01, file = paste0(dataDir,"/", datasetName_01, '.rda'))
     rm(list = c("SPDF_01",datasetName_01))
   }
   

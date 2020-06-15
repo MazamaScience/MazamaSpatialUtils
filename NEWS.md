@@ -3,6 +3,8 @@
 * Updated `convertGACC()` to use 2020 data.
 * Removed outlying territories from `US_stateCodes`.
 * Updated `convertUSCensusStates()` to use 2019 data.
+* Now using the *cleangeo* package to fix topology errors and geometry validity
+issues.
 
 # MazamaSpatialUtils 0.6.9
 

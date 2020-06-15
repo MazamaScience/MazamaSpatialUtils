@@ -37,6 +37,7 @@ Depends:
     R (>= 3.1.0),
     sp
 Imports:
+    cleangeo,
     countrycode,
     dplyr,
     geojsonio,
