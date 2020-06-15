@@ -26,17 +26,18 @@ When I came across [LA Time's](https://www.latimes.com/projects/california-coron
 Here are the two map that we will recreate: 
 <br />
 
-
+<!--
 ![LA Time's Tracking Coronavirus in California: Confirmed Cases by County (Cumulative as of June 2020).](confirmed_cases.png){#id .class width=50% height=50%}
+-->
 
 
 <br />
 
 
 <br />
-
+<!--
 ![LA Time's Tracking coronavirus in California: Confirmed Death Cases by County (Cumulative as of June 4, 2020)](death_cases.png){#id .class width=50% height=50%}
-
+-->
 
 To recreate the maps, as seen above, we are going to utilize the MazamaSpatialUtils package. 
 
