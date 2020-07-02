@@ -96,7 +96,7 @@
 # 
 #   # TODO
 # 
-#   # ----- Organize polygons ----------------------------------------------------
+#   # ----- Clean SPDF -----------------------------------------------------------
 # 
 #   # NOTE:  Some datasets have a "unique ID" that is duplicated in the data
 #   # NOTE:  because the polygons are not properly nested. An example would be
@@ -112,19 +112,23 @@
 #   # NOTE:
 #   # NOTE:  This is done with organizePolygons().
 #   
-#   # TODO: Example from convertWeatherZones.R
-#   #
-#   # duplicated <- SPDF$zoneID[duplicated(SPDF$zoneID)]
-#   # SPDF <- organizePolygons(SPDF, "zoneID", sumColumns = c("longitude", "latitude")) # sumColumns included to avoid complaints
-#   #
-#   # # Get correct lat/lon centroids for new polygons
-#   # data <- SPDF@data
-#   # centroids <- rgeos::gCentroid(subset(SPDF, SPDF$zoneID %in% duplicated), byid=TRUE)
-#   # for (id in duplicated) {
-#   #   data[data$zoneID == id,]$longitude <- centroids[id]$x
-#   #   data[data$zoneID == id,]$latitude <- centroids[id]$y
-#   # }
-#   # SPDF@data <- data
+#   # TODO: Example from convertUSCensusStates.R
+#
+#   # Group polygons with the same identifier (stateFIPS)
+#   SPDF <- organizePolygons(
+#     SPDF, 
+#     uniqueID = 'stateFIPS', 
+#     sumColumns = c('areaLand', 'areaWater')
+#   )
+#   
+#   # NOTE:  The *cleangeo* package will clean up any topological errors that 
+#   # NOTE:  might creep in. These may not be seen until the resulting SPDF
+#   # NOTE:  is converted and plotted using the *tmap* package.
+#
+#   # Clean topology errors
+#   if ( !cleangeo::clgeo_IsValid(SPDF) ) {
+#     SPDF <- cleangeo::clgeo_Clean(SPDF)
+#   }
 # 
 #   # ----- Add country and state codes ------------------------------------------
 # 
