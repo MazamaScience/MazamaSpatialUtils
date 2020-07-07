@@ -90,7 +90,7 @@ convertUSCensusStates <- function(
   # ----- Convert to SPDF ------------------------------------------------------
   
   # Convert shapefile into SpatialPolygonsDataFrame
-  # NOTE:  The 'counties' directory has been created
+  # NOTE:  The 'states' directory has been created
   dsnPath <- file.path(dataDir, 'states')
   shpName <- 'cb_2019_us_state_500k'
   SPDF <- convertLayer(
@@ -127,8 +127,6 @@ convertUSCensusStates <- function(
   #   LSAD --------> (drop)    
   #   ALAND -------> landArea: land area (in sq. meters)    
   #   AWATER ------> waterArea: water area (in sq. meters)       
-
-  # TODO:  Figure out units for ALAND and AWATER and convert to m^2
   
   # Guarantee that ALAND and AWATER are numeric
   SPDF@data$ALAND <- as.numeric(SPDF@data$ALAND)
@@ -144,8 +142,8 @@ convertUSCensusStates <- function(
       stateCode = .data$STUSPS,
       stateFIPS = .data$STATEFP,
       countyName = .data$NAME,
-      areaLand = .data$ALAND,
-      areaWater = .data$AWATER,
+      landArea = .data$ALAND,
+      waterArea = .data$AWATER,
       AFFGEOID = .data$AFFGEOID
     )
   
@@ -155,7 +153,7 @@ convertUSCensusStates <- function(
   SPDF <- organizePolygons(
     SPDF, 
     uniqueID = 'stateFIPS', 
-    sumColumns = c('areaLand', 'areaWater')
+    sumColumns = c('landArea', 'waterArea')
   )
   
   # Clean topology errors

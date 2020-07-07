@@ -96,8 +96,8 @@ convertUSCensusCongress <- function(
   #   GEOID -------> GeoID    
   #   LSAD --------> (drop)  
   #   CDSESSN ------> (drop) this is the congressional district session number of the dataset (116 for all) 
-  #   ALAND -------> areaLand: land area (in sq. meters)    
-  #   AWATER ------> areaWater: water area (in sq. meters) 
+  #   ALAND -------> landArea: land area (in sq. meters)    
+  #   AWATER ------> waterArea: water area (in sq. meters) 
   
   # Guarantee that ALAND and AWATER are numeric
   SPDF@data$ALAND <- as.numeric(SPDF@data$ALAND)
@@ -113,19 +113,19 @@ convertUSCensusCongress <- function(
       stateCode = .data$stateCode,
       stateFIPS = .data$STATEFP,
       congressionalDistrictFIPS = .data$CD116FP,
-      areaLand = .data$ALAND,
-      areaWater = .data$AWATER,
+      landArea = .data$ALAND,
+      waterArea = .data$AWATER,
       AFFGEOID = .data$AFFGEOID,
       GeoID = .data$GEOID
     )
   
   # ----- Clean SPDF -----------------------------------------------------------
  
-  # Group polygons with the same identifier (congressionalDistrictFIPS)
+  # Group polygons with the same identifier
   SPDF <- organizePolygons(
     SPDF, 
-    uniqueID='GeoID', #RC should I drop GEOID and use AFFGEOID here instead?
-    sumColumns=c('areaLand', 'areaWater')
+    uniqueID='GeoID', 
+    sumColumns=c('landArea', 'waterArea')
   )
   
   # Clean topology errors
