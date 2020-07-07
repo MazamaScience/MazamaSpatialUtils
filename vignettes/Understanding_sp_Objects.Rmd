@@ -1,0 +1,186 @@
+---
+title: "Understanding 'sp' Objects"
+author: "Mazama Science"
+date: "2020-07-06"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Understanding 'sp' Objects}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+# Understanding 'sp' Objectss
+
+To work efficiently with the `SpatialPolygonsDataFrame` (SPDF) objects used in
+the **MazamaSpatialUtils** package, it is important to understand the **S4**
+object classes that underly the **sp** package. This vignette introduces simple 
+concepts assocuated with R's object classes so that newcomers to this style of
+coding can work efficiently with SPDFs.
+
+## Objects in R
+
+Unlike C, Java or python, R is a proudly "functional language". The basic 
+element is a function rather than an object. Over the years, various _object_
+systems have been developed for R and these are concisely explained in the
+[Object Oriented Programming](https://adv-r.hadley.nz/oo.html) 
+chapter from Wickham's [Advanced R](https://adv-r.hadley.nz/).
+
+We will discuss on **S3** and **S4** objects with a focus on how to tell which is 
+which and how to manipulate them.
+
+## S3 Objects
+
+When _programming_ in R (as opposed to _scripting_), it is important to understand
+the fundamental nature of the "things"  you are working with. The most common
+type of "thing" is an object of type **S3**. We will start by
+investigating a familiar function and its return value and learn the following:
+
+* S3 objects are just lists
+* S3 objects have attributes
+* S3 compenents are accessed like normal list components
+* The `class` attribute determines how _"methods are dispatched"_
+
+### What is an S3 Object
+
+```{r histogram}
+# Plot a histogram but save the return value
+h <- hist(rnorm(100), plot = FALSE)
+
+# Query this 'object'
+typeof(h)
+class(h)
+attributes(h)
+names(h)
+```
+
+OK. So `h` has an internal storage type (`typeof()`) of `list`; and a `class`
+attribute of `histogram`. A simpler way to state this would be to say that
+"`h` is a list of class `histogram`."
+
+### Accessing S3 components
+
+You can access elements of this object in normal "list" fashion:
+
+```{r histogram_elements}
+# What types of elements do we have?
+
+str(lapply(h, class))
+
+# Let's look a "counts"
+h$counts
+
+# Or, altenatively
+h[["counts"]]
+```
+
+### Calling S3 "methods"
+
+Let's examine how R creates different plots for different types of "things".
+
+```{r two_plots, fig.width = 7, fig.height = 10}
+# Lets set up some more "objects"
+h1 <- 1:10        # Numbers 1-10
+
+layout(matrix(seq(2)))
+plot(h)
+plot(h1)
+layout(1)
+```
+
+This capability demonstrates something called "method dispatch" where a top 
+level function assess the class of an **S3** object and calls the appropriate 
+sub-function.
+
+```{r method_dispatch}
+class(h)
+class(h1)
+
+methods("plot")
+```
+
+It turns out there are lots of "plot" functions. If you try to plot an object of
+class `histogram` you will end up calling `plot.histogram` whereas plotting an
+object of class `integer` ends up calling `plot.default`.
+
+## S4 Objects
+
+While **S3** objects are simple, they do no allow many of the fancier features
+associated with "Object Oriented Programming" (OOP). As R evolved, people came
+up with **S4** objects to address this. We won't go into the details about what
+is possible but just point out how to use **S4** objects from the **sp** package.
+
+* S4 objects have "slots"
+* S4 slots are accessed using `@`
+
+### What is an S4 Object
+
+The **MazamaSpatialUtils** package uses **sp** and creates **S4** objects:
+
+```{r s4}
+# Load the 'SimpleCountries' dataset
+library(MazamaSpatialUtils)
+data("SimpleCountries")
+
+class(SimpleCountries)
+typeof(SimpleCountries)
+
+# It's big so we don't just print out the attributes
+a <- attributes(SimpleCountries)
+class(a)
+names(a)
+```
+
+### Accessing S4 components
+
+```{r slots}
+# S4 objects have 'slots'
+slotNames(SimpleCountries)
+
+# Access slots using 'slot()' or '@'
+class(slot(SimpleCountries, "data"))
+class(SimpleCountries@data)
+```
+
+## SPDF Objects
+
+Each `SpatialPolygonsDataFrame` is an **S4** object with a 1:1 relationship 
+between records (rows) in the `@data` dataframe and `Polygons` **S4** objects in 
+the `@polygons` list. This makes it possible to use _some_ functions like
+`subset()` that work on dataframes. The following code shows how to work with
+them.
+
+```{r SPDF, fig.width = 7, fig.height = 7}
+# Compare 'data' and 'polygons' slots
+nrow(SimpleCountries@data)
+length(SimpleCountries@polygons)
+
+# Look at the first record
+str(SimpleCountries@data[1,])
+
+# We can also use normal dataframe syntax to access columns of data
+SimpleCountries$countryName[1]
+
+# Magic happens when we plot using normal dataframe syntax
+plot(SimpleCountries[1,])
+
+# Here is a more advanced example using pipes
+SimpleCountries %>% 
+  subset(UN_region == 150) %>% 
+  subset(countryCode != "RU") %>% 
+  plot()
+
+SimpleCountries %>%
+  subset(countryCode %in% c("DE", "AT", "CH")) %>%
+  plot(col = 'red', add = TRUE)
+
+title("German Speakers in Europe")
+
+```
+
+-----
+
+Best of luck making interesting maps!
+
+**_Mazama Science_**
+
+
