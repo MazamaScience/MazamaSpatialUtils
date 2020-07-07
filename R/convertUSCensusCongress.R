@@ -46,8 +46,8 @@ convertUSCensusCongress <- function(
   # RC Note: cd116 means Congressional District (116th Congress)  -- old url: 'http://www2.census.gov/geo/tiger/GENZ2016/shp/cb_2016_us_cd115_500k.zip'
   url <- 'https://www2.census.gov/geo/tiger/GENZ2019/shp/cb_2019_us_cd116_500k.zip'
   
-  filePath <- file.path(dataDir,basename(url))
-  utils::download.file(url,filePath)
+  filePath <- file.path(dataDir, basename(url))
+  utils::download.file(url, filePath)
   # NOTE:  This zip file has no directory so extra subdirectory needs to be created
   utils::unzip(filePath, exdir = file.path(dataDir, 'congress'))
   
@@ -58,8 +58,8 @@ convertUSCensusCongress <- function(
   dsnPath <- file.path(dataDir,'congress')
   shpName <- 'cb_2019_us_cd116_500k'
   SPDF <- convertLayer(
-    dsn=dsnPath,
-    layerName=shpName,
+    dsn = dsnPath,
+    layerName = shpName,
     encoding = 'UTF-8'
   )
   
@@ -80,7 +80,7 @@ convertUSCensusCongress <- function(
   # Given state FIPS code, find state code
   extractState <- function(row) {
     fips <- row['STATEFP']
-    stateCode <- MazamaSpatialUtils::US_stateCodes$stateCode[MazamaSpatialUtils::US_stateCodes$stateFIPS==fips]
+    stateCode <- US_stateCodes$stateCode[US_stateCodes$stateFIPS == fips]
     return(stateCode)
   }
   
@@ -124,8 +124,8 @@ convertUSCensusCongress <- function(
   # Group polygons with the same identifier
   SPDF <- organizePolygons(
     SPDF, 
-    uniqueID='GeoID', 
-    sumColumns=c('landArea', 'waterArea')
+    uniqueID = 'GeoID', 
+    sumColumns = c('landArea', 'waterArea')
   )
   
   # Clean topology errors
@@ -138,7 +138,7 @@ convertUSCensusCongress <- function(
   # Assign a name and save the data
   message("Saving full resolution version...\n")
   assign(datasetName, SPDF)
-  save(list = c(datasetName), file = paste0(dataDir,'/', datasetName, '.rda'))
+  save(list = c(datasetName), file = paste0(dataDir, '/', datasetName, '.rda'))
   rm(list = datasetName)
   
   # ----- Simplify -------------------------------------------------------------

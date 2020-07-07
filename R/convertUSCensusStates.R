@@ -166,7 +166,7 @@ convertUSCensusStates <- function(
   # Assign a name and save the data
   message("Saving full resolution version...\n")
   assign(datasetName, SPDF)
-  save(list = c(datasetName), file = paste0(dataDir,'/', datasetName, '.rda'))
+  save(list = c(datasetName), file = paste0(dataDir, '/', datasetName, '.rda'))
   rm(list = datasetName)
   
   # ----- Simplify -------------------------------------------------------------
