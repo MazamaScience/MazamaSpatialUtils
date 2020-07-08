@@ -115,12 +115,12 @@ convertUSCensusCounties <- function(
   #   AWATER ------> waterArea: water area (in sq. meters)    
   
   # Guarantee that ALAND and AWATER are numeric
-  SPDF$ALAND <- as.numeric(SPDF$ALAND)
-  SPDF$AWATER <- as.numeric(SPDF$AWATER)
+  SPDF@data$ALAND <- as.numeric(SPDF@data$ALAND)
+  SPDF@data$AWATER <- as.numeric(SPDF@data$AWATER)
   
-  SPDF$stateCode <- US_stateFIPSToCode(SPDF$STATEFP)
-  SPDF$countryCode <- "US"
-  SPDF$countyFIPS <- paste0(SPDF@data$STATEFP, SPDF@data$COUNTYFP)
+  SPDF@data$stateCode <- US_stateFIPSToCode(SPDF@data$STATEFP)
+  SPDF@data$countryCode <- "US"
+  SPDF@data$countyFIPS <- paste0(SPDF@data$STATEFP, SPDF@data$COUNTYFP)
   
   # Remove outlying territories
   SPDF <- subset(SPDF, SPDF@data$stateCode %in% US_52)
