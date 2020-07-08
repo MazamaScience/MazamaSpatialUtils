@@ -1,5 +1,6 @@
 #' @keywords datagen
 #' @importFrom rlang .data
+#' @importFrom cleangeo clgeo_IsValid
 #' @export
 #' 
 #' @title Convert California Air Resources Board basin shapefiles
