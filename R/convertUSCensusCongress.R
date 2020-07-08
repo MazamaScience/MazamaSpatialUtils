@@ -95,18 +95,6 @@ convertUSCensusCongress <- function(
   # $ CDSESSN  <chr> "116", "116", "116", "116", "116", "116", "116", "116", "11 …
   # $ ALAND    <chr> "680637123", "6083502244", "11916427486", "777275115", "725 …
   # $ AWATER   <chr> "23057547", "4835444214", "16512286", "31723330", "16209000"…
-    
-  # Given state FIPS code, find state code
-  extractState <- function(row) {
-    fips <- row['STATEFP']
-    stateCode <- US_stateCodes$stateCode[US_stateCodes$stateFIPS == fips]
-    return(stateCode)
-  }
-  
-  SPDF@data$stateCode <- as.character(apply(SPDF@data, 1, extractState))
-  
-  # Remove outlying territories
-  SPDF <- subset(SPDF, SPDF@data$stateCode %in% US_52)
   
   # Data Dictionary:
   #   STATEFP -----> stateFIPS: 2-digit FIPS code 
@@ -123,6 +111,10 @@ convertUSCensusCongress <- function(
   SPDF@data$AWATER <- as.numeric(SPDF@data$AWATER)
   
   SPDF@data$countryCode <- "US"
+  SPDF@data$stateCode <- US_stateFIPSToCode(SPDF$STATEFP)
+  
+  # Remove outlying territories
+  SPDF <- subset(SPDF, SPDF@data$stateCode %in% US_52)
   
   # Create the new dataframe in a specific column order
   SPDF@data <- 
