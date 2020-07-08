@@ -4,7 +4,7 @@
 \alias{convertCARBAirBasins}
 \title{Convert California Air Resources Board basin shapefiles}
 \usage{
-convertCARBAirBasins(nameOnly = FALSE, simplify = FALSE)
+convertCARBAirBasins(nameOnly = FALSE, simplify = TRUE)
 }
 \arguments{
 \item{nameOnly}{Logical specifying whether to only return the name without 
@@ -18,21 +18,31 @@ Name of the dataset being created.
 }
 \description{
 Returns a SpatialPolygonsDataFrame for CARB air basins,
-
-The California Air Basins layer is a polygon shapefile coverage representing 
-the 15 California air basins, as defined in state statute and regulation.  
-See the California Health and Safety Code, Section 39606 et seq. and 
-California Code of Regulations, Title 17, Section 60100 et seq.
-
-Air Basins are designated pursuant to California statute and regulation.  
-Air Basins identify regions of similar meteorological and geographic conditions 
-and consideration for political boundary lines, and are related to air 
-pollution and its transport.
+}
+\details{
+A California air basin shapefile is downloaded and converted to a 
+SpatialPolygonsDataFrame with additional columns of data. The resulting file 
+will be created in the spatial data directory which is set with
+\code{setSpatialDataDir()}.
 }
 \note{
-March, 2004 version.
+From the source documentation:
+
+The California Air Basins layer is a polygon shapefile coverage representing
+the 15 California air basins, as defined in state statute and regulation.
+See the California Health and Safety Code, Section 39606 et seq. and 
+California Code of Regulations, Title 17, Section 60100 et seq. Shapefile 
+coverage. Projection: Teale Albers, NAD83, Clarke 1866.
+
+Air Basins are designated pursuant to California statute and regulation.
+Air Basins identify regions of similar meteorological and geographic
+conditions and consideration for political boundary lines, and are related
+to air pollution and its transport.
 }
 \references{
 \url{https://www.arb.ca.gov/ei/gislib/gislib.htm}
+}
+\seealso{
+setSpatialDataDir
 }
 \keyword{datagen}

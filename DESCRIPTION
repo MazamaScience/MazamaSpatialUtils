@@ -4,6 +4,8 @@ Version: 0.6.10
 Title: Spatial Data Download and Utility Functions
 Authors@R: c(
     person("Jonathan", "Callahan", email="jonathan.s.callahan@gmail.com", role=c("aut","cre")), 
+    person("Rachel", "Carroll", email="rachelcarroll4@gmail.com", role=c("aut")),
+    person("Eli", "Grosman", email="eligrosman1@gmail.com", role=c("aut")),
     person("Roger", "Andre", email="randre@gmail.com", role=c("aut")),
     person("Tom", "Bergamaschi", email="tbergama@gmail.com", role=c("aut")),
     person("Tina", "Chen", email="chen.tinaa@gmail.com", role=c("aut")),
@@ -15,6 +17,8 @@ Authors@R: c(
     person("Alice", "Yang", email="wenhuy@uw.edu", role=c("aut"))
     )
 Author: Jonathan Callahan [aut, cre],
+    Rachel Carroll [aut],
+    Eli Grosman [aut],
     Roger Andre [aut],
     Tom Bergamaschi [aut],
     Tina Chen [aut],

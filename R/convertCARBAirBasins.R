@@ -35,13 +35,10 @@
 #' @references \url{https://www.arb.ca.gov/ei/gislib/gislib.htm}
 #' 
 #' @seealso setSpatialDataDir
-#' @seealso getState
-#' @seealso getCode
-#' @seealso getName
 
 convertCARBAirBasins <- function(
-  nameOnly=FALSE, 
-  simplify=FALSE
+  nameOnly = FALSE,
+  simplify = TRUE
 ) {
   
   # ----- Setup ----------------------------------------------------------------
@@ -71,28 +68,43 @@ convertCARBAirBasins <- function(
   # NOTE:  The 'counties' directory has been created
   dsnPath <- file.path(dataDir,'ca_air_basins')
   shpName <- 'CaAirBasin'
-  SPDF <- convertLayer(dsn = dsnPath, layerName = shpName)
+  SPDF <- convertLayer(
+    dsn = dsnPath, 
+    layerName = shpName, 
+    encoding = 'UTF-8'
+  )
   
   # ----- Select useful columns and rename -------------------------------------
   
   # > dplyr::glimpse(SPDF@data)
   # Observations: 15
   # Variables: 5
-  # $ AREA      <dbl> 31839198681, 39557878115, 39178615821, 32161425221, 3446577486, 958415250, 36528715973, 61316594320, 133…
-  # $ PERIMETER <dbl> 1566653.5, 1279107.6, 1291238.4, 1281190.9, 359048.3, 187668.2, 1329597.6, 1552141.9, 748832.9, 1322328.…
-  # $ CAABA_    <chr> "2", "3", "4", "5", "6", "7", "8", "10", "16", "17", "18", "20", "9", "19", "27"
-  # $ CAABA_ID  <chr> "2", "1", "3", "4", "5", "6", "7", "9", "15", "16", "17", "22", "8", "18", "26"
-  # $ NAME      <chr> "North Coast", "Northeast Plateau", "Sacramento Valley", "Mountain Counties", "Lake County", "Lake Tahoe…
+  # $ AREA      <dbl> 31839198681, 39557878115, 39178615821, 32161425221, 3446577486, …
+  # $ PERIMETER <dbl> 1566653.5, 1279107.6, 1291238.4, 1281190.9, 359048.3, 187668.2, …
+  # $ CAABA_    <chr> "2", "3", "4", "5", "6", "7", "8", "10", "16", "17", "18", "20",…
+  # $ CAABA_ID  <chr> "2", "1", "3", "4", "5", "6", "7", "9", "15", "16", "17", "22", …
+  # $ NAME      <chr> "North Coast", "Northeast Plateau", "Sacramento Valley", "Mounta…
   
-  usefulColumns <- c("CAABA_", "CAABA_ID", "NAME")
-  SPDF@data <- SPDF@data[,usefulColumns]
-  names(SPDF@data) <- c("CAABA_", "CAABA_ID", "name")
-
-
+  # Data Dictionary:
+  #   CAABA_ ------> keep (unique identifer)
+  #   CAABA_ID ----> keep (alternate unique identifer)
+  #   NAME --------> name
+  
   # Add core metadata
-  SPDF$countryCode <- "US"
-  SPDF$stateCode <- "CA"
-
+  SPDF@data$countryCode <- "US"
+  SPDF@data$stateCode <- "CA"
+  
+  # Create the new dataframe in a specific column order
+  SPDF@data <- 
+    dplyr::select(
+      .data = SPDF@data,
+      countryCode = .data$countryCode,
+      stateCode = .data$stateCode,
+      name = .data$NAME,
+      CAABA_ = .data$CAABA_,
+      CAABA_ID = .data$CAABA_ID
+    )
+  
   # ----- Name and save the data -----------------------------------------------
   
   message("Saving full resolution version...\n")
