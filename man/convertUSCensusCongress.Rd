@@ -4,18 +4,21 @@
 \alias{convertUSCensusCongress}
 \title{Convert US congressional districts shapefile}
 \usage{
-convertUSCensusCongress(nameOnly = FALSE)
+convertUSCensusCongress(nameOnly = FALSE, simplify = TRUE)
 }
 \arguments{
 \item{nameOnly}{Logical specifying whether to only return the name without 
 creating the file.}
+
+\item{simplify}{Logical specifying whether to create "_05", _02" and "_01" 
+versions of the file that are simplified to 5\%, 2\% and 1\%.}
 }
 \value{
 Name of the dataset being created.
 }
 \description{
 Returns a SpatialPolygonsDataFrame for US Congressional Districts 
-for the 115th US House of Representatives.
+for the 116th US House of Representatives.
 }
 \details{
 A US congressional district shapefile is downloaded and converted to
