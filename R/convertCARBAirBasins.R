@@ -35,6 +35,7 @@
 #' @references \url{https://www.arb.ca.gov/ei/gislib/gislib.htm}
 #' 
 #' @seealso setSpatialDataDir
+#' @seealso getVariable
 
 convertCARBAirBasins <- function(
   nameOnly = FALSE,
