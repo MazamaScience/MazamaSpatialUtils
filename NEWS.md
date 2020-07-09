@@ -3,7 +3,8 @@
 * Updated `convertGACC()` to use 2020 data.
 * Removed outlying territories from `US_stateCodes`.
 * Updated `convertUSCensusStates()` to use 2019 data.
-* Updated `convertCARBAirBsins.R()` to latest coding style.
+* Updated `convertCARBAirBsins.R` to latest coding style.
+* Updated `convertUSCensusCBSA.R` to latest coding style.
 * Now using the *cleangeo* package to fix topology errors and geometry validity
 issues.
 

@@ -11,8 +11,9 @@
 #' @description Returns a SpatialPolygonsDataFrame for US CBSAs
 #' 
 #' @details A US Core Based Statistical Areas (CBSA) shapefile is downloaded and converted to a 
-#' SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
-#' in the spatial data directory which is set with \code{setSpatialDataDir()}.
+#' SpatialPolygonsDataFrame with additional columns of data. The resulting file
+#' will be created in the spatial data directory which is set with 
+#' \code{setSpatialDataDir()}.
 #' 
 #' @note From the source documentation:
 #' 
@@ -38,8 +39,8 @@
 #' @seealso getUSCounty
 
 convertUSCensusCBSA <- function(
-  nameOnly=FALSE, 
-  simplify=TRUE
+  nameOnly = FALSE, 
+  simplify = TRUE
 ) {
   
   # ----- Setup ----------------------------------------------------------------
@@ -112,9 +113,15 @@ convertUSCensusCBSA <- function(
   SPDF@data$INTPTLON <- as.numeric(SPDF$INTPTLON)
   
   # We can use longitude and latitude to get one state code for each polygon.
-  #*****  Error: Missing dataset. Please loadSpatialData("USCensusStates")
-  #                 RC - I loaded USCensusStates in console to make this work
-  SPDF@data$stateCode <- getStateCode(SPDF$INTPTLON, SPDF$INTPTLAT, dataset='USCensusStates', useBuffering=TRUE)
+  # Validation plot -- check if lon/lat are polygon centroids
+  if ( FALSE ) {
+    tx <- subset(SPDF, stringr::str_detect(SPDF$NAME, "TX"))
+    plot(tx)
+    points(tx$INTPTLON, tx$INTPTLAT, pch = 16, col = 'red')
+  }
+  
+  loadSpatialData("USCensusStates")
+  SPDF@data$stateCode <- getStateCode(SPDF$INTPTLON, SPDF$INTPTLAT, dataset = 'USCensusStates', useBuffering = TRUE)
   SPDF@data$countryCode <- "US"
   
   # Get CBSAName and allStateCodes from the CBSAName column
@@ -150,7 +157,7 @@ convertUSCensusCBSA <- function(
   SPDF <- organizePolygons(
     SPDF, 
     uniqueID = 'CBSAFP', 
-    sumColumns=c('landArea','waterArea')
+    sumColumns = c('landArea', 'waterArea')
   )
   
   # Clean topology errors
