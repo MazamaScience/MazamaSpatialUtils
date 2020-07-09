@@ -24,6 +24,8 @@ A California air basin shapefile is downloaded and converted to a
 SpatialPolygonsDataFrame with additional columns of data. The resulting file 
 will be created in the spatial data directory which is set with
 \code{setSpatialDataDir()}.
+
+The source data is from 2004.
 }
 \note{
 From the source documentation:
@@ -44,5 +46,7 @@ to air pollution and its transport.
 }
 \seealso{
 setSpatialDataDir
+
+getVariable
 }
 \keyword{datagen}
