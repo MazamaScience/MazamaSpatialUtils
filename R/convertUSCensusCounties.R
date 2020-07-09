@@ -39,6 +39,9 @@
 #' and Islands in the U.S. Virgin Islands. The entire area of the United States, 
 #' Puerto Rico, and the Island Areas is covered by counties or equivalent entities.
 #' 
+#' You can join this file with table data downloaded from American FactFinder by 
+#' using the AFFGEOID field in the cartographic boundary file.
+#' 
 #' @return Name of the dataset being created.
 #' 
 #' @references \url{https://www2.census.gov/geo/tiger/GENZ2019/}
@@ -100,26 +103,27 @@ convertUSCensusCounties <- function(
   # $ ALAND    <chr> "2361153195", "2282572445", "2331138836", "1987629163", "2324…
   # $ AWATER   <chr> "42331832", "541041659", "40651525", "65639829", "22297606", …
   
-  # Rationalize naming:
-  # * human readable full nouns with descriptive prefixes
-  # * generally lowerCamelCase
-  # with internal standards:
-  # * countryCode (ISO 3166-1 alpha-2)
-  # * stateCode (ISO 3166-2 alpha-2)
-  # * longitude (decimal degrees E)
-  # * latitude (decimal degrees N)
-  # * area (m^2)
-  
-  # TODO:  Figure out units for ALAND and AWATER and convert to m^2
+  # Data Dictionary:
+  #   STATEFP -----> stateFIPS: 2-digit FIPS code 
+  #   COUNTYFP -----> combined with STATEFP to make countyFIPS
+  #   COUNTYNS -----> COUNTYNS
+  #   AFFGEOID ----> (drop)    
+  #   GEOID -------> (drop)    
+  #   NAME --------> countyName: English language name
+  #   LSAD --------> (drop)    
+  #   ALAND -------> landArea: land area (in sq. meters)    
+  #   AWATER ------> waterArea: water area (in sq. meters)    
   
   # Guarantee that ALAND and AWATER are numeric
-  SPDF$ALAND <- as.numeric(SPDF$ALAND)
-  SPDF$AWATER <- as.numeric(SPDF$AWATER)
+  SPDF@data$ALAND <- as.numeric(SPDF@data$ALAND)
+  SPDF@data$AWATER <- as.numeric(SPDF@data$AWATER)
   
-  SPDF$stateCode <- US_stateFIPSToCode(SPDF$STATEFP)
-  SPDF$countryCode <- "US"
+  SPDF@data$stateCode <- US_stateFIPSToCode(SPDF@data$STATEFP)
+  SPDF@data$countryCode <- "US"
+  SPDF@data$countyFIPS <- paste0(SPDF@data$STATEFP, SPDF@data$COUNTYFP)
   
-  SPDF$countyFIPS <- paste0(SPDF@data$STATEFP, SPDF@data$COUNTYFP)
+  # Remove outlying territories
+  SPDF <- subset(SPDF, SPDF@data$stateCode %in% US_52)
 
   # Create the new dataframe in a specific column order
   SPDF@data <- dplyr::select(
@@ -129,21 +133,18 @@ convertUSCensusCounties <- function(
       stateFIPS = .data$STATEFP,
       countyName = .data$NAME,
       countyFIPS = .data$countyFIPS,   
-      areaLand = .data$ALAND,
-      areaWater = .data$AWATER,
+      landArea = .data$ALAND,
+      waterArea = .data$AWATER,
       COUNTYNS = .data$COUNTYNS
     ) 
-
   
   # ----- Clean SPDF -----------------------------------------------------------
-  
-  # TODO:  COUNTYNS is the polygon uniqueID but what is it?
   
   # Group polygons with the same identifier (countyName)
   SPDF <- organizePolygons(
     SPDF, 
     uniqueID = 'COUNTYNS', 
-    sumColumns = c('areaLand', 'areaWater')
+    sumColumns = c('landArea', 'waterArea')
   )
   
   # Clean topology errors
@@ -156,7 +157,7 @@ convertUSCensusCounties <- function(
   # Assign a name and save the data
   message("Saving full resolution version...\n")
   assign(datasetName, SPDF)
-  save(list = c(datasetName), file = paste0(dataDir,'/', datasetName, '.rda'))
+  save(list = c(datasetName), file = paste0(dataDir, '/', datasetName, '.rda'))
   rm(list = datasetName)
   
   # ----- Simplify -------------------------------------------------------------

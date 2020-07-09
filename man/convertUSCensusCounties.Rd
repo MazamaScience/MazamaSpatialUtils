@@ -47,6 +47,9 @@ presentation: Municipios in Puerto Rico, Districts and Islands in American
 Samoa, Municipalities in the Commonwealth of the Northern Mariana Islands, 
 and Islands in the U.S. Virgin Islands. The entire area of the United States, 
 Puerto Rico, and the Island Areas is covered by counties or equivalent entities.
+
+You can join this file with table data downloaded from American FactFinder by 
+using the AFFGEOID field in the cartographic boundary file.
 }
 \references{
 \url{https://www2.census.gov/geo/tiger/GENZ2019/}

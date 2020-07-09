@@ -25,9 +25,30 @@ A US congressional district shapefile is downloaded and converted to
 a SpatialPolygonsDataFrame with additional columns of data. The resulting 
 file will be created in the spatial data directory which is set with 
 \code{setSpatialDataDir()}.
+
+#' The source data is from 2019.
+}
+\note{
+From the source documentation:
+
+Congressional Districts are the 435 areas from which people are elected to the 
+U.S. House of Representatives. After the apportionment of congressional seats 
+among the states based on census population counts, each state is responsible 
+for establishing congressional districts for the purpose of electing representatives. 
+Each congressional district is to be as equal in population to all other 
+congressional districts in a state as practicable. The 116th Congress is seated 
+from January 2019 to 2021. The cartographic boundary files for the District of 
+Columbia, Puerto Rico, and the Island Areas (American Samoa, Guam, the Commonwealth 
+of the Northern Mariana Islands, and the U.S. Virgin Islands) each contain a 
+single record for the non-voting delegate district in these areas. The boundaries 
+of all other congressional districts are provided to the Census Bureau by the 
+states by May 1, 2018.
+
+You can join this file with table data downloaded from American FactFinder by 
+using the AFFGEOID field in the cartographic boundary file.
 }
 \references{
-\url{https://www.census.gov/geo/maps-data/data/cbf/cbf_cds.html}
+\url{https://www2.census.gov/geo/tiger/GENZ2019/}
 }
 \seealso{
 setSpatialDataDir
