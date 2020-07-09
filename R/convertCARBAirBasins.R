@@ -87,9 +87,11 @@ convertCARBAirBasins <- function(
   # $ NAME      <chr> "North Coast", "Northeast Plateau", "Sacramento Valley", "Mounta…
   
   # Data Dictionary:
-  #   CAABA_ ------> keep (unique identifer)
-  #   CAABA_ID ----> keep (alternate unique identifer)
-  #   NAME --------> name
+  #   AREA --------> (drop)
+  #   PERIMETER --------> (drop)
+  #   CAABA_ ------> CABBA: unique identifer
+  #   CAABA_ID ----> CABBA_ID: alternate unique identifer
+  #   NAME --------> name: name of the air basin
   
   # Add core metadata
   SPDF@data$countryCode <- "US"

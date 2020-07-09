@@ -85,8 +85,11 @@ convertEPARegions <- function(
   #   $ Shape_Area <dbl> 20.97047, 389.03109, 19.30733,...
   
   # Data dictionary:
-  #   $ OBJECTID ---> keep (unique identifier)
-  #   $ EPAREGION --> name
+  #   $ OBJECTID ---> polygonID: unique identifier
+  #   $ EPAREGION --> name: the name of the region
+  #   $ Shape_Leng --> (drop)
+  #   $ Shape_Area --> (drop)
+  
   
   # Add core metadata
   SPDF@data$countryCode <- "US" # TODO?
