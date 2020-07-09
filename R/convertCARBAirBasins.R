@@ -35,6 +35,7 @@
 #' @references \url{https://www.arb.ca.gov/ei/gislib/gislib.htm}
 #' 
 #' @seealso setSpatialDataDir
+#' @seealso getVariable
 
 convertCARBAirBasins <- function(
   nameOnly = FALSE,
@@ -60,13 +61,13 @@ convertCARBAirBasins <- function(
   filePath <- file.path(dataDir,basename(url))
   utils::download.file(url, filePath)
   # NOTE:  This zip file has no directory so extra subdirectory needs to be created
-  utils::unzip(filePath,exdir = file.path(dataDir, 'ca_air_basins'))
+  utils::unzip(filePath, exdir = file.path(dataDir, 'ca_air_basins'))
   
   # ----- Convert to SPDF ------------------------------------------------------
   
   # Convert shapefile into SpatialPolygonsDataFrame
   # NOTE:  The 'counties' directory has been created
-  dsnPath <- file.path(dataDir,'ca_air_basins')
+  dsnPath <- file.path(dataDir, 'ca_air_basins')
   shpName <- 'CaAirBasin'
   SPDF <- convertLayer(
     dsn = dsnPath, 
@@ -86,9 +87,11 @@ convertCARBAirBasins <- function(
   # $ NAME      <chr> "North Coast", "Northeast Plateau", "Sacramento Valley", "Mounta…
   
   # Data Dictionary:
-  #   CAABA_ ------> keep (unique identifer)
-  #   CAABA_ID ----> keep (alternate unique identifer)
-  #   NAME --------> name
+  #   AREA --------> (drop)
+  #   PERIMETER --------> (drop)
+  #   CAABA_ ------> CABBA: unique identifer
+  #   CAABA_ID ----> CABBA_ID: alternate unique identifer
+  #   NAME --------> name: name of the air basin
   
   # Add core metadata
   SPDF@data$countryCode <- "US"
@@ -109,7 +112,7 @@ convertCARBAirBasins <- function(
   
   message("Saving full resolution version...\n")
   assign(datasetName, SPDF)
-  save(list = c(datasetName), file = paste0(dataDir,'/', datasetName, '.rda'))
+  save(list = c(datasetName), file = paste0(dataDir, '/', datasetName, '.rda'))
   rm(list = datasetName)
   
   # ----- Simplify -------------------------------------------------------------
