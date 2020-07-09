@@ -40,7 +40,7 @@
 #'  
 #' @return Name of the dataset being created.
 #' 
-#' @references \url{https://nationalmap.gov/small_scale/atlasftp.html#indlanp}
+#' @references \url{https://www.sciencebase.gov/catalog/item/5d150464e4b0941bde5b7658}
 #' 
 #' @seealso setSpatialDataDir
 #' @seealso getVariable
