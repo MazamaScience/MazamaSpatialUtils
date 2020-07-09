@@ -82,8 +82,8 @@ convertUSCensusStates <- function(
   # NOTE: 500k means resolution level 1:500k. 
   url <- 'https://www2.census.gov/geo/tiger/GENZ2019/shp/cb_2019_us_state_500k.zip'
   
-  filePath <- file.path(dataDir,basename(url))
-  utils::download.file(url,filePath)
+  filePath <- file.path(dataDir, basename(url))
+  utils::download.file(url, filePath)
   # NOTE:  This zip file has no directory so extra subdirectory needs to be created
   utils::unzip(filePath, exdir = file.path(dataDir, 'states'))
   
