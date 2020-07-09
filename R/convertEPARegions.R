@@ -146,7 +146,7 @@ convertEPARegions <- function(
   
   # ----- Clean SPDF -----------------------------------------------------------
   
-  # Group polygons with the same identifier (name)
+  # Group polygons with the same identifier (epaRegion)
   SPDF <- organizePolygons(
     SPDF, 
     uniqueID = 'epaRegion', 
@@ -160,6 +160,7 @@ convertEPARegions <- function(
   
   # ----- Name and save the data -----------------------------------------------
   
+  # Assign a name and save the data
   message("Saving full resolution version...\n")
   assign(datasetName, SPDF)
   save(list = c(datasetName), file = paste0(dataDir,'/', datasetName, '.rda'))

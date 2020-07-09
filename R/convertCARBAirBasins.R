@@ -110,8 +110,23 @@ convertCARBAirBasins <- function(
       CAABA_ID = .data$CAABA_ID
     )
   
+  # ----- Clean SPDF -----------------------------------------------------------
+  
+  # Group polygons with the same identifier (CAABA_ID)
+  SPDF <- organizePolygons(
+    SPDF,
+    uniqueID = "CAABA_ID",
+    sumColumns = NULL
+  )
+  
+  # Clean topology errors
+  if ( !cleangeo::clgeo_IsValid(SPDF) ) {
+    SPDF <- cleangeo::clgeo_Clean(SPDF)
+  }
+  
   # ----- Name and save the data -----------------------------------------------
   
+  # Assign a name and save the data
   message("Saving full resolution version...\n")
   assign(datasetName, SPDF)
   save(list = c(datasetName), file = paste0(dataDir, '/', datasetName, '.rda'))
