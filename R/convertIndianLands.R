@@ -76,6 +76,7 @@ convertIndianLands <- function(
   # ----- Convert to SPDF ------------------------------------------------------
   
   # Convert shapefile into SpatialPolygonsDataFrame
+  # NOTE:  The 'indlan' directory has been created
   dsnPath <- file.path(dataDir, 'indlan')
   shpName <- 'indlanp010g'
   SPDF <- convertLayer(

@@ -70,6 +70,7 @@ convertEPARegions <- function(
   # ----- Convert to SPDF ------------------------------------------------------
   
   # Convert shapefile into SpatialPolygonsDataFrame
+  # NOTE:  The 'epa_regions' directory has been created
   dsnPath <- file.path(dataDir, 'epa_regions')
   shpName <- 'Environmental_Protection_Agency__EPA__Regions'
   SPDF <- convertLayer(
