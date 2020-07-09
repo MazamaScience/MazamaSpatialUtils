@@ -70,10 +70,6 @@ convertEPARegions <- function(
     encoding = 'UTF-8'
   )
   
-  # Fix potentially bad topology first.
-  # https://postgis.net/workshops/postgis-intro/validity.html#st-buffer
-  SPDF <- suppressWarnings( rgeos::gBuffer(SPDF, byid = TRUE, width = 0) )
-  
   # ----- Select useful columns and rename -------------------------------------
   
   # dplyr::glimpse(SPDF@data)
@@ -90,10 +86,10 @@ convertEPARegions <- function(
   #   $ Shape_Leng --> (drop)
   #   $ Shape_Area --> (drop)
   
-  
   # Add core metadata
-  SPDF@data$countryCode <- "US" # TODO?
+  SPDF@data$countryCode <- "US"
   
+  # Add longitude and latitude as polygon centroids
   centroids <- rgeos::gPointOnSurface(SPDF, byid = TRUE)
   SPDF@data$longitude <- centroids$x
   SPDF@data$latitude <- centroids$y
@@ -107,19 +103,46 @@ convertEPARegions <- function(
     useBuffering = TRUE
   )
   
+  # NOTE:  No good table exists so we create allStateCodes by hand from
+  # NOTE:    https://www.epa.gov/aboutepa/visiting-regional-office
+  allStateCodes <- list(
+    "Region 1" = "CT,MA,ME,NH,RI,VT",
+    "Region 2" = "NJ,NY,PR,VI",
+    "Region 3" = "DC,DE,MD,PA,VA,WV",
+    "Region 4" = "AL,FL,GA,KY,MS,NC,SC,TN",
+    "Region 5" = "IL,IN,MI,MN,OH,WI",
+    "Region 6" = "AR,LA,NM,OK,TX",
+    "Region 7" = "IA,KS,MO,NE",
+    "Region 8" = "CO,MT,ND,SD,UT,WY",
+    "Region 9" = "AZ,CA,HI,NV",
+    "Region 10" = "AK,ID,OR,WA"
+  )
+  
+  # NOTE:  Super hacky/old school way to get an allStateCodes column
+  df <- as.data.frame(as.matrix(allStateCodes))
+  SPDF@data$allStateCodes <-
+    as.character( df[SPDF@data$EPAREGION,] )
+
   # Create the new dataframe in a specific column order
   # NOTE: Not adding SPDF$allStateCodes because of overseas territory coverage.
   SPDF@data <- dplyr::select(
     .data = SPDF@data,
     countryCode = .data$countryCode,
     stateCode = .data$stateCode,
-    name = .data$EPAREGION,
+    allStateCodes = .data$allStateCodes,
+    epaRegion = .data$EPAREGION,
     longitude = .data$longitude,
-    latitude = .data$latitude,
-    polygonID = .data$OBJECTID
+    latitude = .data$latitude
   )
   
   # ----- Clean SPDF -----------------------------------------------------------
+  
+  # Group polygons with the same identifier (name)
+  SPDF <- organizePolygons(
+    SPDF, 
+    uniqueID = 'epaRegion', 
+    sumColumns = NULL
+  )
   
   # Clean topology errors
   if ( !cleangeo::clgeo_IsValid(SPDF) ) {

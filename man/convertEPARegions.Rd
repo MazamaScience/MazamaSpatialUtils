@@ -18,16 +18,27 @@ Name of the dataset being created.
 }
 \description{
 Returns a SpatialPolygonsDataFrame for EPA Regions
+}
+\details{
+An EPA region boundary shapefile is downloaded and converted to a 
+SpatialPolygonsDataFrame with additional columns of data. The resulting file 
+will be created in the spatial data directory which is set with
+\code{setSpatialDataDir()}.
+}
+\note{
+From the source documentation:
 
 The EPARegions layer is a polygon shapefile coverage representing the 
 boundaries of the ten Regional Offices of the United States Environmental 
 Protection Agency in the United States. Each regional office 
 monitors the environmental regulations within a group of states.
 }
-\note{
-Updated 7/26/2019
-}
 \references{
 \url{https://www.arcgis.com/home/item.html?id=c670540796584c72b4f59b676ccabe6a}
+}
+\seealso{
+setSpatialDataDir
+
+getVariable
 }
 \keyword{datagen}

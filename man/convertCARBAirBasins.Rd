@@ -44,5 +44,7 @@ to air pollution and its transport.
 }
 \seealso{
 setSpatialDataDir
+
+getVariable
 }
 \keyword{datagen}

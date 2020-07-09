@@ -45,6 +45,8 @@ convertUSCensusCBSA <- function(
   
   # ----- Setup ----------------------------------------------------------------
   
+  loadSpatialData("USCensusStates")
+  
   # Use package internal data directory
   dataDir <- getSpatialDataDir()
   
@@ -120,7 +122,6 @@ convertUSCensusCBSA <- function(
     points(tx$INTPTLON, tx$INTPTLAT, pch = 16, col = 'red')
   }
   
-  loadSpatialData("USCensusStates")
   SPDF@data$stateCode <- getStateCode(SPDF$INTPTLON, SPDF$INTPTLAT, dataset = 'USCensusStates', useBuffering = TRUE)
   SPDF@data$countryCode <- "US"
   
