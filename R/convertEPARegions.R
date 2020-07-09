@@ -17,6 +17,8 @@
 #' will be created in the spatial data directory which is set with
 #' \code{setSpatialDataDir()}.
 #' 
+#' The source data is from 2017.
+#' 
 #' @note From the source documentation:
 #' 
 #' The EPARegions layer is a polygon shapefile coverage representing the 

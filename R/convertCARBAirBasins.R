@@ -17,6 +17,8 @@
 #' will be created in the spatial data directory which is set with
 #' \code{setSpatialDataDir()}.
 #' 
+#' The source data is from 2004.
+#' 
 #' @note From the source documentation:
 #' 
 #' The California Air Basins layer is a polygon shapefile coverage representing
