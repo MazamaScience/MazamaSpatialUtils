@@ -26,7 +26,8 @@ getVariable <- function(
   dataset = NULL, 
   variable = NULL, 
   countryCodes = NULL, 
-  allData = FALSE
+  allData = FALSE,
+  useBuffering = FALSE
 ) {
   
   # ----- Validate parameters -------------------------------------------------- 
@@ -66,7 +67,12 @@ getVariable <- function(
   if ( !is.null(countryCodes) ) 
     SPDF <- SPDF[SPDF$countryCode %in% countryCodes,]
   
-  locationsDF <- getSpatialData(lon, lat, SPDF)
+  # Pull out rows from SPDF@data based on point-in-polygon search 
+  if ( useBuffering ) {
+    locationsDF <- getSpatialData(lon, lat, SPDF, useBuffering = TRUE)
+  } else {
+    locationsDF <- getSpatialData(lon, lat, SPDF, useBuffering = FALSE)
+  }
   
   if (allData) {
     

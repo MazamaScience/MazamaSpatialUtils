@@ -18,7 +18,8 @@ getHUC <- function(
   lat, 
   dataset = "WBDHU10_02", 
   HUCs = NULL, 
-  allData = FALSE
+  allData = FALSE,
+  useBuffering = FALSE
 ) {
   
   # ----- Validate parameters -------------------------------------------------- 
@@ -56,19 +57,21 @@ getHUC <- function(
   }
   
   # Pull out rows from SPDF@data based on point-in-polygon search 
-  locationsDF <- getSpatialData(lon, lat, SPDF)
-  
-  if (allData) {
-    
-    return(locationsDF)
-    
+  if ( useBuffering ) {
+    locationsDF <- getSpatialData(lon, lat, SPDF, useBuffering = TRUE)
   } else {
-    
+    locationsDF <- getSpatialData(lon, lat, SPDF, useBuffering = FALSE)
+  }
+  
+  # ----- Return results ---------------------------------------------------------
+  
+  if ( allData ) {
+    return(locationsDF)
+  } else {
     HUC <- locationsDF$HUC
     HUCName <- locationsDF$HUCName
     
     return(HUC)
-    
   }
   
 }
