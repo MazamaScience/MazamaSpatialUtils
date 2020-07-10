@@ -66,8 +66,11 @@ getHUC <- function(
   # ----- Return results ---------------------------------------------------------
   
   if ( allData ) {
+    
     return(locationsDF)
+    
   } else {
+    
     HUC <- locationsDF$HUC
     HUCName <- locationsDF$HUCName
     

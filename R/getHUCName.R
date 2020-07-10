@@ -63,6 +63,8 @@ getHUCName <- function(
     locationsDF <- getSpatialData(lon, lat, SPDF, useBuffering = FALSE)
   }
   
+  # ----- Return results ---------------------------------------------------------
+  
   if (allData) {
     
     return(locationsDF)
