@@ -30,10 +30,16 @@ The source data is from 2017.
 \note{
 From the source documentation:
 
-The EPARegions layer is a polygon shapefile coverage representing the 
-boundaries of the ten Regional Offices of the United States Environmental 
-Protection Agency in the United States. Each regional office 
-monitors the environmental regulations within a group of states.
+This dataset represents delineated EPA Region boundaries. EPA has ten 
+regional offices across the country, each of which is responsible for several 
+states and in some cases, territories or special environmental programs. 
+
+This Shared Enterprise Geodata and Services (SEGS)dataset was created by 
+U.S. EPA using 2011 TIGER/Line state boundaries from the U.S. Census Bureau. 
+The core mission of SEGS is to provide a single point of ownership for 
+geospatial datasets that are national in extent and of general use to all 
+EPA users and to make those datasets available through channels that best 
+meet user needs.
 }
 \references{
 \url{https://www.arcgis.com/home/item.html?id=c670540796584c72b4f59b676ccabe6a}

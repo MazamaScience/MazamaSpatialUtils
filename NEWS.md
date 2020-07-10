@@ -3,8 +3,9 @@
 * Updated `convertGACC()` to use 2020 data.
 * Removed outlying territories from `US_stateCodes`.
 * Updated `convertUSCensusStates()` to use 2019 data.
-* Updated `convertCARBAirBsins.R` to latest coding style.
+* Updated `convertCARBAirBains.R` to latest coding style.
 * Updated `convertUSCensusCBSA.R` to latest coding style.
+* Updated `convertIndianLands.R` to latest coding style.
 * Now using the *cleangeo* package to fix topology errors and geometry validity
 issues.
 
@@ -37,7 +38,7 @@ territories.
 # MazamaSpatialUtils 0.6.5
 
 * New `convertHILFDFederalLands()` function.
-* Addedd **tidyr** package to Imports.
+* Added **tidyr** package to Imports.
 * Updated docker image.
 
 # MazamaSpatialUtils 0.6.4
@@ -68,7 +69,7 @@ avoid a CRAN testing failure on fedora only -- Ugh.
 * added `runExample()` to run shiny examples
 * updated `README.md`
 
-# MazamaSpatialutils 0.5.9
+# MazamaSpatialUtils 0.5.9
 
 * New convert function for public health districts
 * New convert function for GACCs
@@ -178,11 +179,11 @@ generating warnings
 
 # MazamaSpatialUtils 0.4.1
 
-* Added `useBuffering` arguent to `getState()`, `getCountry()` and `getTimezone()`.
+* Added `useBuffering` argument to `getState()`, `getCountry()` and `getTimezone()`.
 
 # MazamaSpatialUtils 0.3.2
 
-* `getSpatialData()` no longer fails on invliad/missing locations, now returns 
+* `getSpatialData()` no longer fails on invalid/missing locations, now returns 
 dataframe rows with all NA.
 
 # MazamaSpatialUtils 0.3.1 -- addition of buffered search and WorldEEZ polygons

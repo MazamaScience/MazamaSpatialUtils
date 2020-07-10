@@ -46,7 +46,7 @@
 #' @seealso getVariable
 
 convertIndianLands <- function(
-  nameOnly=FALSE,
+  nameOnly = FALSE,
   simplify = TRUE
 ) {
   
@@ -69,9 +69,9 @@ convertIndianLands <- function(
   url <- "https://prd-tnm.s3.amazonaws.com/StagedProducts/Small-scale/data/Boundaries/indlanp010g.shp_nt00968.tar.gz"
   
   filePath <- file.path(dataDir,basename(url))
-  utils::download.file(url,filePath)
-  # NOTE:  This zip file has no directory so extra subdirectory needs to be created
-  utils::unzip(filePath, exdir = file.path(dataDir, 'indlan'))
+  utils::download.file(url, filePath)
+  # NOTE:  This tar.gz file has no directory so extra subdirectory needs to be created
+  utils::untar(filePath, exdir = file.path(dataDir, 'indlan'))
   
   # ----- Convert to SPDF ------------------------------------------------------
   
@@ -115,29 +115,29 @@ convertIndianLands <- function(
   # $ SHAPE_Area <dbl> 0.0998716951, 0.0005123971, 0.0167604554, 0.0129362866, 0.…
   
   # Data Dictionary:
-  #   OBJECTID -----> (drop)
-  #   AREA -----> area: land area (in sq. miles)    
-  #   PERIMETER ----> (drop)   
-  #   Indlanp010 -------> (drop)    
-  #   FEATURE1 ------> featureType: type of land
-  #   GNIS_Name1 --------> GNISname: name of feature
-  #   GNIS_ID1 --------> GNIScode: unique identifier of feature     
-  #   ADMIN1 -------> (drop)  
-  #   FEATURE2 ------> (drop)
-  #   GNIS_Name2 ------> (drop)
-  #   GNIS_ID2 ------> (drop)
+  #   OBJECTID ----> (drop)
+  #   AREA --------> area: land area (in sq. miles)    
+  #   PERIMETER ---> (drop)   
+  #   Indlanp010 --> (drop)    
+  #   FEATURE1 ----> featureType: type of land
+  #   GNIS_Name1 --> GNISname: name of feature
+  #   GNIS_ID1 ----> GNIScode: unique identifier of feature     
+  #   ADMIN1 ------> (drop)  
+  #   FEATURE2 ----> (drop)
+  #   GNIS_Name2 --> (drop)
+  #   GNIS_ID2 ----> (drop)
   #   ADMIN2 ------> (drop)
-  #   FEATURE3 ------> (drop)
-  #   GNIS_Name3 ------> (drop)
-  #   GNIS_ID3 ------> (drop)
+  #   FEATURE3 ----> (drop)
+  #   GNIS_Name3 --> (drop)
+  #   GNIS_ID3 ----> (drop)
   #   ADMIN3 ------> (drop)
-  #   URL ------> (drop)
-  #   STATE ------> allStateCodes: 2-character abbreviation of state names
-  #   STATE_FIPS ------> stateFIPS: 2-digit FIPS code
-  #   ORIG_NAME ------> ORIG_NAME: original name of feature
-  #   GIS_ACRES ------> (drop)
-  #   SHAPE_Leng ------> (drop)
-  #   SHAPE_Area ------> (drop)
+  #   URL ---------> (drop)
+  #   STATE -------> allStateCodes: 2-character abbreviation of state names
+  #   STATE_FIPS --> stateFIPS: 2-digit FIPS code
+  #   ORIG_NAME ---> ORIG_NAME: original name of feature
+  #   GIS_ACRES ---> (drop)
+  #   SHAPE_Leng --> (drop)
+  #   SHAPE_Area --> (drop)
   
   # Change "N/A" to NA
   nafun <- function(x) {
@@ -171,13 +171,14 @@ convertIndianLands <- function(
   
   SPDF@data$countryCode <- "US"
   
+  SPDF@data$allStateCodes <- stringr::str_replace_all(SPDF@data$STATE, "-", ",")
+  
   SPDF@data <-
     dplyr::select(
       .data = SPDF@data,
       countryCode = .data$countryCode,
       stateCode = .data$stateCode,
-      stateFIPS = .data$STATE_FIPS,
-      allStateCodes = .data$STATE,
+      allStateCodes = .data$allStateCodes,
       featureType = .data$FEATURE1,
       ORIG_NAME = .data$ORIG_NAME,
       GNISName = .data$GNIS_Name1,
