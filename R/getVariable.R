@@ -7,6 +7,8 @@
 #' @param variable name of dataframe column to be returned
 #' @param countryCodes vector of countryCodes
 #' @param allData logical specifying whether a full dataframe should be returned
+#' @param useBuffering Logical flag specifying the use of location buffering to 
+#' find the nearest polygon if not target polygon is found.
 #' @description Uses spatial comparison to determine which polygons the 
 #' locations fall into and returns the variable associated with those polygons.
 #'     

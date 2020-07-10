@@ -6,6 +6,8 @@
 #' @param dataset name of spatial dataset to use
 #' @param HUCs vector of Hydrologic Unit Codes
 #' @param allData logical specifying whether a full dataframe should be returned
+#' @param useBuffering Logical flag specifying the use of location buffering to 
+#' find the nearest polygon if not target polygon is found.
 #' @description Uses spatial comparison to determine which HUC polygons the 
 #' locations fall into and returns the HUC names for those polygons.
 #'     
