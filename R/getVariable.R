@@ -7,6 +7,8 @@
 #' @param variable name of dataframe column to be returned
 #' @param countryCodes vector of countryCodes
 #' @param allData logical specifying whether a full dataframe should be returned
+#' @param useBuffering Logical flag specifying the use of location buffering to 
+#' find the nearest polygon if not target polygon is found.
 #' @description Uses spatial comparison to determine which polygons the 
 #' locations fall into and returns the variable associated with those polygons.
 #'     
@@ -26,7 +28,8 @@ getVariable <- function(
   dataset = NULL, 
   variable = NULL, 
   countryCodes = NULL, 
-  allData = FALSE
+  allData = FALSE,
+  useBuffering = FALSE
 ) {
   
   # ----- Validate parameters -------------------------------------------------- 
@@ -66,7 +69,14 @@ getVariable <- function(
   if ( !is.null(countryCodes) ) 
     SPDF <- SPDF[SPDF$countryCode %in% countryCodes,]
   
-  locationsDF <- getSpatialData(lon, lat, SPDF)
+  # Pull out rows from SPDF@data based on point-in-polygon search 
+  if ( useBuffering ) {
+    locationsDF <- getSpatialData(lon, lat, SPDF, useBuffering = TRUE)
+  } else {
+    locationsDF <- getSpatialData(lon, lat, SPDF, useBuffering = FALSE)
+  }
+  
+  # ----- Return results ---------------------------------------------------------
   
   if (allData) {
     
