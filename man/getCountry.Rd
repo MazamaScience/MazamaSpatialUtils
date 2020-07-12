@@ -37,9 +37,13 @@ locations fall into and returns the country name for those polygons.
 If \code{allData = TRUE}, additional data is returned.
 }
 \examples{
+library(MazamaSpatialUtils)
+
 lon <- seq(0, 50)
 lat <- seq(0, 50)
+
 getCountry(lon, lat)
+
 }
 \references{
 \url{http://www.naturalearthdata.com/downloads/10m-cultural-vectors/}

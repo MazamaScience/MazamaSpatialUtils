@@ -59,11 +59,7 @@ getHUC <- function(
   }
   
   # Pull out rows from SPDF@data based on point-in-polygon search 
-  if ( useBuffering ) {
-    locationsDF <- getSpatialData(lon, lat, SPDF, useBuffering = TRUE)
-  } else {
-    locationsDF <- getSpatialData(lon, lat, SPDF, useBuffering = FALSE)
-  }
+  locationsDF <- getSpatialData(lon, lat, SPDF, useBuffering = useBuffering)
   
   # ----- Return results ---------------------------------------------------------
   

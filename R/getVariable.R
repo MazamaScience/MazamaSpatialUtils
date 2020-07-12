@@ -16,9 +16,14 @@
 #' @return Vector or dataframe.
 #' @examples
 #' \dontrun{
+#' library(MazamaSpatialUtils)
+#' setSpatialDataDir("~/Data/Spatial")
+#' 
 #' loadSpatialData("NaturalEarthAdm1")
+#' 
 #' lon <- seq(0, 50)
 #' lat <- seq(0, 50)
+#' 
 #' getVariable(lon, lat, "NaturalEarthAdm1", "gns_lang")
 #' }
 #' @seealso getSpatialData
@@ -61,7 +66,7 @@ getVariable <- function(
                   dataset,
                   ' does not contain the variable ',
                   variable), 
-           call.=FALSE)
+           call. = FALSE)
     }
   }
   
@@ -70,11 +75,7 @@ getVariable <- function(
     SPDF <- SPDF[SPDF$countryCode %in% countryCodes,]
   
   # Pull out rows from SPDF@data based on point-in-polygon search 
-  if ( useBuffering ) {
-    locationsDF <- getSpatialData(lon, lat, SPDF, useBuffering = TRUE)
-  } else {
-    locationsDF <- getSpatialData(lon, lat, SPDF, useBuffering = FALSE)
-  }
+  locationsDF <- getSpatialData(lon, lat, SPDF, useBuffering = useBuffering)
   
   # ----- Return results ---------------------------------------------------------
   

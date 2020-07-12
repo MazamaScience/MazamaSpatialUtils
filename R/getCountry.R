@@ -14,9 +14,13 @@
 #' If \code{allData = TRUE}, additional data is returned.
 #' @return Vector of country names in English.
 #' @examples
+#' library(MazamaSpatialUtils)
+#' 
 #' lon <- seq(0, 50)
 #' lat <- seq(0, 50)
+#' 
 #' getCountry(lon, lat)
+#' 
 #' @references \url{http://www.naturalearthdata.com/downloads/10m-cultural-vectors/}
 #' @seealso SimpleCountries
 #' @seealso getSpatialData

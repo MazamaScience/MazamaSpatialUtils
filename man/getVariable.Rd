@@ -10,7 +10,8 @@ getVariable(
   dataset = NULL,
   variable = NULL,
   countryCodes = NULL,
-  allData = FALSE
+  allData = FALSE,
+  useBuffering = FALSE
 )
 }
 \arguments{
@@ -25,6 +26,9 @@ getVariable(
 \item{countryCodes}{vector of countryCodes}
 
 \item{allData}{logical specifying whether a full dataframe should be returned}
+
+\item{useBuffering}{Logical flag specifying the use of location buffering to 
+find the nearest polygon if not target polygon is found.}
 }
 \value{
 Vector or dataframe.
@@ -37,9 +41,14 @@ If \code{allData = TRUE}, the entire dataframe is returned.
 }
 \examples{
 \dontrun{
+library(MazamaSpatialUtils)
+setSpatialDataDir("~/Data/Spatial")
+
 loadSpatialData("NaturalEarthAdm1")
+
 lon <- seq(0, 50)
 lat <- seq(0, 50)
+
 getVariable(lon, lat, "NaturalEarthAdm1", "gns_lang")
 }
 }
