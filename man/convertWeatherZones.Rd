@@ -2,12 +2,13 @@
 % Please edit documentation in R/convertWeatherZones.R
 \name{convertWeatherZones}
 \alias{convertWeatherZones}
-\title{Convert NWS Public Forecast Zones Shapefile}
+\title{Convert NWS Public Forecast Zones Shapefile.}
 \usage{
 convertWeatherZones(nameOnly = FALSE, simplify = TRUE)
 }
 \arguments{
-\item{nameOnly}{logical specifying whether to only return the name without creating the file}
+\item{nameOnly}{Logical specifying whether to only return the name without 
+creating the file.}
 
 \item{simplify}{Logical specifying whether to create "_05", _02" and "_01" 
 versions of the file that are simplified to 5\%, 2\% and 1\%.}
@@ -16,20 +17,31 @@ versions of the file that are simplified to 5\%, 2\% and 1\%.}
 Name of the dataset being created.
 }
 \description{
-Returns a SpatialPolygonsDataFrame for NWS weather forecast zones.
+Create a SpatialPolygonsDataFrame for NWS weather forecast zones.
 }
 \details{
-A weather forecast zones shapefile is downloaded and converted to a
-SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
-in the spatial data directory which is set with \code{setSpatialDataDir()}.
+A weather forecast zone shapefile is downloaded and converted to a 
+SpatialPolygonsDataFrame with additional columns of data. The resulting file 
+will be created in the spatial data directory which is set with 
+\code{setSpatialDataDir()}.
+
+The source data is from 2020.
 }
 \note{
-zoneID is the unique identifier, and is the state code followed by zoneNumber.
+From the source documentation:
+
+The NWS issues forecasts and some watches and warnings for public zones which 
+usually are the same as counties but in many cases are subsets of counties.  
+Counties are subset into zones to allow for more accurate forecasts because 
+of the differences in weather within a county due to such things as elevation 
+or proximity to large bodies of water.
 }
 \references{
 \url{https://www.weather.gov/gis/PublicZones}
 }
 \seealso{
 setSpatialDataDir
+
+getVariale
 }
 \keyword{datagen}

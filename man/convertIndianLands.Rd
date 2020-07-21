@@ -48,7 +48,7 @@ From the source documentation:
  and is compiled by the National Atlas of the United States of America.
 }
 \references{
-\url{https://nationalmap.gov/small_scale/atlasftp.html#indlanp}
+\url{https://www.sciencebase.gov/catalog/item/5d150464e4b0941bde5b7658}
 }
 \seealso{
 setSpatialDataDir
