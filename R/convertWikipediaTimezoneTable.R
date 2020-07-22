@@ -32,11 +32,23 @@ convertWikipediaTimezoneTable <- function() {
   # Get the raw html from the url
   wikiDoc <- xml2::read_html(url)
 
-  # Get a list of tables in the document
+  # Get a list of tables in the documentSaraj
   tables <- rvest::html_nodes(wikiDoc, "table")
   
   # Assume the relevant list is the first table and parse that into a dataframe
   tzTable <- rvest::html_table(tables[[1]])
+
+  # > dplyr::glimpse(tzTable)
+  # Rows: 591
+  # Columns: 8
+  # $ `Country code`                            <chr> "CI", "GH", "ET", "DZ", "ER", "M…
+  # $ `Latitude, longitude ±DDMM(SS)±DDDMM(SS)` <chr> "+0519−00402", "+0533−00013", "+…
+  # $ `TZ database name`                        <chr> "Africa/Abidjan", "Africa/Accra"…
+  # $ `Portion of country covered`              <chr> "", "", "", "", "", "", "", "", …
+  # $ Status                                    <chr> "Canonical", "Canonical", "Alias…
+  # $ `UTC offset ±hh:mm`                       <chr> "+00:00", "+00:00", "+03:00", "+…
+  # $ `UTC DST offset ±hh:mm`                   <chr> "+00:00", "+00:00", "+03:00", "+…
+  # $ Notes                                     <chr> "", "", "Link to Africa/Nairobi"…
   
   # Rationalize naming:
   # * human readable full nouns with descriptive prefixes
@@ -45,13 +57,22 @@ convertWikipediaTimezoneTable <- function() {
   # * timezone (Olson timezone)
   # * longitude (decimal degrees E)
   # * latitude (decimal degrees N)
-  names(tzTable) <- c('countryCode','coordinates','timezone','comments','UTC_offset','UTC_DST_offset','notes')
+  names(tzTable) <- c('countryCode','coordinates','timezone','comments','status','UTC_offset','UTC_DST_offset','notes')
   
-  ### NOTE:  rvest::html_table has no argument to specify na.strings so "NA" is converted to NA
+  # NOTE:  rvest::html_table has no argument to specify na.strings so "NA" is converted to NA
   tzTable$countryCode[tzTable$timezone == 'Africa/Windhoek'] <- "NA"
   
   # Remove all rows where the Notes say "Link to ..."
   tzTable <- tzTable[!stringr::str_detect(tzTable$notes,'^Link to'),]
+
+  # NOTE:  On 2020-07-22, the Entry for "Eurpoe/Sarajevo" incorreclty uses the 
+  # NOTE:  countryCode for Bahrain (BH) instead of for Bosnia (BA)
+  
+  # > tzTable %>% filter(timezone == "Europe/Sarajevo")
+  # countryCode coordinates        timezone comments    status UTC_offset UTC_DST_offset notes
+  # 1          BH +4450+02030 Europe/Sarajevo          Canonical     +01:00         +02:00      
+
+  tzTable$countryCode[tzTable$timezone == 'Europe/Sarajevo'] <- "BA"
   
   # Convert UTC_offset "+HH:MM" to hours
   sign <- ifelse(stringr::str_sub(tzTable$UTC_offset,1,1) == '+',1,-1)

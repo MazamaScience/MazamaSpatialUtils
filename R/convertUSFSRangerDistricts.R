@@ -141,11 +141,13 @@ convertUSFSRangerDistricts <- function(
   
   SPDF@data$regionName <- unlist(region_list[SPDF@data$REGION], use.names = FALSE)
   
+  SPDF@data$countryCode <- "US"
+  
   # Create the new dataframe in a specific column order
   SPDF@data <- 
     dplyr::select(
       .data = SPDF@data,
-      countryCode = "US",
+      countryCode = .data$countryCode,
       districtID = .data$RANGERDIST,
       regionID = .data$REGION,
       regionName = .data$regionName,

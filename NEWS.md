@@ -1,6 +1,7 @@
 # MazamaSpatialUtils 0.6.11
 
 * Removed non-working `app/` directory and dependency on **shiny**.
+* Corrected Bosnia country code in `convertWikipediaTimezoneTable.R`.
 * Updated `convertEPARegions.R`.
 * Updated `convertOSMTimeZones.R`.
 * Updated `convertTerrestrialEcoregions.R`.

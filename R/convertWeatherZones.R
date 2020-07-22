@@ -109,10 +109,12 @@ convertWeatherZones <- function(
   #   MaxSimpTol --> (drop)
   #   MinSimpTol --> (drop)
   
+  SPDF@data$countryCode <- "US"
+  
   SPDF@data <- 
     dplyr::select(
       .data = SPDF@data,
-      countryCode = "US",
+      countryCode = .data$countryCode,
       stateCode = .data$STATE,
       weatherForecastOffice = .data$CWA,
       zoneNumber = .data$ZONE,
