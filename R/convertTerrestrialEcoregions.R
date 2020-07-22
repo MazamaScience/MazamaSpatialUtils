@@ -43,8 +43,8 @@
 #' @seealso getVariable
 
 convertTerrestrialEcoregions <- function(
-  nameOnly=FALSE,
-  simplify=TRUE
+  nameOnly = FALSE,
+  simplify = TRUE
 ) {
   
   # ----- Setup ----------------------------------------------------------------

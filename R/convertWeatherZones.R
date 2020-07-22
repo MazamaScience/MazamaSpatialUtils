@@ -112,10 +112,11 @@ convertWeatherZones <- function(
   SPDF@data <- 
     dplyr::select(
       .data = SPDF@data,
+      countryCode = "US",
       stateCode = .data$STATE,
       weatherForecastOffice = .data$CWA,
       zoneNumber = .data$ZONE,
-      name = .data$NAME,
+      zoneName = .data$NAME,
       zoneID = .data$STATE_ZONE,
       longitude = .data$LON,
       latitude = .data$LAT

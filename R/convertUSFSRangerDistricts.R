@@ -145,6 +145,7 @@ convertUSFSRangerDistricts <- function(
   SPDF@data <- 
     dplyr::select(
       .data = SPDF@data,
+      countryCode = "US",
       districtID = .data$RANGERDIST,
       regionID = .data$REGION,
       regionName = .data$regionName,

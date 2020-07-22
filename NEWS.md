@@ -1,8 +1,16 @@
+# MazamaSpatialUtils 0.6.11
+
+* Removed non-working `app/` directory and dependency on **shiny**.
+* Updated `convertEPARegions.R`.
+* Updated `convertOSMTimeZones.R`.
+* Updated `convertTerrestrialEcoregions.R`.
+* Updated `convertWeatherZones.R`.
+
 # MazamaSpatialUtils 0.6.10
 
-* Updated `convertGACC()` to use 2020 data.
+* Updated `convertGACC.R` to use 2020 data.
 * Removed outlying territories from `US_stateCodes`.
-* Updated `convertUSCensusStates()` to use 2019 data.
+* Updated `convertUSCensusStates.R` to use 2019 data.
 * Updated `convertCARBAirBains.R` to latest coding style.
 * Updated `convertUSCensusCBSA.R` to latest coding style.
 * Updated `convertIndianLands.R` to latest coding style.
