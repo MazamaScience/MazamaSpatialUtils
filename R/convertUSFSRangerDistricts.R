@@ -128,18 +128,34 @@ convertUSFSRangerDistricts <- function(
   #   SHAPE_AREA -->  (drop)
   #   SHAPE_LEN --->  (drop)
 
-  # Create human readable Region Name vector
-  region_list <- list("01" = "Northern",
-                      "02" = "Rocky Mountain",
-                      "03" = "Southwestern",
-                      "04" = "Intermountain",
-                      "05" = "Pacific Southwest",
-                      "06" = "Pacific Northwest",
-                      "08" = "Southern",
-                      "09" = "Eastern",
-                      "10" = "Alaska")
+  # Create human readable Region Name and allStatesCodes vectors
+  region_list <- list(
+    "01" = "Northern",
+    "02" = "Rocky Mountain",
+    "03" = "Southwestern",
+    "04" = "Intermountain",
+    "05" = "Pacific Southwest",
+    "06" = "Pacific Northwest",
+    "08" = "Southern",
+    "09" = "Eastern",
+    "10" = "Alaska"
+  )
+  
+  # NOTE:    https://www.fs.fed.us/wildflowers/regions/
+  allStateCodes <- list(
+    "01" = "ID,MT,ND,SD", 
+    "02" = "CO,KS,NE,SD,WY", 
+    "03" = "AZ,NM",
+    "04" = "ID,NV,UT,WY",
+    "05" = "CA,HI",
+    "06" = "OR,WA", 
+    "08" = "AL,AR,FL,GA,KN,LA,MS,NC,OK,SC,TN,TX,VA",
+    "09" = "CT,DE,IA,IL,IN,MA,MD,ME,MI,MN,MO,NH,NJ,NY,OH,PA,RI,VT,WI,WV", 
+    "10" = "AK"
+  )
   
   SPDF@data$regionName <- unlist(region_list[SPDF@data$REGION], use.names = FALSE)
+  SPDF@data$allStatesCodes <- unlist(allStateCodes[SPDF@data$REGION], use.names = FALSE)
   
   SPDF@data$countryCode <- "US"
   
@@ -151,6 +167,7 @@ convertUSFSRangerDistricts <- function(
       districtID = .data$RANGERDIST,
       regionID = .data$REGION,
       regionName = .data$regionName,
+      allStateCodes = .data$allStatesCodes,
       forestNumber = .data$FORESTNUMB,
       districtNumber = .data$DISTRICTNU,
       districtOrgCode = .data$DISTRICTOR,
