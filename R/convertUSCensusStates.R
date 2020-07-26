@@ -141,7 +141,7 @@ convertUSCensusStates <- function(
       countryCode = .data$countryCode,
       stateCode = .data$STUSPS,
       stateFIPS = .data$STATEFP,
-      countyName = .data$NAME,
+      stateName = .data$NAME,
       landArea = .data$ALAND,
       waterArea = .data$AWATER,
       AFFGEOID = .data$AFFGEOID
