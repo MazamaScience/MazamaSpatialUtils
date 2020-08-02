@@ -57,5 +57,7 @@ performed to the boundary definitions of an existing zone within this project.
 }
 \seealso{
 setSpatialDataDir
+
+getVariable
 }
 \keyword{datagen}

@@ -48,7 +48,7 @@
 #' @references \url{https://github.com/evansiroky/timezone-boundary-builder}
 #' 
 #' @seealso setSpatialDataDir
-#' @seeAlso getVariable
+#' @seealso getVariable
 
 convertOSMTimezones <- function(
   nameOnly = FALSE,
