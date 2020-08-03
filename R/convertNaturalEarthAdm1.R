@@ -22,10 +22,6 @@
 #' makes sense in the United 'States'. In other countries this level is known as 
 #' 'province', 'territory' or some other term.
 #' 
-#' @note Because this is a mult-country dataset, the \code{stateFIPS} column
-#' retains the \code{countryCode} identifier. To get US "stateFIPS" identifiers
-#' compatible with other datasets, you need to strip off the first two characters.
-#' 
 #' @return Name of the dataset being created.
 #' 
 #' @references \url{http://www.naturalearthdata.com/downloads/}
@@ -249,7 +245,7 @@ convertNaturalEarthAdm1 <- function(
   
   goodAreas <- stringr::str_subset(SPDF@data$code_hasc, "~", negate = TRUE)
   
-  SPDF <- subset(SPDF, code_hasc %in% goodAreas)
+  SPDF <- subset(SPDF, SPDF@data$code_hasc %in% goodAreas)
   
   # Add the core identifiers to the SpatialPolygonsDataFrame
   SPDF$stateCode <- 

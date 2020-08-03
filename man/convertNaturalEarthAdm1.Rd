@@ -17,7 +17,7 @@ versions of the file that are simplified to 5\%, 2\% and 1\%.}
 Name of the dataset being created.
 }
 \description{
-Returns a SpatialPolygonsDataFrame for a 1st level administrative divisions
+Returns a SpatialPolygonsDataFrame for 1st level administrative divisions
 }
 \details{
 A state border shapefile is downloaded and converted to a 
@@ -25,9 +25,10 @@ SpatialPolygonsDataFrame with additional columns of data. The resulting file
 will be created in the spatial data directory which is set with 
 \code{setSpatialDataDir()}.
 
-Within the \pkg{MazamaSpatialUtils} package the phrase 'state' refers to administrative
-divisions beneath the level of the country or nation. This makes sense in the United 'States'. In
-other countries this level is known as 'province', 'territory' or some other term.
+Within the \pkg{MazamaSpatialUtils} package the phrase 'state' refers to 
+administrative divisions beneath the level of the country or nation. This 
+makes sense in the United 'States'. In other countries this level is known as 
+'province', 'territory' or some other term.
 }
 \references{
 \url{http://www.naturalearthdata.com/downloads/}
