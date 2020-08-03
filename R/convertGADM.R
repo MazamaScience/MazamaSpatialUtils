@@ -68,7 +68,7 @@ convertGADM <- function(
 
   # ----- Select useful columns and rename -------------------------------------
   
-  if (admLevel == 0) {
+  if ( admLevel == 0 ) {
 
     # > dplyr::glimpse(SPDF@data)
     # Observations: 1
@@ -287,7 +287,7 @@ convertGADM <- function(
   
   # Clean topology errors
   if ( !cleangeo::clgeo_IsValid(SPDF) ) {
-    SPDF <- cleangeo::clgeo_Clean(SPDF)
+    SPDF <- cleangeo::clgeo_Clean(SPDF, verbose = TRUE)
   }
   
   # ----- Name and save the data -----------------------------------------------

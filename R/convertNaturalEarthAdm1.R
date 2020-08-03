@@ -10,16 +10,21 @@
 #' @param simplify Logical specifying whether to create "_05", _02" and "_01" 
 #' versions of the file that are simplified to 5\%, 2\% and 1\%.
 #' 
-#' @description Returns a SpatialPolygonsDataFrame for a 1st level administrative divisions
+#' @description Returns a SpatialPolygonsDataFrame for 1st level administrative divisions
 #' 
 #' @details A state border shapefile is downloaded and converted to a 
 #' SpatialPolygonsDataFrame with additional columns of data. The resulting file 
 #' will be created in the spatial data directory which is set with 
 #' \code{setSpatialDataDir()}.
 #'
-#' Within the \pkg{MazamaSpatialUtils} package the phrase 'state' refers to administrative
-#' divisions beneath the level of the country or nation. This makes sense in the United 'States'. In
-#' other countries this level is known as 'province', 'territory' or some other term.
+#' Within the \pkg{MazamaSpatialUtils} package the phrase 'state' refers to 
+#' administrative divisions beneath the level of the country or nation. This 
+#' makes sense in the United 'States'. In other countries this level is known as 
+#' 'province', 'territory' or some other term.
+#' 
+#' @note Because this is a mult-country dataset, the \code{stateFIPS} column
+#' retains the \code{countryCode} identifier. To get US "stateFIPS" identifiers
+#' compatible with other datasets, you need to strip off the first two characters.
 #' 
 #' @return Name of the dataset being created.
 #' 
@@ -186,7 +191,7 @@ convertNaturalEarthAdm1 <- function(
   #   name_len ----> (drop) 
   #   mapcolor9 ---> (drop) 
   #   mapcolor13 --> (drop) 
-  #   fips --------> fips: FIPS code
+  #   fips --------> stateFIPS: FIPS code
   #   fips_alt ----> (drop) 
   #   woe_id ------> (drop) 
   #   woe_label ---> (drop) 
@@ -243,6 +248,7 @@ convertNaturalEarthAdm1 <- function(
   SPDF$stateCode <- stringr::str_split_fixed(SPDF@data$code_hasc, '\\.', 5)[ , 2]
   SPDF$countryName <- MazamaSpatialUtils::codeToCountry(SPDF@data$iso_a2)
   SPDF$stateName <- SPDF@data$name
+  SPDF$stateFIPS <- SPDF@data$fips
 
   # Create the new dataframe in a specific column order
   SPDF@data <- 
@@ -252,13 +258,13 @@ convertNaturalEarthAdm1 <- function(
       countryName = .data$countryName,
       stateCode = .data$stateCode,
       stateName = .data$name,
+      stateFIPS = .data$stateFIPS,
       latitude = .data$latitude,
       longitude = .data$longitude,
       area_sqkm = .data$area_sqkm,
       postal = .data$postal,
       adm1_code = .data$adm1_code,
       code_hasc = .data$code_hasc,
-      fips = .data$fips,
       gns_lang = .data$gns_lang,
       gns_adm1 = .data$gns_adm1
     )
@@ -274,7 +280,7 @@ convertNaturalEarthAdm1 <- function(
   
   # Clean topology errors
   if ( !cleangeo::clgeo_IsValid(SPDF) ) {
-    SPDF <- cleangeo::clgeo_Clean(SPDF)
+    SPDF <- cleangeo::clgeo_Clean(SPDF, verbose = TRUE)
   }
   
   # ----- Name and save the data -----------------------------------------------

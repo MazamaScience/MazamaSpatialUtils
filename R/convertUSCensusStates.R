@@ -158,7 +158,7 @@ convertUSCensusStates <- function(
   
   # Clean topology errors
   if ( !cleangeo::clgeo_IsValid(SPDF) ) {
-    SPDF <- cleangeo::clgeo_Clean(SPDF)
+    SPDF <- cleangeo::clgeo_Clean(SPDF, verbose = TRUE)
   }
   
   # ----- Name and save the data -----------------------------------------------

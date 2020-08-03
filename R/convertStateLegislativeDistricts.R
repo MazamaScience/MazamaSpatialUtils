@@ -46,8 +46,8 @@ convertStateLegislativeDistricts <- function(stateCode,
   }
   
   # Get FIPS code for state
-  stateFips <- stateCodesDF[stateCodesDF["stateCode"] == stateCode, "fips"]
-  stateFips <- stringr::str_replace(stateFips, "US", "")  # remove "US" at the beginning of FIPS code
+  stateFIPS <- stateCodesDF[stateCodesDF["stateCode"] == stateCode, "fips"]
+  stateFIPS <- stringr::str_replace(stateFIPS, "US", "")  # remove "US" at the beginning of FIPS code
   
   # create variable to specify Upper or Lower house in request url
   if (house == "Upper") {
@@ -57,7 +57,7 @@ convertStateLegislativeDistricts <- function(stateCode,
   }
   
   # build request url
-  shpName <- paste0("cb_2017_", stateFips, "_sld", houseChar, "_500k")
+  shpName <- paste0("cb_2017_", stateFIPS, "_sld", houseChar, "_500k")
   url <- paste0("www2.census.gov/geo/tiger/GENZ2017/shp/", shpName, ".zip")
   
   # download and unzip shapefile

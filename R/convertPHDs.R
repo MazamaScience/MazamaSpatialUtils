@@ -46,8 +46,8 @@ convertPHDs <- function(nameOnly=FALSE) {
 
   # Given row of PHD data, find state code, name, or adm1_code
   extractState <- function(row) {
-    fips <- row['stateFIPS']
-    stateCode <- MazamaSpatialUtils::US_stateCodes$stateCode[MazamaSpatialUtils::US_stateCodes$fips==paste0("US", fips)]
+    stateFIPS <- row['stateFIPS']
+    stateCode <- MazamaSpatialUtils::US_stateCodes$stateCode[MazamaSpatialUtils::US_stateCodes$stateFIPS==paste0("US", stateFIPS)]
     return(stateCode)
   }
   
