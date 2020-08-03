@@ -244,12 +244,17 @@ convertNaturalEarthAdm1 <- function(
   #   name_zh -----> (drop) 
   #   nd_id -------> (drop) 
 
+  # NOTE:  Subset to filter out exceptional areas (islands and disputed 
+  # NOTE:  territories) marked with '~'
+  
+  goodAreas <- stringr::str_subset(SPDF@data$code_hasc, "~", negate = TRUE)
+  
+  SPDF <- subset(SPDF, code_hasc %in% goodAreas)
+  
   # Add the core identifiers to the SpatialPolygonsDataFrame
   SPDF$stateCode <- 
     SPDF@data$code_hasc %>%
     stringr::str_trim() %>%
-    # Remove exceptional areas (islands and disputed terrotires) marked with '~'
-    stringr::str_subset("~", negate = TRUE) %>%
     stringr::str_sub(4,-1)
   SPDF$countryName <- MazamaSpatialUtils::codeToCountry(SPDF@data$iso_a2)
   SPDF$stateName <- SPDF@data$name
