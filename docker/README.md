@@ -12,7 +12,7 @@ You should then be able to see something like the following:
 
 ```
 $ docker images | grep spatialutils
-mazamascience/spatialutils          0.6.5                   0378d2f89da7        4 minutes ago       2.54GB
+mazamascience/spatialutils          0.6.6                   0378d2f89da7        4 minutes ago       2.54GB
 mazamascience/spatialutils          latest                  0378d2f89da7        4 minutes ago       2.54GB
 ...
 ```
@@ -22,7 +22,7 @@ Spatial data required by the **MazamaSpatialUtils** package already exists in th
 
 ## Test the Docker Image ##
 
-Having built the docker image we can now test it. The following output was obtained on December 12, 2017:
+Having built the docker image we can now test it. The following output was obtained on July 28, 22020:
 
 ```
 docker run -ti mazamascience/spatialutils R --vanilla
@@ -67,7 +67,7 @@ Loading required package: sp
 ```
 docker login
 ...
-docker push mazamascience/spatialutils:0.6.5
+docker push mazamascience/spatialutils:0.6.6
 ```
 
 
@@ -76,7 +76,7 @@ docker push mazamascience/spatialutils:0.6.5
 A recent image can also be obtained from DockerHub with:
 
 ```
-docker pull mazamascience/spatialutils:0.6.5
+docker pull mazamascience/spatialutils:0.6.6
 ```
 
 
