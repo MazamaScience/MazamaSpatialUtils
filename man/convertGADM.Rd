@@ -4,34 +4,38 @@
 \alias{convertGADM}
 \title{Convert Global Administrative Areas (GADM) Shapefile}
 \usage{
-convertGADM(countryCode = NULL, admLevel = 0, nameOnly = FALSE)
+convertGADM(
+  nameOnly = FALSE,
+  simplify = TRUE,
+  countryCode = NULL,
+  admLevel = 0
+)
 }
 \arguments{
+\item{nameOnly}{Logical specifying whether to only return the name without 
+creating the file.}
+
+\item{simplify}{Logical specifying whether to create "_05", _02" and "_01" 
+versions of the file that are simplified to 5\%, 2\% and 1\%.#'}
+
 \item{countryCode}{ISO-3166-1 alpha-2 country code}
 
 \item{admLevel}{administrative level to be downloaded}
-
-\item{nameOnly}{logical specifying whether to only return the name without creating the file}
 }
 \value{
 Name of the dataset being created.
 }
 \description{
-A SpatialPolygonsDataFrame file is downloaded from the Database of Global Administrative Areas (GADM) database with
-additional columns of data added. The resulting file will be created in the spatial data
-directory which is set with \code{setSpatialDataDir()}. Dataset and file names are generated like this:
-
-\code{paste0('gadm_', countryCode, '_', admLevel)}
-
-Level 0 will return the national outline. Level 1 will give state/province boundaries. etc.
+Create a SpatialPolygonsDataFrame for Global Administrative Areas.
+}
+\details{
+A Global Administrative Areas shapefile is downloaded and converted to a 
+SpatialPolygonsDataFrame with additional columns of data. The resulting file 
+will be created in the spatial data directory which is set with 
+\code{setSpatialDataDir()}.
 }
 \note{
-Not all countries have the same number of levels. Many just have two levels while France has five.
-}
-\examples{
-\dontrun{
-convertGADM('DE', 1)
-}
+From the source documentation:
 }
 \references{
 \url{https://gadm.org/data.html}.
