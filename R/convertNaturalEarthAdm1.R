@@ -245,7 +245,12 @@ convertNaturalEarthAdm1 <- function(
   #   nd_id -------> (drop) 
 
   # Add the core identifiers to the SpatialPolygonsDataFrame
-  SPDF$stateCode <- stringr::str_split_fixed(SPDF@data$code_hasc, '\\.', 5)[ , 2]
+  SPDF$stateCode <- 
+    SPDF@data$code_hasc %>%
+    stringr::str_trim() %>%
+    # Remove exceptional areas (islands and disputed terrotires) marked with '~'
+    stringr::str_subset("~", negate = TRUE) %>%
+    stringr::str_sub(4,-1)
   SPDF$countryName <- MazamaSpatialUtils::codeToCountry(SPDF@data$iso_a2)
   SPDF$stateName <- SPDF@data$name
   SPDF$stateFIPS <- SPDF@data$fips
