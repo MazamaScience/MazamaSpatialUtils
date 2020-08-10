@@ -1,6 +1,7 @@
-# MazamaSpatialUtils 0.6.11
+# MazamaSpatialUtils 0.6.12
 
 * Updated `convertNaturalEarthAdm1.R`.
+* Updated `convertMTBSBurnArea.R`.
 
 # MazamaSpatialUtils 0.6.11
 
