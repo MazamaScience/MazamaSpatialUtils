@@ -1,7 +1,6 @@
 #' @keywords datagen
 #' @importFrom rlang .data
 #' @importFrom cleangeo clgeo_IsValid
-#' @export
 #' 
 #' @title Convert Simplified World Borders Shapefile
 #' 

@@ -2,7 +2,7 @@
 % Please edit documentation in R/convertSimpleCountries.R
 \name{convertSimpleCountries}
 \alias{convertSimpleCountries}
-\title{Convert Simple World Borders Shapefile}
+\title{Convert Simplified World Borders Shapefile}
 \usage{
 convertSimpleCountries(nameOnly = FALSE)
 }
