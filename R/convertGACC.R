@@ -4,7 +4,8 @@
 #' 
 #' @title Convert Geographic Area Coordination Center shapefile
 #' 
-#' @param nameOnly logical specifying whether to only return the name without creating the file
+#' @param nameOnly Logical specifying whether to only return the name without 
+#' creating the file.
 #' @param simplify Logical specifying whether to create "_05", _02" and "_01" 
 #' versions of the file that are simplified to 5\%, 2\% and 1\%.
 #' 
@@ -144,23 +145,13 @@ convertGACC <- function(
   # $ SHAPE_Leng <dbl> 252.07947, 123.22253, 72.08031, 61.11868, 66.64548, 35.7842…
   # $ SHAPE_Area <dbl> 314.10571, 208.80319, 73.74553, 20.60835, 74.53020, 50.8581…
   
-  # Rationalize naming:
-  # * human readable full nouns with descriptive prefixes
-  # * generally lowerCamelCase
-  # with internal standards:
-  # * countryCode (ISO 3166-1 alpha-2)
-  # * stateCode (ISO 3166-2 alpha-2)
-  # * longitude (decimal degrees E)
-  # * latitude (decimal degrees N)
-  # * area (m^2)
-  
   # Data Dictionary:
   #   FID --------> FID:    
   #   GeometryID -> (drop)   
   #   GACCName ---> GACCName: human readable name 
   #   GACCUnitID -> unitID: identifier
   #   GACCAbbrev -> abbreviation, GACC_NWCG_Code (to match 2017 GACC dataset)
-  #   GACCLocati -> loation: city, state
+  #   GACCLocati -> location: city, state
   #   ContactPho -> contactPhone: contact phone number
   #   Comments ---> comments: update information
   #   DateCurren -> lastUpdate: date of last update
@@ -175,8 +166,8 @@ convertGACC <- function(
   # NOTE:  * create "label"
   # NOTE:  * create GACC_NWCG_Code
   
-  SPDF$countryCode <- 'US'
-  SPDF$stateCode <- stringr::str_extract(SPDF$GACCLocati, "[[:upper:]]{2}$")
+  SPDF@data$countryCode <- 'US'
+  SPDF@data$stateCode <- stringr::str_extract(SPDF$GACCLocati, "[[:upper:]]{2}$")
   
   # Recreate 2017 labels
   labels_2017 <- c(
@@ -187,7 +178,7 @@ convertGACC <- function(
     "EACC", "ONCC", "NWCC", "RMCC", "SACC", 
     "SWCC", "OSCC", "GBCC", "NRCC", "AICC"
   )
-  SPDF$label <- labels_2017[SPDF$GACCAbbrev]
+  SPDF@data$label <- labels_2017[SPDF@data$GACCAbbrev]
   
   SPDF@data <- dplyr::select(
     .data = SPDF@data,
