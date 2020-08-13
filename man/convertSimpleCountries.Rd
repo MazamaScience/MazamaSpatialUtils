@@ -2,26 +2,27 @@
 % Please edit documentation in R/convertSimpleCountries.R
 \name{convertSimpleCountries}
 \alias{convertSimpleCountries}
-\title{Convert (Simple) World Borders Shapefile}
+\title{Convert Simple World Borders Shapefile}
 \usage{
 convertSimpleCountries(nameOnly = FALSE)
 }
 \arguments{
-\item{nameOnly}{logical specifying whether to only return the name without creating the file}
+\item{nameOnly}{Logical specifying whether to only return the name without 
+creating the file.}
 }
 \value{
 Name of the dataset being created.
 }
 \description{
-Returns a SpatialPolygonsDataFrame for a simple world divisions
+Creates a SpatialPolygonsDataFrame of simplified world divisions
 }
 \details{
 A world borders shapefile is downloaded and converted to a
-SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
-in the package \code{SpatialDataDir} which is set with \code{setSpatialDataDir()}.
+SpatialPolygonsDataFrame with additional columns of data. The resulting file 
+will be created in the \pkg{MazamaSpatialUtils} package data
 
-This shapefile is a greatly simplified version of the TMWorldBorders shapefile and is especially suited
-for spatial searches. This is the default dataset used in \code{getCountry()} and \code{getCountryCode()}.
+This shapefile is a greatly simplified version of the TMWorldBorders shapefile 
+(to 5% of it's vertices) and is especially suited for spatial searches. 
 Users may wish to use a higher resolution dataset when plotting.
 }
 \note{

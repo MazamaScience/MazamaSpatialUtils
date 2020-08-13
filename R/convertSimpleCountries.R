@@ -3,24 +3,20 @@
 #' @importFrom cleangeo clgeo_IsValid
 #' @export
 #' 
-#' @title Convert (Simple) World Borders Shapefile
+#' @title Convert Simple World Borders Shapefile
 #' 
 #' @param nameOnly Logical specifying whether to only return the name without 
 #' creating the file.
-#' @param simplify Logical specifying whether to create "_05", _02" and "_01" 
-#' versions of the file that are simplified to 5\%, 2\% and 1\%.
 #' 
-#' @description Returns a SpatialPolygonsDataFrame for a simple world divisions
+#' @description Creates a SpatialPolygonsDataFrame of simplified world divisions
 #' 
 #' @details A world borders shapefile is downloaded and converted to a
 #' SpatialPolygonsDataFrame with additional columns of data. The resulting file 
-#' will be created in the package \code{SpatialDataDir} which is set with 
-#' \code{setSpatialDataDir()}.
+#' will be created in the \pkg{MazamaSpatialUtils} package data
 #'
 #' This shapefile is a greatly simplified version of the TMWorldBorders shapefile 
-#' and is especially suited for spatial searches. This is the default dataset 
-#' used in \code{getCountry()} and \code{getCountryCode()}. Users may wish to
-#' use a higher resolution dataset when plotting.
+#' (to 5% of it's vertices) and is especially suited for spatial searches. 
+#' Users may wish to use a higher resolution dataset when plotting.
 #' 
 #' @note This is a non-exported function used only for updating the package dataset.
 #' 
@@ -30,7 +26,6 @@
 #' 
 #' @seealso setSpatialDataDir
 #' @seealso getCountry, getCountryCode
-#' 
 
  
 # NOTE:  This function only needs to be run once to update the package SimpleCountries
@@ -45,8 +40,7 @@
 # TODO: the convertTMWorldBorders() function.
 
 convertSimpleCountries <- function(
-  nameOnly = FALSE,
-  simplify = TRUE
+  nameOnly = FALSE
 ) {
 
   # ----- Setup ----------------------------------------------------------------
@@ -68,7 +62,7 @@ convertSimpleCountries <- function(
   filePath <- file.path(dataDir, basename(url))
   utils::download.file(url, filePath)
   # NOTE:  This zip file has no directory so extra subdirectory needs to be created
-  utils::unzip(filePath,exdir=file.path(dataDir,'world'))
+  utils::unzip(filePath,exdir=file.path(dataDir, 'world'))
   
   # ----- Convert to SPDF ------------------------------------------------------
 
@@ -167,10 +161,13 @@ convertSimpleCountries <- function(
   sourceCodeDir <- getwd()
   
   # Assign a name and save the data
-  # NOTE: saving in the paskage data unlike other convert functions
+  # NOTE: saving in the package data unlike other convert functions
   message("Saving 5% version...\n")
   assign(datasetName,SPDF)
-  save(list=c(datasetName),file=paste0(sourceCodeDir,'/data/',datasetName,'.RData'))
+  save(
+    list = c(datasetName), 
+    file = paste0(sourceCodeDir, '/data/', datasetName, '.RData')
+  )
   rm(list = c("SPDF",datasetName))
   
   # ----- Clean up and return --------------------------------------------------
