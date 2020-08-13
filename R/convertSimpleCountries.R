@@ -3,7 +3,7 @@
 #' @importFrom cleangeo clgeo_IsValid
 #' @export
 #' 
-#' @title Convert Simple World Borders Shapefile
+#' @title Convert Simplified World Borders Shapefile
 #' 
 #' @param nameOnly Logical specifying whether to only return the name without 
 #' creating the file.
@@ -45,6 +45,9 @@ convertSimpleCountries <- function(
 
   # ----- Setup ----------------------------------------------------------------
   
+  # get filepath to working directory, which must be MazamaSpatialUtils
+  sourceCodeDir <- getwd()
+  
   # Use package internal data directory
   dataDir <- getSpatialDataDir()
 
@@ -62,7 +65,7 @@ convertSimpleCountries <- function(
   filePath <- file.path(dataDir, basename(url))
   utils::download.file(url, filePath)
   # NOTE:  This zip file has no directory so extra subdirectory needs to be created
-  utils::unzip(filePath,exdir=file.path(dataDir, 'world'))
+  utils::unzip(filePath, exdir = file.path(dataDir, 'world'))
   
   # ----- Convert to SPDF ------------------------------------------------------
 
@@ -156,9 +159,6 @@ convertSimpleCountries <- function(
   }
   
   # ----- Name and save the data -----------------------------------------------
-  
-  # get filepath to working directory which must be MazamaSpatialUtils
-  sourceCodeDir <- getwd()
   
   # Assign a name and save the data
   # NOTE: saving in the package data unlike other convert functions
