@@ -4,12 +4,10 @@
 \alias{convertHMSSmoke}
 \title{Convert NOAA Hazard Mapping System Smoke Shapefiles}
 \usage{
-convertHMSSmoke(dsnPath = NULL, datestamp = NULL, nameOnly = FALSE)
+convertHMSSmoke(datestamp = NULL, nameOnly = FALSE)
 }
 \arguments{
-\item{dsnPath}{directory where the HMS Smoke datasets are found}
-
-\item{datestamp}{HMS datestamp in the format "YYYYmmdd"}
+\item{datestamp}{HMS datestamp in the format "YYYYMMDD"}
 
 \item{nameOnly}{logical specifying whether to only return the name without creating the file}
 }
@@ -17,21 +15,13 @@ convertHMSSmoke(dsnPath = NULL, datestamp = NULL, nameOnly = FALSE)
 Name of the dataset being created.
 }
 \description{
-Previously downloaded smoke shapefiles from the NOAA
-\href{https://www.ospo.noaa.gov/Products/land/hms.html}{Hazard Mapping System} are converted to a
-SpatialPolygonsDataFrame with additional columns of data. The resulting file will be
-created in the spatial data directory which is set with \code{setSpatialDataDir()}.
+Create a SpatialPolygonsDataFrame for US states
 }
 \details{
-The full set of archived HMS Smoke shapefiles can be downloaded from NOAA with the
-following command:
-
-\preformatted{
-wget -R '.zip' ftp://satepsanone.nesdis.noaa.gov/FIRE/HMS/GIS/ARCHIVE/hms_smoke*
-}
-
-If no \code{datestamp} argument is used, all shapefiles in \code{dsnPath} will be converted.
-In this case, a vector of created dataset names is returned.
+A NOAA smoke shapefile from the is downloaded and converted to a 
+SpatialPolygonsDataFrame with additional columns of data. The resulting file 
+will be created in the spatial data directory which is set with 
+\code{setSpatialDataDir()}.
 }
 \note{
 Data files prior to August 13, 2007 do not contain the vital 'Density' column. For these
