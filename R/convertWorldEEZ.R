@@ -6,8 +6,6 @@
 #' 
 #' @param nameOnly logical specifying whether to only return the name without 
 #' creating the file
-#' @param simplify Logical specifying whether to create "_05", _02" and "_01" 
-#' versions of the file that are simplified to 5\%, 2\% and 1\%.
 #' 
 #' @description  Returns a SpatialPolygonsDataFrame for US counties.
 #' 
@@ -25,8 +23,7 @@
 #' @seealso getCountry, getCountryCode
 #' 
 convertWorldEEZ <- function(
-  nameOnly = FALSE,
-  simplify = TRUE
+  nameOnly = FALSE
 ) {
   
   # ----- Setup ----------------------------------------------------------------
@@ -104,7 +101,7 @@ convertWorldEEZ <- function(
                  sep = '; ', na.rm = TRUE) %>%
     tidyr::unite("concatISO", .data$ISO_TER1, .data$ISO_TER2, .data$ISO_TER3, 
                  sep = '; ', na.rm = TRUE) %>%
-    #de duplicate concaentated columns
+    #de duplicate concatenated columns
     dplyr::mutate(
       country = vapply(strsplit(.data$concatTerritory, "; "), 
                        function(x) paste(unique(x), collapse = ", "), 
@@ -158,40 +155,6 @@ convertWorldEEZ <- function(
   assign(datasetName, SPDF)
   save(list = c(datasetName), file = paste0(dataDir,'/', datasetName, '.rda'))
   rm(list = datasetName)
-  
-  # ----- Simplify -------------------------------------------------------------
- 
-   # NOTE: using the simplify functionality took over 2 hours maybe this should be removed 
-   if ( simplify ) {
-    # Create new, simplified datsets: one with 5%, 2%, and one with 1% of the vertices of the original
-    # NOTE:  This may take several minutes.
-    message("Simplifying to 5%...\n")
-    SPDF_05 <- rmapshaper::ms_simplify(SPDF, 0.05)
-    SPDF_05@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
-    datasetName_05 <- paste0(datasetName, "_05")
-    message("Saving 5% version...\n")
-    assign(datasetName_05, SPDF_05)
-    save(list = datasetName_05, file = paste0(dataDir,"/",datasetName_05, '.rda'))
-    rm(list = c("SPDF_05",datasetName_05))
-
-    message("Simplifying to 2%...\n")
-    SPDF_02 <- rmapshaper::ms_simplify(SPDF, 0.02)
-    SPDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
-    datasetName_02 <- paste0(datasetName, "_02")
-    message("Saving 2% version...\n")
-    assign(datasetName_02, SPDF_02)
-    save(list = datasetName_02, file = paste0(dataDir,"/",datasetName_02, '.rda'))
-    rm(list = c("SPDF_02",datasetName_02))
-
-    message("Simplifying to 1%...\n")
-    SPDF_01 <- rmapshaper::ms_simplify(SPDF, 0.01)
-    SPDF_01@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
-    datasetName_01 <- paste0(datasetName, "_01")
-    message("Saving 1% version...\n")
-    assign(datasetName_01, SPDF_01)
-    save(list = datasetName_01, file = paste0(dataDir,"/",datasetName_01, '.rda'))
-    rm(list = c("SPDF_01",datasetName_01))
-  }
   
   # ----- Clean up and return --------------------------------------------------
   
