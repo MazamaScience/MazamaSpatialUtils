@@ -20,10 +20,11 @@ Name of the dataset being created.
 Returns a SpatialPolygonsDataFrame for US counties.
 }
 \details{
-A world EEZ shapefile is downloaded and converted to a 
-SpatialPolygonsDataFrame with additional columns of data. The resulting file 
-will be created in the spatial data directory which is set with 
-\code{setSpatialDataDir()}.
+A world EEZ shapefile is converted to a 
+SpatialPolygonsDataFrame with additional columns of data. To use this function, 
+the file World_EEZ_v11_20191118 must be downloaded into the users spatial 
+directory which is set with \code{setSpatialDataDir()}. The resulting file 
+will be created in this same spatial data directory.
 }
 \references{
 \url{http://www.marineregions.org/downloads.php}
