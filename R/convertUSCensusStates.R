@@ -12,7 +12,7 @@
 #' 
 #' @description Create a SpatialPolygonsDataFrame for US states
 #' 
-#' @details A US county borders shapefile is downloaded and converted to a 
+#' @details A US state borders shapefile is downloaded and converted to a 
 #' SpatialPolygonsDataFrame with additional columns of data. The resulting file 
 #' will be created in the spatial data directory which is set with 
 #' \code{setSpatialDataDir()}.
@@ -141,7 +141,7 @@ convertUSCensusStates <- function(
       countryCode = .data$countryCode,
       stateCode = .data$STUSPS,
       stateFIPS = .data$STATEFP,
-      countyName = .data$NAME,
+      stateName = .data$NAME,
       landArea = .data$ALAND,
       waterArea = .data$AWATER,
       AFFGEOID = .data$AFFGEOID

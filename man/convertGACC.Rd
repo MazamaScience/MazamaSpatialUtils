@@ -7,7 +7,8 @@
 convertGACC(nameOnly = FALSE, simplify = TRUE)
 }
 \arguments{
-\item{nameOnly}{logical specifying whether to only return the name without creating the file}
+\item{nameOnly}{Logical specifying whether to only return the name without 
+creating the file.}
 
 \item{simplify}{Logical specifying whether to create "_05", _02" and "_01" 
 versions of the file that are simplified to 5\%, 2\% and 1\%.}

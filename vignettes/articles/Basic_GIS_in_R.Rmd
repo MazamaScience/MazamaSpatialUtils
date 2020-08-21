@@ -96,7 +96,7 @@ id  x  y  temp
  12 22 3  54")
 
 ```
-#### Method 1
+### Method 1
 ```{r point_creation_1}
 # Extract the x and y coordinates as a separate vector
 xy <- temp_df[c("x", "y")]
@@ -109,7 +109,7 @@ temp_spdf@data$id <- as.character(temp_spdf@data$id)
 summary(temp_spdf)
 ```
 
-#### Method 2
+### Method 2
 ```{r point_creation_2}
 # Use the coordinates() function to define the coordinate fields
 sp::coordinates(temp_df) <- ~x+y

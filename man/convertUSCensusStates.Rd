@@ -20,7 +20,7 @@ Name of the dataset being created.
 Create a SpatialPolygonsDataFrame for US states
 }
 \details{
-A US county borders shapefile is downloaded and converted to a 
+A US state borders shapefile is downloaded and converted to a 
 SpatialPolygonsDataFrame with additional columns of data. The resulting file 
 will be created in the spatial data directory which is set with 
 \code{setSpatialDataDir()}.
