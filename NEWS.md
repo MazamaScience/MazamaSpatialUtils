@@ -1,7 +1,18 @@
+# MazamaSpatialUtils 0.6.13
+
+* Updated `convertWorldEEZ.R`.
+* Updated `convertHMSSmoke.R`.
+* Updated `convertStateLegislativeDistricts.R`.
+* Updated `convertTMWorldBordersSimple.R`.
+* Updated `convertTMWorldBorders.R`.
+* Updated `convertSimpleCountries.R`.
+* Updated `convertGACC.R`.
+* Updated `convertNWSFireZones.R`.
+
 # MazamaSpatialUtils 0.6.12
 
-* Updated `convertNaturalEarthAdm1.R`.
 * Updated `convertMTBSBurnArea.R`.
+* Updated `convertNaturalEarthAdm1.R`.
 
 # MazamaSpatialUtils 0.6.11
 
