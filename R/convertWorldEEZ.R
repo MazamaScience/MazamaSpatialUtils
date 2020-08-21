@@ -6,12 +6,14 @@
 #' 
 #' @param nameOnly logical specifying whether to only return the name without 
 #' creating the file
+#' @param simplify Logical specifying whether to create "_05", _02" and "_01" 
+#' versions of the file that are simplified to 5\%, 2\% and 1\%.
 #' 
 #' @description  Returns a SpatialPolygonsDataFrame for US counties.
 #' 
-#' @details A world EEZ shapefile is converted to a 
-#' SpatialPolygonsDataFrame with additional columns of data. To use this function, 
-#' the file World_EEZ_v11_20191118 must be downloaded into the users spatial 
+#' @details A world EEZ shapefile is converted to a SpatialPolygonsDataFrame 
+#' with additional columns of data. To use this function, the file 
+#' "World_EEZ_v11_20191118_LR.zip" must be downloaded into the users spatial 
 #' directory which is set with \code{setSpatialDataDir()}. The resulting file 
 #' will be created in this same spatial data directory.
 #' 
@@ -21,9 +23,10 @@
 #' 
 #' @seealso setSpatialDataDir
 #' @seealso getCountry, getCountryCode
-#' 
+
 convertWorldEEZ <- function(
-  nameOnly = FALSE
+  nameOnly = FALSE,
+  simplify = TRUE
 ) {
   
   # ----- Setup ----------------------------------------------------------------
@@ -40,7 +43,7 @@ convertWorldEEZ <- function(
   # ----- Get the data ---------------------------------------------------------
   
   # Test if the shapefile directory exists.
-  filePath <- file.path(dataDir,'World_EEZ_v11_20191118.zip')
+  filePath <- file.path(dataDir,'World_EEZ_v11_20191118_LR.zip')
   if ( !file.exists(filePath) ) {
     stop('Shapefile directory does not exists. Please download and convert the shapefile desired.', call.=FALSE)
   } 
@@ -51,8 +54,8 @@ convertWorldEEZ <- function(
   # ----- Convert to SPDF ------------------------------------------------------
   
   # Convert shapefile into SpatialPolygonsDataFrame
-  dsnPath <- file.path(dataDir, 'World_EEZ_v11_20191118')
-  shpName <- "eez_v11"
+  dsnPath <- file.path(dataDir, 'World_EEZ_v11_20191118_LR')
+  shpName <- "eez_v11_lowres"
   SPDF <- convertLayer(
     dsn = dsnPath,
     layerName = shpName,
@@ -93,6 +96,7 @@ convertWorldEEZ <- function(
   #   Y_1 -----> latitude
   #   AREA_KM2 -----> area (converted to meters by multiplying my 1000)
   
+  # Create single territory, sovereign, and ISO3 columns and convert area to m
   SPDF@data <- SPDF@data %>% 
     # concatenate the three TERRITORY, SOVEREIGN and ISO_TER columns
     tidyr::unite("concatTerritory", .data$TERRITORY1, .data$TERRITORY2, .data$TERRITORY3, 
@@ -139,7 +143,7 @@ convertWorldEEZ <- function(
       area = .data$area,
     )
 
-  # ----- Organize polygons ----------------------------------------------------
+  # ----- Clean SPDF ----------------------------------------------------
   
   # Group polygons with the same identifier
   SPDF <- organizePolygons(
@@ -148,6 +152,11 @@ convertWorldEEZ <- function(
     sumColumns = c('area')
     )
   
+  # Clean topology errors
+  if ( !cleangeo::clgeo_IsValid(SPDF) ) {
+    SPDF <- cleangeo::clgeo_Clean(SPDF)
+  }
+  
   # ----- Name and save the data -----------------------------------------------
   
   # Assign a name and save the data
@@ -155,6 +164,52 @@ convertWorldEEZ <- function(
   assign(datasetName, SPDF)
   save(list = c(datasetName), file = paste0(dataDir,'/', datasetName, '.rda'))
   rm(list = datasetName)
+  
+  # ----- Simplify -------------------------------------------------------------
+  
+  # NOTE: This will probably take an hour or 2
+  if ( simplify ) {
+    # Create new, simplified datsets: one with 5%, 2%, and one with 1% of the vertices of the original
+    # NOTE:  This may take several minutes.
+    message("Simplifying to 5%...\n")
+    SPDF_05 <- rmapshaper::ms_simplify(SPDF, 0.05)
+    SPDF_05@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+    # Clean topology errors
+    if ( !cleangeo::clgeo_IsValid(SPDF_05) ) {
+      SPDF_05 <- cleangeo::clgeo_Clean(SPDF_05)
+    }
+    datasetName_05 <- paste0(datasetName, "_05")
+    message("Saving 5% version...\n")
+    assign(datasetName_05, SPDF_05)
+    save(list = datasetName_05, file = paste0(dataDir,"/", datasetName_05, '.rda'))
+    rm(list = c("SPDF_05",datasetName_05))
+    
+    message("Simplifying to 2%...\n")
+    SPDF_02 <- rmapshaper::ms_simplify(SPDF, 0.02)
+    SPDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+    # Clean topology errors
+    if ( !cleangeo::clgeo_IsValid(SPDF_02) ) {
+      SPDF_02 <- cleangeo::clgeo_Clean(SPDF_02)
+    }
+    datasetName_02 <- paste0(datasetName, "_02")
+    message("Saving 2% version...\n")
+    assign(datasetName_02, SPDF_02)
+    save(list = datasetName_02, file = paste0(dataDir,"/", datasetName_02, '.rda'))
+    rm(list = c("SPDF_02",datasetName_02))
+    
+    message("Simplifying to 1%...\n")
+    SPDF_01 <- rmapshaper::ms_simplify(SPDF, 0.01)
+    SPDF_01@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+    # Clean topology errors
+    if ( !cleangeo::clgeo_IsValid(SPDF_01) ) {
+      SPDF_01 <- cleangeo::clgeo_Clean(SPDF_01)
+    }
+    datasetName_01 <- paste0(datasetName, "_01")
+    message("Saving 1% version...\n")
+    assign(datasetName_01, SPDF_01)
+    save(list = datasetName_01, file = paste0(dataDir,"/", datasetName_01, '.rda'))
+    rm(list = c("SPDF_01",datasetName_01))
+  }
   
   # ----- Clean up and return --------------------------------------------------
   
