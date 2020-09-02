@@ -43,10 +43,7 @@
 
 
 <meta property="og:title" content="Convert NOAA Hazard Mapping System Smoke Shapefiles — convertHMSSmoke" />
-<meta property="og:description" content="Previously downloaded smoke shapefiles from the NOAA
-Hazard Mapping System are converted to a
-SpatialPolygonsDataFrame with additional columns of data. The resulting file will be
-created in the spatial data directory which is set with setSpatialDataDir()." />
+<meta property="og:description" content="Create a SpatialPolygonsDataFrame for US states" />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -80,7 +77,7 @@ created in the spatial data directory which is set with setSpatialDataDir()." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.14</span>
       </span>
     </div>
 
@@ -105,6 +102,12 @@ created in the spatial data directory which is set with setSpatialDataDir()." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/Developer_Style_Guide.html">Developer Style Guide</a>
+    </li>
+    <li>
+      <a href="../articles/Understanding_sp_Objects.html">Understanding 'sp' Objects</a>
+    </li>
     <li>
       <a href="../articles/articles/Basic_GIS_in_R.html">Basic GIS Operations in R</a>
     </li>
@@ -146,24 +149,17 @@ created in the spatial data directory which is set with setSpatialDataDir()." />
     </div>
 
     <div class="ref-description">
-    <p>Previously downloaded smoke shapefiles from the NOAA
-<a href='https://www.ospo.noaa.gov/Products/land/hms.html'>Hazard Mapping System</a> are converted to a
-SpatialPolygonsDataFrame with additional columns of data. The resulting file will be
-created in the spatial data directory which is set with <code><a href='setSpatialDataDir.html'>setSpatialDataDir()</a></code>.</p>
+    <p>Create a SpatialPolygonsDataFrame for US states</p>
     </div>
 
-    <pre class="usage"><span class='fu'>convertHMSSmoke</span>(<span class='kw'>dsnPath</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>datestamp</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>nameOnly</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>convertHMSSmoke</span>(<span class='kw'>datestamp</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>nameOnly</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dsnPath</th>
-      <td><p>directory where the HMS Smoke datasets are found</p></td>
-    </tr>
-    <tr>
       <th>datestamp</th>
-      <td><p>HMS datestamp in the format "YYYYmmdd"</p></td>
+      <td><p>HMS datestamp in the format "YYYYMMDD"</p></td>
     </tr>
     <tr>
       <th>nameOnly</th>
@@ -176,14 +172,10 @@ created in the spatial data directory which is set with <code><a href='setSpatia
     <p>Name of the dataset being created.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The full set of archived HMS Smoke shapefiles can be downloaded from NOAA with the
-following command:</p>
-<pre>
-wget -R '.zip' ftp://satepsanone.nesdis.noaa.gov/FIRE/HMS/GIS/ARCHIVE/hms_smoke*
-</pre>
-
-<p>If no <code>datestamp</code> argument is used, all shapefiles in <code>dsnPath</code> will be converted.
-In this case, a vector of created dataset names is returned.</p>
+    <p>A NOAA smoke shapefile from the is downloaded and converted to a 
+SpatialPolygonsDataFrame with additional columns of data. The resulting file 
+will be created in the spatial data directory which is set with 
+<code><a href='setSpatialDataDir.html'>setSpatialDataDir()</a></code>.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>Data files prior to August 13, 2007 do not contain the vital 'Density' column. For these
@@ -213,7 +205,7 @@ files, <code>NA</code> will be used in the converted dataframes.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Jonathan Callahan, Roger Andre, Tom Bergamaschi, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
+  <p>Developed by Jonathan Callahan, Rachel Carroll, Eli Grosman, Roger Andre, Tom Bergamaschi, Tina Chen, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
 </div>
 
 <div class="pkgdown">

@@ -1,5 +1,7 @@
 #' @keywords environment
 #' @export
+#' @importFrom rlang .data
+#' 
 #' @title Load spatial datasets
 #' @param pattern regular expression used to match filenames
 #' @description Load datasets found in the directory previously set with 
@@ -51,9 +53,13 @@ loadSpatialData <- function(
     }
     
     # Return names of all SPDF laoded into the global environment
-    names <- base::basename(filePaths)
-    names <- stringr::str_replace(names, "\\.RData", "")
-    
+    names <- 
+      base::basename(filePaths) %>%
+      stringr::str_replace("\\.RData", "") %>%
+      stringr::str_replace("\\.rda", "") %>%
+      unique() %>%
+      sort()
+      
     return(invisible(names))
     
   }

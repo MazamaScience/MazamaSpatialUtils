@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convert MTBS Burn Area shapefiles — convertMTBSBurnArea • MazamaSpatialUtils</title>
+<title>Convert MTBS Burn Area Shapefile — convertMTBSBurnArea • MazamaSpatialUtils</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,13 +42,8 @@
 
 
 
-<meta property="og:title" content="Convert MTBS Burn Area shapefiles — convertMTBSBurnArea" />
-<meta property="og:description" content="Returns a SpatialPolygonsDataFrame for all large wildland fires 
-(includes wildfire, wildland fire use, and prescribed fire) in the 
-conterminous United States (CONUS), Alaska, Hawaii, and Puerto Rico for the 
-period of 1984 through 2017.  All fires reported as greater than 1,000 acres 
-in the western U.S. and greater than 500 acres in the eastern U.S. are 
-mapped across all ownerships." />
+<meta property="og:title" content="Convert MTBS Burn Area Shapefile — convertMTBSBurnArea" />
+<meta property="og:description" content="Create a SpatialPolygonsDataFrame for MTBS Burn Areas" />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -82,7 +77,7 @@ mapped across all ownerships." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.14</span>
       </span>
     </div>
 
@@ -107,6 +102,12 @@ mapped across all ownerships." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/Developer_Style_Guide.html">Developer Style Guide</a>
+    </li>
+    <li>
+      <a href="../articles/Understanding_sp_Objects.html">Understanding 'sp' Objects</a>
+    </li>
     <li>
       <a href="../articles/articles/Basic_GIS_in_R.html">Basic GIS Operations in R</a>
     </li>
@@ -142,21 +143,16 @@ mapped across all ownerships." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Convert MTBS Burn Area shapefiles</h1>
+    <h1>Convert MTBS Burn Area Shapefile</h1>
     <small class="dont-index">Source: <a href='https://github.com/MazamaScience/MazamaSpatialUtils/blob/master/R/convertMTBSBurnArea.R'><code>R/convertMTBSBurnArea.R</code></a></small>
     <div class="hidden name"><code>convertMTBSBurnArea.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Returns a SpatialPolygonsDataFrame for all large wildland fires 
-(includes wildfire, wildland fire use, and prescribed fire) in the 
-conterminous United States (CONUS), Alaska, Hawaii, and Puerto Rico for the 
-period of 1984 through 2017.  All fires reported as greater than 1,000 acres 
-in the western U.S. and greater than 500 acres in the eastern U.S. are 
-mapped across all ownerships.</p>
+    <p>Create a SpatialPolygonsDataFrame for MTBS Burn Areas</p>
     </div>
 
-    <pre class="usage"><span class='fu'>convertMTBSBurnArea</span>(<span class='kw'>nameOnly</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>convertMTBSBurnArea</span>(<span class='kw'>nameOnly</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -176,12 +172,56 @@ versions of the file that are simplified to 5%, 2% and 1%.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Name of the dataset being created.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>A MTBS Burn Area shapefile is downloaded and converted to a 
+SpatialPolygonsDataFrame with additional columns of data. The resulting file 
+will be created in the spatial data directory which is set with 
+<code><a href='setSpatialDataDir.html'>setSpatialDataDir()</a></code>.</p>
+<p>The source data is from 2020.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>Data last updated by USFS: August 22, 2019</p>
+    <p>From the source documentation:</p>
+<p>The Monitoring Trends in Burn Severity (MTBS) project assesses the frequency, 
+extent, and magnitude (size and severity) of all large wildland fires 
+(includes wildfire, wildland fire use, and prescribed fire) in the 
+conterminous United States (CONUS), Alaska, Hawaii, and Puerto Rico for the 
+period of 1984 through 2018 All fires reported as greater than 1,000 acres in 
+the western U.S. and greater than 500 acres in the eastern U.S. are mapped 
+across all ownerships. MTBS produces a series of geospatial and tabular data 
+for analysis at a range of spatial, temporal, and thematic scales and are 
+intended to meet a variety of information needs that require consistent data 
+about fire effects through space and time. This map layer is a vector point 
+shapefile of the location of all currently inventoried and mappable MTBS 
+fires occurring between calendar year 1984 and 2018 for the continental 
+United States, Alaska, Hawaii and Puerto Rico.</p>
+<p>The data generated by MTBS will be used to identify national trends in burn 
+severity, providing information necessary to monitor the effectiveness of the 
+National Fire Plan and Healthy Forests Restoration Act. MTBS is sponsored by 
+the Wildland Fire Leadership Council (WFLC), a multi-agency oversight group 
+responsible for implementing and coordinating the National Fire Plan and 
+Federal Wildland Fire Management Policies. The MTBS project objective is to
+provide consistent, 30 meter resolution burn severity data and burned area 
+delineations that will serve four primary user groups: 1. National policies 
+and policy makers such as the National Fire Plan and WFLC which require 
+information about long-term trends in burn severity and recent burn severity 
+impacts within vegetation types, fuel models, condition classes, and land 
+management activities. 2. Field management units that benefit from mid to 
+broad scale GIS-ready maps and data for pre- and post-fire assessment and 
+monitoring. Field units that require finer scale burn severity data will also 
+benefit from increased efficiency, reduced costs, and data consistency by 
+starting with MTBS data. 3. Existing databases from other comparably scaled 
+programs, such as Fire Regime and Condition Class (FRCC) within LANDFIRE, 
+that will benefit from MTBS data for validation and updating of geospatial 
+data sets. 4. Academic and agency research entities interested in fire 
+severity data over significant geographic and temporal extents.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p><a href='https://edcintl.cr.usgs.gov/downloads/sciweb1/shared/MTBS_Fire/data/composite_data/burned_area_extent_shapefile/mtbs_perimeter_data.zip'>https://edcintl.cr.usgs.gov/downloads/sciweb1/shared/MTBS_Fire/data/composite_data/burned_area_extent_shapefile/mtbs_perimeter_data.zip</a></p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>setSpatialDataDir</p>
+<p>getVariable</p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -189,8 +229,10 @@ versions of the file that are simplified to 5%, 2% and 1%.</p></td>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
+      <li><a href="#details">Details</a></li>
       <li><a href="#note">Note</a></li>
       <li><a href="#references">References</a></li>
+      <li><a href="#see-also">See also</a></li>
     </ul>
 
   </div>
@@ -199,7 +241,7 @@ versions of the file that are simplified to 5%, 2% and 1%.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Jonathan Callahan, Roger Andre, Tom Bergamaschi, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
+  <p>Developed by Jonathan Callahan, Rachel Carroll, Eli Grosman, Roger Andre, Tom Bergamaschi, Tina Chen, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
 </div>
 
 <div class="pkgdown">

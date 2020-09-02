@@ -43,13 +43,14 @@
 
 
 <meta property="og:title" content="Dataframe of US state codes — US_stateCodes" />
-<meta property="og:description" content="US_stateCodes contains the following columns of data for the
-50 United States plus the District of Columbia:
-stateCode -- e.g. MT
-stateName -- e.g. Montana
-adm1_code -- e.g. USA-3515
-code_hasc -- e.g. US.MT
-fips -- e.g. US30
+<meta property="og:description" content="US_stateCodes the following columns for US states and territories:
+stateName -- English language state name
+stateCode -- ISO 3166-2 alpha-2
+stateFIPS -- two-digit FIPS code
+
+
+This dataset was generated on 2020-06-11 by running:
+
 
 " />
 <meta property="og:image" content="/logo.png" />
@@ -85,7 +86,7 @@ fips -- e.g. US30
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.14</span>
       </span>
     </div>
 
@@ -110,6 +111,12 @@ fips -- e.g. US30
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/Developer_Style_Guide.html">Developer Style Guide</a>
+    </li>
+    <li>
+      <a href="../articles/Understanding_sp_Objects.html">Understanding 'sp' Objects</a>
+    </li>
     <li>
       <a href="../articles/articles/Basic_GIS_in_R.html">Basic GIS Operations in R</a>
     </li>
@@ -146,27 +153,29 @@ fips -- e.g. US30
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Dataframe of US state codes</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/MazamaSpatialUtils/blob/master/R/MazamaSpatialUtils.R'><code>R/MazamaSpatialUtils.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/MazamaSpatialUtils/blob/master/R/data.R'><code>R/data.R</code></a></small>
     <div class="hidden name"><code>US_stateCodes.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>US_stateCodes contains the following columns of data for the
-50 United States plus the District of Columbia:</p><ul>
-<li><p><code>stateCode</code> -- e.g. MT</p></li>
-<li><p><code>stateName</code> -- e.g. Montana</p></li>
-<li><p><code>adm1_code</code> -- e.g. USA-3515</p></li>
-<li><p><code>code_hasc</code> -- e.g. US.MT</p></li>
-<li><p><code>fips</code> -- e.g. US30</p></li>
+    <p>US_stateCodes the following columns for US states and territories:</p><ul>
+<li><p><code>stateName</code> -- English language state name</p></li>
+<li><p><code>stateCode</code> -- ISO 3166-2 alpha-2</p></li>
+<li><p><code>stateFIPS</code> -- two-digit FIPS code</p></li>
 </ul>
+
+<p>This dataset was generated on 2020-06-11 by running:</p>
+<pre>
+</pre>
 
     </div>
 
+    <pre class="usage"><span class='no'>US_stateCodes</span></pre>
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A dataframe with 51 rows and 6 columns of data.</p>
+    <p>A dataframe with 52 rows and 3 columns of data.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -181,7 +190,7 @@ fips -- e.g. US30
 
       <footer>
       <div class="copyright">
-  <p>Developed by Jonathan Callahan, Roger Andre, Tom Bergamaschi, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
+  <p>Developed by Jonathan Callahan, Rachel Carroll, Eli Grosman, Roger Andre, Tom Bergamaschi, Tina Chen, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
 </div>
 
 <div class="pkgdown">

@@ -79,7 +79,7 @@ If allData = TRUE, additional data is returned." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.14</span>
       </span>
     </div>
 
@@ -104,6 +104,12 @@ If allData = TRUE, additional data is returned." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/Developer_Style_Guide.html">Developer Style Guide</a>
+    </li>
+    <li>
+      <a href="../articles/Understanding_sp_Objects.html">Understanding 'sp' Objects</a>
+    </li>
     <li>
       <a href="../articles/articles/Basic_GIS_in_R.html">Basic GIS Operations in R</a>
     </li>
@@ -150,7 +156,14 @@ locations fall into and returns the HUC names for those polygons.</p>
 <p>If <code>allData = TRUE</code>, additional data is returned.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>getHUCName</span>(<span class='no'>lon</span>, <span class='no'>lat</span>, <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='st'>"WBDHU10_02"</span>, <span class='kw'>HUCs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>allData</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>getHUCName</span>(
+  <span class='no'>lon</span>,
+  <span class='no'>lat</span>,
+  <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='st'>"WBDHU10_02"</span>,
+  <span class='kw'>HUCs</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>allData</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>useBuffering</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -174,6 +187,11 @@ locations fall into and returns the HUC names for those polygons.</p>
     <tr>
       <th>allData</th>
       <td><p>logical specifying whether a full dataframe should be returned</p></td>
+    </tr>
+    <tr>
+      <th>useBuffering</th>
+      <td><p>Logical flag specifying the use of location buffering to 
+find the nearest polygon if not target polygon is found.</p></td>
     </tr>
     </table>
 
@@ -199,7 +217,7 @@ locations fall into and returns the HUC names for those polygons.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Jonathan Callahan, Roger Andre, Tom Bergamaschi, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
+  <p>Developed by Jonathan Callahan, Rachel Carroll, Eli Grosman, Roger Andre, Tom Bergamaschi, Tina Chen, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
 </div>
 
 <div class="pkgdown">

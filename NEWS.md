@@ -1,3 +1,7 @@
+# MazamaSpatialUtils 0.6.14
+
+* Fixed a bug in `loadSpatialData()` that was returning dataset names with `".rda"`.
+
 # MazamaSpatialUtils 0.6.13
 
 * Updated `convertWorldEEZ.R`.

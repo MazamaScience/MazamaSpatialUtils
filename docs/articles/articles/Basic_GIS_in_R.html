@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.14</span>
       </span>
     </div>
 
@@ -64,6 +64,12 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
+      <a href="../../articles/Developer_Style_Guide.html">Developer Style Guide</a>
+    </li>
+    <li>
+      <a href="../../articles/Understanding_sp_Objects.html">Understanding 'sp' Objects</a>
+    </li>
+    <li>
       <a href="../../articles/articles/Basic_GIS_in_R.html">Basic GIS Operations in R</a>
     </li>
     <li>
@@ -173,9 +179,9 @@ They share the same basic idea though - take a regular data frame which contains
 <a class="sourceLine" id="cb4-13" data-line-number="13"><span class="st"> 10 15 7  55</span></a>
 <a class="sourceLine" id="cb4-14" data-line-number="14"><span class="st"> 11 16 3  54</span></a>
 <a class="sourceLine" id="cb4-15" data-line-number="15"><span class="st"> 12 22 3  54"</span>)</a></code></pre></div>
-<div id="method-1" class="section level4">
-<h4 class="hasAnchor">
-<a href="#method-1" class="anchor"></a>Method 1</h4>
+<div id="method-1" class="section level3">
+<h3 class="hasAnchor">
+<a href="#method-1" class="anchor"></a>Method 1</h3>
 <div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="co"># Extract the x and y coordinates as a separate vector</span></a>
 <a class="sourceLine" id="cb5-2" data-line-number="2">xy &lt;-<span class="st"> </span>temp_df[<span class="kw"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"x"</span>, <span class="st">"y"</span>)]</a>
 <a class="sourceLine" id="cb5-3" data-line-number="3"></a>
@@ -204,9 +210,9 @@ They share the same basic idea though - take a regular data frame which contains
 ##                     3rd Qu.:17.25   3rd Qu.:13.00   3rd Qu.:54.25  
 ##                     Max.   :23.00   Max.   :21.00   Max.   :57.00</code></pre>
 </div>
-<div id="method-2" class="section level4">
-<h4 class="hasAnchor">
-<a href="#method-2" class="anchor"></a>Method 2</h4>
+<div id="method-2" class="section level3">
+<h3 class="hasAnchor">
+<a href="#method-2" class="anchor"></a>Method 2</h3>
 <div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="co"># Use the coordinates() function to define the coordinate fields</span></a>
 <a class="sourceLine" id="cb7-2" data-line-number="2">sp<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/sp/man/coordinates.html">coordinates</a></span>(temp_df) &lt;-<span class="st"> </span><span class="er">~</span>x<span class="op">+</span>y</a>
 <a class="sourceLine" id="cb7-3" data-line-number="3">sp<span class="op">::</span><span class="kw"><a href="https://rdrr.io/pkg/sp/man/is.projected.html">proj4string</a></span>(temp_df) &lt;-<span class="st"> </span>grs80</a>
@@ -456,7 +462,7 @@ zoned_tracts &lt;- raster::aggregate(spdf_abcd,
 
 
       <footer><div class="copyright">
-  <p>Developed by Jonathan Callahan, Roger Andre, Tom Bergamaschi, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
+  <p>Developed by Jonathan Callahan, Rachel Carroll, Eli Grosman, Roger Andre, Tom Bergamaschi, Tina Chen, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
 </div>
 
 <div class="pkgdown">

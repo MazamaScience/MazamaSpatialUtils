@@ -43,11 +43,7 @@
 
 
 <meta property="og:title" content="Convert Global Administrative Areas (GADM) Shapefile — convertGADM" />
-<meta property="og:description" content="A SpatialPolygonsDataFrame file is downloaded from the Database of Global Administrative Areas (GADM) database with
-additional columns of data added. The resulting file will be created in the spatial data
-directory which is set with setSpatialDataDir(). Dataset and file names are generated like this:
-paste0('gadm_', countryCode, '_', admLevel)
-Level 0 will return the national outline. Level 1 will give state/province boundaries. etc." />
+<meta property="og:description" content="Create a SpatialPolygonsDataFrame for Global Administrative Areas." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -81,7 +77,7 @@ Level 0 will return the national outline. Level 1 will give state/province bound
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.14</span>
       </span>
     </div>
 
@@ -106,6 +102,12 @@ Level 0 will return the national outline. Level 1 will give state/province bound
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/Developer_Style_Guide.html">Developer Style Guide</a>
+    </li>
+    <li>
+      <a href="../articles/Understanding_sp_Objects.html">Understanding 'sp' Objects</a>
+    </li>
     <li>
       <a href="../articles/articles/Basic_GIS_in_R.html">Basic GIS Operations in R</a>
     </li>
@@ -147,18 +149,29 @@ Level 0 will return the national outline. Level 1 will give state/province bound
     </div>
 
     <div class="ref-description">
-    <p>A SpatialPolygonsDataFrame file is downloaded from the Database of Global Administrative Areas (GADM) database with
-additional columns of data added. The resulting file will be created in the spatial data
-directory which is set with <code><a href='setSpatialDataDir.html'>setSpatialDataDir()</a></code>. Dataset and file names are generated like this:</p>
-<p><code><a href='https://rdrr.io/r/base/paste.html'>paste0('gadm_', countryCode, '_', admLevel)</a></code></p>
-<p>Level 0 will return the national outline. Level 1 will give state/province boundaries. etc.</p>
+    <p>Create a SpatialPolygonsDataFrame for Global Administrative Areas.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>convertGADM</span>(<span class='kw'>countryCode</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>admLevel</span> <span class='kw'>=</span> <span class='fl'>0</span>, <span class='kw'>nameOnly</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>convertGADM</span>(
+  <span class='kw'>nameOnly</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
+  <span class='kw'>countryCode</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>admLevel</span> <span class='kw'>=</span> <span class='fl'>0</span>
+)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>nameOnly</th>
+      <td><p>Logical specifying whether to only return the name without 
+creating the file.</p></td>
+    </tr>
+    <tr>
+      <th>simplify</th>
+      <td><p>Logical specifying whether to create "_05", _02" and "_01" 
+versions of the file that are simplified to 5%, 2% and 1%.#'</p></td>
+    </tr>
     <tr>
       <th>countryCode</th>
       <td><p>ISO-3166-1 alpha-2 country code</p></td>
@@ -167,35 +180,33 @@ directory which is set with <code><a href='setSpatialDataDir.html'>setSpatialDat
       <th>admLevel</th>
       <td><p>administrative level to be downloaded</p></td>
     </tr>
-    <tr>
-      <th>nameOnly</th>
-      <td><p>logical specifying whether to only return the name without creating the file</p></td>
-    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Name of the dataset being created.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>A Global Administrative Areas shapefile is downloaded and converted to a 
+SpatialPolygonsDataFrame with additional columns of data. The resulting file 
+will be created in the spatial data directory which is set with 
+<code><a href='setSpatialDataDir.html'>setSpatialDataDir()</a></code>.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>Not all countries have the same number of levels. Many just have two levels while France has five.</p>
+    <p>From the source documentation:</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p><a href='https://gadm.org/data.html'>https://gadm.org/data.html</a>.</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>convertGADM</span>(<span class='st'>'DE'</span>, <span class='fl'>1</span>)
-}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
+      <li><a href="#details">Details</a></li>
       <li><a href="#note">Note</a></li>
       <li><a href="#references">References</a></li>
-      <li><a href="#examples">Examples</a></li>
     </ul>
 
   </div>
@@ -204,7 +215,7 @@ directory which is set with <code><a href='setSpatialDataDir.html'>setSpatialDat
 
       <footer>
       <div class="copyright">
-  <p>Developed by Jonathan Callahan, Roger Andre, Tom Bergamaschi, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
+  <p>Developed by Jonathan Callahan, Rachel Carroll, Eli Grosman, Roger Andre, Tom Bergamaschi, Tina Chen, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
 </div>
 
 <div class="pkgdown">

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convert USFS Ranger District shapefiles — convertUSFSRangerDistricts • MazamaSpatialUtils</title>
+<title>Convert USFS Ranger District Shapefile — convertUSFSRangerDistricts • MazamaSpatialUtils</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,17 +42,8 @@
 
 
 
-<meta property="og:title" content="Convert USFS Ranger District shapefiles — convertUSFSRangerDistricts" />
-<meta property="og:description" content="Returns a SpatialPolygonsDataFrame for USFS Ranger Districts
-The USFSRangerDistricts layer is a polygon shapefile coverage representing 
-US Forest Service ranger district administrative boundaries.  Ranger 
-districts are sub units of National Forests intended to identify the specific 
-organizational units that administer areas.
-The purpose of the data is to provide display, identification, and analysis 
-tools for determining current boundary information for Forest Service 
-managers, GIS Specialists, and others.
-See https://data.fs.usda.gov/geodata/edw/edw_resources/meta/S_USA.RangerDistrict.xml
-for more information on this data set." />
+<meta property="og:title" content="Convert USFS Ranger District Shapefile — convertUSFSRangerDistricts" />
+<meta property="og:description" content="Create a SpatialPolygonsDataFrame for USFS Ranger Districts." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -86,7 +77,7 @@ for more information on this data set." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.14</span>
       </span>
     </div>
 
@@ -111,6 +102,12 @@ for more information on this data set." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/Developer_Style_Guide.html">Developer Style Guide</a>
+    </li>
+    <li>
+      <a href="../articles/Understanding_sp_Objects.html">Understanding 'sp' Objects</a>
+    </li>
     <li>
       <a href="../articles/articles/Basic_GIS_in_R.html">Basic GIS Operations in R</a>
     </li>
@@ -146,22 +143,13 @@ for more information on this data set." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Convert USFS Ranger District shapefiles</h1>
+    <h1>Convert USFS Ranger District Shapefile</h1>
     <small class="dont-index">Source: <a href='https://github.com/MazamaScience/MazamaSpatialUtils/blob/master/R/convertUSFSRangerDistricts.R'><code>R/convertUSFSRangerDistricts.R</code></a></small>
     <div class="hidden name"><code>convertUSFSRangerDistricts.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Returns a SpatialPolygonsDataFrame for USFS Ranger Districts</p>
-<p>The USFSRangerDistricts layer is a polygon shapefile coverage representing 
-US Forest Service ranger district administrative boundaries.  Ranger 
-districts are sub units of National Forests intended to identify the specific 
-organizational units that administer areas.</p>
-<p>The purpose of the data is to provide display, identification, and analysis 
-tools for determining current boundary information for Forest Service 
-managers, GIS Specialists, and others.</p>
-<p>See https://data.fs.usda.gov/geodata/edw/edw_resources/meta/S_USA.RangerDistrict.xml
-for more information on this data set.</p>
+    <p>Create a SpatialPolygonsDataFrame for USFS Ranger Districts.</p>
     </div>
 
     <pre class="usage"><span class='fu'>convertUSFSRangerDistricts</span>(<span class='kw'>nameOnly</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
@@ -184,12 +172,52 @@ versions of the file that are simplified to 5%, 2% and 1%.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Name of the dataset being created.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>A USFS Ranger Districts shapefile is downloaded and converted to a 
+SpatialPolygonsDataFrame with additional columns of data. The resulting file 
+will be created in the spatial data directory which is set with 
+<code><a href='setSpatialDataDir.html'>setSpatialDataDir()</a></code>.</p>
+<p>The source data is from 2015.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>Refreshed Feb 3, 2020.</p>
+    <p>From the source documentation:</p>
+<p>This data is intended for read-only use. These data were prepared to describe 
+Forest Service administrative area boundaries. The purpose of the data is to 
+provide display, identification, and analysis tools for determining current 
+boundary information for Forest Service managers, GIS Specialists, and 
+others.</p>
+<p>The Forest Service has multiple types of boundaries represented by different 
+feature classes (layers): Administrative, Ownership and Proclaimed.</p>
+<p>1) ADMINISTRATIVE boundaries (e.g. AdministrativeForest and RangerDistrict 
+feature classes) encompass National Forest System lands managed by an 
+administrative unit. These are dynamic layers that should not be considered 
+"legal" boundaries as they are simply intended to identify the specific 
+organizational units that administer areas. As lands are acquired and 
+disposed, the administrative boundaries are adjusted to expand or shrink 
+accordingly. Please note that ranger districts are sub units of National 
+Forests. An administrative forest boundary can contain one or more Proclaimed 
+National Forests, National Grasslands, Purchase Units, Research and 
+Experimental Areas, Land Utilization Projects and various "Other" Areas. If 
+needed, OWNERSHIP boundaries (e.g. BasicOwnership and SurfaceOwnership 
+feature classes) should be reviewed along with these datasets to determine 
+parcels that are federally managed within the administrative boundaries.</p>
+<p>2) OWNERSHIP boundaries (e.g. BasicOwnership and SurfaceOwnership feature 
+classes) represent parcels that are tied to legal transactions of ownership. 
+These are parcels of Federal land managed by the USDA Forest Service. Please 
+note that the BasicOwnership layer is simply a dissolved version of the 
+SurfaceOwnership layer.</p>
+<p>3) PROCLAIMED boundaries (e.g. ProclaimedForest and 
+ProclaimedForest_Grassland) encompass areas of National Forest System land 
+that is set aside and reserved from public domain by executive order or 
+proclamation.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p><a href=''https://data.fs.usda.gov/geodata/edw/edw_resources/shp/S_USA.RangerDistrict.zip''>'https://data.fs.usda.gov/geodata/edw/edw_resources/shp/S_USA.RangerDistrict.zip'</a></p>
+    <p><a href=''https://data.fs.usda.gov/geodata/edw/edw_resources/meta/S_USA.RangerDistrict.xml''>'https://data.fs.usda.gov/geodata/edw/edw_resources/meta/S_USA.RangerDistrict.xml'</a></p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>setSpatialDataDir</p>
+<p>getVariable</p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -197,8 +225,10 @@ versions of the file that are simplified to 5%, 2% and 1%.</p></td>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
+      <li><a href="#details">Details</a></li>
       <li><a href="#note">Note</a></li>
       <li><a href="#references">References</a></li>
+      <li><a href="#see-also">See also</a></li>
     </ul>
 
   </div>
@@ -207,7 +237,7 @@ versions of the file that are simplified to 5%, 2% and 1%.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Jonathan Callahan, Roger Andre, Tom Bergamaschi, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
+  <p>Developed by Jonathan Callahan, Rachel Carroll, Eli Grosman, Roger Andre, Tom Bergamaschi, Tina Chen, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
 </div>
 
 <div class="pkgdown">

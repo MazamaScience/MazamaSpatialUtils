@@ -43,11 +43,7 @@
 
 
 <meta property="og:title" content="Convert EPA Region shapefiles — convertEPARegions" />
-<meta property="og:description" content="Returns a SpatialPolygonsDataFrame for EPA Regions
-The EPARegions layer is a polygon shapefile coverage representing the 
-boundaries of the ten Regional Offices of the United States Environmental 
-Protection Agency in the United States. Each regional office 
-monitors the environmental regulations within a group of states." />
+<meta property="og:description" content="Returns a SpatialPolygonsDataFrame for EPA Regions" />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -81,7 +77,7 @@ monitors the environmental regulations within a group of states." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.14</span>
       </span>
     </div>
 
@@ -106,6 +102,12 @@ monitors the environmental regulations within a group of states." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/Developer_Style_Guide.html">Developer Style Guide</a>
+    </li>
+    <li>
+      <a href="../articles/Understanding_sp_Objects.html">Understanding 'sp' Objects</a>
+    </li>
     <li>
       <a href="../articles/articles/Basic_GIS_in_R.html">Basic GIS Operations in R</a>
     </li>
@@ -148,10 +150,6 @@ monitors the environmental regulations within a group of states." />
 
     <div class="ref-description">
     <p>Returns a SpatialPolygonsDataFrame for EPA Regions</p>
-<p>The EPARegions layer is a polygon shapefile coverage representing the 
-boundaries of the ten Regional Offices of the United States Environmental 
-Protection Agency in the United States. Each regional office 
-monitors the environmental regulations within a group of states.</p>
     </div>
 
     <pre class="usage"><span class='fu'>convertEPARegions</span>(<span class='kw'>nameOnly</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
@@ -174,12 +172,32 @@ versions of the file that are simplified to 5%, 2% and 1%.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Name of the dataset being created.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>An EPA region boundary shapefile is downloaded and converted to a 
+SpatialPolygonsDataFrame with additional columns of data. The resulting file 
+will be created in the spatial data directory which is set with
+<code><a href='setSpatialDataDir.html'>setSpatialDataDir()</a></code>.</p>
+<p>The source data is from 2017.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>Updated 7/26/2019</p>
+    <p>From the source documentation:</p>
+<p>This dataset represents delineated EPA Region boundaries. EPA has ten 
+regional offices across the country, each of which is responsible for several 
+states and in some cases, territories or special environmental programs.</p>
+<p>This Shared Enterprise Geodata and Services (SEGS)dataset was created by 
+U.S. EPA using 2011 TIGER/Line state boundaries from the U.S. Census Bureau. 
+The core mission of SEGS is to provide a single point of ownership for 
+geospatial datasets that are national in extent and of general use to all 
+EPA users and to make those datasets available through channels that best 
+meet user needs.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p><a href='https://www.arcgis.com/home/item.html?id=c670540796584c72b4f59b676ccabe6a'>https://www.arcgis.com/home/item.html?id=c670540796584c72b4f59b676ccabe6a</a></p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>setSpatialDataDir</p>
+<p>getVariable</p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -187,8 +205,10 @@ versions of the file that are simplified to 5%, 2% and 1%.</p></td>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
+      <li><a href="#details">Details</a></li>
       <li><a href="#note">Note</a></li>
       <li><a href="#references">References</a></li>
+      <li><a href="#see-also">See also</a></li>
     </ul>
 
   </div>
@@ -197,7 +217,7 @@ versions of the file that are simplified to 5%, 2% and 1%.</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Jonathan Callahan, Roger Andre, Tom Bergamaschi, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
+  <p>Developed by Jonathan Callahan, Rachel Carroll, Eli Grosman, Roger Andre, Tom Bergamaschi, Tina Chen, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
 </div>
 
 <div class="pkgdown">

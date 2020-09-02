@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.14</span>
       </span>
     </div>
 
@@ -102,6 +102,12 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/Developer_Style_Guide.html">Developer Style Guide</a>
+    </li>
+    <li>
+      <a href="../articles/Understanding_sp_Objects.html">Understanding 'sp' Objects</a>
+    </li>
     <li>
       <a href="../articles/articles/Basic_GIS_in_R.html">Basic GIS Operations in R</a>
     </li>
@@ -146,14 +152,20 @@
     <p>Returns a SpatialPolygonsDataFrame for world divisions</p>
     </div>
 
-    <pre class="usage"><span class='fu'>convertTMWorldBorders</span>(<span class='kw'>nameOnly</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>convertTMWorldBorders</span>(<span class='kw'>nameOnly</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>nameOnly</th>
-      <td><p>logical specifying whether to only return the name without creating the file</p></td>
+      <td><p>Logical specifying whether to only return the name without 
+creating the file.</p></td>
+    </tr>
+    <tr>
+      <th>simplify</th>
+      <td><p>Logical specifying whether to create "_05", _02" and "_01" 
+versions of the file that are simplified to 5%, 2% and 1%.</p></td>
     </tr>
     </table>
 
@@ -163,8 +175,8 @@
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>A world borders shapefile is downloaded and converted to a
-SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
-in the spatial data directory which is set with <code><a href='setSpatialDataDir.html'>setSpatialDataDir()</a></code>.</p>
+SpatialPolygonsDataFrame with additional columns of data. The resulting file is
+created in the spatial data directory which is set with <code><a href='setSpatialDataDir.html'>setSpatialDataDir()</a></code>.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p><a href='http://thematicmapping.org/downloads/'>http://thematicmapping.org/downloads/</a></p>
@@ -190,7 +202,7 @@ in the spatial data directory which is set with <code><a href='setSpatialDataDir
 
       <footer>
       <div class="copyright">
-  <p>Developed by Jonathan Callahan, Roger Andre, Tom Bergamaschi, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
+  <p>Developed by Jonathan Callahan, Rachel Carroll, Eli Grosman, Roger Andre, Tom Bergamaschi, Tina Chen, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
 </div>
 
 <div class="pkgdown">

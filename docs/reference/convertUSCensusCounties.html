@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convert US County Borders Shapefile — convertUSCensusCounties • MazamaSpatialUtils</title>
+<title>Convert US county borders shapefile — convertUSCensusCounties • MazamaSpatialUtils</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,8 +42,8 @@
 
 
 
-<meta property="og:title" content="Convert US County Borders Shapefile — convertUSCensusCounties" />
-<meta property="og:description" content="Returns a SpatialPolygonsDataFrame for a US county divisions" />
+<meta property="og:title" content="Convert US county borders shapefile — convertUSCensusCounties" />
+<meta property="og:description" content="Create a SpatialPolygonsDataFrame for US counties." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.14</span>
       </span>
     </div>
 
@@ -102,6 +102,12 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/Developer_Style_Guide.html">Developer Style Guide</a>
+    </li>
+    <li>
+      <a href="../articles/Understanding_sp_Objects.html">Understanding 'sp' Objects</a>
+    </li>
     <li>
       <a href="../articles/articles/Basic_GIS_in_R.html">Basic GIS Operations in R</a>
     </li>
@@ -137,23 +143,29 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Convert US County Borders Shapefile</h1>
+    <h1>Convert US county borders shapefile</h1>
     <small class="dont-index">Source: <a href='https://github.com/MazamaScience/MazamaSpatialUtils/blob/master/R/convertUSCensusCounties.R'><code>R/convertUSCensusCounties.R</code></a></small>
     <div class="hidden name"><code>convertUSCensusCounties.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Returns a SpatialPolygonsDataFrame for a US county divisions</p>
+    <p>Create a SpatialPolygonsDataFrame for US counties.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>convertUSCensusCounties</span>(<span class='kw'>nameOnly</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>convertUSCensusCounties</span>(<span class='kw'>nameOnly</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>nameOnly</th>
-      <td><p>logical specifying whether to only return the name without creating the file</p></td>
+      <td><p>Logical specifying whether to only return the name without 
+creating the file.</p></td>
+    </tr>
+    <tr>
+      <th>simplify</th>
+      <td><p>Logical specifying whether to create "_05", _02" and "_01" 
+versions of the file that are simplified to 5%, 2% and 1%.</p></td>
     </tr>
     </table>
 
@@ -163,11 +175,35 @@
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>A US county borders shapefile is downloaded and converted to a 
-SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
-in the spatial data directory which is set with <code><a href='setSpatialDataDir.html'>setSpatialDataDir()</a></code>.</p>
+SpatialPolygonsDataFrame with additional columns of data. The resulting file 
+will be created in the spatial data directory which is set with 
+<code><a href='setSpatialDataDir.html'>setSpatialDataDir()</a></code>.</p>
+<p>The source data is from 2019.</p>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>From the source documentation:</p>
+<p>The primary legal divisions of most states are termed counties. In Louisiana, 
+these divisions are known as parishes. In Alaska, which has no counties, the 
+equivalent entities are the organized boroughs, city and boroughs, 
+municipalities, and for the unorganized area, census areas. The latter are 
+delineated cooperatively for statistical purposes by the State of Alaska and 
+the Census Bureau. In four states (Maryland, Missouri, Nevada, and Virginia), 
+there are one or more incorporated places that are independent of any county 
+organization and thus constitute primary divisions of their states. These 
+incorporated places are known as independent cities and are treated as 
+equivalent entities for purposes of data presentation. The District of 
+Columbia and Guam have no primary divisions, and each area is considered an 
+equivalent entity for purposes of data presentation. The Census Bureau treats 
+the following entities as equivalents of counties for purposes of data 
+presentation: Municipios in Puerto Rico, Districts and Islands in American 
+Samoa, Municipalities in the Commonwealth of the Northern Mariana Islands, 
+and Islands in the U.S. Virgin Islands. The entire area of the United States, 
+Puerto Rico, and the Island Areas is covered by counties or equivalent entities.</p>
+<p>You can join this file with table data downloaded from American FactFinder by 
+using the AFFGEOID field in the cartographic boundary file.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p><a href='http://www2.census.gov/geo/tiger/GENZ2013'>http://www2.census.gov/geo/tiger/GENZ2013</a></p>
+    <p><a href='https://www2.census.gov/geo/tiger/GENZ2019/'>https://www2.census.gov/geo/tiger/GENZ2019/</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>setSpatialDataDir</p>
@@ -180,6 +216,7 @@ in the spatial data directory which is set with <code><a href='setSpatialDataDir
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
       <li><a href="#details">Details</a></li>
+      <li><a href="#note">Note</a></li>
       <li><a href="#references">References</a></li>
       <li><a href="#see-also">See also</a></li>
     </ul>
@@ -190,7 +227,7 @@ in the spatial data directory which is set with <code><a href='setSpatialDataDir
 
       <footer>
       <div class="copyright">
-  <p>Developed by Jonathan Callahan, Roger Andre, Tom Bergamaschi, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
+  <p>Developed by Jonathan Callahan, Rachel Carroll, Eli Grosman, Roger Andre, Tom Bergamaschi, Tina Chen, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
 </div>
 
 <div class="pkgdown">

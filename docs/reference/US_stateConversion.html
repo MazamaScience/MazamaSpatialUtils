@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convert state names to state codes — stateToCode • MazamaSpatialUtils</title>
+<title>Conversion functions for US state names, codes and FIPS codes. — US_stateConversion • MazamaSpatialUtils</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,9 +42,9 @@
 
 
 
-<meta property="og:title" content="Convert state names to state codes — stateToCode" />
-<meta property="og:description" content="Converts a vector of state names to an ISO 3166-2 two character 
-state codes." />
+<meta property="og:title" content="Conversion functions for US state names, codes and FIPS codes. — US_stateConversion" />
+<meta property="og:description" content="Converts a vector of US state names or codes from one system to
+another reuturning NA where no match is found." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -144,61 +144,97 @@ state codes." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Convert state names to state codes</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/MazamaSpatialUtils/blob/master/R/MazamaSpatialUtils.R'><code>R/MazamaSpatialUtils.R</code></a></small>
-    <div class="hidden name"><code>stateToCode.Rd</code></div>
+    <h1>Conversion functions for US state names, codes and FIPS codes.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/MazamaSpatialUtils/blob/master/R/US_stateConversion.R'><code>R/US_stateConversion.R</code></a></small>
+    <div class="hidden name"><code>US_stateConversion.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Converts a vector of state names to an ISO 3166-2 two character 
-state codes.</p>
+    <p>Converts a vector of US state names or codes from one system to
+another reuturning <code>NA</code> where no match is found.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>stateToCode</span>(<span class='no'>stateNames</span>, <span class='kw'>countryCodes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='st'>"NaturalEarthAdm1"</span>)</pre>
+    <pre class="usage"><span class='fu'>US_stateCodeToName</span>(<span class='kw'>stateCode</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+
+<span class='fu'>US_stateCodeToFIPS</span>(<span class='kw'>stateCode</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+
+<span class='fu'>US_stateFIPSToName</span>(<span class='kw'>stateFIPS</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+
+<span class='fu'>US_stateFIPSToCode</span>(<span class='kw'>stateFIPS</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+
+<span class='fu'>US_stateNameToCode</span>(<span class='kw'>stateName</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+
+<span class='fu'>US_stateNameToFIPS</span>(<span class='kw'>stateName</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>stateNames</th>
-      <td><p>state names to be converted</p></td>
+      <th>stateCode</th>
+      <td><p>Vector of ISO 3166-2 alpha-2 codes.</p></td>
     </tr>
     <tr>
-      <th>countryCodes</th>
-      <td><p>ISO 3166-2 alpha-2 country codes the state might be found in</p></td>
+      <th>stateFIPS</th>
+      <td><p>Vector of two-digit FIPS codes.</p></td>
     </tr>
     <tr>
-      <th>dataset</th>
-      <td><p>name of dataset containing state-level identifiers</p></td>
+      <th>stateName</th>
+      <td><p>Vector of English language state names.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A vector of ISO 3166-2 codes or NA.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p>For this function to work, you must first run 
-<code>initializeSpatialData()</code> to
-download, convert and install the necessary spatial data.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>convertNaturalEarthAdm1</p></div>
+    <p>A vector of US state names or codes.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'>stateToCode</span>(<span class='st'>"Washington"</span>)
-<span class='fu'>stateToCode</span>(<span class='st'>"Barcelona"</span>)
-<span class='fu'>stateToCode</span>(<span class='st'>"Shandong"</span>)
-}</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>MazamaSpatialUtils</span>)
+
+<span class='fu'>US_stateNameToCode</span>(<span class='st'>"Washington"</span>)</div><div class='output co'>#&gt; [1] "WA"</div><div class='input'><span class='fu'>US_stateNameToFIPS</span>(<span class='st'>"Washington"</span>)</div><div class='output co'>#&gt; [1] "53"</div><div class='input'>
+<span class='no'>postalCodes</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='no'>US_stateCodes</span>$<span class='no'>stateCode</span>, <span class='fl'>30</span>)
+
+<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
+  <span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'>US_stateCodeToName</span>(<span class='no'>postalCodes</span>),
+  <span class='kw'>code</span> <span class='kw'>=</span> <span class='no'>postalCodes</span>,
+  <span class='kw'>FIPS</span> <span class='kw'>=</span> <span class='fu'>US_stateCodeToFIPS</span>(<span class='no'>postalCodes</span>)
+)</div><div class='output co'>#&gt;              name code FIPS
+#&gt; 1      California   CA   06
+#&gt; 2    South Dakota   SD   46
+#&gt; 3      New Jersey   NJ   34
+#&gt; 4        Delaware   DE   10
+#&gt; 5         Alabama   AL   01
+#&gt; 6   Massachusetts   MA   25
+#&gt; 7        Michigan   MI   26
+#&gt; 8        Illinois   IL   17
+#&gt; 9        New York   NY   36
+#&gt; 10 North Carolina   NC   37
+#&gt; 11       Oklahoma   OK   40
+#&gt; 12     Washington   WA   53
+#&gt; 13         Alaska   AK   02
+#&gt; 14          Idaho   ID   16
+#&gt; 15           Iowa   IA   19
+#&gt; 16   Rhode Island   RI   44
+#&gt; 17        Indiana   IN   18
+#&gt; 18        Arizona   AZ   04
+#&gt; 19          Texas   TX   48
+#&gt; 20      Tennessee   TN   47
+#&gt; 21        Florida   FL   12
+#&gt; 22        Vermont   VT   50
+#&gt; 23           Utah   UT   49
+#&gt; 24       Colorado   CO   08
+#&gt; 25       Nebraska   NE   31
+#&gt; 26       Maryland   MD   24
+#&gt; 27    Puerto Rico   PR   72
+#&gt; 28      Wisconsin   WI   55
+#&gt; 29         Kansas   KS   20
+#&gt; 30         Oregon   OR   41</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#see-also">See also</a></li>
       <li><a href="#examples">Examples</a></li>
     </ul>
 

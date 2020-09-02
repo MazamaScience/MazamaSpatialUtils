@@ -79,7 +79,7 @@ If allData = TRUE, additional data is returned." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.14</span>
       </span>
     </div>
 
@@ -104,6 +104,12 @@ If allData = TRUE, additional data is returned." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/Developer_Style_Guide.html">Developer Style Guide</a>
+    </li>
+    <li>
+      <a href="../articles/Understanding_sp_Objects.html">Understanding 'sp' Objects</a>
+    </li>
     <li>
       <a href="../articles/articles/Basic_GIS_in_R.html">Basic GIS Operations in R</a>
     </li>
@@ -201,8 +207,11 @@ find the nearest polygon if no target polygon is found</p></td>
 <p>getSpatialData</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>lon</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0</span>, <span class='fl'>50</span>)
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>MazamaSpatialUtils</span>)
+
+<span class='no'>lon</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0</span>, <span class='fl'>50</span>)
 <span class='no'>lat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0</span>, <span class='fl'>50</span>)
+
 <span class='fu'>getCountry</span>(<span class='no'>lon</span>, <span class='no'>lat</span>)</div><div class='output co'>#&gt;  [1] NA           NA           NA           "Nigeria"    "Nigeria"   
 #&gt;  [6] "Nigeria"    "Nigeria"    "Nigeria"    "Nigeria"    "Nigeria"   
 #&gt; [11] "Nigeria"    "Nigeria"    "Nigeria"    "Nigeria"    "Chad"      
@@ -213,7 +222,8 @@ find the nearest polygon if no target polygon is found</p></td>
 #&gt; [36] "Syria"      "Turkey"     "Turkey"     "Turkey"     "Turkey"    
 #&gt; [41] "Turkey"     "Turkey"     "Georgia"    "Georgia"    "Russia"    
 #&gt; [46] "Russia"     "Russia"     "Russia"     "Kazakhstan" "Kazakhstan"
-#&gt; [51] "Kazakhstan"</div></pre>
+#&gt; [51] "Kazakhstan"</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
@@ -231,7 +241,7 @@ find the nearest polygon if no target polygon is found</p></td>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Jonathan Callahan, Roger Andre, Tom Bergamaschi, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
+  <p>Developed by Jonathan Callahan, Rachel Carroll, Eli Grosman, Roger Andre, Tom Bergamaschi, Tina Chen, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
 </div>
 
 <div class="pkgdown">

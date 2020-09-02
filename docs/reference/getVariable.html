@@ -79,7 +79,7 @@ If allData = TRUE, the entire dataframe is returned." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.14</span>
       </span>
     </div>
 
@@ -104,6 +104,12 @@ If allData = TRUE, the entire dataframe is returned." />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/Developer_Style_Guide.html">Developer Style Guide</a>
+    </li>
+    <li>
+      <a href="../articles/Understanding_sp_Objects.html">Understanding 'sp' Objects</a>
+    </li>
     <li>
       <a href="../articles/articles/Basic_GIS_in_R.html">Basic GIS Operations in R</a>
     </li>
@@ -156,7 +162,8 @@ locations fall into and returns the variable associated with those polygons.</p>
   <span class='kw'>dataset</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>variable</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>countryCodes</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>allData</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
+  <span class='kw'>allData</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
+  <span class='kw'>useBuffering</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -186,6 +193,11 @@ locations fall into and returns the variable associated with those polygons.</p>
       <th>allData</th>
       <td><p>logical specifying whether a full dataframe should be returned</p></td>
     </tr>
+    <tr>
+      <th>useBuffering</th>
+      <td><p>Logical flag specifying the use of location buffering to 
+find the nearest polygon if not target polygon is found.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -197,9 +209,14 @@ locations fall into and returns the variable associated with those polygons.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>MazamaSpatialUtils</span>)
+<span class='fu'><a href='setSpatialDataDir.html'>setSpatialDataDir</a></span>(<span class='st'>"~/Data/Spatial"</span>)
+
 <span class='fu'><a href='loadSpatialData.html'>loadSpatialData</a></span>(<span class='st'>"NaturalEarthAdm1"</span>)
+
 <span class='no'>lon</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0</span>, <span class='fl'>50</span>)
 <span class='no'>lat</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span>(<span class='fl'>0</span>, <span class='fl'>50</span>)
+
 <span class='fu'>getVariable</span>(<span class='no'>lon</span>, <span class='no'>lat</span>, <span class='st'>"NaturalEarthAdm1"</span>, <span class='st'>"gns_lang"</span>)
 }</div></pre>
   </div>
@@ -218,7 +235,7 @@ locations fall into and returns the variable associated with those polygons.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Jonathan Callahan, Roger Andre, Tom Bergamaschi, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
+  <p>Developed by Jonathan Callahan, Rachel Carroll, Eli Grosman, Roger Andre, Tom Bergamaschi, Tina Chen, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
 </div>
 
 <div class="pkgdown">

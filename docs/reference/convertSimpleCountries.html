@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convert (Simple) World Borders Shapefile — convertSimpleCountries • MazamaSpatialUtils</title>
+<title>Convert Simplified World Borders Shapefile — convertSimpleCountries • MazamaSpatialUtils</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -42,8 +42,8 @@
 
 
 
-<meta property="og:title" content="Convert (Simple) World Borders Shapefile — convertSimpleCountries" />
-<meta property="og:description" content="Returns a SpatialPolygonsDataFrame for a simple world divisions" />
+<meta property="og:title" content="Convert Simplified World Borders Shapefile — convertSimpleCountries" />
+<meta property="og:description" content="Creates a SpatialPolygonsDataFrame of simplified world divisions" />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -77,7 +77,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.14</span>
       </span>
     </div>
 
@@ -102,6 +102,12 @@
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/Developer_Style_Guide.html">Developer Style Guide</a>
+    </li>
+    <li>
+      <a href="../articles/Understanding_sp_Objects.html">Understanding 'sp' Objects</a>
+    </li>
     <li>
       <a href="../articles/articles/Basic_GIS_in_R.html">Basic GIS Operations in R</a>
     </li>
@@ -137,13 +143,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Convert (Simple) World Borders Shapefile</h1>
+    <h1>Convert Simplified World Borders Shapefile</h1>
     <small class="dont-index">Source: <a href='https://github.com/MazamaScience/MazamaSpatialUtils/blob/master/R/convertSimpleCountries.R'><code>R/convertSimpleCountries.R</code></a></small>
     <div class="hidden name"><code>convertSimpleCountries.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Returns a SpatialPolygonsDataFrame for a simple world divisions</p>
+    <p>Creates a SpatialPolygonsDataFrame of simplified world divisions</p>
     </div>
 
     <pre class="usage"><span class='fu'>convertSimpleCountries</span>(<span class='kw'>nameOnly</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
@@ -153,7 +159,8 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>nameOnly</th>
-      <td><p>logical specifying whether to only return the name without creating the file</p></td>
+      <td><p>Logical specifying whether to only return the name without 
+creating the file.</p></td>
     </tr>
     </table>
 
@@ -163,10 +170,10 @@
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>A world borders shapefile is downloaded and converted to a
-SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
-in the package <code>SpatialDataDir</code> which is set with <code><a href='setSpatialDataDir.html'>setSpatialDataDir()</a></code>.</p>
-<p>This shapefile is a greatly simplified version of the TMWorldBorders shapefile and is especially suited
-for spatial searches. This is the default dataset used in <code><a href='getCountry.html'>getCountry()</a></code> and <code><a href='getCountryCode.html'>getCountryCode()</a></code>.
+SpatialPolygonsDataFrame with additional columns of data. The resulting file 
+will be created in the <span class="pkg">MazamaSpatialUtils</span> package data</p>
+<p>This shapefile is a greatly simplified version of the TMWorldBorders shapefile 
+(to 5<!-- % of it's vertices) and is especially suited for spatial searches.  -->
 Users may wish to use a higher resolution dataset when plotting.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
@@ -197,7 +204,7 @@ Users may wish to use a higher resolution dataset when plotting.</p>
 
       <footer>
       <div class="copyright">
-  <p>Developed by Jonathan Callahan, Roger Andre, Tom Bergamaschi, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
+  <p>Developed by Jonathan Callahan, Rachel Carroll, Eli Grosman, Roger Andre, Tom Bergamaschi, Tina Chen, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
 </div>
 
 <div class="pkgdown">

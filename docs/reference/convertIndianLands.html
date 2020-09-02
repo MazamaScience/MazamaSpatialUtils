@@ -43,9 +43,7 @@
 
 
 <meta property="og:title" content="Convert Indian Lands Shapefile — convertIndianLands" />
-<meta property="og:description" content="A shapefile is downloaded and converted to a SpatialPolygonsDataFrame
- with additional columns of data. The resulting file will be created
-in the spatial data directory which is set with setSpatialDataDir()" />
+<meta property="og:description" content="Create a SpatialPolygonsDataFrame for Native American land." />
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary" />
 
@@ -79,7 +77,7 @@ in the spatial data directory which is set with setSpatialDataDir()" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.14</span>
       </span>
     </div>
 
@@ -104,6 +102,12 @@ in the spatial data directory which is set with setSpatialDataDir()" />
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/Developer_Style_Guide.html">Developer Style Guide</a>
+    </li>
+    <li>
+      <a href="../articles/Understanding_sp_Objects.html">Understanding 'sp' Objects</a>
+    </li>
     <li>
       <a href="../articles/articles/Basic_GIS_in_R.html">Basic GIS Operations in R</a>
     </li>
@@ -145,19 +149,23 @@ in the spatial data directory which is set with setSpatialDataDir()" />
     </div>
 
     <div class="ref-description">
-    <p>A shapefile is downloaded and converted to a SpatialPolygonsDataFrame
- with additional columns of data. The resulting file will be created
-in the spatial data directory which is set with <code><a href='setSpatialDataDir.html'>setSpatialDataDir()</a></code></p>
+    <p>Create a SpatialPolygonsDataFrame for Native American land.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>convertIndianLands</span>(<span class='kw'>nameOnly</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>convertIndianLands</span>(<span class='kw'>nameOnly</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>nameOnly</th>
-      <td><p>logical specifying whether to only return the name without creating the file</p></td>
+      <td><p>Logical specifying whether to only return the name without 
+creating the file.</p></td>
+    </tr>
+    <tr>
+      <th>simplify</th>
+      <td><p>Logical specifying whether to create "_05", _02" and "_01" 
+versions of the file that are simplified to 5%, 2% and 1%.</p></td>
     </tr>
     </table>
 
@@ -166,15 +174,36 @@ in the spatial data directory which is set with <code><a href='setSpatialDataDir
     <p>Name of the dataset being created.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The USIndianLands shapefile represents lands administered by the Bureau of Indian Affairs, ie. Indian reservations
+    <p>A Native American land shapefile is downloaded and converted to a 
+SpatialPolygonsDataFrame with additional columns of data. The resulting file 
+will be created in the spatial data directory which is set with 
+<code><a href='setSpatialDataDir.html'>setSpatialDataDir()</a></code>.</p>
+<p>The source data is from 2014.</p>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>From the source documentation:</p>
+<p>This map layer shows Indian lands of the United States. For the most part, 
+ only areas of 320 acres or more are included; some smaller areas deemed to 
+ be important or significant are also included. Federally-administered lands 
+ within a reservation are included for continuity; these may or may not be 
+ considered part of the reservation and are simply described with their 
+ feature type and the administrating Federal agency. Some established Indian 
+ lands which are larger than 320 acres are not included in this map layer 
+ because their boundaries were not available from the owning or administering 
+ agency.The USIndianLands shapefile represents lands administered by the 
+ Bureau of Indian Affairs, ie. Indian reservations</p> 
+<p>These data are intended for geographic display and analysis at the national 
+ level, and for large regional areas. The data should be displayed and 
+ analyzed at scales appropriate for 1:1,000,000-scale data. No responsibility 
+ is assumed by the National Atlas of the United States in the use of these data.
  and is compiled by the National Atlas of the United States of America.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p><a href='https://nationalmap.gov/small_scale/atlasftp.html#indlanp'>https://nationalmap.gov/small_scale/atlasftp.html#indlanp</a></p>
-<p><a href='https://nationalmap.gov/small_scale/mld/indlanp.html'>https://nationalmap.gov/small_scale/mld/indlanp.html</a></p>
+    <p><a href='https://www.sciencebase.gov/catalog/item/5d150464e4b0941bde5b7658'>https://www.sciencebase.gov/catalog/item/5d150464e4b0941bde5b7658</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>setSpatialDataDir</p></div>
+    <div class='dont-index'><p>setSpatialDataDir</p>
+<p>getVariable</p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -183,6 +212,7 @@ in the spatial data directory which is set with <code><a href='setSpatialDataDir
       <li><a href="#arguments">Arguments</a></li>
       <li><a href="#value">Value</a></li>
       <li><a href="#details">Details</a></li>
+      <li><a href="#note">Note</a></li>
       <li><a href="#references">References</a></li>
       <li><a href="#see-also">See also</a></li>
     </ul>
@@ -193,7 +223,7 @@ in the spatial data directory which is set with <code><a href='setSpatialDataDir
 
       <footer>
       <div class="copyright">
-  <p>Developed by Jonathan Callahan, Roger Andre, Tom Bergamaschi, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
+  <p>Developed by Jonathan Callahan, Rachel Carroll, Eli Grosman, Roger Andre, Tom Bergamaschi, Tina Chen, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
 </div>
 
 <div class="pkgdown">
