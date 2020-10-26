@@ -1,3 +1,12 @@
+# MazamaSpatialUtils 0.6.15
+
+* Added `US_countyCodes` dataset with `stateCode`, `stateFIPS`, `countyName`,
+`countyFIPS`.
+
+New functions for converting between US county names/FIPS:
+ * `US_countyNameToFIPS()`
+ * `US_countyFIPSToName()`
+
 # MazamaSpatialUtils 0.6.14
 
 * Fixed a bug in `loadSpatialData()` that was returning dataset names with `".rda"`.
@@ -37,6 +46,14 @@
 * Updated `convertIndianLands.R` to latest coding style.
 * Now using the *cleangeo* package to fix topology errors and geometry validity
 issues.
+
+New functions for converting among US state names/codes/FIPS:
+ * `US_stateCodeToName()`
+ * `US_stateCodeToFIPS()`
+ * `US_stateFIPSToCode()`
+ * `US_stateFIPSToName()`
+ * `US_stateNameToCode()`
+ * `US_stateNameToFIPS()`
 
 # MazamaSpatialUtils 0.6.9
 

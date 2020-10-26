@@ -94,3 +94,31 @@ US_52 <- c(
   "SD","TN","TX","UT","VT","VA","WA","WV","WI","WY",
   "DC","PR"
 )
+
+# ===== Data in the data/ directory ============================================
+
+#' @title Dataframe of US state codes
+#' @format A dataframe with 3196 rows and 4 columns of data.
+#' @description US_countyCodes The following columns for US states and territories:
+#' \itemize{
+#' \item{\code{stateCode} -- ISO 3166-2 alpha-2}
+#' \item{\code{stateFIPS} -- 2-digit FIPS code}
+#' \item{\code{countyName} -- English language county name}
+#' \item{\code{countyFIPS} -- five-digit FIPS code (2-digit state and 3-digit 
+#' county combined to create a unique identifier)}
+#' }
+#' 
+#' This dataset was generated on 2020-10-26 by running:
+#'
+#' \preformatted{
+#' library(MazamaSpatialUtils)
+#' setSpatialDataDir("~/Data/Spatial")
+#' loadSpatialData("USCensusCounties_02")
+#' 
+#' US_countyCodes <- 
+#'   USCensusCounties_02@data %>%
+#'   dplyr::select(stateCode, stateFIPS, countyName, countyFIPS)
+#'   
+#' save(US_countyCodes, file = "data/US_countyCodes.rda")
+#' }
+"US_countyCodes"
