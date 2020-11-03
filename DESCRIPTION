@@ -1,6 +1,6 @@
 Type: Package
 Package: MazamaSpatialUtils
-Version: 0.6.15
+Version: 0.6.16
 Title: Spatial Data Download and Utility Functions
 Authors@R: c(
     person("Jonathan", "Callahan", email="jonathan.s.callahan@gmail.com", role=c("aut","cre")), 
@@ -47,6 +47,7 @@ Imports:
     geojsonio,
     lubridate,
     magrittr,
+    MazamaCoreUtils (>= 0.4.5),
     rgdal,
     rgeos,
     rlang,
@@ -54,8 +55,7 @@ Imports:
     rvest (>= 0.3.0),
     stringr,
     tidyr,
-    utils,
-    xml2
+    utils
 Suggests:
     knitr,
     maps,

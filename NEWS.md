@@ -1,3 +1,7 @@
+# MazamaSpatialUtils 0.6.16
+
+* Updated `convertWikipediaTimezeonTable()`.
+
 # MazamaSpatialUtils 0.6.15
 
 * Added `US_countyCodes` dataset with `stateCode`, `stateFIPS`, `countyName`,

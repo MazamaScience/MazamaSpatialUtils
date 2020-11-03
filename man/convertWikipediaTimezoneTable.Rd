@@ -7,10 +7,12 @@
 convertWikipediaTimezoneTable()
 }
 \value{
-Dataframe with 399 rows and 6 columns.
+Dataframe with 388 rows and 10 columns.
 }
 \description{
-Returns a dataframe version of the Wikipedia timezone table with the following columns:
+Returns a dataframe version of the Wikipedia timezone table with
+the following columns:
+
 \itemize{
   \item{timezone -- Olson timezone}
   \item{UTC_offset -- hours between local timezone and UTC}
@@ -18,10 +20,11 @@ Returns a dataframe version of the Wikipedia timezone table with the following c
   \item{countryCode -- ISO 3166-2 country code}
   \item{longitude -- longitude of the Olson timezone city}
   \item{latitude -- latitude of the Olson timezone city}
+  \item{status -- either 'Canonical' or 'Deprecated'}
 }
 }
 \details{
-Older named timezones from the table which are linked to more modern 
+Older named timezones from the table which are linked to more modern
 equivalents are not included in the returned dataframe.
 }
 \references{
