@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convert Global Administrative Areas (GADM) Shapefile — convertGADM • MazamaSpatialUtils</title>
+<title>Convert Global Administrative Areas (GADM) SPDF — convertGADM • MazamaSpatialUtils</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,7 +46,7 @@
 
 
 
-<meta property="og:title" content="Convert Global Administrative Areas (GADM) Shapefile — convertGADM" />
+<meta property="og:title" content="Convert Global Administrative Areas (GADM) SPDF — convertGADM" />
 <meta property="og:description" content="Create a SpatialPolygonsDataFrame for Global Administrative Areas." />
 <meta property="og:image" content="/logo.png" />
 
@@ -98,8 +98,29 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li>
-  <a href="../articles/index.html">Articles</a>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="../articles/Developer_Style_Guide.html">Developer Style Guide</a>
+    </li>
+    <li>
+      <a href="../articles/Understanding_sp_Objects.html">Understanding sp Objects</a>
+    </li>
+    <li>
+      <a href="../articles/articles/Basic_GIS_in_R.html">Basic GIS Operations in R</a>
+    </li>
+    <li>
+      <a href="../articles/articles/ebolamap.html">Ebola Map Example</a>
+    </li>
+    <li>
+      <a href="../articles/available-data.html">Available Data</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -125,7 +146,7 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Convert Global Administrative Areas (GADM) Shapefile</h1>
+    <h1>Convert Global Administrative Areas (GADM) SPDF</h1>
     <small class="dont-index">Source: <a href='https://github.com/MazamaScience/MazamaSpatialUtils/blob/master/R/convertGADM.R'><code>R/convertGADM.R</code></a></small>
     <div class="hidden name"><code>convertGADM.Rd</code></div>
     </div>
@@ -135,25 +156,15 @@
     </div>
 
     <pre class="usage"><span class='fu'>convertGADM</span><span class='op'>(</span>
-  nameOnly <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  simplify <span class='op'>=</span> <span class='cn'>TRUE</span>,
   countryCode <span class='op'>=</span> <span class='cn'>NULL</span>,
-  admLevel <span class='op'>=</span> <span class='fl'>0</span>
+  admLevel <span class='op'>=</span> <span class='fl'>0</span>,
+  nameOnly <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  baseUrl <span class='op'>=</span> <span class='st'>"https://biogeo.ucdavis.edu/data/gadm3.6/Rsp"</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>nameOnly</th>
-      <td><p>Logical specifying whether to only return the name without 
-creating the file.</p></td>
-    </tr>
-    <tr>
-      <th>simplify</th>
-      <td><p>Logical specifying whether to create "_05", _02" and "_01" 
-versions of the file that are simplified to 5%, 2% and 1%.#'</p></td>
-    </tr>
     <tr>
       <th>countryCode</th>
       <td><p>ISO-3166-1 alpha-2 country code</p></td>
@@ -162,6 +173,15 @@ versions of the file that are simplified to 5%, 2% and 1%.#'</p></td>
       <th>admLevel</th>
       <td><p>administrative level to be downloaded</p></td>
     </tr>
+    <tr>
+      <th>nameOnly</th>
+      <td><p>Logical specifying whether to only return the name without
+creating the file.</p></td>
+    </tr>
+    <tr>
+      <th>baseUrl</th>
+      <td><p>Base URL for data queries.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -169,16 +189,39 @@ versions of the file that are simplified to 5%, 2% and 1%.#'</p></td>
     <p>Name of the dataset being created.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>A Global Administrative Areas shapefile is downloaded and converted to a 
-SpatialPolygonsDataFrame with additional columns of data. The resulting file 
-will be created in the spatial data directory which is set with 
+    <p>A pre-generated Global Administrative Areas SpatialPolygonsDataFrame
+is downloaded and amended with additional columns of data. The resulting file
+will be created in the spatial data directory which is set with
 <code><a href='setSpatialDataDir.html'>setSpatialDataDir()</a></code>.</p>
+<p>The <code>@data</code> slot of each SpatialPolygonsDataFrame is both simplified and
+modified to adhere to the <span class="pkg">MazamaSpatialUtils</span> internal standards.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>From the source documentation:</p>
+    <p>Unlike other <code>convert~()</code> functions, no checks, cleanup or
+simplification is performed.</p>
+<p>From the source documentation:</p>
+<p>GADM has always had multiple unique IDs associated with a record. In the
+future there will be only be the GID and associated tables that link the GID
+to other ID systems such as ISO, FIPS, and HASC. The GID starts with the three
+letter ISO 3166-1 alpha-3 country code. If there are subdivisions these are
+identified by a number from 1 to n, where n is the number of subdivisions at
+level 1. This value is concatenated with the country code, using a dot to
+delimit the two. For example, AFG.1, AFG.2, ..., AFG.n. If there are second
+level subdivisions, numeric codes are assigned within each first level
+subdivision and these are concatenated with the first level identifier, using
+a dot as delimiter. For example, AFG.1.1, AFG.1.2, AFG.1.3, ..., and AFG.2.1,
+AFG.2.2, .... And so forth for the third, fourth and fifth levels. Finally
+there is an underscore followed by a version number appended to the code. For
+example, AFG.3_1 and AFG.3.2_1. The GID codes are presistent after version
+3.6 (there were errors in the codes in version 3.4). If an area changes, for
+example if it splits into two new areas, two new codes will be assigned, and
+the old code will not be used any more. The version only changes when there
+is a major overhaul of the divisions in a country, for example when a whole
+new set of subdivsions is introduced.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p><a href='https://gadm.org/data.html'>https://gadm.org/data.html</a>.</p>
+    <p><a href='https://gadm.org/data.html'>https://gadm.org/data.html</a></p>
+<p><a href='https://gadm.org/metadata.html'>https://gadm.org/metadata.html</a></p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

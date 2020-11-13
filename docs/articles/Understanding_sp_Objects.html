@@ -56,8 +56,29 @@
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Articles
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
 <li>
-  <a href="../articles/index.html">Articles</a>
+      <a href="../articles/Developer_Style_Guide.html">Developer Style Guide</a>
+    </li>
+    <li>
+      <a href="../articles/Understanding_sp_Objects.html">Understanding sp Objects</a>
+    </li>
+    <li>
+      <a href="../articles/articles/Basic_GIS_in_R.html">Basic GIS Operations in R</a>
+    </li>
+    <li>
+      <a href="../articles/articles/ebolamap.html">Ebola Map Example</a>
+    </li>
+    <li>
+      <a href="../articles/available-data.html">Available Data</a>
+    </li>
+  </ul>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -160,11 +181,11 @@
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Let's look a "counts"</span>
 <span class="va">h</span><span class="op">$</span><span class="va">counts</span></code></pre></div>
-<pre><code>##  [1]  1  1  2  8 11 16 21 18  9  7  5  1</code></pre>
+<pre><code>## [1]  3  9 10 31 20  9 12  4  2</code></pre>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Or, altenatively</span>
 <span class="va">h</span><span class="op">[[</span><span class="st">"counts"</span><span class="op">]</span><span class="op">]</span></code></pre></div>
-<pre><code>##  [1]  1  1  2  8 11 16 21 18  9  7  5  1</code></pre>
+<pre><code>## [1]  3  9 10 31 20  9 12  4  2</code></pre>
 </div>
 <div id="calling-s3-methods" class="section level3">
 <h3 class="hasAnchor">

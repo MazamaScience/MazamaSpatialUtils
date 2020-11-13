@@ -17,7 +17,7 @@ versions of the file that are simplified to 5\%, 2\% and 1\%.}
 Name of the dataset being created.
 }
 \description{
-Create a SpatialPolygonsDataFrame for world timezones
+Create a SpatialPolygonsDataFrame for world timezones.
 }
 \details{
 A world timezones shapefile is downloaded and converted to a

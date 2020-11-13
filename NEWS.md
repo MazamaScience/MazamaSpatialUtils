@@ -2,6 +2,7 @@
 
 * Updated `convertWikipediaTimezeonTable()`.
 * Updated `convertWorldTimezones()` and package internal dataset `SimpleTimezones`.
+* Updated `convertGADM()` to support GADM version 3.6.
 
 # MazamaSpatialUtils 0.6.15
 

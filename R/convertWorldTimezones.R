@@ -10,7 +10,7 @@
 #' @param simplify Logical specifying whether to create "_05", _02" and "_01"
 #' versions of the file that are simplified to 5\%, 2\% and 1\%.
 #'
-#' @description Create a SpatialPolygonsDataFrame for world timezones
+#' @description Create a SpatialPolygonsDataFrame for world timezones.
 #'
 #' @details A world timezones shapefile is downloaded and converted to a
 #' SpatialPolygonsDataFrame with additional columns of data. The resulting file
