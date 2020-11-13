@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -46,7 +50,6 @@
 <meta property="og:description" content="Converts a vector of US state names or codes from one system to
 another reuturning NA where no match is found." />
 <meta property="og:image" content="/logo.png" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -64,7 +67,7 @@ another reuturning NA where no match is found." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -78,7 +81,7 @@ another reuturning NA where no match is found." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.14</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.16</span>
       </span>
     </div>
 
@@ -96,29 +99,8 @@ another reuturning NA where no match is found." />
 <li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-    <li>
-      <a href="../articles/Developer_Style_Guide.html">Developer Style Guide</a>
-    </li>
-    <li>
-      <a href="../articles/Understanding_sp_Objects.html">Understanding 'sp' Objects</a>
-    </li>
-    <li>
-      <a href="../articles/articles/Basic_GIS_in_R.html">Basic GIS Operations in R</a>
-    </li>
-    <li>
-      <a href="../articles/articles/ebolamap.html">Ebola Map Example</a>
-    </li>
-    <li>
-      <a href="../articles/available-data.html">Available Data</a>
-    </li>
-  </ul>
+<li>
+  <a href="../articles/index.html">Articles</a>
 </li>
 <li>
   <a href="../news/index.html">Changelog</a>
@@ -126,7 +108,7 @@ another reuturning NA where no match is found." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/MazamaScience/MazamaSpatialUtils">
+  <a href="https://github.com/MazamaScience/MazamaSpatialUtils/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -154,17 +136,17 @@ another reuturning NA where no match is found." />
 another reuturning <code>NA</code> where no match is found.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>US_stateCodeToName</span>(<span class='kw'>stateCode</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+    <pre class="usage"><span class='fu'>US_stateCodeToName</span><span class='op'>(</span>stateCode <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
-<span class='fu'>US_stateCodeToFIPS</span>(<span class='kw'>stateCode</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+<span class='fu'>US_stateCodeToFIPS</span><span class='op'>(</span>stateCode <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
-<span class='fu'>US_stateFIPSToName</span>(<span class='kw'>stateFIPS</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+<span class='fu'>US_stateFIPSToName</span><span class='op'>(</span>stateFIPS <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
-<span class='fu'>US_stateFIPSToCode</span>(<span class='kw'>stateFIPS</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+<span class='fu'>US_stateFIPSToCode</span><span class='op'>(</span>stateFIPS <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
-<span class='fu'>US_stateNameToCode</span>(<span class='kw'>stateName</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)
+<span class='fu'>US_stateNameToCode</span><span class='op'>(</span>stateName <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span>
 
-<span class='fu'>US_stateNameToFIPS</span>(<span class='kw'>stateName</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+<span class='fu'>US_stateNameToFIPS</span><span class='op'>(</span>stateName <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -188,56 +170,55 @@ another reuturning <code>NA</code> where no match is found.</p>
     <p>A vector of US state names or codes.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>library</a></span>(<span class='no'>MazamaSpatialUtils</span>)
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/MazamaScience/MazamaSpatialUtils'>MazamaSpatialUtils</a></span><span class='op'>)</span>
 
-<span class='fu'>US_stateNameToCode</span>(<span class='st'>"Washington"</span>)</div><div class='output co'>#&gt; [1] "WA"</div><div class='input'><span class='fu'>US_stateNameToFIPS</span>(<span class='st'>"Washington"</span>)</div><div class='output co'>#&gt; [1] "53"</div><div class='input'>
-<span class='no'>postalCodes</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span>(<span class='no'>US_stateCodes</span>$<span class='no'>stateCode</span>, <span class='fl'>30</span>)
+<span class='fu'>US_stateNameToCode</span><span class='op'>(</span><span class='st'>"Washington"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "WA"</div><div class='input'><span class='fu'>US_stateNameToFIPS</span><span class='op'>(</span><span class='st'>"Washington"</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; [1] "53"</div><div class='input'>
+<span class='va'>postalCodes</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/sample.html'>sample</a></span><span class='op'>(</span><span class='va'>US_stateCodes</span><span class='op'>$</span><span class='va'>stateCode</span>, <span class='fl'>30</span><span class='op'>)</span>
 
-<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(
-  <span class='kw'>name</span> <span class='kw'>=</span> <span class='fu'>US_stateCodeToName</span>(<span class='no'>postalCodes</span>),
-  <span class='kw'>code</span> <span class='kw'>=</span> <span class='no'>postalCodes</span>,
-  <span class='kw'>FIPS</span> <span class='kw'>=</span> <span class='fu'>US_stateCodeToFIPS</span>(<span class='no'>postalCodes</span>)
-)</div><div class='output co'>#&gt;              name code FIPS
-#&gt; 1      California   CA   06
-#&gt; 2    South Dakota   SD   46
-#&gt; 3      New Jersey   NJ   34
-#&gt; 4        Delaware   DE   10
-#&gt; 5         Alabama   AL   01
-#&gt; 6   Massachusetts   MA   25
-#&gt; 7        Michigan   MI   26
-#&gt; 8        Illinois   IL   17
-#&gt; 9        New York   NY   36
-#&gt; 10 North Carolina   NC   37
-#&gt; 11       Oklahoma   OK   40
-#&gt; 12     Washington   WA   53
-#&gt; 13         Alaska   AK   02
-#&gt; 14          Idaho   ID   16
-#&gt; 15           Iowa   IA   19
-#&gt; 16   Rhode Island   RI   44
-#&gt; 17        Indiana   IN   18
-#&gt; 18        Arizona   AZ   04
-#&gt; 19          Texas   TX   48
-#&gt; 20      Tennessee   TN   47
-#&gt; 21        Florida   FL   12
-#&gt; 22        Vermont   VT   50
-#&gt; 23           Utah   UT   49
-#&gt; 24       Colorado   CO   08
-#&gt; 25       Nebraska   NE   31
-#&gt; 26       Maryland   MD   24
-#&gt; 27    Puerto Rico   PR   72
-#&gt; 28      Wisconsin   WI   55
-#&gt; 29         Kansas   KS   20
-#&gt; 30         Oregon   OR   41</div><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>
+  name <span class='op'>=</span> <span class='fu'>US_stateCodeToName</span><span class='op'>(</span><span class='va'>postalCodes</span><span class='op'>)</span>,
+  code <span class='op'>=</span> <span class='va'>postalCodes</span>,
+  FIPS <span class='op'>=</span> <span class='fu'>US_stateCodeToFIPS</span><span class='op'>(</span><span class='va'>postalCodes</span><span class='op'>)</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt;                    name code FIPS
+#&gt; 1                 Texas   TX   48
+#&gt; 2              Michigan   MI   26
+#&gt; 3                Hawaii   HI   15
+#&gt; 4              Oklahoma   OK   40
+#&gt; 5                Oregon   OR   41
+#&gt; 6               Vermont   VT   50
+#&gt; 7            New Jersey   NJ   34
+#&gt; 8              Arkansas   AR   05
+#&gt; 9              Virginia   VA   51
+#&gt; 10 District of Columbia   DC   11
+#&gt; 11           California   CA   06
+#&gt; 12       South Carolina   SC   45
+#&gt; 13            Minnesota   MN   27
+#&gt; 14              Indiana   IN   18
+#&gt; 15                Idaho   ID   16
+#&gt; 16               Alaska   AK   02
+#&gt; 17         Rhode Island   RI   44
+#&gt; 18             Maryland   MD   24
+#&gt; 19       North Carolina   NC   37
+#&gt; 20             Colorado   CO   08
+#&gt; 21                 Utah   UT   49
+#&gt; 22           New Mexico   NM   35
+#&gt; 23              Wyoming   WY   56
+#&gt; 24                 Iowa   IA   19
+#&gt; 25           Washington   WA   53
+#&gt; 26              Arizona   AZ   04
+#&gt; 27          Mississippi   MS   28
+#&gt; 28        Massachusetts   MA   25
+#&gt; 29              Georgia   GA   13
+#&gt; 30          Connecticut   CT   09</div><div class='input'>
 </div></pre>
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#examples">Examples</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
@@ -248,7 +229,7 @@ another reuturning <code>NA</code> where no match is found.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

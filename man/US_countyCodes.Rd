@@ -16,7 +16,7 @@ US_countyCodes The following columns for US states and territories:
 \item{\code{stateCode} -- ISO 3166-2 alpha-2}
 \item{\code{stateFIPS} -- 2-digit FIPS code}
 \item{\code{countyName} -- English language county name}
-\item{\code{countyFIPS} -- five-digit FIPS code (2-digit state and 3-digit 
+\item{\code{countyFIPS} -- five-digit FIPS code (2-digit state and 3-digit
 county combined to create a unique identifier)}
 }
 
@@ -27,10 +27,10 @@ library(MazamaSpatialUtils)
 setSpatialDataDir("~/Data/Spatial")
 loadSpatialData("USCensusCounties_02")
 
-US_countyCodes <- 
+US_countyCodes <-
   USCensusCounties_02@data %>%
   dplyr::select(stateCode, stateFIPS, countyName, countyFIPS)
-  
+
 save(US_countyCodes, file = "data/US_countyCodes.rda")
 }
 }

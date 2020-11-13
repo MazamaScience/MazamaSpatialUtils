@@ -20,7 +20,8 @@ the following columns:
   \item{countryCode -- ISO 3166-2 country code}
   \item{longitude -- longitude of the Olson timezone city}
   \item{latitude -- latitude of the Olson timezone city}
-  \item{status -- either 'Canonical' or 'Deprecated'}
+  \item{status -- either 'Canonical', 'Alias' or 'Deprecated'}
+  \item{notes -- typically specifying the target of an 'Alias'}
 }
 }
 \details{

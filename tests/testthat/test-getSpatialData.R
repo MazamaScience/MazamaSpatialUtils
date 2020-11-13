@@ -4,8 +4,8 @@ testthat::context("getSpatialData()")
 testthat::test_that("handles errors correctly", {
   testthat::expect_error(getSpatialData(),
                          'argument "lon" is missing, with no default')
-  testthat::expect_error(getSpatialData(0,100,SimpleCountries))
-  testthat::expect_error(getSpatialData(-200, 0,SimpleCountries))
+  testthat::expect_error(getSpatialData(0,100, SimpleCountries))
+  testthat::expect_error(getSpatialData(-200, 0 ,SimpleCountries))
   testthat::expect_error(getSpatialData(c(-100, 10), 0, SimpleCountries))
 })
 

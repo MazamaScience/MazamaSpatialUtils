@@ -5,7 +5,7 @@
 \alias{MazamaSpatialUtils}
 \title{Mazama Science spatial data and utility functions.}
 \description{
-This package contains code to convert various spatial datasets into .RData files 
+This package contains code to convert various spatial datasets into .RData files
 with uniformly named identifiers including:
 \itemize{
 \item{ countryCode -- ISO 3166-1 alpha-2}
@@ -16,8 +16,8 @@ with uniformly named identifiers including:
 \item{ latitude -- degrees North}
 \item{ area -- m^2}
 }
-The parameters listed above will be found in the @data slot of each spatial 
-dataset whose source data has an equivalent field. The only field guaranteed 
+The parameters listed above will be found in the @data slot of each spatial
+dataset whose source data has an equivalent field. The only field guaranteed
 to exist in every dataset is \code{countryCode}.
 
 The following additional standards are applied during the data conversion process:

@@ -11,7 +11,8 @@
 #'   \item{countryCode -- ISO 3166-2 country code}
 #'   \item{longitude -- longitude of the Olson timezone city}
 #'   \item{latitude -- latitude of the Olson timezone city}
-#'   \item{status -- either 'Canonical' or 'Deprecated'}
+#'   \item{status -- either 'Canonical', 'Alias' or 'Deprecated'}
+#'   \item{notes -- typically specifying the target of an 'Alias'}
 #' }
 #'
 #' @details Older named timezones from the table which are linked to more modern
@@ -61,9 +62,6 @@ convertWikipediaTimezoneTable <- function() {
   # NOTE:  na.strings so "NA" is converted to NA. Here we restore "NA".
   tzTable$countryCode[tzTable$timezone == 'Africa/Windhoek'] <- "NA"
 
-  # Remove all rows where the Notes say "Link to ..."
-  tzTable <- tzTable[!stringr::str_detect(tzTable$notes,'^Link to'),]
-
   # Convert UTC_offset "+HH:MM" to hours
   sign <- ifelse(stringr::str_sub(tzTable$UTC_offset,1,1) == '+',1,-1)
   hour <- as.numeric(stringr::str_sub(tzTable$UTC_offset,2,3))
@@ -98,6 +96,7 @@ convertWikipediaTimezoneTable <- function() {
   tzTable$longitude <- sign * (deg + min/60 + sec/3600)
 
   # Return desired columns in a sensible order
-  return( tzTable[,c('timezone','UTC_offset','UTC_DST_offset','countryCode','longitude','latitude','status')] )
+  return( tzTable[,c('timezone', 'UTC_offset', 'UTC_DST_offset', 'countryCode',
+                     'longitude', 'latitude', 'status', 'notes')] )
 
 }

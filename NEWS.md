@@ -1,6 +1,7 @@
 # MazamaSpatialUtils 0.6.16
 
 * Updated `convertWikipediaTimezeonTable()`.
+* Updated `convertWorldTimezones()` and package internal dataset `SimpleTimezones`.
 
 # MazamaSpatialUtils 0.6.15
 

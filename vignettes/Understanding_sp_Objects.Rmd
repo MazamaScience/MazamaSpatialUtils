@@ -1,10 +1,10 @@
 ---
-title: "Understanding 'sp' Objects"
+title: "Understanding sp Objects"
 author: "Mazama Science"
 date: "2020-07-06"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Understanding 'sp' Objects}
+  %\VignetteIndexEntry{Understanding sp Objects}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

@@ -4,7 +4,7 @@ author: "Roger Andre, Mazama Science"
 date: "March 9, 2020"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Basic GIS in Rs}
+  %\VignetteIndexEntry{Basic GIS Operations in R}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

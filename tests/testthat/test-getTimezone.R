@@ -9,15 +9,15 @@ testthat::test_that("get functions return correct name", {
 
 testthat::test_that("subsetting with countryCodes works", {
   testthat::expect_match(getTimezone(2, 47), "Europe/Paris")
-  testthat::expect_match(getTimezone(2, 47, countryCodes=c("FR")), "Europe/Paris")
-  testthat::expect_match(getTimezone(2, 47, countryCodes="FR"), "Europe/Paris")
+  testthat::expect_match(getTimezone(2, 47, countryCodes = c("FR")), "Europe/Paris")
+  testthat::expect_match(getTimezone(2, 47, countryCodes = "FR"), "Europe/Paris")
 })
 
 testthat::test_that("allData returns are correct dimension and type", {
-  testthat::expect_s3_class(getTimezone(2, 47, allData=TRUE), "data.frame")
-  testthat::expect_equal(dim(getTimezone(2, 47, allData=TRUE)), c(1,7))
-  testthat::expect_s3_class(getTimezone(c(120,-17), c(-1.5,15), allData=TRUE), "data.frame")
-  testthat::expect_equal(dim(getTimezone(c(120,-17), c(-1.5,15), allData=TRUE)), c(2,7))
+  testthat::expect_s3_class(getTimezone(2, 47, allData = TRUE), "data.frame")
+  testthat::expect_equal(dim(getTimezone(2, 47, allData = TRUE)), c(1,9))
+  testthat::expect_s3_class(getTimezone(c(120,-17), c(-1.5,15), allData = TRUE), "data.frame")
+  testthat::expect_equal(dim(getTimezone(c(120,-17), c(-1.5,15), allData = TRUE)), c(2,9))
 })
 
 testthat::test_that("getPolygonID handles errors correctly", {

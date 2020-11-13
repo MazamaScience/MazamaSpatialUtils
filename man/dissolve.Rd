@@ -13,7 +13,7 @@ dissolve(SPDF, field = NULL, sum_fields = NULL, copy_fields = NULL, ...)
 
 \item{sum_fields}{fields to sum}
 
-\item{copy_fields}{fields to copy. The first instance of each field will be 
+\item{copy_fields}{fields to copy. The first instance of each field will be
 copied to the aggregated feature}
 
 \item{...}{arguments passed to \code{rmapshaper::ms_dissolve()}}
@@ -22,7 +22,7 @@ copied to the aggregated feature}
 A spatial polygons dataframe with aggregated shapes.
 }
 \description{
-Aggregate shapes in a spatial polygons dataframe. This is a 
+Aggregate shapes in a spatial polygons dataframe. This is a
 convenience wrapper for \code{rmapshaper::ms_dissolve()}
 }
 \examples{
