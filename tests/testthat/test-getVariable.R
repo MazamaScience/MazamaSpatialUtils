@@ -21,7 +21,7 @@ testthat::test_that("returns correct name", {
 testthat::test_that("subsetting with countryCodes works", {
   testthat::expect_match(getVariable(2, 47, dataset = "SimpleCountries", variable = "countryName", countryCodes = c("FR")), "France")
   testthat::expect_match(getVariable(2, 47, dataset = "SimpleCountries", variable = "countryName", countryCodes = "FR"), "France")
-  testthat::expect_equal(getVariable(c(2.1, -108), c(41.38, 48), dataset = "SimpleCountries", variable = "countryName", countryCodes = "ES"),
+  testthat::expect_equal(getVariable(c(-3, -108), c(40, 48), dataset = "SimpleCountries", variable = "countryName", countryCodes = "ES"),
                          c("Spain", NA_character_))
 })
 

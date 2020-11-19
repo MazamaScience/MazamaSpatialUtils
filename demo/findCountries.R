@@ -21,8 +21,8 @@ countryMask <- SimpleCountries@data$countryName %in% countryNames
 
 # Plot the country polygons
 plot(SimpleCountries[countryMask,], col = 'gray90', border = 'gray70')
-# Add countries from the 'maps' package
-maps::map('world', col = 'gray80', add = TRUE)
+# Add all country boundaries
+plot(SimpleCountries, border = 'gray80', add = TRUE)
 # Add our points in red
 points(lons,lats, pch = 16, col = 'red')
 # Add text to the right
@@ -39,8 +39,8 @@ countryMask <- SimpleCountriesEEZ@data$countryName %in% countryNames
 
 # Plot the country polygons
 plot(SimpleCountriesEEZ[countryMask,],col = 'gray90', border = 'gray70')
-# Add countries from the 'maps' package
-maps::map('world', col = 'gray80', add = TRUE)
+# Add all country boundaries
+plot(SimpleCountries, border = 'gray80', add = TRUE)
 # Add our points in red
 points(lons, lats, pch = 16, col = 'red')
 # Add text to the right

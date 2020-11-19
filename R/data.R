@@ -156,7 +156,7 @@ US_52 <- c(
 "SimpleTimezones"
 
 #' @title Simplified spatial dataset of EEZ/country combined boundaries.
-#' @format A SpatialPolygonsDataFrame with 319ecords and 5 columns of data.
+#' @format A SpatialPolygonsDataFrame with 319 records and 5 columns of data.
 #'
 #' @description SimpleCountriesEEZ is a simplified world borders dataset with a
 #' 200 mile coastal buffer corresponding to Exclusive Economic Zones, suitable for
@@ -181,3 +181,33 @@ US_52 <- c(
 #' save(SimpleCountriesEEZ, file = "data/SimpleCountriesEEZ.rda")
 #' }
 "SimpleCountriesEEZ"
+
+#' @title Simplified spatial dataset of country boundaries.
+#' @format A SpatialPolygonsDataFrame with 246 records and 6 columns of data.
+#'
+#' @description SimpleCountries is a simplified world borders dataset suitable
+#' for global maps and quick spatial searches. This dataset is distributed with
+#' the package and is can be used with \code{getCountry()},
+#' \code{getCountryCode()} and \code{getCountryName()} when restricting searches
+#' to land-based locations.
+#'
+#' @details This dataset is equivalent to TMWorldBordersSimple but with fewer columns of data.
+#' @seealso convertTMWorldBordersSimple
+#'
+#' This dataset was generated on 2020-11-19 by running:
+#'
+#' \preformatted{
+#' library(MazamaSpatialUtils)
+#' setSpatialDataDir("~/Data/Spatial")
+#'
+#' convertTMWorldBordersSimple()
+#'
+#' loadSpatialData("TMWorldBordersSimple")
+#'
+# columnNames <- c("countryCode", "countryName", "ISO3", "FIPS",
+#                  "UN_region", "polygonID")
+# SimpleCountries <- TMWorldBordersSimple[, columnNames]
+# save(SimpleCountries, file = "data/SimpleCountries.rda")
+#' }
+"SimpleCountries"
+

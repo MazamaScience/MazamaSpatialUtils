@@ -33,19 +33,6 @@
 #' with data from any dataset that uses standard ISO codes for countries or states.
 NULL
 
-#' @docType data
-#' @keywords datasets
-#' @name SimpleCountries
-#' @title World country polygons
-#' @format A SpatialPolygonsDataFrame with 246 elements and 7 columns of data.
-#' @description SimpleCountries is a simplified world borders dataset suitable for global maps
-#' and quick spatial searches. This dataset is distributed with the package and is used by
-#' default whenever a dataset with country polygons is required.
-#' @details This dataset is equivalent to TMWorldBordersSimple but with fewer columns of data.
-#' @seealso convertTMWorldBordersSimple
-NULL
-
-
 
 # ----- Internal Package State -------------------------------------------------
 

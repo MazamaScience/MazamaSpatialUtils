@@ -5,7 +5,7 @@
 \alias{SimpleCountriesEEZ}
 \title{Simplified spatial dataset of EEZ/country combined boundaries.}
 \format{
-A SpatialPolygonsDataFrame with 319ecords and 5 columns of data.
+A SpatialPolygonsDataFrame with 319 records and 5 columns of data.
 }
 \usage{
 SimpleCountriesEEZ
