@@ -35,19 +35,6 @@ NULL
 
 #' @docType data
 #' @keywords datasets
-#' @name SimpleCountriesEEZ
-#' @title World country EEZ polygons
-#' @format A SpatialPolygonsDataFrame with 261 elements and 6 columns of data.
-#' @description SimpleCountriesEEZ is a simplified world borders dataset with a
-#' 200 mile coastal buffer corresponding to Exclusive Economic Zones, suitable for
-#' quick spatial searches. This dataset is distributed with the package and is used by
-#' default whenever a dataset with country polygons is required.
-#' @details This dataset is equivalent to EEZCountries but with fewer columns of data.
-#' @seealso convertEEZCountries
-NULL
-
-#' @docType data
-#' @keywords datasets
 #' @name SimpleCountries
 #' @title World country polygons
 #' @format A SpatialPolygonsDataFrame with 246 elements and 7 columns of data.

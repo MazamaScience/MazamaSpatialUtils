@@ -7,23 +7,23 @@
 convertWorldEEZ(nameOnly = FALSE, simplify = TRUE)
 }
 \arguments{
-\item{nameOnly}{logical specifying whether to only return the name without 
+\item{nameOnly}{logical specifying whether to only return the name without
 creating the file}
 
-\item{simplify}{Logical specifying whether to create "_05", _02" and "_01" 
+\item{simplify}{Logical specifying whether to create "_05", _02" and "_01"
 versions of the file that are simplified to 5\%, 2\% and 1\%.}
 }
 \value{
 Name of the dataset being created.
 }
 \description{
-Returns a SpatialPolygonsDataFrame for US counties.
+Returns a SpatialPolygonsDataFrame for Exclusive Economic Zones.
 }
 \details{
-A world EEZ shapefile is converted to a SpatialPolygonsDataFrame 
-with additional columns of data. To use this function, the file 
-"World_EEZ_v11_20191118_LR.zip" must be downloaded into the users spatial 
-directory which is set with \code{setSpatialDataDir()}. The resulting file 
+A world EEZ shapefile is converted to a SpatialPolygonsDataFrame
+with additional columns of data. To use this function, the file
+"World_EEZ_v11_20191118_LR.zip" must be downloaded into the users spatial
+directory which is set with \code{setSpatialDataDir()}. The resulting file
 will be created in this same spatial data directory.
 }
 \references{
@@ -31,7 +31,5 @@ will be created in this same spatial data directory.
 }
 \seealso{
 setSpatialDataDir
-
-getCountry, getCountryCode
 }
 \keyword{datagen}

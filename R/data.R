@@ -154,3 +154,30 @@ US_52 <- c(
 #' save(SimpleTimezones, file = "data/SimpleTimezones.rda")
 #' }
 "SimpleTimezones"
+
+#' @title Simplified spatial dataset of EEZ/country combined boundaries.
+#' @format A SpatialPolygonsDataFrame with 319ecords and 5 columns of data.
+#'
+#' @description SimpleCountriesEEZ is a simplified world borders dataset with a
+#' 200 mile coastal buffer corresponding to Exclusive Economic Zones, suitable for
+#' quick spatial searches. This dataset is distributed with the package and is
+#' used by default in \code{getCountry()}, \code{getCountryCode()} and
+#' \code{getCountryName()}.
+#'
+#' @details This dataset is equivalent to EEZCountries but with fewer columns of data.
+#' @seealso convertEEZCountries
+#'
+#' This dataset was generated on 2020-11-18 by running:
+#'
+#' \preformatted{
+#' library(MazamaSpatialUtils)
+#' setSpatialDataDir("~/Data/Spatial")
+#'
+#' convertEEZCountries()
+#'
+#' loadSpatialData("EEZCountries_05")
+#'
+#' SimpleCountriesEEZ <- EEZCountries_05[,c("countryCode", "countryName", "polygonID")]
+#' save(SimpleCountriesEEZ, file = "data/SimpleCountriesEEZ.rda")
+#' }
+"SimpleCountriesEEZ"
