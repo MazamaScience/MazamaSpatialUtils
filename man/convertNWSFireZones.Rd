@@ -7,10 +7,10 @@
 convertNWSFireZones(nameOnly = FALSE, simplify = TRUE)
 }
 \arguments{
-\item{nameOnly}{Logical specifying whether to only return the name without 
+\item{nameOnly}{Logical specifying whether to only return the name without
 creating the file.}
 
-\item{simplify}{Logical specifying whether to create "_05", _02" and "_01" 
+\item{simplify}{Logical specifying whether to create "_05", _02" and "_01"
 versions of the file that are simplified to 5\%, 2\% and 1\%.}
 }
 \value{
@@ -20,9 +20,9 @@ Name of the dataset being created.
 Create a SpatialPolygonsDataFrame for NWS weather forecast zones
 }
 \details{
-A NWS forecast zone shapefile is downloaded and converted to a 
-SpatialPolygonsDataFrame with additional columns of data. The resulting file 
-will be created in the spatial data directory which is set with 
+A NWS forecast zone shapefile is downloaded and converted to a
+SpatialPolygonsDataFrame with additional columns of data. The resulting file
+will be created in the spatial data directory which is set with
 \code{setSpatialDataDir()}.
 
 The source data is from 2020.
@@ -30,7 +30,7 @@ The source data is from 2020.
 \note{
 From the source documentation:
 
-This data set is used to delineate the Fire Weather Zones that are used by 
+This data set is used to delineate the Fire Weather Zones that are used by
 NWS in the fire weather forecast program.
 }
 \references{

@@ -7,10 +7,10 @@
 convertUSCensusCBSA(nameOnly = FALSE, simplify = TRUE)
 }
 \arguments{
-\item{nameOnly}{Logical specifying whether to only return the name without 
+\item{nameOnly}{Logical specifying whether to only return the name without
 creating the file.}
 
-\item{simplify}{Logical specifying whether to create "_05", _02" and "_01" 
+\item{simplify}{Logical specifying whether to create "_05", _02" and "_01"
 versions of the file that are simplified to 5\%, 2\% and 1\%.}
 }
 \value{
@@ -20,26 +20,26 @@ Name of the dataset being created.
 Returns a SpatialPolygonsDataFrame for US CBSAs
 }
 \details{
-A US Core Based Statistical Areas (CBSA) shapefile is downloaded and converted to a 
+A US Core Based Statistical Areas (CBSA) shapefile is downloaded and converted to a
 SpatialPolygonsDataFrame with additional columns of data. The resulting file
-will be created in the spatial data directory which is set with 
+will be created in the spatial data directory which is set with
 \code{setSpatialDataDir()}.
 }
 \note{
 From the source documentation:
 
-Metropolitan and Micropolitan Statistical Areas are together termed Core Based 
-Statistical Areas (CBSAs) and are defined by the Office of Management and Budget 
-(OMB) and consist of the county or counties or equivalent entities associated 
-with at least one urban core (urbanized area or urban cluster) of at least 10,000 
-population, plus adjacent counties having a high degree of social and economic 
-integration with the core as measured through commuting ties with the counties 
-containing the core. Categories of CBSAs are: Metropolitan Statistical Areas, 
-based on urbanized areas of 50,000 or more population; and Micropolitan Statistical 
-Areas, based on urban clusters of at least 10,000 population but less than 50,000 
+Metropolitan and Micropolitan Statistical Areas are together termed Core Based
+Statistical Areas (CBSAs) and are defined by the Office of Management and Budget
+(OMB) and consist of the county or counties or equivalent entities associated
+with at least one urban core (urbanized area or urban cluster) of at least 10,000
+population, plus adjacent counties having a high degree of social and economic
+integration with the core as measured through commuting ties with the counties
+containing the core. Categories of CBSAs are: Metropolitan Statistical Areas,
+based on urbanized areas of 50,000 or more population; and Micropolitan Statistical
+Areas, based on urban clusters of at least 10,000 population but less than 50,000
 population.
 
-The CBSA boundaries are those defined by OMB based on the 2010 Census, published 
+The CBSA boundaries are those defined by OMB based on the 2010 Census, published
 in 2013, and updated in 2018
 }
 \references{

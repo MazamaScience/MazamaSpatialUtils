@@ -7,10 +7,10 @@
 convertUSFSRangerDistricts(nameOnly = FALSE, simplify = TRUE)
 }
 \arguments{
-\item{nameOnly}{Logical specifying whether to only return the name without 
+\item{nameOnly}{Logical specifying whether to only return the name without
 creating the file.}
 
-\item{simplify}{Logical specifying whether to create "_05", _02" and "_01" 
+\item{simplify}{Logical specifying whether to create "_05", _02" and "_01"
 versions of the file that are simplified to 5\%, 2\% and 1\%.}
 }
 \value{
@@ -20,9 +20,9 @@ Name of the dataset being created.
 Create a SpatialPolygonsDataFrame for USFS Ranger Districts.
 }
 \details{
-A USFS Ranger Districts shapefile is downloaded and converted to a 
-SpatialPolygonsDataFrame with additional columns of data. The resulting file 
-will be created in the spatial data directory which is set with 
+A USFS Ranger Districts shapefile is downloaded and converted to a
+SpatialPolygonsDataFrame with additional columns of data. The resulting file
+will be created in the spatial data directory which is set with
 \code{setSpatialDataDir()}.
 
 The source data is from 2015.
@@ -30,38 +30,38 @@ The source data is from 2015.
 \note{
 From the source documentation:
 
-This data is intended for read-only use. These data were prepared to describe 
-Forest Service administrative area boundaries. The purpose of the data is to 
-provide display, identification, and analysis tools for determining current 
-boundary information for Forest Service managers, GIS Specialists, and 
+This data is intended for read-only use. These data were prepared to describe
+Forest Service administrative area boundaries. The purpose of the data is to
+provide display, identification, and analysis tools for determining current
+boundary information for Forest Service managers, GIS Specialists, and
 others.
 
-The Forest Service has multiple types of boundaries represented by different 
-feature classes (layers): Administrative, Ownership and Proclaimed. 
+The Forest Service has multiple types of boundaries represented by different
+feature classes (layers): Administrative, Ownership and Proclaimed.
 
-1) ADMINISTRATIVE boundaries (e.g. AdministrativeForest and RangerDistrict 
-feature classes) encompass National Forest System lands managed by an 
-administrative unit. These are dynamic layers that should not be considered 
-"legal" boundaries as they are simply intended to identify the specific 
-organizational units that administer areas. As lands are acquired and 
-disposed, the administrative boundaries are adjusted to expand or shrink 
-accordingly. Please note that ranger districts are sub units of National 
-Forests. An administrative forest boundary can contain one or more Proclaimed 
-National Forests, National Grasslands, Purchase Units, Research and 
-Experimental Areas, Land Utilization Projects and various "Other" Areas. If 
-needed, OWNERSHIP boundaries (e.g. BasicOwnership and SurfaceOwnership 
-feature classes) should be reviewed along with these datasets to determine 
-parcels that are federally managed within the administrative boundaries. 
+1) ADMINISTRATIVE boundaries (e.g. AdministrativeForest and RangerDistrict
+feature classes) encompass National Forest System lands managed by an
+administrative unit. These are dynamic layers that should not be considered
+"legal" boundaries as they are simply intended to identify the specific
+organizational units that administer areas. As lands are acquired and
+disposed, the administrative boundaries are adjusted to expand or shrink
+accordingly. Please note that ranger districts are sub units of National
+Forests. An administrative forest boundary can contain one or more Proclaimed
+National Forests, National Grasslands, Purchase Units, Research and
+Experimental Areas, Land Utilization Projects and various "Other" Areas. If
+needed, OWNERSHIP boundaries (e.g. BasicOwnership and SurfaceOwnership
+feature classes) should be reviewed along with these datasets to determine
+parcels that are federally managed within the administrative boundaries.
 
-2) OWNERSHIP boundaries (e.g. BasicOwnership and SurfaceOwnership feature 
-classes) represent parcels that are tied to legal transactions of ownership. 
-These are parcels of Federal land managed by the USDA Forest Service. Please 
-note that the BasicOwnership layer is simply a dissolved version of the 
-SurfaceOwnership layer. 
+2) OWNERSHIP boundaries (e.g. BasicOwnership and SurfaceOwnership feature
+classes) represent parcels that are tied to legal transactions of ownership.
+These are parcels of Federal land managed by the USDA Forest Service. Please
+note that the BasicOwnership layer is simply a dissolved version of the
+SurfaceOwnership layer.
 
-3) PROCLAIMED boundaries (e.g. ProclaimedForest and 
-ProclaimedForest_Grassland) encompass areas of National Forest System land 
-that is set aside and reserved from public domain by executive order or 
+3) PROCLAIMED boundaries (e.g. ProclaimedForest and
+ProclaimedForest_Grassland) encompass areas of National Forest System land
+that is set aside and reserved from public domain by executive order or
 proclamation.
 }
 \references{

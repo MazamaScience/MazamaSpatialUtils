@@ -7,10 +7,10 @@
 convertOSMTimezones(nameOnly = FALSE, simplify = TRUE)
 }
 \arguments{
-\item{nameOnly}{Logical specifying whether to only return the name without 
+\item{nameOnly}{Logical specifying whether to only return the name without
 creating the file.}
 
-\item{simplify}{Logical specifying whether to create "_05", _02" and "_01" 
+\item{simplify}{Logical specifying whether to create "_05", _02" and "_01"
 versions of the file that are simplified to 5\%, 2\% and 1\%.}
 }
 \value{
@@ -20,13 +20,13 @@ Name of the dataset being created.
 Create a SpatialPolygonsDataFrame for world timezones.
 }
 \details{
-A world timezone shapefile is downloaded and converted to a 
-SpatialPolygonsDataFrame with additional columns of data. The resulting file 
-will be created in the spatial data directory which is set with 
+A world timezone shapefile is downloaded and converted to a
+SpatialPolygonsDataFrame with additional columns of data. The resulting file
+will be created in the spatial data directory which is set with
 \code{setSpatialDataDir()}.
 
-There are 2 timezones which have polygons but the associated rows in the dataframe have no data. 
-These timezones also have no \code{countryCode} assigned. We hope to rectify this in a future release. 
+There are 2 timezones which have polygons but the associated rows in the dataframe have no data.
+These timezones also have no \code{countryCode} assigned. We hope to rectify this in a future release.
 These are the missing timezones:
 \preformatted{
 > OSMTimezones@data$timezone[is.na(OSMTimezones$countryCode)]
@@ -36,20 +36,20 @@ These are the missing timezones:
 \note{
 From the source documentation:
 
-This project aims to stay up-to-date with all of the currently valid 
-timezones that are defined in the timezone database. This project also will 
-attempt to provide the most accurate possible boundaries of timezones 
+This project aims to stay up-to-date with all of the currently valid
+timezones that are defined in the timezone database. This project also will
+attempt to provide the most accurate possible boundaries of timezones
 according to community input.
 
-The underlying data is downloaded from OpenStreetMap via the overpass turbo 
-API. Various boundaries are assembled together to produce each zone with 
-various geographic operations. In numerous edge cases arbitrary boundaries 
+The underlying data is downloaded from OpenStreetMap via the overpass turbo
+API. Various boundaries are assembled together to produce each zone with
+various geographic operations. In numerous edge cases arbitrary boundaries
 get created in various zones which are noted in the timezones.json file.
 
-To maintain consistency with the timezone database, this project will only 
-create a new release after the timezone database creates a new release. If 
+To maintain consistency with the timezone database, this project will only
+create a new release after the timezone database creates a new release. If
 there are no new timezones created or deleted in a timezone database release,
-then this project will only create a release if there have been changes 
+then this project will only create a release if there have been changes
 performed to the boundary definitions of an existing zone within this project.
 }
 \references{

@@ -7,10 +7,10 @@
 convertTerrestrialEcoregions(nameOnly = FALSE, simplify = TRUE)
 }
 \arguments{
-\item{nameOnly}{Logical specifying whether to only return the name without 
+\item{nameOnly}{Logical specifying whether to only return the name without
 creating the file.}
 
-\item{simplify}{Logical specifying whether to create "_05", _02" and "_01" 
+\item{simplify}{Logical specifying whether to create "_05", _02" and "_01"
 versions of the file that are simplified to 5\%, 2\% and 1\%.}
 }
 \value{
@@ -20,28 +20,28 @@ Name of the dataset being created.
 Create a SpacialPolygonsDataFrame for Terrestrial Ecoregions.
 }
 \details{
-A Terrestrial Ecoregions shapefile is downloaded and converted to a 
-SpatialPolygonsDataFrame with additional columns of data. The resulting file 
-will be created in the spatial data directory which is set with 
+A Terrestrial Ecoregions shapefile is downloaded and converted to a
+SpatialPolygonsDataFrame with additional columns of data. The resulting file
+will be created in the spatial data directory which is set with
 \code{setSpatialDataDir()}.
 }
 \note{
 From the source documentation:
 
-This map depicts the 825 terrestrial ecoregions of the globe. Ecoregions are 
-relatively large units of land containing distinct assemblages of natural 
-communities and species, with boundaries that approximate the original extent 
-of natural communities prior to major land-use change. This comprehensive, 
-global map provides a useful framework for conducting biogeographical or 
-macroecological research, for identifying areas of outstanding biodiversity 
-and conservation priority, for assessing the representation and gaps in 
-conservation efforts worldwide, and for communicating the global distribution 
-of natural communities on earth. We have based ecoregion delineations on 
-hundreds of previous biogeographical studies, and refined and synthesized 
-existing information in regional workshops over 10 years to assemble the 
-global dataset. Ecoregions are nested within two higher-order 
-classifications: biomes (14) and biogeographic realms (8). Together, these 
-nested classification levels provide a framework for comparison among units 
+This map depicts the 825 terrestrial ecoregions of the globe. Ecoregions are
+relatively large units of land containing distinct assemblages of natural
+communities and species, with boundaries that approximate the original extent
+of natural communities prior to major land-use change. This comprehensive,
+global map provides a useful framework for conducting biogeographical or
+macroecological research, for identifying areas of outstanding biodiversity
+and conservation priority, for assessing the representation and gaps in
+conservation efforts worldwide, and for communicating the global distribution
+of natural communities on earth. We have based ecoregion delineations on
+hundreds of previous biogeographical studies, and refined and synthesized
+existing information in regional workshops over 10 years to assemble the
+global dataset. Ecoregions are nested within two higher-order
+classifications: biomes (14) and biogeographic realms (8). Together, these
+nested classification levels provide a framework for comparison among units
 and the identification of representative habitats and species assemblages.
 }
 \references{

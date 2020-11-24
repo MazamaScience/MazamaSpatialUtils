@@ -7,18 +7,18 @@
 convertHIFLDFederalLands(nameOnly = FALSE, simplify = TRUE)
 }
 \arguments{
-\item{nameOnly}{Logical specifying whether to only return the name without 
+\item{nameOnly}{Logical specifying whether to only return the name without
 creating the file.}
 
-\item{simplify}{Logical specifying whether to create "_05", _02" and "_01" 
+\item{simplify}{Logical specifying whether to create "_05", _02" and "_01"
 versions of the file that are simplified to 5\%, 2\% and 1\%.}
 }
 \value{
 Name of the dataset being created.
 }
 \description{
-Creates a SpatialPolygonsDataFrame of U.S. Federal Lands. This 
-data set consists of federally owned or administered lands and Indian 
+Creates a SpatialPolygonsDataFrame of U.S. Federal Lands. This
+data set consists of federally owned or administered lands and Indian
 Reservations of the United States, Puerto Rico, and the U.S. Virgin Islands.
 Only areas of 640 acres or more are included.
 
@@ -26,7 +26,7 @@ Source data are obtained from Homeland Infrastructure Foundation-Level Data (HIF
 \url{https://hifld-geoplatform.opendata.arcgis.com}
 }
 \details{
-The dataset can be downloaded from 
+The dataset can be downloaded from
 \url{https://opendata.arcgis.com/datasets/2bb32a6e72414e28aaf72f9dc99d3412_0.zip}
 }
 \note{

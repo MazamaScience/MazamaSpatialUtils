@@ -7,10 +7,10 @@
 convertWeatherZones(nameOnly = FALSE, simplify = TRUE)
 }
 \arguments{
-\item{nameOnly}{Logical specifying whether to only return the name without 
+\item{nameOnly}{Logical specifying whether to only return the name without
 creating the file.}
 
-\item{simplify}{Logical specifying whether to create "_05", _02" and "_01" 
+\item{simplify}{Logical specifying whether to create "_05", _02" and "_01"
 versions of the file that are simplified to 5\%, 2\% and 1\%.}
 }
 \value{
@@ -20,9 +20,9 @@ Name of the dataset being created.
 Create a SpatialPolygonsDataFrame for NWS weather forecast zones.
 }
 \details{
-A weather forecast zone shapefile is downloaded and converted to a 
-SpatialPolygonsDataFrame with additional columns of data. The resulting file 
-will be created in the spatial data directory which is set with 
+A weather forecast zone shapefile is downloaded and converted to a
+SpatialPolygonsDataFrame with additional columns of data. The resulting file
+will be created in the spatial data directory which is set with
 \code{setSpatialDataDir()}.
 
 The source data is from 2020.
@@ -30,10 +30,10 @@ The source data is from 2020.
 \note{
 From the source documentation:
 
-The NWS issues forecasts and some watches and warnings for public zones which 
-usually are the same as counties but in many cases are subsets of counties.  
-Counties are subset into zones to allow for more accurate forecasts because 
-of the differences in weather within a county due to such things as elevation 
+The NWS issues forecasts and some watches and warnings for public zones which
+usually are the same as counties but in many cases are subsets of counties.
+Counties are subset into zones to allow for more accurate forecasts because
+of the differences in weather within a county due to such things as elevation
 or proximity to large bodies of water.
 }
 \references{
