@@ -7,7 +7,7 @@
 convertHMSSmoke(datestamp = NULL, nameOnly = FALSE)
 }
 \arguments{
-\item{datestamp}{HMS datestamp in the format "YYYYMMDD"}
+\item{datestamp}{UTC datestamp in the format "YYYYMMDD"}
 
 \item{nameOnly}{logical specifying whether to only return the name without creating the file}
 }
@@ -18,14 +18,14 @@ Name of the dataset being created.
 Create a SpatialPolygonsDataFrame for US states
 }
 \details{
-A NOAA smoke shapefile from the is downloaded and converted to a 
-SpatialPolygonsDataFrame with additional columns of data. The resulting file 
-will be created in the spatial data directory which is set with 
+A NOAA smoke shapefile from the is downloaded and converted to a
+SpatialPolygonsDataFrame with additional columns of data. The resulting file
+will be created in the spatial data directory which is set with
 \code{setSpatialDataDir()}.
 }
 \note{
-Data files prior to August 13, 2007 do not contain the vital 'Density' column. For these
-files, \code{NA} will be used in the converted dataframes.
+Data files prior to August 13, 2007 do not contain the vital 'Density'
+column. For these files, \code{NA} will be used in the converted dataframes.
 }
 \references{
 \url{http://www.ospo.noaa.gov/Products/land/hms.html}

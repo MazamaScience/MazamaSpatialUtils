@@ -1,3 +1,10 @@
+# MazamaSpatialUtils 0.7.0
+
+Version 0.7 includes more datasets that have all been through identical
+processing and harmonization steps.
+
+* Minor updates to vignettes and articles.
+
 # MazamaSpatialUtils 0.6.16
 
 * Updated `convertWikipediaTimezeonTable()`.
