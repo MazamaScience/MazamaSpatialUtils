@@ -7,11 +7,11 @@
 codeToState(stateCodes, countryCodes = NULL, dataset = "NaturalEarthAdm1")
 }
 \arguments{
-\item{stateCodes}{vector of state codes to be converted}
+\item{stateCodes}{Vector of state codes.}
 
-\item{countryCodes}{ISO-3166-1 alpha-2 country codes the state might be found in}
+\item{countryCodes}{Vector of ISO-3166-1 alpha-2 country codes the state might be found in.}
 
-\item{dataset}{name of dataset containing state-level identifiers}
+\item{dataset}{Name of dataset containing state-level identifiers.}
 }
 \value{
 A vector of English state names or NA.

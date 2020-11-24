@@ -1,7 +1,10 @@
 #' @keywords locator
 #' @export
+#'
 #' @title Get polygonID from SPDF of interest
-#' @param SPDF spatial polygons dataset of interest
+#'
+#' @param SPDF Spatial polygons dataset of interest.
+#'
 #' @description Extracts the the vector of unique polygon identifiers from
 #' \code{SPDF}.
 #'
@@ -12,6 +15,7 @@
 #'
 #' This allows us to write code that aggregates by polygon without having to
 #' know whether the polygons represent, countries, timezones or HUCs, etc.
+#'
 #' @return Vector of polygon identifiers.
 getPolygonID <- function(SPDF) {
 

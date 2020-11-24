@@ -28,7 +28,7 @@ getCountryName(
 find the nearest polygon if no target polygon is found.}
 }
 \value{
-Vector of country names in English.
+Vector of English language country names.
 }
 \description{
 Uses spatial comparison to determine which country polygons the
@@ -37,9 +37,13 @@ locations fall into and returns the country name for those polygons.
 If \code{allData = TRUE}, additional data is returned.
 }
 \examples{
+library(MazamaSpatialUtils)
+
 longitude <- seq(0, 50)
 latitude <- seq(0, 50)
+
 getCountryName(longitude, latitude)
+
 }
 \references{
 \url{http://www.naturalearthdata.com/downloads/10m-cultural-vectors/}

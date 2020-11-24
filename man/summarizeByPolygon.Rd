@@ -30,12 +30,12 @@ summarizeByPolygon(
 \item{varName}{variable name assigned to the summary variable}
 }
 \value{
-A dataframe with the same rows as `SPDF@data` but containing only two 
+A dataframe with the same rows as `SPDF@data` but containing only two
 columns: `polygonID` and the summary value.
 }
 \description{
-Given vectors of longitudes, latitudes and values, this function 
-will summarize given values by spatial polygon using the \code{FUN} and return 
+Given vectors of longitudes, latitudes and values, this function
+will summarize given values by spatial polygon using the \code{FUN} and return
 a dataframe with polygon IDs and summary values.
 }
 \note{

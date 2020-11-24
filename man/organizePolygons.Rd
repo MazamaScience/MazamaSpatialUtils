@@ -4,14 +4,14 @@
 \alias{organizePolygons}
 \title{Organize ungrouped polygons}
 \usage{
-organizePolygons(dataset, uniqueID, sumColumns = NULL)
+organizePolygons(SPDF, uniqueID, sumColumns = NULL)
 }
 \arguments{
-\item{dataset}{object of class SpatialPolygonsDataFrame}
+\item{SPDF}{Object of class SpatialPolygonsDataFrame.}
 
-\item{uniqueID}{unique identifier to determine which values are duplicated}
+\item{uniqueID}{Unique identifier to determine which values are duplicated.}
 
-\item{sumColumns}{vector of column names to be summed}
+\item{sumColumns}{Vector of column names to be summed.}
 }
 \value{
 SpatialPolygonsDataFrame composed of grouped polygons.
@@ -20,10 +20,8 @@ SpatialPolygonsDataFrame composed of grouped polygons.
 Determines if the SpatialPolygonsDataFrame is grouped. If ungrouped,
 function will group duplicated values based on the provided unique identifier.
 
-If sumColumns is NULL and there are multiple rows that aren't duplicated but have
-the same 'uniqueID', the original SpatialPolygonsDataFrame will be returned.
-}
-\examples{
-SPDF <- organizePolygons(SimpleTimezones, "timezone", NULL)
+If \code{sumColumns} is NULL and there are multiple rows that aren't
+duplicated but have the same \code{uniqueID}, the original
+SpatialPolygonsDataFrame will be returned.
 }
 \keyword{internal}

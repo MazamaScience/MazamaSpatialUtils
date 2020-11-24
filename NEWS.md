@@ -9,7 +9,8 @@ Improvements include:
 
 * Fewer package dependencies.
 * Minor updates to vignettes and articles.
-* Consistent use of `longitude` and `latitude` over `lon` and `lat`.
+* Consistent replacement of `lon` and `lat with `longitude` and `latitude` in
+all functions.
 
 # MazamaSpatialUtils 0.6.16
 

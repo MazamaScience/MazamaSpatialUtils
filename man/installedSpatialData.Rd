@@ -14,7 +14,7 @@ Vector of dataset names().
 }
 \description{
 Searches the directory set with \code{\link{setSpatialDataDir}}
-for locally installed spatial data and returns a list of dataset names that 
+for locally installed spatial data and returns a list of dataset names that
 can be used with \code{\link{loadSpatialData}}.
 
 If \code{verbose = TRUE}, a brief description is provided for each locally

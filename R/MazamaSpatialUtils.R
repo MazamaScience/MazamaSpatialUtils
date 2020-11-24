@@ -63,7 +63,8 @@ NULL
 #' @seealso setSpatialDataDir
 getSpatialDataDir <- function() {
   if (is.null(spatialEnv$dataDir)) {
-    stop('No data directory found. Please set a data directory with setSpatialDataDir("YOUR_DATA_DIR").',call.=FALSE)
+    stop('No data directory found. Please set a data directory with setSpatialDataDir("YOUR_DATA_DIR").',
+         call. = FALSE)
   } else {
     return(spatialEnv$dataDir)
   }
@@ -72,7 +73,7 @@ getSpatialDataDir <- function() {
 #' @keywords environment
 #' @export
 #' @title Set package data directory
-#' @param dataDir directory where spatial datasets are created
+#' @param dataDir Directory where spatial datasets are created.
 #' @description Sets the package data directory where spatial data is located.
 #' If the directory does not exist, it will be created.
 #' @return Silently returns previous value of data directory.
@@ -112,7 +113,7 @@ removeSpatialDataDir <- function() {
 #' @keywords conversion
 #' @export
 #' @title Convert from ISO2 to ISO3 country codes
-#' @param countryCodes vector of country codes to be converted
+#' @param countryCodes Vector of ISO 3166-1 alpha-2 country codes.
 #' @description Converts a vector of ISO 3166-1 alpha-2 codes to the
 #' corresponding ISO 3166-1 alpha-3 codes.
 #' @return A vector of ISO3 country codes
@@ -126,14 +127,14 @@ iso2ToIso3 <- function(countryCodes) {
     )
     return(iso3Codes)
   } else {
-    stop('countryCodes must be all ISO 3166-1 alpha-2', call.=FALSE)
+    stop('countryCodes must be all ISO 3166-1 alpha-2', call. = FALSE)
   }
 }
 
 #' @keywords conversion
 #' @export
 #' @title Convert from ISO3 to ISO2 country codes
-#' @param countryCodes vector of country codes to be converted
+#' @param countryCodes Vector of ISO 3166-1 alpha-3 codes.
 #' @description Converts a vector of ISO 3166-1 alpha-3 codes to the
 #' corresponding ISO 3166-1 alpha-2 codes.
 #' @return A vector of ISO2 country codes
@@ -147,14 +148,14 @@ iso3ToIso2 <- function(countryCodes) {
     )
     return(iso2Codes)
   } else {
-    stop('countryCodes must be all ISO 3166-1 alpha-3', call.=FALSE)
+    stop('countryCodes must be all ISO 3166-1 alpha-3', call. = FALSE)
   }
 }
 
 #' @keywords conversion
 #' @export
 #' @title Convert country codes to country names
-#' @param countryCodes vector of country codes to be converted
+#' @param countryCodes Vector of ISO 3166-1 alpha-2 country codes.
 #' @description Converts a vector of ISO 3166-1 alpha-2 codes to the
 #' corresponding English names.
 #' @return A vector of English country names or NA.
@@ -169,7 +170,7 @@ codeToCountry <- function(countryCodes) {
 #' @keywords conversion
 #' @export
 #' @title Convert country names to country codes
-#' @param countryNames vector of country names to be converted
+#' @param countryNames Vector of English language country names.
 #' @description Converts a vector of English country names to the corresponding
 #' ISO 3166-1 alpha-2 codes.
 #' @return A vector of ISO 3166-1 alpha-2 codes or NA.
@@ -184,9 +185,9 @@ countryToCode <- function(countryNames) {
 #' @keywords conversion
 #' @export
 #' @title Convert state codes to state nnames
-#' @param stateCodes vector of state codes to be converted
-#' @param countryCodes ISO-3166-1 alpha-2 country codes the state might be found in
-#' @param dataset name of dataset containing state-level identifiers
+#' @param stateCodes Vector of state codes.
+#' @param countryCodes Vector of ISO-3166-1 alpha-2 country codes the state might be found in.
+#' @param dataset Name of dataset containing state-level identifiers.
 #' @description Converts a vector of ISO 3166-2 alpha-2 state codes to the
 #' corresponding English names.
 #' @details For this function to work, you must first run
@@ -238,9 +239,9 @@ codeToState <- function(
 #' @keywords conversion
 #' @export
 #' @title Convert state names to state codes
-#' @param stateNames state names to be converted
-#' @param countryCodes ISO 3166-2 alpha-2 country codes the state might be found in
-#' @param dataset name of dataset containing state-level identifiers
+#' @param stateNames Vector of state names to be converted.
+#' @param countryCodes Vector of ISO 3166-2 alpha-2 country codes the state might be found in.
+#' @param dataset Name of dataset containing state-level identifiers.
 #' @description Converts a vector of state names to an ISO 3166-2 two character
 #' state codes.
 #' @details For this function to work, you must first run
@@ -263,7 +264,7 @@ stateToCode <- function(
   # Sanity check
   if ( !exists(dataset) ) {
     stop('Missing database. Please loadSpatialData("', dataset, '")',
-         call.=FALSE)
+         call. = FALSE)
   }
 
   SPDF <- get(dataset)
@@ -288,9 +289,9 @@ stateToCode <- function(
 
 #' @export
 #' @title Simplify SpatialPolygonsDataFrame
-#' @param SPDF object of class SpatialPolygonsDataFrame
-#' @param keep proportion of points to retain (0-1; default 0.05)
-#' @param ... arguments passed to \code{rmapshaper::ms_simplify()}
+#' @param SPDF Object of class SpatialPolygonsDataFrame.
+#' @param keep Proportion of points to retain (0-1; default 0.05)
+#' @param ... Arguments passed to \code{rmapshaper::ms_simplify()}
 #' @description Simplify a spatial polygons dataframe. This is a convenience
 #' wrapper for \code{rmapshaper::ms_simplify()}
 #' @return A simplified spatial polygons dataframe.
@@ -318,10 +319,10 @@ simplify <- function(
 
 #' @export
 #' @title Aggregate shapes in a SpatialPolygonsDataFrame
-#' @param SPDF object of class SpatialPolygonsDataFrame
-#' @param field the field to dissolve on
-#' @param sum_fields fields to sum
-#' @param copy_fields fields to copy. The first instance of each field will be
+#' @param SPDF Object of class SpatialPolygonsDataFrame.
+#' @param field Name of the field to dissolve on.
+#' @param sum_fields Names of fields to sum.
+#' @param copy_fields Names of fields to copy. The first instance of each field will be
 #' copied to the aggregated feature
 #' @param ... arguments passed to \code{rmapshaper::ms_dissolve()}
 #' @description Aggregate shapes in a spatial polygons dataframe. This is a

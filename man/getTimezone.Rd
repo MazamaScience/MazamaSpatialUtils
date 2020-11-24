@@ -5,8 +5,8 @@
 \title{Return Olson timezones at specified locations}
 \usage{
 getTimezone(
-  lon,
-  lat,
+  longitude,
+  latitude,
   dataset = "SimpleTimezones",
   countryCodes = NULL,
   allData = FALSE,
@@ -14,35 +14,39 @@ getTimezone(
 )
 }
 \arguments{
-\item{lon}{vector of longitudes in decimal degrees}
+\item{longitude}{Vector of longitudes in decimal degrees East.}
 
-\item{lat}{vector of latitudes in decimal degrees}
+\item{latitude}{Vector of latitudes in decimal degrees North.}
 
-\item{dataset}{name of spatial dataset to use}
+\item{dataset}{Name of spatial dataset to use.}
 
-\item{countryCodes}{vector of countryCodes}
+\item{countryCodes}{Vector of ISO 3166-1 alpha-2 country codes.}
 
-\item{allData}{logical specifying whether a full dataframe should be returned}
+\item{allData}{Logical specifying whether a full dataframe should be returned.}
 
-\item{useBuffering}{logical flag specyfing the use of location buffering to 
-find the nearest polygon if not target polygon is found}
+\item{useBuffering}{Logical flag specifying the use of location buffering to
+find the nearest polygon if no target polygon is found.}
 }
 \value{
 Vector of Olson timezones.
 }
 \description{
-Uses spatial comparison to determine which timezone polygons the 
+Uses spatial comparison to determine which timezone polygons the
 locations fall into and returns the Olson timezone strings for those polygons.
-    
-Specification of \code{countryCodes} limits spatial searching to the 
+
+Specification of \code{countryCodes} limits spatial searching to the
 specified countries and greatly improves performance.
-    
+
 If \code{allData=TRUE}, additional data is returned.
 }
 \examples{
-lon <- seq(-120,-60,5)
-lat <- seq(20,80,5)
-getTimezone(lon,lat)
+library(MazamaSpatialUtils)
+
+longitude <- seq(-120,-60,5)
+latitude <- seq(20,80,5)
+
+getTimezone(longitude, latitude)
+
 }
 \references{
 \url{http://efele.net/maps/tz/}

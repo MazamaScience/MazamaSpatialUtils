@@ -1,13 +1,17 @@
 #' @keywords locator
 #' @export
+#'
 #' @title Return spatial data associated with a set of locations
-#' @param lon Vector of longitudes in decimal degrees.
-#' @param lat Vector of latitudes in decimal degrees.
+#'
+#' @param longitude Vector of longitudes in decimal degrees East.
+#' @param latitude Vector of latitudes in decimal degrees North.
 #' @param SPDF Object of class SpatialPolygonsDataFrame.
 #' @param useBuffering Logical flag specifying the use of location buffering to
-#' find the nearest polygon if not target polygon is found.
+#' find the nearest polygon if no target polygon is found.
 #' @param verbose Logical flag controlling detailed progress statements.
+#'
 #' @return Vector or dataframe of data.
+#'
 #' @description All locations are first converted to \code{SpatialPoints}
 #' objects. The \pkg{sp::over()} function is then used to determine which
 #' polygon from \code{SPDF} each location falls in. The dataframe row associated
@@ -24,12 +28,12 @@
 #' \code{NA} (or data frame row with all \code{NA}s) is returned for that
 #' location.
 #'
-#' Missing or invalid values in the incoming \code{lon} or \code{lat} vectors
+#' Missing or invalid values in the incoming \code{longitude} or \code{latitude} vectors
 #' result in \code{NA}s at those positions in the returned vector or data frame.
 
 getSpatialData <- function(
-  lon,
-  lat,
+  longitude,
+  latitude,
   SPDF,
   useBuffering = FALSE,
   verbose = FALSE
@@ -37,30 +41,30 @@ getSpatialData <- function(
 
   # ----- Validate parameters --------------------------------------------------
 
-  # Sanity check -- same number of lats and lons
-  if ( length(lon) != length(lat) ) {
-    stop("Arguments 'lon' and 'lat' must have the same length.")
+  # Sanity check -- same number of latitudes and longitudes
+  if ( length(longitude) != length(latitude) ) {
+    stop("Arguments 'longitude' and 'latitude' must have the same length.")
   }
 
-  # Convert any lon into the range -180:180
-  # lon <- ( (((lon + 360) %% 360) + 180) %% 360 ) - 180
+  # Convert any longitude into the range -180:180
+  # longitude <- ( (((longitude + 360) %% 360) + 180) %% 360 ) - 180
 
-  # Check lon, lat ranges
-  if ( min(lon, na.rm = TRUE) < -180 ||
-       max(lon, na.rm = TRUE) > 180) {
-    stop("'lon' must be specified in the range -180:180.")
+  # Check longitude, latitude ranges
+  if ( min(longitude, na.rm = TRUE) < -180 ||
+       max(longitude, na.rm = TRUE) > 180) {
+    stop("'longitude' must be specified in the range -180:180.")
   }
-  if ( min(lat, na.rm = TRUE) < -90 ||
-       max(lat, na.rm = TRUE) > 90 ) {
-    stop("'lat' must be specified in the range -90:90.")
+  if ( min(latitude, na.rm = TRUE) < -90 ||
+       max(latitude, na.rm = TRUE) > 90 ) {
+    stop("'latitude' must be specified in the range -90:90.")
   }
 
   # ----- Get the data ---------------------------------------------------------
 
-  # Determine which lon/lat pairs are valid and non-missing
-  validIndices <- intersect(which(lon <= 180 & lon >= -180),
-                            which(lat <= 90  & lat >= -90))
-  validPairs <- list(lon[validIndices], lat[validIndices])
+  # Determine which longitude/latitude pairs are valid and non-missing
+  validIndices <- intersect(which(longitude <= 180 & longitude >= -180),
+                            which(latitude <= 90  & latitude >= -90))
+  validPairs <- list(longitude[validIndices], latitude[validIndices])
 
   # Create the array of locations and use the same projection as SPDF
   location <- sp::SpatialPoints(validPairs, proj4string = SPDF@proj4string)
@@ -103,7 +107,7 @@ getSpatialData <- function(
     for ( pointIndex in badPointsIndex ) {
 
       if (verbose)
-        print(paste0('pointIndex = ',pointIndex))
+        print(paste0('pointIndex = ', pointIndex))
 
       # Select the individual point we are analyzing
       pointOfInterest <- location[pointIndex]
@@ -112,7 +116,7 @@ getSpatialData <- function(
 
         if (verbose)
           print(paste0('Using radius = ', radius,
-                       ' to search through ',length(SpatialPolygonsList),
+                       ' to search through ', length(SpatialPolygonsList),
                        ' polygons ...'))
 
         # TODO:  Deal with warning messages like:
@@ -158,7 +162,7 @@ getSpatialData <- function(
   }
 
   # Create a data frame for all locations, valid and not valid
-  locationsDF <- data.frame(matrix(NA, ncol = ncol(validDF), nrow = length(lon)))
+  locationsDF <- data.frame(matrix(NA, ncol = ncol(validDF), nrow = length(longitude)))
   colnames(locationsDF) <- colnames(validDF)
   # Place the valid points in their correct position in the locations data frame
   for (i in seq_along(validIndices)) {

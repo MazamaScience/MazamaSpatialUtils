@@ -18,9 +18,13 @@
 #' @return Vector of ISO-3166-1 alpha-2 country codes.
 #'
 #' @examples
+#' library(MazamaSpatialUtils)
+#'
 #' longitude <- seq(0, 50)
 #' latitude <- seq(0, 50)
+#'
 #' getCountryCode(longitude, latitude)
+#'
 #' @references \url{http://www.naturalearthdata.com/downloads/10m-cultural-vectors/}
 #' @seealso SimpleCountries
 #' @seealso getSpatialData

@@ -4,17 +4,23 @@
 \alias{getSpatialData}
 \title{Return spatial data associated with a set of locations}
 \usage{
-getSpatialData(lon, lat, SPDF, useBuffering = FALSE, verbose = FALSE)
+getSpatialData(
+  longitude,
+  latitude,
+  SPDF,
+  useBuffering = FALSE,
+  verbose = FALSE
+)
 }
 \arguments{
-\item{lon}{Vector of longitudes in decimal degrees.}
+\item{longitude}{Vector of longitudes in decimal degrees East.}
 
-\item{lat}{Vector of latitudes in decimal degrees.}
+\item{latitude}{Vector of latitudes in decimal degrees North.}
 
 \item{SPDF}{Object of class SpatialPolygonsDataFrame.}
 
 \item{useBuffering}{Logical flag specifying the use of location buffering to
-find the nearest polygon if not target polygon is found.}
+find the nearest polygon if no target polygon is found.}
 
 \item{verbose}{Logical flag controlling detailed progress statements.}
 }
@@ -39,7 +45,7 @@ If a buffered location is more than 200km away from any polygon, a value of
 \code{NA} (or data frame row with all \code{NA}s) is returned for that
 location.
 
-Missing or invalid values in the incoming \code{lon} or \code{lat} vectors
+Missing or invalid values in the incoming \code{longitude} or \code{latitude} vectors
 result in \code{NA}s at those positions in the returned vector or data frame.
 }
 \keyword{locator}
