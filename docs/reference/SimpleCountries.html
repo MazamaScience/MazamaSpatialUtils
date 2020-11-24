@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>World country polygons — SimpleCountries • MazamaSpatialUtils</title>
+<title>Simplified spatial dataset of country boundaries. — SimpleCountries • MazamaSpatialUtils</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,10 +46,12 @@
 
 
 
-<meta property="og:title" content="World country polygons — SimpleCountries" />
-<meta property="og:description" content="SimpleCountries is a simplified world borders dataset suitable for global maps
-and quick spatial searches. This dataset is distributed with the package and is used by
-default whenever a dataset with country polygons is required." />
+<meta property="og:title" content="Simplified spatial dataset of country boundaries. — SimpleCountries" />
+<meta property="og:description" content="SimpleCountries is a simplified world borders dataset suitable
+for global maps and quick spatial searches. This dataset is distributed with
+the package and is can be used with getCountry(),
+getCountryCode() and getCountryName() when restricting searches
+to land-based locations." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -82,7 +84,7 @@ default whenever a dataset with country polygons is required." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
       </span>
     </div>
 
@@ -148,28 +150,42 @@ default whenever a dataset with country polygons is required." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>World country polygons</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/MazamaSpatialUtils/blob/master/R/MazamaSpatialUtils.R'><code>R/MazamaSpatialUtils.R</code></a></small>
+    <h1>Simplified spatial dataset of country boundaries.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/MazamaSpatialUtils/blob/master/R/data.R'><code>R/data.R</code></a></small>
     <div class="hidden name"><code>SimpleCountries.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>SimpleCountries is a simplified world borders dataset suitable for global maps
-and quick spatial searches. This dataset is distributed with the package and is used by
-default whenever a dataset with country polygons is required.</p>
+    <p>SimpleCountries is a simplified world borders dataset suitable
+for global maps and quick spatial searches. This dataset is distributed with
+the package and is can be used with <code><a href='getCountry.html'>getCountry()</a></code>,
+<code><a href='getCountryCode.html'>getCountryCode()</a></code> and <code><a href='getCountryName.html'>getCountryName()</a></code> when restricting searches
+to land-based locations.</p>
     </div>
 
+    <pre class="usage"><span class='va'>SimpleCountries</span></pre>
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A SpatialPolygonsDataFrame with 246 elements and 7 columns of data.</p>
+    <p>A SpatialPolygonsDataFrame with 246 records and 6 columns of data.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This dataset is equivalent to TMWorldBordersSimple but with fewer columns of data.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>convertTMWorldBordersSimple</p></div>
+    <div class='dont-index'><p>convertTMWorldBordersSimple</p>
+<p>This dataset was generated on 2020-11-19 by running:</p>
+<pre>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/MazamaScience/MazamaSpatialUtils'>MazamaSpatialUtils</a></span><span class='op'>)</span>
+<span class='fu'><a href='setSpatialDataDir.html'>setSpatialDataDir</a></span><span class='op'>(</span><span class='st'>"~/Data/Spatial"</span><span class='op'>)</span>
+
+<span class='fu'><a href='convertTMWorldBordersSimple.html'>convertTMWorldBordersSimple</a></span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='fu'><a href='loadSpatialData.html'>loadSpatialData</a></span><span class='op'>(</span><span class='st'>"TMWorldBordersSimple"</span><span class='op'>)</span>
+
+</pre>
+</div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

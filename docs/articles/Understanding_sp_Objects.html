@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
       </span>
     </div>
 
@@ -181,11 +181,11 @@
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Let's look a "counts"</span>
 <span class="va">h</span><span class="op">$</span><span class="va">counts</span></code></pre></div>
-<pre><code>## [1]  3  9 10 31 20  9 12  4  2</code></pre>
+<pre><code>##  [1]  1  5  5 14 22 14 22  9  6  2</code></pre>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Or, altenatively</span>
 <span class="va">h</span><span class="op">[[</span><span class="st">"counts"</span><span class="op">]</span><span class="op">]</span></code></pre></div>
-<pre><code>## [1]  3  9 10 31 20  9 12  4  2</code></pre>
+<pre><code>##  [1]  1  5  5 14 22 14 22  9  6  2</code></pre>
 </div>
 <div id="calling-s3-methods" class="section level3">
 <h3 class="hasAnchor">
@@ -259,7 +259,7 @@
 <div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">a</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "data"        "polygons"    "plotOrder"   "bbox"        "proj4string"
-## [6] "class"       "comment"</code></pre>
+## [6] "class"</code></pre>
 </div>
 <div id="accessing-s4-components" class="section level3">
 <h3 class="hasAnchor">
@@ -284,44 +284,36 @@
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Compare 'data' and 'polygons' slots</span>
 <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">SimpleCountries</span><span class="op">@</span><span class="va">data</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 187</code></pre>
+<pre><code>## [1] 246</code></pre>
 <div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="va">SimpleCountries</span><span class="op">@</span><span class="va">polygons</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] 187</code></pre>
+<pre><code>## [1] 246</code></pre>
 <div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Look at the first record</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span><span class="op">(</span><span class="va">SimpleCountries</span><span class="op">@</span><span class="va">data</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span><span class="op">)</span></code></pre></div>
-<pre><code>## 'data.frame':    1 obs. of  12 variables:
-##  $ FIPS          : chr "AG"
-##  $ countryCode   : chr "DZ"
-##  $ ISO3          : chr "DZA"
-##  $ UN_country    : int 12
-##  $ countryName   : chr "Algeria"
-##  $ area          : num 2.38e+12
-##  $ population2005: chr "32854159"
-##  $ UN_region     : int 2
-##  $ UN_subregion  : int 15
-##  $ longitude     : num 2.63
-##  $ latitude      : num 28.2
-##  $ polygonID     : chr "DZ"</code></pre>
+<pre><code>## 'data.frame':    1 obs. of  6 variables:
+##  $ countryCode: chr "AG"
+##  $ countryName: chr "Antigua and Barbuda"
+##  $ ISO3       : chr "ATG"
+##  $ FIPS       : chr "AC"
+##  $ UN_region  : int 19
+##  $ polygonID  : chr "AG"</code></pre>
 <div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># We can also use normal dataframe syntax to access columns of data</span>
 <span class="va">SimpleCountries</span><span class="op">$</span><span class="va">countryName</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span></code></pre></div>
-<pre><code>## [1] "Algeria"</code></pre>
+<pre><code>## [1] "Antigua and Barbuda"</code></pre>
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Magic happens when we plot using normal dataframe syntax</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">SimpleCountries</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span><span class="op">)</span></code></pre></div>
-<pre><code>## Warning in wkt(obj): CRS object has no comment</code></pre>
 <p><img src="Understanding_sp_Objects_files/figure-html/SPDF-1.png" width="672"></p>
-<div class="sourceCode" id="cb49"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Here is a more advanced example using pipes</span>
 <span class="va">SimpleCountries</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">UN_region</span> <span class="op">==</span> <span class="fl">150</span><span class="op">)</span> <span class="op">%&gt;%</span> 
   <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">countryCode</span> <span class="op">!=</span> <span class="st">"RU"</span><span class="op">)</span> <span class="op">%&gt;%</span> 
-  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<pre><code>## Warning in wkt(obj): CRS object has no comment</code></pre>
-<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">SimpleCountries</span> <span class="op">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="op">)</span>
+
+<span class="va">SimpleCountries</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/r/base/subset.html">subset</a></span><span class="op">(</span><span class="va">countryCode</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"DE"</span>, <span class="st">"AT"</span>, <span class="st">"CH"</span><span class="op">)</span><span class="op">)</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span>col <span class="op">=</span> <span class="st">'red'</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 

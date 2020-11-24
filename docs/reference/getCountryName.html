@@ -47,8 +47,8 @@
 
 
 <meta property="og:title" content="Return country names at specified locations — getCountryName" />
-<meta property="og:description" content="Uses spatial comparison to determine which country polygons the 
-locations fall into and returns the country name for those polygons.    
+<meta property="og:description" content="Uses spatial comparison to determine which country polygons the
+locations fall into and returns the country name for those polygons.
 If allData = TRUE, additional data is returned." />
 <meta property="og:image" content="/logo.png" />
 
@@ -82,7 +82,7 @@ If allData = TRUE, additional data is returned." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
       </span>
     </div>
 
@@ -154,14 +154,14 @@ If allData = TRUE, additional data is returned." />
     </div>
 
     <div class="ref-description">
-    <p>Uses spatial comparison to determine which country polygons the 
-locations fall into and returns the country name for those polygons.</p>    
+    <p>Uses spatial comparison to determine which country polygons the
+locations fall into and returns the country name for those polygons.</p>
 <p>If <code>allData = TRUE</code>, additional data is returned.</p>
     </div>
 
     <pre class="usage"><span class='fu'>getCountryName</span><span class='op'>(</span>
-  <span class='va'>lon</span>,
-  <span class='va'>lat</span>,
+  <span class='va'>longitude</span>,
+  <span class='va'>latitude</span>,
   dataset <span class='op'>=</span> <span class='st'>"SimpleCountriesEEZ"</span>,
   countryCodes <span class='op'>=</span> <span class='cn'>NULL</span>,
   allData <span class='op'>=</span> <span class='cn'>FALSE</span>,
@@ -172,35 +172,35 @@ locations fall into and returns the country name for those polygons.</p>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>lon</th>
-      <td><p>vector of longitudes in decimal degrees</p></td>
+      <th>longitude</th>
+      <td><p>Vector of longitudes in decimal degrees East.</p></td>
     </tr>
     <tr>
-      <th>lat</th>
-      <td><p>vector of latitudes in decimal degrees</p></td>
+      <th>latitude</th>
+      <td><p>Vector of latitudes in decimal degrees North.</p></td>
     </tr>
     <tr>
       <th>dataset</th>
-      <td><p>name of spatial dataset to use</p></td>
+      <td><p>Name of spatial dataset to use.</p></td>
     </tr>
     <tr>
       <th>countryCodes</th>
-      <td><p>vector of countryCodes</p></td>
+      <td><p>Vector of ISO 3166-1 alpha-2 country codes.</p></td>
     </tr>
     <tr>
       <th>allData</th>
-      <td><p>logical specifying whether a full dataframe should be returned</p></td>
+      <td><p>Logical specifying whether a full dataframe should be returned.</p></td>
     </tr>
     <tr>
       <th>useBuffering</th>
-      <td><p>logical flag specifying the use of location buffering to 
-find the nearest polygon if no target polygon is found</p></td>
+      <td><p>Logical flag specifying the use of location buffering to
+find the nearest polygon if no target polygon is found.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Vector of country names in English.</p>
+    <p>Vector of English language country names.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p><a href='http://www.naturalearthdata.com/downloads/10m-cultural-vectors/'>http://www.naturalearthdata.com/downloads/10m-cultural-vectors/</a></p>
@@ -210,9 +210,12 @@ find the nearest polygon if no target polygon is found</p></td>
 <p>getSpatialData</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>lon</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>50</span><span class='op'>)</span>
-<span class='va'>lat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>50</span><span class='op'>)</span>
-<span class='fu'>getCountryName</span><span class='op'>(</span><span class='va'>lon</span>, <span class='va'>lat</span><span class='op'>)</span>
+    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/MazamaScience/MazamaSpatialUtils'>MazamaSpatialUtils</a></span><span class='op'>)</span>
+
+<span class='va'>longitude</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>50</span><span class='op'>)</span>
+<span class='va'>latitude</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>0</span>, <span class='fl'>50</span><span class='op'>)</span>
+
+<span class='fu'>getCountryName</span><span class='op'>(</span><span class='va'>longitude</span>, <span class='va'>latitude</span><span class='op'>)</span>
 </div><div class='output co'>#&gt;  [1] NA           NA           NA           "Nigeria"    "Nigeria"   
 #&gt;  [6] "Nigeria"    "Nigeria"    "Nigeria"    "Nigeria"    "Nigeria"   
 #&gt; [11] "Nigeria"    "Nigeria"    "Nigeria"    "Nigeria"    "Chad"      
@@ -223,7 +226,8 @@ find the nearest polygon if no target polygon is found</p></td>
 #&gt; [36] "Syria"      "Turkey"     "Turkey"     "Turkey"     "Turkey"    
 #&gt; [41] "Turkey"     "Turkey"     "Georgia"    "Georgia"    "Russia"    
 #&gt; [46] "Russia"     "Russia"     "Russia"     "Kazakhstan" "Kazakhstan"
-#&gt; [51] "Kazakhstan"</div></pre>
+#&gt; [51] "Kazakhstan"</div><div class='input'>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

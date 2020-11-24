@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>World country EEZ polygons — SimpleCountriesEEZ • MazamaSpatialUtils</title>
+<title>Simplified spatial dataset of EEZ/country combined boundaries. — SimpleCountriesEEZ • MazamaSpatialUtils</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,11 +46,12 @@
 
 
 
-<meta property="og:title" content="World country EEZ polygons — SimpleCountriesEEZ" />
+<meta property="og:title" content="Simplified spatial dataset of EEZ/country combined boundaries. — SimpleCountriesEEZ" />
 <meta property="og:description" content="SimpleCountriesEEZ is a simplified world borders dataset with a
 200 mile coastal buffer corresponding to Exclusive Economic Zones, suitable for
-quick spatial searches. This dataset is distributed with the package and is used by
-default whenever a dataset with country polygons is required." />
+quick spatial searches. This dataset is distributed with the package and is
+used by default in getCountry(), getCountryCode() and
+getCountryName()." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -83,7 +84,7 @@ default whenever a dataset with country polygons is required." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
       </span>
     </div>
 
@@ -149,29 +150,44 @@ default whenever a dataset with country polygons is required." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>World country EEZ polygons</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/MazamaSpatialUtils/blob/master/R/MazamaSpatialUtils.R'><code>R/MazamaSpatialUtils.R</code></a></small>
+    <h1>Simplified spatial dataset of EEZ/country combined boundaries.</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/MazamaSpatialUtils/blob/master/R/data.R'><code>R/data.R</code></a></small>
     <div class="hidden name"><code>SimpleCountriesEEZ.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>SimpleCountriesEEZ is a simplified world borders dataset with a
 200 mile coastal buffer corresponding to Exclusive Economic Zones, suitable for
-quick spatial searches. This dataset is distributed with the package and is used by
-default whenever a dataset with country polygons is required.</p>
+quick spatial searches. This dataset is distributed with the package and is
+used by default in <code><a href='getCountry.html'>getCountry()</a></code>, <code><a href='getCountryCode.html'>getCountryCode()</a></code> and
+<code><a href='getCountryName.html'>getCountryName()</a></code>.</p>
     </div>
 
+    <pre class="usage"><span class='va'>SimpleCountriesEEZ</span></pre>
 
 
     <h2 class="hasAnchor" id="format"><a class="anchor" href="#format"></a>Format</h2>
 
-    <p>A SpatialPolygonsDataFrame with 261 elements and 6 columns of data.</p>
+    <p>A SpatialPolygonsDataFrame with 319 records and 5 columns of data.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>This dataset is equivalent to EEZCountries but with fewer columns of data.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>convertEEZCountries</p></div>
+    <div class='dont-index'><p>convertEEZCountries</p>
+<p>This dataset was generated on 2020-11-18 by running:</p>
+<pre>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/MazamaScience/MazamaSpatialUtils'>MazamaSpatialUtils</a></span><span class='op'>)</span>
+<span class='fu'><a href='setSpatialDataDir.html'>setSpatialDataDir</a></span><span class='op'>(</span><span class='st'>"~/Data/Spatial"</span><span class='op'>)</span>
+
+<span class='fu'><a href='convertEEZCountries.html'>convertEEZCountries</a></span><span class='op'>(</span><span class='op'>)</span>
+
+<span class='fu'><a href='loadSpatialData.html'>loadSpatialData</a></span><span class='op'>(</span><span class='st'>"EEZCountries_05"</span><span class='op'>)</span>
+
+<span class='va'>SimpleCountriesEEZ</span> <span class='op'>&lt;-</span> <span class='va'>EEZCountries_05</span><span class='op'>[</span>,<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"countryCode"</span>, <span class='st'>"countryName"</span>, <span class='st'>"polygonID"</span><span class='op'>)</span><span class='op'>]</span>
+<span class='fu'><a href='https://rdrr.io/r/base/save.html'>save</a></span><span class='op'>(</span><span class='va'>SimpleCountriesEEZ</span>, file <span class='op'>=</span> <span class='st'>"data/SimpleCountriesEEZ.rda"</span><span class='op'>)</span>
+</pre>
+</div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

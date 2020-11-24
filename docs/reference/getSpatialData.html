@@ -83,7 +83,7 @@ with each polygon is then associated with each location." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
       </span>
     </div>
 
@@ -161,18 +161,24 @@ polygon from <code>SPDF</code> each location falls in. The dataframe row associa
 with each polygon is then associated with each location.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>getSpatialData</span><span class='op'>(</span><span class='va'>lon</span>, <span class='va'>lat</span>, <span class='va'>SPDF</span>, useBuffering <span class='op'>=</span> <span class='cn'>FALSE</span>, verbose <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>getSpatialData</span><span class='op'>(</span>
+  <span class='va'>longitude</span>,
+  <span class='va'>latitude</span>,
+  <span class='va'>SPDF</span>,
+  useBuffering <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  verbose <span class='op'>=</span> <span class='cn'>FALSE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>lon</th>
-      <td><p>Vector of longitudes in decimal degrees.</p></td>
+      <th>longitude</th>
+      <td><p>Vector of longitudes in decimal degrees East.</p></td>
     </tr>
     <tr>
-      <th>lat</th>
-      <td><p>Vector of latitudes in decimal degrees.</p></td>
+      <th>latitude</th>
+      <td><p>Vector of latitudes in decimal degrees North.</p></td>
     </tr>
     <tr>
       <th>SPDF</th>
@@ -181,7 +187,7 @@ with each polygon is then associated with each location.</p>
     <tr>
       <th>useBuffering</th>
       <td><p>Logical flag specifying the use of location buffering to
-find the nearest polygon if not target polygon is found.</p></td>
+find the nearest polygon if no target polygon is found.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
@@ -204,7 +210,7 @@ polygon at the following radii: 1km, 2km, 5km, 10km, 20km, 50km, 100km, 200km.
 If a buffered location is more than 200km away from any polygon, a value of
 <code>NA</code> (or data frame row with all <code>NA</code>s) is returned for that
 location.</p>
-<p>Missing or invalid values in the incoming <code>lon</code> or <code>lat</code> vectors
+<p>Missing or invalid values in the incoming <code>longitude</code> or <code>latitude</code> vectors
 result in <code>NA</code>s at those positions in the returned vector or data frame.</p>
 
   </div>

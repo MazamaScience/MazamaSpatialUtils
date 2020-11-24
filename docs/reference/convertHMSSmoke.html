@@ -80,7 +80,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
       </span>
     </div>
 
@@ -162,7 +162,7 @@
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>datestamp</th>
-      <td><p>HMS datestamp in the format "YYYYMMDD"</p></td>
+      <td><p>UTC datestamp in the format "YYYYMMDD"</p></td>
     </tr>
     <tr>
       <th>nameOnly</th>
@@ -175,14 +175,14 @@
     <p>Name of the dataset being created.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>A NOAA smoke shapefile from the is downloaded and converted to a 
-SpatialPolygonsDataFrame with additional columns of data. The resulting file 
-will be created in the spatial data directory which is set with 
+    <p>A NOAA smoke shapefile from the is downloaded and converted to a
+SpatialPolygonsDataFrame with additional columns of data. The resulting file
+will be created in the spatial data directory which is set with
 <code><a href='setSpatialDataDir.html'>setSpatialDataDir()</a></code>.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>Data files prior to August 13, 2007 do not contain the vital 'Density' column. For these
-files, <code>NA</code> will be used in the converted dataframes.</p>
+    <p>Data files prior to August 13, 2007 do not contain the vital 'Density'
+column. For these files, <code>NA</code> will be used in the converted dataframes.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p><a href='http://www.ospo.noaa.gov/Products/land/hms.html'>http://www.ospo.noaa.gov/Products/land/hms.html</a></p>

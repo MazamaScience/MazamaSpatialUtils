@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
       </span>
     </div>
 
@@ -163,9 +163,7 @@
 <p>Using <code>rvest</code>, we acquire the necessary Ebola counts per province/county in one central table. While the table also includes information for a 2014 population estimate and the total number of Ebola cases, we are solely interested in the column referring to cases/1000 pop as this is what we will be graphing.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">url</span> <span class="op">&lt;-</span> <span class="st">"http://www.johnstonsarchive.net/policy/westafrica-ebola.html"</span>
-<span class="va">raw</span> <span class="op">&lt;-</span> <span class="fu">xml2</span><span class="fu">::</span><span class="fu"><a href="http://xml2.r-lib.org/reference/read_xml.html">read_html</a></span><span class="op">(</span><span class="va">url</span><span class="op">)</span>
-<span class="va">tables</span> <span class="op">&lt;-</span> <span class="fu">rvest</span><span class="fu">::</span><span class="fu"><a href="https://rvest.tidyverse.org/reference/html_nodes.html">html_nodes</a></span><span class="op">(</span><span class="va">raw</span>, <span class="st">"table"</span><span class="op">)</span>
-<span class="va">ebolaTable</span> <span class="op">&lt;-</span> <span class="fu">rvest</span><span class="fu">::</span><span class="fu"><a href="https://rvest.tidyverse.org/reference/html_table.html">html_table</a></span><span class="op">(</span><span class="va">tables</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></code></pre></div>
+<span class="va">ebolaTable</span> <span class="op">&lt;-</span> <span class="fu">MazamaCoreUtils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MazamaCoreUtils/man/html_getTables.html">html_getTable</a></span><span class="op">(</span><span class="va">url</span>, index <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></code></pre></div>
 <p>Using this table, we can sort the cases/100 pop for each province/county into seven levels, which we pull from the original graph in order to achieve as close a copy as possible. Note that these levels are not linear. We also pull the colors used in the legend of the original graph, again with the goal of providing a close match to the original graph. We sort the data into these seven levels, with corresponding colors. We also add to the end an additional color, the color white, in order to take into account those values from the data which are NA (Values of NA indicate that there were 0 Ebola cases reported, resulting in a NA value for cases/100 pop).</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">breaks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.003</span>,<span class="fl">.01</span>,<span class="fl">.03</span>,<span class="fl">.1</span>,<span class="fl">.3</span>,<span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">10</span><span class="op">)</span>

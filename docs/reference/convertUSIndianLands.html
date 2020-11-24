@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>List locally installed spatial datasets — installedSpatialData • MazamaSpatialUtils</title>
+<title>Convert Indian Lands Shapefile — convertUSIndianLands • MazamaSpatialUtils</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,12 +46,8 @@
 
 
 
-<meta property="og:title" content="List locally installed spatial datasets — installedSpatialData" />
-<meta property="og:description" content="Searches the directory set with setSpatialDataDir
-for locally installed spatial data and returns a list of dataset names that
-can be used with loadSpatialData.
-If verbose = TRUE, a brief description is provided for each locally
-installed dataset." />
+<meta property="og:title" content="Convert Indian Lands Shapefile — convertUSIndianLands" />
+<meta property="og:description" content="Create a SpatialPolygonsDataFrame for Native American land." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -150,33 +146,67 @@ installed dataset." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>List locally installed spatial datasets</h1>
-    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/MazamaSpatialUtils/blob/master/R/installedSpatialData.R'><code>R/installedSpatialData.R</code></a></small>
-    <div class="hidden name"><code>installedSpatialData.Rd</code></div>
+    <h1>Convert Indian Lands Shapefile</h1>
+    <small class="dont-index">Source: <a href='https://github.com/MazamaScience/MazamaSpatialUtils/blob/master/R/convertUSIndianLands.R'><code>R/convertUSIndianLands.R</code></a></small>
+    <div class="hidden name"><code>convertUSIndianLands.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Searches the directory set with <code><a href='setSpatialDataDir.html'>setSpatialDataDir</a></code>
-for locally installed spatial data and returns a list of dataset names that
-can be used with <code><a href='loadSpatialData.html'>loadSpatialData</a></code>.</p>
-<p>If <code>verbose = TRUE</code>, a brief description is provided for each locally
-installed dataset.</p>
+    <p>Create a SpatialPolygonsDataFrame for Native American land.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>installedSpatialData</span><span class='op'>(</span>verbose <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>convertUSIndianLands</span><span class='op'>(</span>nameOnly <span class='op'>=</span> <span class='cn'>FALSE</span>, simplify <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>verbose</th>
-      <td><p>Logical specifying whether or not to print dataset descriptions.</p></td>
+      <th>nameOnly</th>
+      <td><p>Logical specifying whether to only return the name without
+creating the file.</p></td>
+    </tr>
+    <tr>
+      <th>simplify</th>
+      <td><p>Logical specifying whether to create "_05", _02" and "_01"
+versions of the file that are simplified to 5%, 2% and 1%.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Vector of dataset names().</p>
+    <p>Name of the dataset being created.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>A Native American land shapefile is downloaded and converted to a
+SpatialPolygonsDataFrame with additional columns of data. The resulting file
+will be created in the spatial data directory which is set with
+<code><a href='setSpatialDataDir.html'>setSpatialDataDir()</a></code>.</p>
+<p>The source data is from 2014.</p>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>From the source documentation:</p>
+<p>This map layer shows Indian lands of the United States. For the most part,
+ only areas of 320 acres or more are included; some smaller areas deemed to
+ be important or significant are also included. Federally-administered lands
+ within a reservation are included for continuity; these may or may not be
+ considered part of the reservation and are simply described with their
+ feature type and the administrating Federal agency. Some established Indian
+ lands which are larger than 320 acres are not included in this map layer
+ because their boundaries were not available from the owning or administering
+ agency.The USIndianLands shapefile represents lands administered by the
+ Bureau of Indian Affairs, ie. Indian reservations</p>
+<p>These data are intended for geographic display and analysis at the national
+ level, and for large regional areas. The data should be displayed and
+ analyzed at scales appropriate for 1:1,000,000-scale data. No responsibility
+ is assumed by the National Atlas of the United States in the use of these data.
+ and is compiled by the National Atlas of the United States of America.</p>
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p><a href='https://www.sciencebase.gov/catalog/item/5d150464e4b0941bde5b7658'>https://www.sciencebase.gov/catalog/item/5d150464e4b0941bde5b7658</a></p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>setSpatialDataDir</p>
+<p>getVariable</p></div>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

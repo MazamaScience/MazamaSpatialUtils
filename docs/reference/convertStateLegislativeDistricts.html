@@ -81,7 +81,7 @@ of a specified state" />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
       </span>
     </div>
 
@@ -177,12 +177,12 @@ of a specified state</p>
     </tr>
     <tr>
       <th>nameOnly</th>
-      <td><p>Logical specifying whether to only return the name without 
+      <td><p>Logical specifying whether to only return the name without
 creating the file.</p></td>
     </tr>
     <tr>
       <th>simplify</th>
-      <td><p>Logical specifying whether to create "_05", _02" and "_01" 
+      <td><p>Logical specifying whether to create "_05", _02" and "_01"
 versions of the file that are simplified to 5%, 2% and 1%.</p></td>
     </tr>
     </table>
@@ -192,48 +192,48 @@ versions of the file that are simplified to 5%, 2% and 1%.</p></td>
     <p>Name of the dataset being created.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>A US State Legislative District shapefile is downloaded and converted 
-to a SpatialPolygonsDataFrame with additional columns of data. The resulting 
-file will be created in the spatial data directory which is set with 
+    <p>A US State Legislative District shapefile is downloaded and converted
+to a SpatialPolygonsDataFrame with additional columns of data. The resulting
+file will be created in the spatial data directory which is set with
 <code><a href='setSpatialDataDir.html'>setSpatialDataDir()</a></code>.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>From the source documentation:</p>
-<p>The 2019 cartographic boundary shapefiles are simplified representations of 
-selected geographic areas from the U.S. Census Bureau's Master Address File / 
-Topologically Integrated Geographic Encoding and Referencing (MAF/TIGER) 
-Database (MTDB). These boundary files are specifically designed for small-scale 
-thematic mapping. When possible, generalization is performed with the intent 
-to maintain the hierarchical relationships among geographies and to maintain 
-the alignment of geographies within a file set for a given year. Geographic 
-areas may not align with the same areas from another year. Some geographies 
+<p>The 2019 cartographic boundary shapefiles are simplified representations of
+selected geographic areas from the U.S. Census Bureau's Master Address File /
+Topologically Integrated Geographic Encoding and Referencing (MAF/TIGER)
+Database (MTDB). These boundary files are specifically designed for small-scale
+thematic mapping. When possible, generalization is performed with the intent
+to maintain the hierarchical relationships among geographies and to maintain
+the alignment of geographies within a file set for a given year. Geographic
+areas may not align with the same areas from another year. Some geographies
 are available as nation-based files while others are available only as state-
 based files.</p>
 <p>SLDL stands for State Legislative District Lower Chamber...</p>
 <p>SLDU stands for State Legislative District Upper Chamber.</p>
-<p>State Legislative Districts (SLDs) are the areas from which members are elected to state 
-legislatures. The SLDs embody the upper (senate) and lower (house) chambers of 
-the state legislature. Nebraska has a unicameral legislature and the District 
-of Columbia has a single council, both of which the Census Bureau treats as 
-upper-chamber legislative areas for the purpose of data presentation; there are 
+<p>State Legislative Districts (SLDs) are the areas from which members are elected to state
+legislatures. The SLDs embody the upper (senate) and lower (house) chambers of
+the state legislature. Nebraska has a unicameral legislature and the District
+of Columbia has a single council, both of which the Census Bureau treats as
+upper-chamber legislative areas for the purpose of data presentation; there are
 no data by SLDL for either Nebraska or the District of Columbia. A unique three-
-character census code, identified by state participants, is assigned to each 
-SLD within a state. In Connecticut, Illinois, Louisiana, Maine, Maryland, 
-Massachusetts, Michigan, Ohio, and Puerto Rico, the Redistricting Data Program 
-(RDP) participant did not define the SLDs to cover all of the state or state 
-equivalent area. In these areas with no SLDs defined, the code "ZZZ" has been 
+character census code, identified by state participants, is assigned to each
+SLD within a state. In Connecticut, Illinois, Louisiana, Maine, Maryland,
+Massachusetts, Michigan, Ohio, and Puerto Rico, the Redistricting Data Program
+(RDP) participant did not define the SLDs to cover all of the state or state
+equivalent area. In these areas with no SLDs defined, the code "ZZZ" has been
 assigned, which is treated as a single SLD for purposes of data presentation.</p>
 <p>The boundaries of the 2018 state legislative districts were provided by state-
-level participants through the RDP and reflect the districts used to elect 
+level participants through the RDP and reflect the districts used to elect
 members in or prior to the November 2018 election</p>
-<p>These files were specifically created to support small-scale thematic mapping. 
-To improve the appearance of shapes at small scales, areas are represented with 
-fewer vertices than detailed TIGER/Line Shapefiles. Cartographic boundary files 
-take up less disk space than their ungeneralized counterparts. Cartographic 
-boundary files take less time to render on screen than TIGER/Line Shapefiles. 
-You can join this file with table data downloaded from American FactFinder by 
-using the AFFGEOID field in the cartographic boundary file. If detailed boundaries 
-are required, please use the TIGER/Line Shapefiles instead of the generalized 
+<p>These files were specifically created to support small-scale thematic mapping.
+To improve the appearance of shapes at small scales, areas are represented with
+fewer vertices than detailed TIGER/Line Shapefiles. Cartographic boundary files
+take up less disk space than their ungeneralized counterparts. Cartographic
+boundary files take less time to render on screen than TIGER/Line Shapefiles.
+You can join this file with table data downloaded from American FactFinder by
+using the AFFGEOID field in the cartographic boundary file. If detailed boundaries
+are required, please use the TIGER/Line Shapefiles instead of the generalized
 cartographic boundary files</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 

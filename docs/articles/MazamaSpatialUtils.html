@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
       </span>
     </div>
 
@@ -257,11 +257,11 @@
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Review all available data</span>
 <span class="fu"><a href="../reference/getCountry.html">getCountry</a></span><span class="op">(</span><span class="va">lon</span>, <span class="va">lat</span>, allData<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
-<pre><code>##   objectID ISO3   countryName changes countryCode polygonID
-## 1      232  USA United States    &lt;NA&gt;          US       232
-## 2      232  USA United States    &lt;NA&gt;          US       232
-## 3      181  POL        Poland    &lt;NA&gt;          PL       181
-## 4       87  FRA        France 2014-10          FR        87</code></pre>
+<pre><code>##   countryCode   countryName polygonID
+## 1          US United States       113
+## 2          US United States       113
+## 3          PL        Poland       205
+## 4          FR        France       167</code></pre>
 </div>
 <div id="getstate-and-getstatecode" class="section level2">
 <h2 class="hasAnchor">
@@ -394,10 +394,9 @@
 
 <span class="co"># Base plot (without Antarctica)</span>
 <span class="va">notAQ</span> <span class="op">&lt;-</span> <span class="va">SimpleCountries</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">countryCode</span> <span class="op">!=</span> <span class="st">'AQ'</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">SimpleCountries</span><span class="op">[</span><span class="va">notAQ</span>,<span class="op">]</span>,col<span class="op">=</span><span class="va">color_missing</span><span class="op">)</span></code></pre></div>
-<pre><code>## Warning in wkt(obj): CRS object has no comment</code></pre>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">SimpleCountries</span><span class="op">[</span><span class="va">netExportMask</span>,<span class="op">]</span>,col<span class="op">=</span><span class="va">color_export</span>,add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">SimpleCountries</span><span class="op">[</span><span class="va">notAQ</span>,<span class="op">]</span>,col<span class="op">=</span><span class="va">color_missing</span><span class="op">)</span>
+
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">SimpleCountries</span><span class="op">[</span><span class="va">netExportMask</span>,<span class="op">]</span>,col<span class="op">=</span><span class="va">color_export</span>,add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">SimpleCountries</span><span class="op">[</span><span class="va">onlyExportMask</span>,<span class="op">]</span>,col<span class="op">=</span><span class="va">color_export</span>,add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">SimpleCountries</span><span class="op">[</span><span class="va">netImportMask</span>,<span class="op">]</span>,col<span class="op">=</span><span class="va">color_import</span>,add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">SimpleCountries</span><span class="op">[</span><span class="va">onlyImportMask</span>,<span class="op">]</span>,col<span class="op">=</span><span class="va">color_import</span>,add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>

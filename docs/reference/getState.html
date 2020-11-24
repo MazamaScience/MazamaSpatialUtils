@@ -47,11 +47,11 @@
 
 
 <meta property="og:title" content="Return state names at specified locations — getState" />
-<meta property="og:description" content="Uses spatial comparison to determine which 'state' polygons the 
+<meta property="og:description" content="Uses spatial comparison to determine which 'state' polygons the
 locations fall into and returns the ISO 3166-2 2-character state code
-strings for those polygons.    
-Specification of countryCodes limits spatial searching to the 
-specified countries and greatly improves performance.    
+strings for those polygons.
+Specification of countryCodes limits spatial searching to the
+specified countries and greatly improves performance.
 If allData = TRUE, additional data is returned." />
 <meta property="og:image" content="/logo.png" />
 
@@ -85,7 +85,7 @@ If allData = TRUE, additional data is returned." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
       </span>
     </div>
 
@@ -157,17 +157,17 @@ If allData = TRUE, additional data is returned." />
     </div>
 
     <div class="ref-description">
-    <p>Uses spatial comparison to determine which 'state' polygons the 
+    <p>Uses spatial comparison to determine which 'state' polygons the
 locations fall into and returns the ISO 3166-2 2-character state code
-strings for those polygons.</p>    
-<p>Specification of <code>countryCodes</code> limits spatial searching to the 
-specified countries and greatly improves performance.</p>    
+strings for those polygons.</p>
+<p>Specification of <code>countryCodes</code> limits spatial searching to the
+specified countries and greatly improves performance.</p>
 <p>If <code>allData = TRUE</code>, additional data is returned.</p>
     </div>
 
     <pre class="usage"><span class='fu'>getState</span><span class='op'>(</span>
-  <span class='va'>lon</span>,
-  <span class='va'>lat</span>,
+  <span class='va'>longitude</span>,
+  <span class='va'>latitude</span>,
   dataset <span class='op'>=</span> <span class='st'>"NaturalEarthAdm1"</span>,
   countryCodes <span class='op'>=</span> <span class='cn'>NULL</span>,
   allData <span class='op'>=</span> <span class='cn'>FALSE</span>,
@@ -178,45 +178,51 @@ specified countries and greatly improves performance.</p>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>lon</th>
-      <td><p>vector of longitudes in decimal degrees</p></td>
+      <th>longitude</th>
+      <td><p>Vector of longitudes in decimal degrees East.</p></td>
     </tr>
     <tr>
-      <th>lat</th>
-      <td><p>vector of latitudes in decimal degrees</p></td>
+      <th>latitude</th>
+      <td><p>Vector of latitudes in decimal degrees North.</p></td>
     </tr>
     <tr>
       <th>dataset</th>
-      <td><p>name of spatial dataset to use</p></td>
+      <td><p>Name of spatial dataset to use.</p></td>
     </tr>
     <tr>
       <th>countryCodes</th>
-      <td><p>vector of country codes</p></td>
+      <td><p>Vector of ISO 3166-1 alpha-2 country codes.</p></td>
     </tr>
     <tr>
       <th>allData</th>
-      <td><p>logical specifying whether a full dataframe should be returned</p></td>
+      <td><p>Logical specifying whether a full dataframe should be returned.</p></td>
     </tr>
     <tr>
       <th>useBuffering</th>
-      <td><p>logical flag specifying the use of location buffering to 
-find the nearest polygon if no target polygon is found</p></td>
+      <td><p>Logical flag specifying the use of location buffering to
+find the nearest polygon if no target polygon is found.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>Vector of state names in English.</p>
+    <p>Vector of English language state names.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>getSpatialData</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='va'>lon</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>140</span>,<span class='op'>-</span><span class='fl'>90</span><span class='op'>)</span>
-<span class='va'>lat</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>20</span>,<span class='fl'>70</span><span class='op'>)</span>
-<span class='fu'>getState</span><span class='op'>(</span><span class='va'>lon</span>,<span class='va'>lat</span><span class='op'>)</span>
+<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://github.com/MazamaScience/MazamaSpatialUtils'>MazamaSpatialUtils</a></span><span class='op'>)</span>
+<span class='fu'>setSpatialData</span><span class='op'>(</span><span class='st'>"~/Data/Spatial"</span><span class='op'>)</span>
+
+<span class='fu'><a href='loadSpatialData.html'>loadSpatialData</a></span><span class='op'>(</span><span class='st'>"NaturalEarthAdm1"</span><span class='op'>)</span>
+
+<span class='va'>longitude</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='op'>-</span><span class='fl'>140</span>, <span class='op'>-</span><span class='fl'>90</span><span class='op'>)</span>
+<span class='va'>latitude</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq</a></span><span class='op'>(</span><span class='fl'>20</span>, <span class='fl'>70</span><span class='op'>)</span>
+<span class='fu'>getState</span><span class='op'>(</span><span class='va'>longitude</span>, <span class='va'>latitude</span><span class='op'>)</span>
 <span class='op'>}</span>
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

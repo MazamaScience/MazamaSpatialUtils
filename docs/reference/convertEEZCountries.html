@@ -47,11 +47,7 @@
 
 
 <meta property="og:title" content="Convert Exclusive Economic Zones countries shapefile — convertEEZCountries" />
-<meta property="og:description" content="A previously downloaded file from 
-http://www.marineregions.org/downloads.php#unioneezcountry is converted
-to a SpatialPolygonsDataFrame with additional columns of data. The resulting
-file will be created in the spatial data directory which is set with 
-setSpatialDataDir()." />
+<meta property="og:description" content="Create a SpatialPolygonsDataFrame for combined EEZ/country boundaries" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -84,7 +80,7 @@ setSpatialDataDir()." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
       </span>
     </div>
 
@@ -156,26 +152,23 @@ setSpatialDataDir()." />
     </div>
 
     <div class="ref-description">
-    <p>A previously downloaded file from 
-<a href='http://www.marineregions.org/downloads.php#unioneezcountry'>http://www.marineregions.org/downloads.php#unioneezcountry</a> is converted
-to a SpatialPolygonsDataFrame with additional columns of data. The resulting
-file will be created in the spatial data directory which is set with 
-<code><a href='setSpatialDataDir.html'>setSpatialDataDir()</a></code>.</p>
+    <p>Create a SpatialPolygonsDataFrame for combined EEZ/country boundaries</p>
     </div>
 
-    <pre class="usage"><span class='fu'>convertEEZCountries</span><span class='op'>(</span>dsnPath <span class='op'>=</span> <span class='cn'>NULL</span>, nameOnly <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>convertEEZCountries</span><span class='op'>(</span>nameOnly <span class='op'>=</span> <span class='cn'>FALSE</span>, simplify <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dsnPath</th>
-      <td><p>Directory where EEZCountries .zip file is found.</p></td>
+      <th>nameOnly</th>
+      <td><p>Logical specifying whether to only return the name without
+creating the file.</p></td>
     </tr>
     <tr>
-      <th>nameOnly</th>
-      <td><p>Logical specifying whether to only return the name without 
-creating the file.</p></td>
+      <th>simplify</th>
+      <td><p>Logical specifying whether to create "_05", _02" and "_01"
+versions of the file that are simplified to 5%, 2% and 1%.</p></td>
     </tr>
     </table>
 
@@ -184,21 +177,60 @@ creating the file.</p></td>
     <p>Name of the dataset being created.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The dataset can be downloaded from 
-<a href='http://www.marineregions.org/download_file.php?name=EEZ_land_union_v2_201410.zip'>http://www.marineregions.org/download_file.php?name=EEZ_land_union_v2_201410.zip</a>
-by answering the questions and clicking "download".</p>
+    <p>A world EEZ/countries shapefile is converted to a SpatialPolygonsDataFrame
+with additional columns of data. To use this function, the file
+"EEZ_land_union_v3_202003.zip" must be downloaded into the user's spatial
+directory which is set with <code><a href='setSpatialDataDir.html'>setSpatialDataDir()</a></code>. The resulting file
+will be created in this same spatial data directory.</p>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>For polygons with overlapping claims of sovereignty, we arbitrarily
+assign the polygon to the country identified in the <code>ISO_SOV1</code> field.</p>
+<p>The source data is from Version 3 -- 2020-03-17.</p>
+<p>From the source documentation:</p>
+<p>Geographic Information Systems have become indispensable tools in managing
+and displaying marine data and information. However, a unique georeferenced
+standard of marine place names and areas was not available, hampering several
+marine geographic applications, for example the linking of these locations to
+databases to integrate data. The purpose of Marine Regions is therefore to
+create a standard, relational list of geographic names, coupled with information
+and maps of the geographic location of these features. This will improve access
+and clarity of the different geographic, marine names such as seas, sandbanks,
+ridges and bays and display univocally the boundaries of marine biogeographic
+or managerial marine areas.</p>
+<p>Marine Regions is an integration of the VLIMAR Gazetteer and the VLIZ Maritime
+Boundaries Geodatabase. The VLIMAR Gazetteer is a database with geographic,
+mainly marine names such as seas, sandbanks, seamounts, ridges, bays or even
+standard sampling stations used in marine research. The geographic cover of
+the VLIMAR gazetteer is global but initially focused on the Belgian Continental
+Shelf and the Scheldt Estuary and the Southern Bight of the North Sea. Gradually
+more regional and global geographic information was added to VLIMAR and combining
+this information with the Maritime Boundaries database, representing the
+Exclusive Economic Zone (EEZ) of the world, led to the creation of marineregions.org.</p>
+<p>Marine Regions is managed by the Flanders Marine Institute. Funding for the
+creation of the VLIMAR gazetteer was provided initially through the EU Network
+of Excellence MarBEF, but also other European initiatives such as Lifewatch
+provide the necessary funding for the maintenance and management of Marine Regions.</p>
+<p>Marine Regions depends on data and knowledge sharing from global, European,
+regional and national data providers and relevant experts. By setting up
+Collaboration Agreements, data providers will benefit from belonging to the
+Marine Regions partnership as they would get increased visibility, gain access
+to a variety of data analysis services which will benefit from integration of
+several distributed spatial datasets, as well as enjoying the benefit of the
+creation of stable unique identifiers. An example template of a Collaboration
+Agreement can be found here. Please contact info@marineregions.org if your
+organisation is interested to explore this collaboration.</p>
+<p>Citation:
+Flanders Marine Institute (2020). Union of the ESRI Country shapefile and the
+Exclusive Economic Zones (version 3). Available online at
+https://www.marineregions.org/. https://doi.org/10.14284/403</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p><a href='http://www.marineregions.org/downloads.php#unioneezcountry'>http://www.marineregions.org/downloads.php#unioneezcountry</a></p>
-<p>VLIZ (2014). Union of the ESRI Country shapefile and the Exclusive 
-Economic Zones (version 2). Available online at http://www.marineregions.org/.
-Consulted on 2017-07-20.</p>
+    <p><a href='https://www.marineregions.org/sources.php#unioneezcountry'>https://www.marineregions.org/sources.php#unioneezcountry</a></p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> <span class='op'>(</span><span class='cn'>FALSE</span><span class='op'>)</span> <span class='op'>{</span>
-<span class='fu'>convertEEZCountries</span><span class='op'>(</span><span class='st'>"~/Data/Spatial/EEZ_land_union_v2_201410.zip"</span><span class='op'>)</span>
-<span class='op'>}</span>
-</div></pre>
+    <div class='dont-index'><p>setSpatialDataDir</p></div>
+
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

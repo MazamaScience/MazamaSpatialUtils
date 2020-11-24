@@ -49,8 +49,9 @@
 <meta property="og:title" content="Organize ungrouped polygons — organizePolygons" />
 <meta property="og:description" content="Determines if the SpatialPolygonsDataFrame is grouped. If ungrouped,
 function will group duplicated values based on the provided unique identifier.
-If sumColumns is NULL and there are multiple rows that aren't duplicated but have
-the same 'uniqueID', the original SpatialPolygonsDataFrame will be returned." />
+If sumColumns is NULL and there are multiple rows that aren't
+duplicated but have the same uniqueID, the original
+SpatialPolygonsDataFrame will be returned." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -83,7 +84,7 @@ the same 'uniqueID', the original SpatialPolygonsDataFrame will be returned." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
       </span>
     </div>
 
@@ -157,26 +158,27 @@ the same 'uniqueID', the original SpatialPolygonsDataFrame will be returned." />
     <div class="ref-description">
     <p>Determines if the SpatialPolygonsDataFrame is grouped. If ungrouped,
 function will group duplicated values based on the provided unique identifier.</p>
-<p>If sumColumns is NULL and there are multiple rows that aren't duplicated but have
-the same 'uniqueID', the original SpatialPolygonsDataFrame will be returned.</p>
+<p>If <code>sumColumns</code> is NULL and there are multiple rows that aren't
+duplicated but have the same <code>uniqueID</code>, the original
+SpatialPolygonsDataFrame will be returned.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>organizePolygons</span><span class='op'>(</span><span class='va'>dataset</span>, <span class='va'>uniqueID</span>, sumColumns <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>organizePolygons</span><span class='op'>(</span><span class='va'>SPDF</span>, <span class='va'>uniqueID</span>, sumColumns <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dataset</th>
-      <td><p>object of class SpatialPolygonsDataFrame</p></td>
+      <th>SPDF</th>
+      <td><p>Object of class SpatialPolygonsDataFrame.</p></td>
     </tr>
     <tr>
       <th>uniqueID</th>
-      <td><p>unique identifier to determine which values are duplicated</p></td>
+      <td><p>Unique identifier to determine which values are duplicated.</p></td>
     </tr>
     <tr>
       <th>sumColumns</th>
-      <td><p>vector of column names to be summed</p></td>
+      <td><p>Vector of column names to be summed.</p></td>
     </tr>
     </table>
 
@@ -184,9 +186,6 @@ the same 'uniqueID', the original SpatialPolygonsDataFrame will be returned.</p>
 
     <p>SpatialPolygonsDataFrame composed of grouped polygons.</p>
 
-    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>SPDF</span> <span class='op'>&lt;-</span> <span class='fu'>organizePolygons</span><span class='op'>(</span><span class='va'>SimpleTimezones</span>, <span class='st'>"timezone"</span>, <span class='cn'>NULL</span><span class='op'>)</span>
-</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
