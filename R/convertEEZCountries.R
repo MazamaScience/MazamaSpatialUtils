@@ -13,7 +13,7 @@
 #'
 #' @details A world EEZ/countries shapefile is converted to a SpatialPolygonsDataFrame
 #' with additional columns of data. To use this function, the file
-#' "EEZ_land_union_v3_202003.zip" must be downloaded into the users spatial
+#' "EEZ_land_union_v3_202003.zip" must be downloaded into the user's spatial
 #' directory which is set with \code{setSpatialDataDir()}. The resulting file
 #' will be created in this same spatial data directory.
 #'

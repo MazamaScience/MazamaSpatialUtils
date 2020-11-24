@@ -1,80 +1,79 @@
 #' @keywords datagen
 #' @importFrom rlang .data
-#' @importFrom cleangeo clgeo_IsValid
 #' @export
-#' 
+#'
 #' @title Convert Indian Lands Shapefile
-#' 
-#' @param nameOnly Logical specifying whether to only return the name without 
+#'
+#' @param nameOnly Logical specifying whether to only return the name without
 #' creating the file.
-#' @param simplify Logical specifying whether to create "_05", _02" and "_01" 
+#' @param simplify Logical specifying whether to create "_05", _02" and "_01"
 #' versions of the file that are simplified to 5\%, 2\% and 1\%.
-#' 
+#'
 #' @description Create a SpatialPolygonsDataFrame for Native American land.
-#' 
-#' @details A Native American land shapefile is downloaded and converted to a 
-#' SpatialPolygonsDataFrame with additional columns of data. The resulting file 
-#' will be created in the spatial data directory which is set with 
+#'
+#' @details A Native American land shapefile is downloaded and converted to a
+#' SpatialPolygonsDataFrame with additional columns of data. The resulting file
+#' will be created in the spatial data directory which is set with
 #' \code{setSpatialDataDir()}.
-#' 
+#'
 #' The source data is from 2014.
-#' 
+#'
 #' @note From the source documentation:
-#' 
-#'  This map layer shows Indian lands of the United States. For the most part, 
-#'  only areas of 320 acres or more are included; some smaller areas deemed to 
-#'  be important or significant are also included. Federally-administered lands 
-#'  within a reservation are included for continuity; these may or may not be 
-#'  considered part of the reservation and are simply described with their 
-#'  feature type and the administrating Federal agency. Some established Indian 
-#'  lands which are larger than 320 acres are not included in this map layer 
-#'  because their boundaries were not available from the owning or administering 
-#'  agency.The USIndianLands shapefile represents lands administered by the 
+#'
+#'  This map layer shows Indian lands of the United States. For the most part,
+#'  only areas of 320 acres or more are included; some smaller areas deemed to
+#'  be important or significant are also included. Federally-administered lands
+#'  within a reservation are included for continuity; these may or may not be
+#'  considered part of the reservation and are simply described with their
+#'  feature type and the administrating Federal agency. Some established Indian
+#'  lands which are larger than 320 acres are not included in this map layer
+#'  because their boundaries were not available from the owning or administering
+#'  agency.The USIndianLands shapefile represents lands administered by the
 #'  Bureau of Indian Affairs, ie. Indian reservations
-#'  
-#'  These data are intended for geographic display and analysis at the national 
-#'  level, and for large regional areas. The data should be displayed and 
-#'  analyzed at scales appropriate for 1:1,000,000-scale data. No responsibility 
+#'
+#'  These data are intended for geographic display and analysis at the national
+#'  level, and for large regional areas. The data should be displayed and
+#'  analyzed at scales appropriate for 1:1,000,000-scale data. No responsibility
 #'  is assumed by the National Atlas of the United States in the use of these data.
 #'  and is compiled by the National Atlas of the United States of America.
-#'  
+#'
 #' @return Name of the dataset being created.
-#' 
+#'
 #' @references \url{https://www.sciencebase.gov/catalog/item/5d150464e4b0941bde5b7658}
-#' 
+#'
 #' @seealso setSpatialDataDir
 #' @seealso getVariable
 
-convertIndianLands <- function(
+convertUSIndianLands <- function(
   nameOnly = FALSE,
   simplify = TRUE
 ) {
-  
+
   # ----- Setup ----------------------------------------------------------------
-  
+
   loadSpatialData("USCensusStates")
-  
+
   # Use package internal data directory
   dataDir <- getSpatialDataDir()
-  
+
   # Specify the name of the file being created
   datasetName <- 'USIndianLands'
-  
+
   if (nameOnly)
     return(datasetName)
-  
+
   # ----- Get the data ---------------------------------------------------------
-  
+
   # Build appropriate request URL
   url <- "https://prd-tnm.s3.amazonaws.com/StagedProducts/Small-scale/data/Boundaries/indlanp010g.shp_nt00968.tar.gz"
-  
+
   filePath <- file.path(dataDir,basename(url))
   utils::download.file(url, filePath)
   # NOTE:  This tar.gz file has no directory so extra subdirectory needs to be created
   utils::untar(filePath, exdir = file.path(dataDir, 'indlan'))
-  
+
   # ----- Convert to SPDF ------------------------------------------------------
-  
+
   # Convert shapefile into SpatialPolygonsDataFrame
   # NOTE:  The 'indlan' directory has been created
   dsnPath <- file.path(dataDir, 'indlan')
@@ -84,9 +83,9 @@ convertIndianLands <- function(
     layerName = shpName,
     encoding = 'UTF-8'
   )
-  
+
   # ----- Select useful columns and rename -------------------------------------
-  
+
   # > dplyr::glimpse(SPDF@data)
   # Observations: 558
   # Variables: 23
@@ -113,16 +112,16 @@ convertIndianLands <- function(
   # $ GIS_ACRES  <dbl> 250296.0855, 1284.5301, 42532.7428, 32619.9330, 647.0297, …
   # $ SHAPE_Leng <dbl> 2.15188890, 0.15164941, 3.28540939, 0.61393712, 0.06411717…
   # $ SHAPE_Area <dbl> 0.0998716951, 0.0005123971, 0.0167604554, 0.0129362866, 0.…
-  
+
   # Data Dictionary:
   #   OBJECTID ----> (drop)
-  #   AREA --------> area: land area (in sq. miles)    
-  #   PERIMETER ---> (drop)   
-  #   Indlanp010 --> (drop)    
+  #   AREA --------> area: land area (in sq. miles)
+  #   PERIMETER ---> (drop)
+  #   Indlanp010 --> (drop)
   #   FEATURE1 ----> featureType: type of land
   #   GNIS_Name1 --> GNISname: name of feature
-  #   GNIS_ID1 ----> GNIScode: unique identifier of feature     
-  #   ADMIN1 ------> (drop)  
+  #   GNIS_ID1 ----> GNIScode: unique identifier of feature
+  #   ADMIN1 ------> (drop)
   #   FEATURE2 ----> (drop)
   #   GNIS_Name2 --> (drop)
   #   GNIS_ID2 ----> (drop)
@@ -138,41 +137,41 @@ convertIndianLands <- function(
   #   GIS_ACRES ---> (drop)
   #   SHAPE_Leng --> (drop)
   #   SHAPE_Area --> (drop)
-  
+
   # Change "N/A" to NA
   nafun <- function(x) {
     ifelse(x == "N/A", NA, x)
   }
   SPDF@data <- as.data.frame(apply(SPDF@data, 2, nafun), stringsAsFactors = FALSE)
-  
+
   # Remove rows that are not indian reservations
   SPDF <- SPDF[which(SPDF@data$FEATURE1 == "Indian Reservation"),]
-  
+
   # Convert area from square miles to m^2
   SPDF@data$AREA <- as.numeric(SPDF$AREA)
   SPDF@data$AREA <- SPDF$AREA*1609.344^2
-  
-  # Get latitude and longitude from polygon centroids 
+
+  # Get latitude and longitude from polygon centroids
   centroids <- rgeos::gCentroid(SPDF, byid = TRUE)
   lon <- sp::coordinates(centroids)[,1]
   lat <- sp::coordinates(centroids)[,2]
-  
+
   SPDF@data$longitude <- lon
   SPDF@data$latitude <- lat
-  
-  # NOTE: There are 21 polygons which span more than one state. We can use longitude and latitude to 
+
+  # NOTE: There are 21 polygons which span more than one state. We can use longitude and latitude to
   # get one state code for each polygon.
   SPDF@data$stateCode <- getStateCode(
-    SPDF@data$longitude, 
+    SPDF@data$longitude,
     SPDF@data$latitude,
     dataset = 'USCensusStates',
     useBuffering = TRUE
   )
-  
+
   SPDF@data$countryCode <- "US"
-  
+
   SPDF@data$allStateCodes <- stringr::str_replace_all(SPDF@data$STATE, "-", ",")
-  
+
   SPDF@data <-
     dplyr::select(
       .data = SPDF@data,
@@ -187,31 +186,31 @@ convertIndianLands <- function(
       longitude = .data$longitude,
       latitude = .data$latitude
     )
-  
+
   # ----- Clean SPDF -----------------------------------------------------------
-  
+
   # Group polygons with the same identifier (GNISCode)
   SPDF <- organizePolygons(
     SPDF,
     uniqueID = "GNISCode",
     sumColumns = "area"
   )
-  
+
   # Clean topology errors
   if ( !cleangeo::clgeo_IsValid(SPDF) ) {
     SPDF <- cleangeo::clgeo_Clean(SPDF)
   }
-  
+
   # ----- Name and save the data -----------------------------------------------
-  
+
   # Assign a name and save the data
   message("Saving full resolution version...\n")
   assign(datasetName, SPDF)
   save(list = c(datasetName), file = paste0(dataDir, '/', datasetName, '.rda'))
   rm(list = datasetName)
-  
+
   # ----- Simplify -------------------------------------------------------------
-  
+
   if ( simplify ) {
     # Create new, simplified datsets: one with 5%, 2%, and one with 1% of the vertices of the original
     # NOTE:  This may take several minutes.
@@ -227,7 +226,7 @@ convertIndianLands <- function(
     assign(datasetName_05, SPDF_05)
     save(list = datasetName_05, file = paste0(dataDir,"/", datasetName_05, '.rda'))
     rm(list = c("SPDF_05",datasetName_05))
-    
+
     message("Simplifying to 2%...\n")
     SPDF_02 <- rmapshaper::ms_simplify(SPDF, 0.02)
     SPDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
@@ -240,7 +239,7 @@ convertIndianLands <- function(
     assign(datasetName_02, SPDF_02)
     save(list = datasetName_02, file = paste0(dataDir,"/", datasetName_02, '.rda'))
     rm(list = c("SPDF_02",datasetName_02))
-    
+
     message("Simplifying to 1%...\n")
     SPDF_01 <- rmapshaper::ms_simplify(SPDF, 0.01)
     SPDF_01@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
@@ -254,13 +253,13 @@ convertIndianLands <- function(
     save(list = datasetName_01, file = paste0(dataDir,"/", datasetName_01, '.rda'))
     rm(list = c("SPDF_01",datasetName_01))
   }
-  
+
   # ----- Clean up and return --------------------------------------------------
-  
+
   # Clean up
   unlink(filePath, force = TRUE)
   unlink(dsnPath, recursive = TRUE, force = TRUE)
-  
+
   return(invisible(datasetName))
-  
+
 }

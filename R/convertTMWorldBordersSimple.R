@@ -49,7 +49,7 @@ convertTMWorldBordersSimple <- function(
   filePath <- file.path(dataDir,basename(url))
   utils::download.file(url,filePath)
   # NOTE:  This zip file has no directory so extra subdirectory needs to be created
-  utils::unzip(filePath,exdir=file.path(dataDir,'world'))
+  utils::unzip(filePath,exdir = file.path(dataDir, 'world'))
 
   # ----- Convert to SPDF ------------------------------------------------------
 

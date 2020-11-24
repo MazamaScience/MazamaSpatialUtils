@@ -1,0 +1,7 @@
+# See:  https://medium.com/@pablorsk/be-a-git-ninja-the-gitattributes-file-e58c07c9e915
+#       https://git-scm.com/docs/gitattributes
+
+# Ignore directories when determining the language
+docs/** linguist-vendored
+docker/** linguist-vendored
+

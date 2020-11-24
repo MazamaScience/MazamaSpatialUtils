@@ -1,29 +1,28 @@
 #' @keywords datagen
 #' @importFrom rlang .data
-#' @importFrom cleangeo clgeo_IsValid
 #' @export
-#' 
+#'
 #' @title Convert Level 1 (State) Borders Shapefile
-#' 
-#' @param nameOnly Logical specifying whether to only return the name without 
+#'
+#' @param nameOnly Logical specifying whether to only return the name without
 #' creating the file.
-#' @param simplify Logical specifying whether to create "_05", _02" and "_01" 
+#' @param simplify Logical specifying whether to create "_05", _02" and "_01"
 #' versions of the file that are simplified to 5\%, 2\% and 1\%.
-#' 
+#'
 #' @description Returns a SpatialPolygonsDataFrame for 1st level administrative divisions
-#' 
-#' @details A state border shapefile is downloaded and converted to a 
-#' SpatialPolygonsDataFrame with additional columns of data. The resulting file 
-#' will be created in the spatial data directory which is set with 
+#'
+#' @details A state border shapefile is downloaded and converted to a
+#' SpatialPolygonsDataFrame with additional columns of data. The resulting file
+#' will be created in the spatial data directory which is set with
 #' \code{setSpatialDataDir()}.
 #'
-#' Within the \pkg{MazamaSpatialUtils} package the phrase 'state' refers to 
-#' administrative divisions beneath the level of the country or nation. This 
-#' makes sense in the United 'States'. In other countries this level is known as 
+#' Within the \pkg{MazamaSpatialUtils} package the phrase 'state' refers to
+#' administrative divisions beneath the level of the country or nation. This
+#' makes sense in the United 'States'. In other countries this level is known as
 #' 'province', 'territory' or some other term.
-#' 
+#'
 #' @return Name of the dataset being created.
-#' 
+#'
 #' @references \url{http://www.naturalearthdata.com/downloads/}
 #' @references \url{http://www.statoids.com/ihasc.html}
 #' @seealso setSpatialDataDir
@@ -32,27 +31,27 @@ convertNaturalEarthAdm1 <- function(
   nameOnly = FALSE,
   simplify = TRUE
 ) {
-  
+
   # ----- Setup ----------------------------------------------------------------
-  
+
   # Use package internal data directory
   dataDir <- getSpatialDataDir()
-  
+
   # Specify the name of the dataset and file being created
   datasetName <- 'NaturalEarthAdm1'
-  
-  if (nameOnly) 
+
+  if (nameOnly)
     return(datasetName)
-  
+
   # ----- Get the data ---------------------------------------------------------
-  
+
   # Build appropriate request URL
   url <- 'http://www.naturalearthdata.com/http//www.naturalearthdata.com/download/10m/cultural/ne_10m_admin_1_states_provinces.zip'
-  
+
   filePath <- file.path(dataDir, basename(url))
   utils::download.file(url, filePath)
   # NOTE:  This zip file has no directory so extra subdirectory needs to be created
-  utils::unzip(filePath, exdir = file.path(dataDir, 'adm'))  
+  utils::unzip(filePath, exdir = file.path(dataDir, 'adm'))
 
   # ----- Convert to SPDF ------------------------------------------------------
 
@@ -61,13 +60,13 @@ convertNaturalEarthAdm1 <- function(
   dsnPath <- file.path(dataDir, 'adm')
   shpName <- 'ne_10m_admin_1_states_provinces'
   SPDF <- convertLayer(
-    dsn = dsnPath, 
-    layerName = shpName, 
+    dsn = dsnPath,
+    layerName = shpName,
     encoding = 'UTF-8'
   )
-  
+
   # ----- Select useful columns and rename -------------------------------------
-  
+
   # > dplyr::glimpse(SPDF@data)
   # Observations: 4,594
   # Variables: 83
@@ -154,101 +153,101 @@ convertNaturalEarthAdm1 <- function(
   # $ name_vi    <chr> "Entre Ríos", "Paysandú", "Sindh", "Gujarat", "Đông Kalima…
   # $ name_zh    <chr> "恩特雷里奥斯省", "派桑杜省", "信德省", "古吉拉特邦", "東加里曼丹省", "沙巴", "阿里卡和帕里…
   # $ ne_id      <chr> "1159309789", "1159307733", "1159309351", "1159314179", "1…
-  
+
   # Data Dictionary:
-  #   featurecla --> (drop) 
-  #   scalerank ---> (drop) 
+  #   featurecla --> (drop)
+  #   scalerank ---> (drop)
   #   adm1_code ---> adm1_code: Unique identifier
-  #   diss_me -----> (drop) 
-  #   iso_3166_2 --> (drop) 
-  #   wikipedia ---> (drop) 
+  #   diss_me -----> (drop)
+  #   iso_3166_2 --> (drop)
+  #   wikipedia ---> (drop)
   #   iso_a2 ------> countryCode: 2-character country code
-  #   adm0_sr -----> (drop) 
+  #   adm0_sr -----> (drop)
   #   name --------> stateName: Native language name
-  #   name_alt ----> (drop) 
-  #   name_local --> (drop) 
-  #   type --------> (drop) 
-  #   type_en -----> (drop) 
-  #   code_local --> (drop) 
+  #   name_alt ----> (drop)
+  #   name_local --> (drop)
+  #   type --------> (drop)
+  #   type_en -----> (drop)
+  #   code_local --> (drop)
   #   code_hasc ---> code_hasc: HASC code
-  #   note --------> (drop) 
-  #   hasc_maybe --> (drop) 
-  #   region ------> (drop) 
-  #   region_cod --> (drop) 
-  #   provnum_ne --> (drop) 
-  #   gadm_level --> (drop) 
-  #   check_me ----> (drop) 
-  #   datarank ----> (drop) 
-  #   abbrev ------> (drop) 
+  #   note --------> (drop)
+  #   hasc_maybe --> (drop)
+  #   region ------> (drop)
+  #   region_cod --> (drop)
+  #   provnum_ne --> (drop)
+  #   gadm_level --> (drop)
+  #   check_me ----> (drop)
+  #   datarank ----> (drop)
+  #   abbrev ------> (drop)
   #   postal ------> postal: country FIPS code
-  #   area_sqkm ---> area_sqkm: area in square kilometers 
-  #   sameascity --> (drop) 
-  #   labelrank ---> (drop) 
-  #   name_len ----> (drop) 
-  #   mapcolor9 ---> (drop) 
-  #   mapcolor13 --> (drop) 
+  #   area_sqkm ---> area_sqkm: area in square kilometers
+  #   sameascity --> (drop)
+  #   labelrank ---> (drop)
+  #   name_len ----> (drop)
+  #   mapcolor9 ---> (drop)
+  #   mapcolor13 --> (drop)
   #   fips --------> stateFIPS: FIPS code
-  #   fips_alt ----> (drop) 
-  #   woe_id ------> (drop) 
-  #   woe_label ---> (drop) 
-  #   woe_name ----> (drop) 
+  #   fips_alt ----> (drop)
+  #   woe_id ------> (drop)
+  #   woe_label ---> (drop)
+  #   woe_name ----> (drop)
   #   latitude ----> latitude: latitude coordinate
   #   longitude ---> longitude: longitude coordinate
-  #   sov_a3 ------> (drop) 
-  #   adm0_a3 -----> (drop) 
-  #   adm0_label --> (drop) 
-  #   admin -------> (drop) 
-  #   geounit -----> (drop) 
-  #   gu_a3 -------> (drop) 
-  #   gn_id -------> (drop) 
-  #   gn_name -----> (drop) 
-  #   gns_id ------> (drop) 
-  #   gns_name ----> (drop) 
-  #   gn_level ----> (drop) 
-  #   gn_region ---> (drop) 
-  #   gn_a1_code --> (drop) 
-  #   region_sub --> (drop) 
-  #   sub_code ----> (drop) 
-  #   gns_level ---> (drop) 
+  #   sov_a3 ------> (drop)
+  #   adm0_a3 -----> (drop)
+  #   adm0_label --> (drop)
+  #   admin -------> (drop)
+  #   geounit -----> (drop)
+  #   gu_a3 -------> (drop)
+  #   gn_id -------> (drop)
+  #   gn_name -----> (drop)
+  #   gns_id ------> (drop)
+  #   gns_name ----> (drop)
+  #   gn_level ----> (drop)
+  #   gn_region ---> (drop)
+  #   gn_a1_code --> (drop)
+  #   region_sub --> (drop)
+  #   sub_code ----> (drop)
+  #   gns_level ---> (drop)
   #   gns_lang ----> gns_lang: ISO 639-3 language identifier
   #   gns_adm1 ----> gns_adm1: adm1 identifier
-  #   gns_reigon --> (drop) 
-  #   min_label ---> (drop) 
-  #   max_label ---> (drop) 
-  #   min_zoom ----> (drop) 
-  #   wikidataid --> (drop) 
-  #   name_ar -----> (drop) 
-  #   name_bn -----> (drop) 
-  #   name_de -----> (drop) 
-  #   name_en -----> (drop) 
-  #   name_es -----> (drop) 
-  #   name_fr -----> (drop) 
-  #   name_el -----> (drop) 
-  #   name_hi -----> (drop) 
-  #   name_hu -----> (drop) 
-  #   name_id -----> (drop) 
-  #   name_it -----> (drop) 
-  #   name_ja -----> (drop) 
-  #   name_ko -----> (drop) 
-  #   name_nl -----> (drop) 
-  #   name_pl -----> (drop) 
-  #   name_pt -----> (drop) 
-  #   name_ru -----> (drop) 
-  #   name_sv -----> (drop) 
-  #   name_tr -----> (drop) 
-  #   name_vi -----> (drop) 
-  #   name_zh -----> (drop) 
-  #   nd_id -------> (drop) 
+  #   gns_reigon --> (drop)
+  #   min_label ---> (drop)
+  #   max_label ---> (drop)
+  #   min_zoom ----> (drop)
+  #   wikidataid --> (drop)
+  #   name_ar -----> (drop)
+  #   name_bn -----> (drop)
+  #   name_de -----> (drop)
+  #   name_en -----> (drop)
+  #   name_es -----> (drop)
+  #   name_fr -----> (drop)
+  #   name_el -----> (drop)
+  #   name_hi -----> (drop)
+  #   name_hu -----> (drop)
+  #   name_id -----> (drop)
+  #   name_it -----> (drop)
+  #   name_ja -----> (drop)
+  #   name_ko -----> (drop)
+  #   name_nl -----> (drop)
+  #   name_pl -----> (drop)
+  #   name_pt -----> (drop)
+  #   name_ru -----> (drop)
+  #   name_sv -----> (drop)
+  #   name_tr -----> (drop)
+  #   name_vi -----> (drop)
+  #   name_zh -----> (drop)
+  #   nd_id -------> (drop)
 
-  # NOTE:  Subset to filter out exceptional areas (islands and disputed 
+  # NOTE:  Subset to filter out exceptional areas (islands and disputed
   # NOTE:  territories) marked with '~'
-  
+
   goodAreas <- stringr::str_subset(SPDF@data$code_hasc, "~", negate = TRUE)
-  
+
   SPDF <- subset(SPDF, SPDF@data$code_hasc %in% goodAreas)
-  
+
   # Add the core identifiers to the SpatialPolygonsDataFrame
-  SPDF$stateCode <- 
+  SPDF$stateCode <-
     SPDF@data$code_hasc %>%
     stringr::str_trim() %>%
     stringr::str_sub(4,-1)
@@ -257,7 +256,7 @@ convertNaturalEarthAdm1 <- function(
   SPDF$stateFIPS <- SPDF@data$fips
 
   # Create the new dataframe in a specific column order
-  SPDF@data <- 
+  SPDF@data <-
     dplyr::select(
       .data = SPDF@data,
       countryCode = .data$iso_a2,
@@ -274,31 +273,31 @@ convertNaturalEarthAdm1 <- function(
       gns_lang = .data$gns_lang,
       gns_adm1 = .data$gns_adm1
     )
-  
+
   # ----- Clean SPDF -----------------------------------------------------------
-  
+
   # Group polygons with the same identifier (adm1_code)
   SPDF <- organizePolygons(
-    SPDF, 
-    uniqueID = 'adm1_code', 
+    SPDF,
+    uniqueID = 'adm1_code',
     sumColumns = 'area_sqkm'
   )
-  
+
   # Clean topology errors
   if ( !cleangeo::clgeo_IsValid(SPDF) ) {
     SPDF <- cleangeo::clgeo_Clean(SPDF, verbose = TRUE)
   }
-  
+
   # ----- Name and save the data -----------------------------------------------
-  
+
   # Assign a name and save the data
   message("Saving full resolution version...\n")
   assign(datasetName, SPDF)
   save(list = c(datasetName), file = paste0(dataDir, '/', datasetName, '.rda'))
   rm(list = datasetName)
-  
+
   # ----- Simplify -------------------------------------------------------------
-  
+
   if ( simplify ) {
     # Create new, simplified datsets: one with 5%, 2%, and one with 1% of the vertices of the original
     # NOTE:  This may take several minutes.
@@ -314,7 +313,7 @@ convertNaturalEarthAdm1 <- function(
     assign(datasetName_05, SPDF_05)
     save(list = datasetName_05, file = paste0(dataDir,"/", datasetName_05, '.rda'))
     rm(list = c("SPDF_05",datasetName_05))
-    
+
     message("Simplifying to 2%...\n")
     SPDF_02 <- rmapshaper::ms_simplify(SPDF, 0.02)
     SPDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
@@ -327,7 +326,7 @@ convertNaturalEarthAdm1 <- function(
     assign(datasetName_02, SPDF_02)
     save(list = datasetName_02, file = paste0(dataDir,"/", datasetName_02, '.rda'))
     rm(list = c("SPDF_02",datasetName_02))
-    
+
     message("Simplifying to 1%...\n")
     SPDF_01 <- rmapshaper::ms_simplify(SPDF, 0.01)
     SPDF_01@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
@@ -341,13 +340,13 @@ convertNaturalEarthAdm1 <- function(
     save(list = datasetName_01, file = paste0(dataDir,"/", datasetName_01, '.rda'))
     rm(list = c("SPDF_01",datasetName_01))
   }
-  
+
   # ----- Clean up and return --------------------------------------------------
-  
+
   # Clean up
   unlink(filePath, force = TRUE)
   unlink(dsnPath, recursive = TRUE, force = TRUE)
-  
+
   return(invisible(datasetName))
-  
+
 }

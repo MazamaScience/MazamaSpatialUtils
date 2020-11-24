@@ -1,6 +1,5 @@
 #' @keywords datagen
 #' @importFrom rlang .data
-#' @importFrom cleangeo clgeo_IsValid
 #' @export
 #'
 #' @title Convert Timezone Shapefile

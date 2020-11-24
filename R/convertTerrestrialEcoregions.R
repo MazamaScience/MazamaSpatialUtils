@@ -1,42 +1,41 @@
 #' @keywords datagen
 #' @importFrom rlang .data
-#' @importFrom cleangeo clgeo_IsValid
 #' @export
 #'
 #' @title Convert Terrestrial Ecoregion Shapefile
 #'
-#' @param nameOnly Logical specifying whether to only return the name without 
+#' @param nameOnly Logical specifying whether to only return the name without
 #' creating the file.
-#' @param simplify Logical specifying whether to create "_05", _02" and "_01" 
+#' @param simplify Logical specifying whether to create "_05", _02" and "_01"
 #' versions of the file that are simplified to 5\%, 2\% and 1\%.
 #'
 #' @description Create a SpacialPolygonsDataFrame for Terrestrial Ecoregions.
 #'
-#' @details A Terrestrial Ecoregions shapefile is downloaded and converted to a 
-#' SpatialPolygonsDataFrame with additional columns of data. The resulting file 
-#' will be created in the spatial data directory which is set with 
+#' @details A Terrestrial Ecoregions shapefile is downloaded and converted to a
+#' SpatialPolygonsDataFrame with additional columns of data. The resulting file
+#' will be created in the spatial data directory which is set with
 #' \code{setSpatialDataDir()}.
 #'
 #' @note From the source documentation:
 #'
-#' This map depicts the 825 terrestrial ecoregions of the globe. Ecoregions are 
-#' relatively large units of land containing distinct assemblages of natural 
-#' communities and species, with boundaries that approximate the original extent 
-#' of natural communities prior to major land-use change. This comprehensive, 
-#' global map provides a useful framework for conducting biogeographical or 
-#' macroecological research, for identifying areas of outstanding biodiversity 
-#' and conservation priority, for assessing the representation and gaps in 
-#' conservation efforts worldwide, and for communicating the global distribution 
-#' of natural communities on earth. We have based ecoregion delineations on 
-#' hundreds of previous biogeographical studies, and refined and synthesized 
-#' existing information in regional workshops over 10 years to assemble the 
-#' global dataset. Ecoregions are nested within two higher-order 
-#' classifications: biomes (14) and biogeographic realms (8). Together, these 
-#' nested classification levels provide a framework for comparison among units 
+#' This map depicts the 825 terrestrial ecoregions of the globe. Ecoregions are
+#' relatively large units of land containing distinct assemblages of natural
+#' communities and species, with boundaries that approximate the original extent
+#' of natural communities prior to major land-use change. This comprehensive,
+#' global map provides a useful framework for conducting biogeographical or
+#' macroecological research, for identifying areas of outstanding biodiversity
+#' and conservation priority, for assessing the representation and gaps in
+#' conservation efforts worldwide, and for communicating the global distribution
+#' of natural communities on earth. We have based ecoregion delineations on
+#' hundreds of previous biogeographical studies, and refined and synthesized
+#' existing information in regional workshops over 10 years to assemble the
+#' global dataset. Ecoregions are nested within two higher-order
+#' classifications: biomes (14) and biogeographic realms (8). Together, these
+#' nested classification levels provide a framework for comparison among units
 #' and the identification of representative habitats and species assemblages.
-#' 
+#'
 #' @return Name of the dataset being created.
-#' 
+#'
 #' @references \url{https://www.worldwildlife.org/publications/terrestrial-ecoregions-of-the-world}
 #'
 #' @seealso setSpatialDataDir
@@ -46,42 +45,42 @@ convertTerrestrialEcoregions <- function(
   nameOnly = FALSE,
   simplify = TRUE
 ) {
-  
+
   # ----- Setup ----------------------------------------------------------------
-  
+
   # Use package internal data directory
   dataDir <- getSpatialDataDir()
-  
+
   # Specify the name of the dataset and file being created
   datasetName <- 'TerrestrialEcoregions'
-  
-  if (nameOnly) 
+
+  if (nameOnly)
     return(datasetName)
-  
+
   # ----- Get the data ---------------------------------------------------------
-  
+
   # Build appropriate request URL
   url <- "https://c402277.ssl.cf1.rackcdn.com/publications/15/files/original/official_teow.zip?1349272619"
-  
+
   filePath <- file.path(dataDir, basename(url))
   utils::download.file(url, filePath)
   # NOTE: This zip file has no directory so extra subdirectory needs to be created
   utils::unzip(filePath, exdir = file.path(dataDir, 'terrestrialEcors'))
-  
+
   # ----- Convert to SPDF ------------------------------------------------------
-  
+
   # Convert shapefile into SpatialPolygonsDataFrame
   # NOTE: The 'terrestrialEcors' directory has been created
   dsnPath <- file.path(dataDir, 'terrestrialEcors/official')
   shpName <- 'wwf_terr_ecos'
   SPDF <- convertLayer(
-    dsn = dsnPath, 
-    layerName = shpName, 
+    dsn = dsnPath,
+    layerName = shpName,
     encoding = 'UTF-8'
   )
-  
+
   # ----- Select useful columns and rename -------------------------------------
-  
+
   # > dplyr::glimpse(SPDF@data)
   # Observations: 14,458
   # Variables: 21
@@ -106,14 +105,14 @@ convertTerrestrialEcoregions <- function(
   # $ PER_area   <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
   # $ PER_area_1 <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
   # $ PER_area_2 <dbl> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
-  
+
   # Data Dictionary:
-  #   OBJECTID -----> (drop) 
+  #   OBJECTID -----> (drop)
   #   AREA ---------> area: the area of the ecoregion in m^2
-  #   PERIMETER ----> (drop)    
-  #   ECO_NAME -----> ecoregionName: name of the ecoregion  
+  #   PERIMETER ----> (drop)
+  #   ECO_NAME -----> ecoregionName: name of the ecoregion
   #   REALM --------> realm: biogeographical realm name
-  #   BIOME --------> biome: biome name 
+  #   BIOME --------> biome: biome name
   #   ECO_NUM ------> ecoregionNumber: unique identifier
   #   ECO_ID -------> ecoregionID: unique identifier
   #   ECO_SYM ------> ECO_SYM: ecoregion symbol
@@ -129,26 +128,26 @@ convertTerrestrialEcoregions <- function(
   #   PER_area -----> (drop)
   #   PER_area_1 ---> (drop)
   #   PER_area_2 ---> (drop)
-  
+
   # convert area to m^2
   SPDF@data$AREA <- as.numeric(SPDF$AREA)
   SPDF@data$AREA <- SPDF$AREA*1000000
-  
-  # Get latitude and longitude from polygon centroids 
+
+  # Get latitude and longitude from polygon centroids
   centroids <- rgeos::gCentroid(SPDF, byid = TRUE)
   lon <- sp::coordinates(centroids)[,1]
   lat <- sp::coordinates(centroids)[,2]
-  
+
   SPDF@data$longitude <- lon
   SPDF@data$latitude <- lat
-  
-  # Get countryCode from latitude and longitude 
+
+  # Get countryCode from latitude and longitude
   # NOTE: Some records may have countryCode with value NA
   SPDF@data$countryCode <- getCountryCode(SPDF$longitude, SPDF$latitude, useBuffering = FALSE)
-  
+
   # Create the new dataframe in a specific column order
   # NOTE: ecoregionName, ecoregionID, and ecoregionCode are all equivalent identifiers for each ecoregion
-  SPDF@data <- 
+  SPDF@data <-
     dplyr::select(
       .data = SPDF@data,
       ecoregionName = .data$ECO_NAME,
@@ -168,31 +167,31 @@ convertTerrestrialEcoregions <- function(
       G200Biome = .data$G200_BIOME,
       G200STAT = .data$G200_STAT
     )
-  
+
   # ----- Clean SPDF -----------------------------------------------------------
-  
+
   # Group polygons with the same identifier (stateFIPS)
   SPDF <- organizePolygons(
-    SPDF, 
-    uniqueID = 'ecoregionCode', 
+    SPDF,
+    uniqueID = 'ecoregionCode',
     sumColumns = 'area'
   )
-  
+
   # Clean topology errors
   if ( !cleangeo::clgeo_IsValid(SPDF) ) {
     SPDF <- cleangeo::clgeo_Clean(SPDF)
   }
-  
+
   # ----- Name and save the data -----------------------------------------------
-  
+
   # Assign a name and save the data
   message("Saving full resolution version...\n")
   assign(datasetName, SPDF)
   save(list = c(datasetName), file = paste0(dataDir, '/', datasetName, '.rda'))
   rm(list = datasetName)
-  
+
   # ----- Simplify -------------------------------------------------------------
-  
+
   if ( simplify ) {
     # Create new, simplified datsets: one with 5%, 2%, and one with 1% of the vertices of the original
     # NOTE: This may take several minutes.
@@ -208,7 +207,7 @@ convertTerrestrialEcoregions <- function(
     assign(datasetName_05, SPDF_05)
     save(list = datasetName_05, file = paste0(dataDir,"/", datasetName_05, '.rda'))
     rm(list = c("SPDF_05",datasetName_05))
-    
+
     message("Simplifying to 2%...\n")
     SPDF_02 <- rmapshaper::ms_simplify(SPDF, 0.02)
     SPDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
@@ -221,7 +220,7 @@ convertTerrestrialEcoregions <- function(
     assign(datasetName_02, SPDF_02)
     save(list = datasetName_02, file = paste0(dataDir,"/", datasetName_02, '.rda'))
     rm(list = c("SPDF_02",datasetName_02))
-    
+
     message("Simplifying to 1%...\n")
     SPDF_01 <- rmapshaper::ms_simplify(SPDF, 0.01)
     SPDF_01@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
@@ -235,13 +234,13 @@ convertTerrestrialEcoregions <- function(
     save(list = datasetName_01, file = paste0(dataDir,"/", datasetName_01, '.rda'))
     rm(list = c("SPDF_01",datasetName_01))
   }
-  
+
   # ----- Clean up and return --------------------------------------------------
-  
+
   # Clean up
   unlink(filePath, force = TRUE)
   unlink(dsnPath, recursive = TRUE, force = TRUE)
-  
+
   return(invisible(datasetName))
-  
+
 }

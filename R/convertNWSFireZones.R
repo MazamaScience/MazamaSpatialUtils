@@ -1,33 +1,32 @@
 #' @keywords datagen
 #' @importFrom rlang .data
-#' @importFrom cleangeo clgeo_IsValid
 #' @export
-#' 
+#'
 #' @title Convert NWS Public Forecast Zones Shapefile
-#' 
-#' @param nameOnly Logical specifying whether to only return the name without 
+#'
+#' @param nameOnly Logical specifying whether to only return the name without
 #' creating the file.
-#' @param simplify Logical specifying whether to create "_05", _02" and "_01" 
+#' @param simplify Logical specifying whether to create "_05", _02" and "_01"
 #' versions of the file that are simplified to 5\%, 2\% and 1\%.
-#' 
+#'
 #' @description Create a SpatialPolygonsDataFrame for NWS weather forecast zones
-#' 
-#' @details A NWS forecast zone shapefile is downloaded and converted to a 
-#' SpatialPolygonsDataFrame with additional columns of data. The resulting file 
-#' will be created in the spatial data directory which is set with 
+#'
+#' @details A NWS forecast zone shapefile is downloaded and converted to a
+#' SpatialPolygonsDataFrame with additional columns of data. The resulting file
+#' will be created in the spatial data directory which is set with
 #' \code{setSpatialDataDir()}.
-#' 
+#'
 #' The source data is from 2020.
-#' 
+#'
 #' @note From the source documentation:
-#' 
-#' This data set is used to delineate the Fire Weather Zones that are used by 
+#'
+#' This data set is used to delineate the Fire Weather Zones that are used by
 #' NWS in the fire weather forecast program.
 #'
 #' @return Name of the dataset being created.
-#' 
+#'
 #' @references \url{https://www.weather.gov/gis/FireZones}
-#' 
+#'
 #' @seealso setSpatialDataDir
 #' @seealso getVariable
 
@@ -35,42 +34,42 @@ convertNWSFireZones <- function(
   nameOnly = FALSE,
   simplify = TRUE
 ) {
-  
+
   # ----- Setup ----------------------------------------------------------------
-  
+
   # Use package internal data directory
   dataDir <- getSpatialDataDir()
-  
+
   # Specify the name of the dataset and file being created
   datasetName <- 'NWSFireZones'
-  
+
   if (nameOnly)
     return(datasetName)
-  
+
   # ----- Get the data ---------------------------------------------------------
-  
+
   # Build appropriate request URL
   url <- "https://www.weather.gov/source/gis/Shapefiles/WSOM/fz03mr20.zip"
-  
+
   filePath <- file.path(dataDir, basename(url))
   utils::download.file(url, filePath)
   # NOTE:  This zip file has no directory so extra subdirectory needs to be created
   utils::unzip(filePath, exdir = file.path(dataDir, 'NWSFireZones'))
-  
+
   # ----- Convert to SPDF ------------------------------------------------------
-  
+
   # Convert shapefile into SpatialPolygonsDataFrame
   # NOTE:  The 'NWSFireZones' directory has been created
   dsnPath <- file.path(dataDir, 'NWSFireZones')
   shpName <- 'fz03mr20'
   SPDF <- convertLayer(
-    dsn = dsnPath, 
-    layerName = shpName, 
+    dsn = dsnPath,
+    layerName = shpName,
     encoding = 'UTF-8'
   )
-  
+
   # ----- Select useful columns and rename -------------------------------------
-  
+
   # > dplyr::glimpse(SPDF@data)
   # Observations: 3,507
   # Variables: 13
@@ -87,7 +86,7 @@ convertNWSFireZones <- function(
   # $ SimPgnFlag <int> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
   # $ MaxSimpTol <dbl> 1e-04, 1e-04, 1e-04, 1e-04, 1e-04, 1e-04, 1e-04, 1e-04, 1e…
   # $ MinSimpTol <dbl> 1e-04, 1e-04, 1e-04, 1e-04, 1e-04, 1e-04, 1e-04, 1e-04, 1e…
-  
+
 
   # Data Dictionary:
   #   STATE -------> stateCode: 2-digit postal code
@@ -103,17 +102,17 @@ convertNWSFireZones <- function(
   #   SimPgnFlag --> (drop)
   #   MaxSimpTol --> (drop)
   #   MinSimpTol --> (drop)
-  
-  # NOTE:  The values in the TIME_ZONE field do not correspond to timezones from the 
+
+  # NOTE:  The values in the TIME_ZONE field do not correspond to timezones from the
   # NOTE:  WorldTimezones file so that field will be dropped to avoid confusion.
   # NOTE:  For example:
   # NOTE:  loadSpatialData("WorldTimezones")
   # NOTE:  plot(subset(SPDF, TIME_ZONE == "A"))
   # NOTE:  plot(subset(WorldTimezones, timezone == "America/Anchorage"), border = "red", add = TRUE)
   # NOTE:  plot(subset(WorldTimezones, timezone == "America/Nome"), border = "blue", add = TRUE)
-  
+
   # Create the new dataframe in a specific column order
-  SPDF@data <- 
+  SPDF@data <-
     dplyr::select(
       .data = SPDF@data,
       stateCode = .data$STATE,
@@ -127,29 +126,29 @@ convertNWSFireZones <- function(
 
 
   # ----- Clean SPDF -----------------------------------------------------------
-  
+
   # Group polygons with the same identifier (zoneID)
   SPDF <- organizePolygons(
-    SPDF, 
-    uniqueID = 'zoneID', 
+    SPDF,
+    uniqueID = 'zoneID',
     sumColumns = c('longitude', 'latitude')
   )
-  
+
   # Clean topology errors
   if ( !cleangeo::clgeo_IsValid(SPDF) ) {
     SPDF <- cleangeo::clgeo_Clean(SPDF, verbose = TRUE)
   }
-  
+
   # ----- Name and save the data -----------------------------------------------
-  
+
   # Assign a name and save the data
   message("Saving full resolution version...\n")
   assign(datasetName, SPDF)
   save(list = c(datasetName), file = paste0(dataDir, '/', datasetName, '.rda'))
   rm(list = datasetName)
-  
+
   # ----- Simplify -------------------------------------------------------------
-  
+
   if ( simplify ) {
     # Create new, simplified datsets: one with 5%, 2%, and one with 1% of the vertices of the original
     # NOTE:  This may take several minutes.
@@ -165,7 +164,7 @@ convertNWSFireZones <- function(
     assign(datasetName_05, SPDF_05)
     save(list = datasetName_05, file = paste0(dataDir,"/", datasetName_05, '.rda'))
     rm(list = c("SPDF_05",datasetName_05))
-    
+
     message("Simplifying to 2%...\n")
     SPDF_02 <- rmapshaper::ms_simplify(SPDF, 0.02)
     SPDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
@@ -178,7 +177,7 @@ convertNWSFireZones <- function(
     assign(datasetName_02, SPDF_02)
     save(list = datasetName_02, file = paste0(dataDir,"/", datasetName_02, '.rda'))
     rm(list = c("SPDF_02",datasetName_02))
-    
+
     message("Simplifying to 1%...\n")
     SPDF_01 <- rmapshaper::ms_simplify(SPDF, 0.01)
     SPDF_01@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
@@ -192,13 +191,13 @@ convertNWSFireZones <- function(
     save(list = datasetName_01, file = paste0(dataDir,"/", datasetName_01, '.rda'))
     rm(list = c("SPDF_01",datasetName_01))
   }
-  
+
   # ----- Clean up and return --------------------------------------------------
-  
+
   # Clean up
   unlink(filePath, force = TRUE)
   unlink(dsnPath, recursive = TRUE, force = TRUE)
-  
+
   return(invisible(datasetName))
-  
+
 }

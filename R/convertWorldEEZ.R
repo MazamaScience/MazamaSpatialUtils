@@ -44,7 +44,7 @@ convertWorldEEZ <- function(
   # Test if the shapefile directory exists.
   filePath <- file.path(dataDir,'World_EEZ_v11_20191118_LR.zip')
   if ( !file.exists(filePath) ) {
-    stop('Shapefile directory does not exists. Please download and convert the shapefile desired.', call.=FALSE)
+    stop('Shapefile directory does not exists. Please download and convert the shapefile desired.', call. = FALSE)
   }
 
   # Unzip the downloaded file
