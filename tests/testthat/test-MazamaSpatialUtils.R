@@ -2,17 +2,17 @@
 # Convenience functions
 
 setup_spatial_data <- function() {
-   
+
   skip_on_cran()
   skip_on_travis()
-  
-  # try to set up spatial data. Skip if fails.  
+
+  # try to set up spatial data. Skip if fails.
   spatialDataDir <- try(getSpatialDataDir(), silent = TRUE)
-  
+
   if (!exists('NaturalEarthAdm1')) {
-    tryCatch(getSpatialDataDir(), 
+    tryCatch(getSpatialDataDir(),
              error = function(error) {
-               setSpatialDataDir("~/Data/Spatial") 
+               setSpatialDataDir("~/Data/Spatial")
              })
     tryCatch(loadSpatialData("NaturalEarthAdm1"),
              error = function(error) {
@@ -23,7 +23,7 @@ setup_spatial_data <- function() {
     skip("Could not load NaturalEarthAdm1")
   }
   return (spatialDataDir)
-  
+
 }
 
 # -----------------------------------------------------------------------------
@@ -31,25 +31,25 @@ testthat::context("Environment dataDir")
 
 
 testthat::test_that("setSpatialDataDir and getSpatialDataDir work correctly", {
-  
+
   skip_on_cran()
   skip_on_travis()
-  
+
   # Setup
   spatialDataDir <- try(getSpatialDataDir(), silent = TRUE)
-  
+
   setSpatialDataDir("~")
   testthat::expect_equal(path.expand("~"), getSpatialDataDir())
   setSpatialDataDir(getwd())
   testthat::expect_equal(getwd(), getSpatialDataDir())
-  
+
   # Teardown
   if (class(spatialDataDir) == "character") {
     setSpatialDataDir(spatialDataDir)
   } else {
     removeSpatialDataDir()
   }
-  
+
 })
 
 # -----------------------------------------------------------------------------
@@ -102,64 +102,64 @@ test_that("returns expected output", {
 
   skip_on_cran()
   skip_on_travis()
-  
+
   # Setup
   spatialDataDir <- setup_spatial_data()
-  
+
   expect_equal(stateToCode("Washington"), "WA")
   expect_equal(stateToCode("Cantabria"), "CB")
-  
+
   # Teardown
   if (class(spatialDataDir) == "character") {
     setSpatialDataDir(spatialDataDir)
   } else {
     removeSpatialDataDir()
   }
-  
+
 })
 
 
 # -----------------------------------------------------------------------------
-context("codeToState") 
+context("codeToState")
 
 test_that("returns expected output", {
 
   skip_on_cran()
   skip_on_travis()
-  
+
   # Setup
   spatialDataDir <- setup_spatial_data()
-  
+
   expect_equal(codeToState("WA", "US"), "Washington")
   expect_equal(codeToState("CB", "ES"), "Cantabria")
-  
+
   # Teardown
   if (class(spatialDataDir) == "character") {
     setSpatialDataDir(spatialDataDir)
   } else {
     removeSpatialDataDir()
   }
-  
+
 })
 
 test_that("warns when there are multiple states for a code", {
-  
+
   skip_on_cran()
   skip_on_travis()
 
   # Setup
   spatialDataDir <- setup_spatial_data()
-  
+
   expect_warning(codeToState("WA"), "9 states with code")
   expect_warning(codeToState("CB"), "12 states with code")
-  
+
   # Teardown
   if (class(spatialDataDir) == "character") {
     setSpatialDataDir(spatialDataDir)
   } else {
     removeSpatialDataDir()
   }
-  
+
 })
 
 # -----------------------------------------------------------------------------
@@ -169,12 +169,16 @@ test_that("errors are handled intellegently", {
   expect_error(dissolve(SimpleCountries, field = "missing"), "Field 'missing' not found")
 })
 
-test_that("creates SPDF", {
-  expect_is(dissolve(SimpleCountries, field = "UN_region"), "SpatialPolygonsDataFrame")
-})
+# NOTE:  This takes a long time and is only tested before CRAN submission
 
-test_that("dissolves into correct number of polygons", {
-  regions <- dissolve(SimpleCountries, field = "UN_region")
-  expect_equal(length(unique(SimpleCountries$UN_region)), length(regions$UN_region))
-})
-  
+# test_that("dissolves into correct object", {
+#
+#   skip_on_cran()
+#   skip_on_travis()
+#
+#   regions <- dissolve(SimpleCountries, field = "UN_region")
+#   expect_is(regions, "SpatialPolygonsDataFrame")
+#   expect_equal(length(unique(SimpleCountries$UN_region)), length(regions$UN_region))
+#
+# })
+

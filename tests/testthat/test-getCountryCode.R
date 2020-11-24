@@ -3,7 +3,7 @@ testthat::context("getCountryCode()")
 
 testthat::test_that("handles errors correctly", {
   testthat::expect_error(getCountryCode(),
-                         'argument "lon" is missing, with no default')
+                         'argument "longitude" is missing, with no default')
   testthat::expect_error(getCountryCode(0,100))
 })
 

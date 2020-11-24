@@ -5,8 +5,8 @@
 \title{Return country names at specified locations}
 \usage{
 getCountry(
-  lon,
-  lat,
+  longitude,
+  latitude,
   dataset = "SimpleCountriesEEZ",
   countryCodes = NULL,
   allData = FALSE,
@@ -14,35 +14,35 @@ getCountry(
 )
 }
 \arguments{
-\item{lon}{vector of longitudes in decimal degrees}
+\item{longitude}{Vector of longitudes in decimal degrees East.}
 
-\item{lat}{vector of latitudes in decimal degrees}
+\item{latitude}{Vector of latitudes in decimal degrees North.}
 
-\item{dataset}{name of spatial dataset to use}
+\item{dataset}{Name of spatial dataset to use.}
 
-\item{countryCodes}{vector of countryCodes}
+\item{countryCodes}{Vector of ISO 3166-1 alpha-2 country codes.}
 
-\item{allData}{logical specifying whether a full dataframe should be returned}
+\item{allData}{Logical specifying whether a full dataframe should be returned.}
 
-\item{useBuffering}{logical flag specifying the use of location buffering to 
-find the nearest polygon if no target polygon is found}
+\item{useBuffering}{Logical flag specifying the use of location buffering to
+find the nearest polygon if no target polygon is found.}
 }
 \value{
-Vector of country names in English.
+Vector of English language country names.
 }
 \description{
-Uses spatial comparison to determine which country polygons the 
+Uses spatial comparison to determine which country polygons the
 locations fall into and returns the country name for those polygons.
-    
+
 If \code{allData = TRUE}, additional data is returned.
 }
 \examples{
 library(MazamaSpatialUtils)
 
-lon <- seq(0, 50)
-lat <- seq(0, 50)
+longitude <- seq(0, 50)
+latitude <- seq(0, 50)
 
-getCountry(lon, lat)
+getCountry(longitude, latitude)
 
 }
 \references{

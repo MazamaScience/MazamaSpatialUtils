@@ -1,9 +1,15 @@
 # MazamaSpatialUtils 0.7.0
 
 Version 0.7 includes more datasets that have all been through identical
-processing and harmonization steps.
+processing and harmonization steps. In general, this release represents a
+clean-and-update revision that brings all aspects of the package up to modern
+standards.
 
+Improvements include:
+
+* Fewer package dependencies.
 * Minor updates to vignettes and articles.
+* Consistent use of `longitude` and `latitude` over `lon` and `lat`.
 
 # MazamaSpatialUtils 0.6.16
 
