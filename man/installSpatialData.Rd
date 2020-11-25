@@ -5,20 +5,22 @@
 \title{Install spatial datasets}
 \usage{
 installSpatialData(
-  urlBase = "http://data.mazamascience.com/MazamaSpatialUtils/Spatial",
-  file = "mazama_spatial_files-0.6.tar.gz"
+  urlBase = "http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7",
+  dataset = NULL
 )
 }
 \arguments{
-\item{urlBase}{location of spatial data files}
+\item{urlBase}{Location of spatial data files.}
 
-\item{file}{name of the tar.gz file containing spatial datasets}
+\item{dataset}{Name of spatial dataset to install.}
 }
 \value{
-Nothing.
+If \code{pattern = NULL} a vector of dataset names.
 }
 \description{
-Install spatial datasets found  at \code{url} into the directory 
+Install spatial datasets found  at \code{url} into the directory
 previously set with \code{setSpatialDataDir()}.
+
+If \code{pattern = NULL} (default), available datasets will be displalyed..
 }
 \keyword{environment}

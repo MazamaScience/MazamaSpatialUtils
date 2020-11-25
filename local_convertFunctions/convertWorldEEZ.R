@@ -4,6 +4,7 @@
 #'
 #' @title Convert World Exclusive Economic Zones shapefile
 #'
+#' @param EEZDir Directory containing the unzipped EEZ data.
 #' @param nameOnly logical specifying whether to only return the name without
 #' creating the file
 #' @param simplify Logical specifying whether to create "_05", _02" and "_01"
@@ -13,9 +14,30 @@
 #'
 #' @details A world EEZ shapefile is converted to a SpatialPolygonsDataFrame
 #' with additional columns of data. To use this function, the file
-#' "World_EEZ_v11_20191118_LR.zip" must be downloaded into the users spatial
-#' directory which is set with \code{setSpatialDataDir()}. The resulting file
+#' "World_EEZ_v11_20191118.zip" must be downloaded into the users spatial
+#' directory and unzipped. The location of the unzipped directory is then set
+#' with the \code{EEZDir} parameter. The resulting file
 #' will be created in this same spatial data directory.
+#'
+#' The source data is from Version 11 -- 2019.
+#'
+#' @note From the source documentation:
+#'
+#' 1) Maritime Boundaries Geodatabase: Exclusive Economic Zones (200NM), version 11
+#'
+#' This dataset builds on previous versions of the world's EEZ. In version 9,
+#' the 200 nautical miles outer limit was completely recalculated using a higher
+#' resolution coastline as a normal baseline (ESRI Countries 2014) and straight
+#' baselines, where available. This dataset consists of two shapefiles:
+#' polylines that represent the maritime boundaries of the world's countries,
+#' the other one is a polygon layer representing the Exclusive Economic Zone of
+#' countries. This dataset also contains digital information about treaties,
+#' joint regime, and disputed boundaries.
+#'
+#' Preferred citation:
+#'   Flanders Marine Institute (2019). Maritime Boundaries Geodatabase: Maritime
+#'   Boundaries and Exclusive Economic Zones (200NM), version 11. Available
+#'   online at https://www.marineregions.org/ https://doi.org/10.14284/386.
 #'
 #' @return Name of the dataset being created.
 #'
@@ -24,6 +46,7 @@
 #' @seealso setSpatialDataDir
 
 convertWorldEEZ <- function(
+  EEZDir = "~/Data/Spatial/World_EEZ_v11_20191118",
   nameOnly = FALSE,
   simplify = TRUE
 ) {
@@ -41,20 +64,24 @@ convertWorldEEZ <- function(
 
   # ----- Get the data ---------------------------------------------------------
 
-  # Test if the shapefile directory exists.
-  filePath <- file.path(dataDir,'World_EEZ_v11_20191118_LR.zip')
-  if ( !file.exists(filePath) ) {
-    stop('Shapefile directory does not exists. Please download and convert the shapefile desired.', call. = FALSE)
-  }
+  # NOTE:  This 125 MB file was downloaded manually and unzipped to create gdbDir
 
-  # Unzip the downloaded file
-  utils::unzip(filePath, exdir = file.path(dataDir))
+  # Test if the gdb directory exists.
+  if ( !dir.exists(EEZDir) ) {
+    stop("
+  EEZ directory does not exists. Please download and unzip the EEZ data from:
+
+    http://www.marineregions.org/downloads.php
+
+  Then use the location of World_EEZ_v11_20191118 as the 'EEZDir' parameter."
+    )
+  }
 
   # ----- Convert to SPDF ------------------------------------------------------
 
   # Convert shapefile into SpatialPolygonsDataFrame
-  dsnPath <- file.path(dataDir, 'World_EEZ_v11_20191118_LR')
-  shpName <- "eez_v11_lowres"
+  dsnPath <- EEZDir
+  shpName <- "eez_v11"
   SPDF <- convertLayer(
     dsn = dsnPath,
     layerName = shpName,
@@ -64,10 +91,20 @@ convertWorldEEZ <- function(
   # ----- Select useful columns and rename -------------------------------------
 
   # > names(SPDF)
-  # [1] "MRGID"      "GEONAME"    "MRGID_TER1" "POL_TYPE"   "MRGID_SOV1" "TERRITORY1" "ISO_TER1"   "SOVEREIGN1" "MRGID_TER2"
-  # [10] "MRGID_SOV2" "TERRITORY2" "ISO_TER2"   "SOVEREIGN2" "MRGID_TER3" "MRGID_SOV3" "TERRITORY3" "ISO_TER3"   "SOVEREIGN3"
-  # [19] "X_1"        "Y_1"        "MRGID_EEZ"  "AREA_KM2"   "ISO_SOV1"   "ISO_SOV2"   "ISO_SOV3"   "UN_SOV1"    "UN_SOV2"
-  # [28] "UN_SOV3"    "UN_TER1"    "UN_TER2"    "UN_TER3"
+  #  [1] "MRGID"      "GEONAME"    "MRGID_TER1" "POL_TYPE"   "MRGID_SOV1" "TERRITORY1"
+  #  [7] "ISO_TER1"   "SOVEREIGN1" "MRGID_TER2" "MRGID_SOV2" "TERRITORY2" "ISO_TER2"
+  # [13] "SOVEREIGN2" "MRGID_TER3" "MRGID_SOV3" "TERRITORY3" "ISO_TER3"   "SOVEREIGN3"
+  # [19] "X_1"        "Y_1"        "MRGID_EEZ"  "AREA_KM2"   "ISO_SOV1"   "ISO_SOV2"
+  # [25] "ISO_SOV3"   "UN_SOV1"    "UN_SOV2"    "UN_SOV3"    "UN_TER1"    "UN_TER2"
+  # [31] "UN_TER3"
+
+
+  ##############################################################################
+  # Redo this from here down
+  ##############################################################################
+
+
+
 
   #   NOTE: These column names from a previous version :
   #   > names(SPDF)
@@ -79,21 +116,21 @@ convertWorldEEZ <- function(
   #   NOTE: columns "country", "sovereign", and "ISO3" respectively.
 
   # Data Dictionary (unlisted column names are dropped and not used):
-  #   MRGID  -----> MRGID
+  #   MRGID  -------> MRGID
   #   GEONAME  -----> EEZ
   #   POL_TYPE -----> polType
-  #   TERRITORY1 -----> used to create territory and dropped
+  #   TERRITORY1 ---> used to create territory and dropped
   #   ISO_TER1 -----> used to create ISO3 and dropped
-  #   SOVEREIGN1 -----> used to create sovereign and dropped
-  #   TERRITORY2 -----> used to create territory and dropped
+  #   SOVEREIGN1 ---> used to create sovereign and dropped
+  #   TERRITORY2 ---> used to create territory and dropped
   #   ISO_TER2 -----> used to create ISO3 and dropped
-  #   SOVEREIGN2 -----> used to create sovereign and dropped
-  #   TERRITORY3 -----> used to create territory and dropped
+  #   SOVEREIGN2 ---> used to create sovereign and dropped
+  #   TERRITORY3 ---> used to create territory and dropped
   #   ISO_TER3 -----> used to create ISO3 and dropped
-  #   SOVEREIGN3 -----> used to create sovereign and dropped
-  #   X_1 -----> longitude
-  #   Y_1 -----> latitude
-  #   AREA_KM2 -----> area (converted to meters by multiplying my 1000)
+  #   SOVEREIGN3 ---> used to create sovereign and dropped
+  #   X_1 ----------> longitude
+  #   Y_1 ----------> latitude
+  #   AREA_KM2 -----> area (converted to sq meters by multiplying by 1e6)
 
   # Create single territory, sovereign, and ISO3 columns and convert area to m
   SPDF@data <- SPDF@data %>%
@@ -115,7 +152,7 @@ convertWorldEEZ <- function(
       ISO3 = vapply(strsplit(.data$concatISO, "; "),
                     function(x) paste(unique(x), collapse = ", "),
                     character(1)),
-      area = .data$AREA_KM2 *1000
+      area = .data$AREA_KM2 * 1e6
      )
 
   # Change missing or multiple ISO3 to NA

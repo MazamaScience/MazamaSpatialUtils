@@ -81,7 +81,7 @@ are required, please use the TIGER/Line Shapefiles instead of the generalized
 cartographic boundary files
 }
 \references{
-\url{https://www.census.gov/geo/maps-data/data/cbf/cbf_sld.html}
+\url{https://www.census.gov/geographies/mapping-files/time-series/geo/cartographic-boundary.html}
 }
 \seealso{
 setSpatialDataDir

@@ -1,24 +1,54 @@
 #' @keywords environment
 #' @export
 #' @title Install spatial datasets
-#' @param urlBase location of spatial data files
-#' @param file name of the tar.gz file containing spatial datasets
-#' @description Install spatial datasets found  at \code{url} into the directory 
+#' @param urlBase Location of spatial data files.
+#' @param dataset Name of spatial dataset to install.
+#' @description Install spatial datasets found  at \code{url} into the directory
 #' previously set with \code{setSpatialDataDir()}.
-#' 
-#' @return Nothing.
+#'
+#' If \code{pattern = NULL} (default), available datasets will be displalyed..
+#'
+#' @return If \code{pattern = NULL} a vector of dataset names.
+#'
 installSpatialData <- function(
-  urlBase = "http://data.mazamascience.com/MazamaSpatialUtils/Spatial",
-  file = "mazama_spatial_files-0.6.tar.gz"
+  urlBase = "http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7",
+  dataset = NULL
 ) {
-  
+
   # Use package internal data directory
   dataDir <- getSpatialDataDir()
-  
-  tempfile <- base::tempfile("spatial_data", fileext = ".tar.gz")
-  utils::download.file(paste0(urlBase, '/', file), tempfile)
-  utils::untar(tempfile, exdir = dataDir)
-  base::file.remove(tempfile)
-  
+
+  # ----- Display all available data -------------------------------------------
+
+  if ( is.null(dataset) ) {
+
+    allDatasets <-
+      MazamaCoreUtils::html_getLinkUrls(urlBase) %>%
+      basename() %>%
+      stringr::str_replace("_..\\.rda","\\.rda") %>%
+      stringr::str_replace("\\.rda","") %>%
+      sort() %>%
+      unique()
+
+    message(paste0(
+      "Available datasets:\n",
+      paste0("  ", allDatasets, collapse = "\n")
+    ))
+
+  }
+
+  # ----- Get files matching pattern -------------------------------------------
+
+  for ( version in c("", "_05", "_02", "_01") ) {
+
+    fileName <- paste0(dataset, version, ".rda")
+    filePath <- file.path(dataDir, fileName)
+
+    if ( !file.exists(filePath) ) {
+      utils::download.file(paste0(urlBase, '/', fileName), filePath)
+    }
+
+  }
+
 }
 

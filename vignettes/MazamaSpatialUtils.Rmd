@@ -123,7 +123,7 @@ loadSpatialData('USCensus')
 ```
 
 Additional watershed data from the [Watershed Boundary Dataset](http://nhd.usgs.gov/wbd.html) are quite
-large and can be downloaded separately from http://mazamascience.com/RData/Spatial.
+large and can be downloaded separately from http://data.mazamascience.com/MazamaSpatialUtils/Spatial.
 
  * ` 38 Mb WBDHU2.RData` -- USGS level 2 watersheds
  * `107 Mb WBDHU4.RData` -- USGS level 4 watersheds
