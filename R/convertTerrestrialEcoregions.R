@@ -81,6 +81,8 @@ convertTerrestrialEcoregions <- function(
 
   # ----- Select useful columns and rename -------------------------------------
 
+  message("Harmonizing @data...\n")
+
   # > dplyr::glimpse(SPDF@data)
   # Observations: 14,458
   # Variables: 21
@@ -171,6 +173,7 @@ convertTerrestrialEcoregions <- function(
   # ----- Clean SPDF -----------------------------------------------------------
 
   # Group polygons with the same identifier (stateFIPS)
+  message("Organizing polygons...\n")
   SPDF <- organizePolygons(
     SPDF,
     uniqueID = 'ecoregionCode',
@@ -178,7 +181,9 @@ convertTerrestrialEcoregions <- function(
   )
 
   # Clean topology errors
+  message("Checking for topology errors...\n")
   if ( !cleangeo::clgeo_IsValid(SPDF) ) {
+    message("Cleaning topology errors...\n")
     SPDF <- cleangeo::clgeo_Clean(SPDF)
   }
 

@@ -101,6 +101,8 @@ convertUSFSRangerDistricts <- function(
 
   # ----- Select useful columns and rename -------------------------------------
 
+  message("Harmonizing @data...\n")
+
   # > dplyr::glimpse(SPDF@data)
   # Observations: 503
   # Variables: 10
@@ -178,6 +180,7 @@ convertUSFSRangerDistricts <- function(
   # ----- Clean SPDF -----------------------------------------------------------
 
   # Group polygons with the same identifier (districtID)
+  message("Organizing polygons...\n")
   SPDF <- organizePolygons(
     SPDF,
     uniqueID = 'districtID',
@@ -185,7 +188,9 @@ convertUSFSRangerDistricts <- function(
   )
 
   # Clean topology errors
+  message("Checking for topology errors...\n")
   if ( !cleangeo::clgeo_IsValid(SPDF) ) {
+    message("Cleaning topology errors...\n")
     SPDF <- cleangeo::clgeo_Clean(SPDF)
   }
 

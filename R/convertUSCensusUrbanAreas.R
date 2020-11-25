@@ -74,6 +74,8 @@ convertUSCensusUrbanAreas <- function(
 
   # ----- Select useful columns and rename -------------------------------------
 
+  message("Harmonizing @data...\n")
+
   #   > dplyr::glimpse(SPDF@data)
   #   Observations: 3,601
   #   Variables: 12
@@ -148,6 +150,7 @@ convertUSCensusUrbanAreas <- function(
   # ----- Organize polygons ----------------------------------------------------
 
   # Group polygons with the same identifier (GEOID)
+  message("Organizing polygons...\n")
   SPDF <- organizePolygons(
     SPDF,
     uniqueID = "GEOID",
@@ -155,7 +158,9 @@ convertUSCensusUrbanAreas <- function(
   )
 
   # Clean topology errors
+  message("Checking for topology errors...\n")
   if ( !cleangeo::clgeo_IsValid(SPDF) ) {
+    message("Cleaning topology errors...\n")
     SPDF <- cleangeo::clgeo_Clean(SPDF)
   }
 

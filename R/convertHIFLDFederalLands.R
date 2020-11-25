@@ -90,6 +90,8 @@ convertHIFLDFederalLands <- function(
 
   # ----- Select useful columns and rename -------------------------------------
 
+  message("Harmonizing @data...\n")
+
   # Replace "-" with "," in STATE field
   SPDF@data$STATE <- stringr::str_replace(SPDF@data$STATE, '-', ',')
 
@@ -153,7 +155,9 @@ convertHIFLDFederalLands <- function(
   # NOTE:    View(subset(SPDF@data, is.na(primaryLandOwner)) == 0)
 
   # ----- Organize polygons ----------------------------------------------------
+
   # any(duplicated(SPDF@data$ID)) is FALSE
+  message("Organizing polygons...\n")
   SPDF <- organizePolygons(SPDF, "ID")
 
   # Drop the extraneous ID column
