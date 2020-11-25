@@ -7,21 +7,21 @@
 getPolygonID(SPDF)
 }
 \arguments{
-\item{SPDF}{spatial polygons dataset of interest}
+\item{SPDF}{Spatial polygons dataset of interest.}
 }
 \value{
 Vector of polygon identifiers.
 }
 \description{
-Extracts the the vector of unique polygon identifiers from 
+Extracts the the vector of unique polygon identifiers from
 \code{SPDF}.
 
 This function is useful when writing code to aggregate data by polygon and
-calculate per-polygon statistics. Each unique SpatialPolygonsDataFrame will 
-have a different set of data columns but each is guaranteed to have a column 
+calculate per-polygon statistics. Each unique SpatialPolygonsDataFrame will
+have a different set of data columns but each is guaranteed to have a column
 named \code{polygonID} that uniquely identifies each polygon.
 
-This allows us to write code that aggregates by polygon without having to 
+This allows us to write code that aggregates by polygon without having to
 know whether the polygons represent, countries, timezones or HUCs, etc.
 }
 \keyword{locator}

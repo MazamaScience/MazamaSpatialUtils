@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -44,7 +48,6 @@
 
 <meta property="og:title" content="Function reference" />
 <meta property="og:image" content="/logo.png" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -62,7 +65,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-index">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -76,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
       </span>
     </div>
 
@@ -102,6 +105,12 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/Developer_Style_Guide.html">Developer Style Guide</a>
+    </li>
+    <li>
+      <a href="../articles/Understanding_sp_Objects.html">Understanding sp Objects</a>
+    </li>
+    <li>
       <a href="../articles/articles/Basic_GIS_in_R.html">Basic GIS Operations in R</a>
     </li>
     <li>
@@ -118,7 +127,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/MazamaScience/MazamaSpatialUtils">
+  <a href="https://github.com/MazamaScience/MazamaSpatialUtils/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -154,6 +163,11 @@
           <p class="section-desc"></p>
         </th>
       </tr>
+      
+      
+    </tbody><tbody>
+      
+      
       <tr>
         
         <td>
@@ -171,19 +185,19 @@
         <td>
           <p><code><a href="SimpleCountries.html">SimpleCountries</a></code> </p>
         </td>
-        <td><p>World country polygons</p></td>
+        <td><p>Simplified spatial dataset of country boundaries.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="SimpleCountriesEEZ.html">SimpleCountriesEEZ</a></code> </p>
         </td>
-        <td><p>World country EEZ polygons</p></td>
+        <td><p>Simplified spatial dataset of EEZ/country combined boundaries.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="SimpleTimezones.html">SimpleTimezones</a></code> </p>
         </td>
-        <td><p>World timezone polygons</p></td>
+        <td><p>Simplified spatial dataset of world timezones.</p></td>
       </tr><tr>
         
         <td>
@@ -199,9 +213,27 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="US_countyCodes.html">US_countyCodes</a></code> </p>
+        </td>
+        <td><p>Dataframe of US state codes</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="US_countyConversion.html">US_countyNameToFIPS()</a></code> <code><a href="US_countyConversion.html">US_countyFIPSToName()</a></code> </p>
+        </td>
+        <td><p>Conversion functions for US county names and FIPS codes.</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="US_stateCodes.html">US_stateCodes</a></code> </p>
         </td>
         <td><p>Dataframe of US state codes</p></td>
+      </tr><tr>
+        
+        <td>
+          <p><code><a href="US_stateConversion.html">US_stateCodeToName()</a></code> <code><a href="US_stateConversion.html">US_stateCodeToFIPS()</a></code> <code><a href="US_stateConversion.html">US_stateFIPSToName()</a></code> <code><a href="US_stateConversion.html">US_stateFIPSToCode()</a></code> <code><a href="US_stateConversion.html">US_stateNameToCode()</a></code> <code><a href="US_stateConversion.html">US_stateNameToFIPS()</a></code> </p>
+        </td>
+        <td><p>Conversion functions for US state names, codes and FIPS codes.</p></td>
       </tr><tr>
         
         <td>
@@ -237,37 +269,13 @@
         <td>
           <p><code><a href="convertGACC.html">convertGACC()</a></code> </p>
         </td>
-        <td><p>Convert Geographic Area Coordination Center geojson, as defined by NIFC</p></td>
+        <td><p>Convert Geographic Area Coordination Center shapefile</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="convertGADM.html">convertGADM()</a></code> </p>
         </td>
-        <td><p>Convert Global Administrative Areas (GADM) Shapefile</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="convertHIFLDFederalLands.html">convertHIFLDFederalLands()</a></code> </p>
-        </td>
-        <td><p>Convert HIFLD Federal Lands shapefiles</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="convertHMSSmoke.html">convertHMSSmoke()</a></code> </p>
-        </td>
-        <td><p>Convert NOAA Hazard Mapping System Smoke Shapefiles</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="convertIndianLands.html">convertIndianLands()</a></code> </p>
-        </td>
-        <td><p>Convert Indian Lands Shapefile</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="convertMTBSBurnArea.html">convertMTBSBurnArea()</a></code> </p>
-        </td>
-        <td><p>Convert MTBS Burn Area shapefiles</p></td>
+        <td><p>Convert Global Administrative Areas (GADM) SPDF</p></td>
       </tr><tr>
         
         <td>
@@ -289,33 +297,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="convertPHDs.html">convertPHDs()</a></code> </p>
-        </td>
-        <td><p>Convert Public Health Districts Shapefile</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="convertSimpleCountries.html">convertSimpleCountries()</a></code> </p>
-        </td>
-        <td><p>Convert (Simple) World Borders Shapefile</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="convertSimpleCountriesEEZ.html">convertSimpleCountriesEEZ()</a></code> </p>
-        </td>
-        <td><p>Convert (Simple) World Borders Shapefile</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="convertSimpleTimezones.html">convertSimpleTimezones()</a></code> </p>
-        </td>
-        <td><p>Convert SimpleTimezones Shapefile</p></td>
-      </tr><tr>
-        
-        <td>
           <p><code><a href="convertStateLegislativeDistricts.html">convertStateLegislativeDistricts()</a></code> </p>
         </td>
-        <td><p>Convert US dtate legislative districts shapefile</p></td>
+        <td><p>Convert US state legislative districts shapefile</p></td>
       </tr><tr>
         
         <td>
@@ -351,7 +335,7 @@
         <td>
           <p><code><a href="convertUSCensusCounties.html">convertUSCensusCounties()</a></code> </p>
         </td>
-        <td><p>Convert US County Borders Shapefile</p></td>
+        <td><p>Convert US county borders shapefile</p></td>
       </tr><tr>
         
         <td>
@@ -367,9 +351,9 @@
       </tr><tr>
         
         <td>
-          <p><code><a href="convertUSFSRangerDistricts.html">convertUSFSRangerDistricts()</a></code> </p>
+          <p><code><a href="convertUSIndianLands.html">convertUSIndianLands()</a></code> </p>
         </td>
-        <td><p>Convert USFS Ranger District shapefiles</p></td>
+        <td><p>Convert Indian Lands Shapefile</p></td>
       </tr><tr>
         
         <td>
@@ -381,19 +365,13 @@
         <td>
           <p><code><a href="convertWeatherZones.html">convertWeatherZones()</a></code> </p>
         </td>
-        <td><p>Convert NWS Public Forecast Zones Shapefile</p></td>
+        <td><p>Convert NWS Public Forecast Zones Shapefile.</p></td>
       </tr><tr>
         
         <td>
           <p><code><a href="convertWikipediaTimezoneTable.html">convertWikipediaTimezoneTable()</a></code> </p>
         </td>
         <td><p>Convert Wikipedia Timezone Table to Dataframe</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="convertWorldEEZ.html">convertWorldEEZ()</a></code> </p>
-        </td>
-        <td><p>Convert World Exclusive Economic Zones Boundaries Shapefile</p></td>
       </tr><tr>
         
         <td>
@@ -505,6 +483,12 @@
       </tr><tr>
         
         <td>
+          <p><code><a href="installSpatialData_0.6.html">installSpatialData_0.6()</a></code> </p>
+        </td>
+        <td><p>Install version 0.6 spatial datasets</p></td>
+      </tr><tr>
+        
+        <td>
           <p><code><a href="installedSpatialData.html">installedSpatialData()</a></code> </p>
         </td>
         <td><p>List locally installed spatial datasets</p></td>
@@ -526,12 +510,6 @@
           <p><code><a href="loadSpatialData.html">loadSpatialData()</a></code> </p>
         </td>
         <td><p>Load spatial datasets</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="runExample.html">runExample()</a></code> </p>
-        </td>
-        <td><p>Run Shiny app example</p></td>
       </tr><tr>
         
         <td>
@@ -567,22 +545,21 @@
     </table>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#section-all-functions">All functions</a></li>
-    </ul>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
 
       <footer>
       <div class="copyright">
-  <p>Developed by Jonathan Callahan, Roger Andre, Tom Bergamaschi, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
+  <p>Developed by Jonathan Callahan, Rachel Carroll, Eli Grosman, Roger Andre, Tom Bergamaschi, Tina Chen, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

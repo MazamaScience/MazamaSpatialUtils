@@ -7,10 +7,10 @@
 convertEPARegions(nameOnly = FALSE, simplify = TRUE)
 }
 \arguments{
-\item{nameOnly}{Logical specifying whether to only return the name without 
+\item{nameOnly}{Logical specifying whether to only return the name without
 creating the file.}
 
-\item{simplify}{Logical specifying whether to create "_05", _02" and "_01" 
+\item{simplify}{Logical specifying whether to create "_05", _02" and "_01"
 versions of the file that are simplified to 5\%, 2\% and 1\%.}
 }
 \value{
@@ -18,16 +18,35 @@ Name of the dataset being created.
 }
 \description{
 Returns a SpatialPolygonsDataFrame for EPA Regions
+}
+\details{
+An EPA region boundary shapefile is downloaded and converted to a
+SpatialPolygonsDataFrame with additional columns of data. The resulting file
+will be created in the spatial data directory which is set with
+\code{setSpatialDataDir()}.
 
-The EPARegions layer is a polygon shapefile coverage representing the 
-boundaries of the ten Regional Offices of the United States Environmental 
-Protection Agency in the United States. Each regional office 
-monitors the environmental regulations within a group of states.
+The source data is from 2017.
 }
 \note{
-Updated 7/26/2019
+From the source documentation:
+
+This dataset represents delineated EPA Region boundaries. EPA has ten
+regional offices across the country, each of which is responsible for several
+states and in some cases, territories or special environmental programs.
+
+This Shared Enterprise Geodata and Services (SEGS)dataset was created by
+U.S. EPA using 2011 TIGER/Line state boundaries from the U.S. Census Bureau.
+The core mission of SEGS is to provide a single point of ownership for
+geospatial datasets that are national in extent and of general use to all
+EPA users and to make those datasets available through channels that best
+meet user needs.
 }
 \references{
 \url{https://www.arcgis.com/home/item.html?id=c670540796584c72b4f59b676ccabe6a}
+}
+\seealso{
+setSpatialDataDir
+
+getVariable
 }
 \keyword{datagen}

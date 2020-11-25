@@ -7,25 +7,25 @@
 loadSpatialData(pattern = "*\\\\.[rR][dD]a?t?a")
 }
 \arguments{
-\item{pattern}{regular expression used to match filenames}
+\item{pattern}{Regular expression used to match filenames.}
 }
 \value{
-Invisibly returns a vector of spatial dataset names loaded into the 
+Invisibly returns a vector of spatial dataset names loaded into the
 global environment.
 }
 \description{
-Load datasets found in the directory previously set with 
-\code{setSpatialDataDir()}. 
-Only files matching \code{pattern} will be loaded. 
+Load datasets found in the directory previously set with
+\code{setSpatialDataDir()}.
+Only files matching \code{pattern} will be loaded.
 By default, only \code{.RData} and \code{.rda} files are matched.
 
 Core datastes available for the package include:
 \itemize{
-\item{\code{TMWorldBorders} -- high resolution country polygons (higher 
+\item{\code{TMWorldBorders} -- high resolution country polygons (higher
 resolution than \code{SimpleCountries})}
 \item{\code{NaturalEarthAdm1} -- state/province polygons throughout the world}
 \item{\code{USCensusCounties} -- county polygons in the United States}
-\item{\code{WorldTimezones} -- high resolution timezone polygons (higher 
+\item{\code{WorldTimezones} -- high resolution timezone polygons (higher
 resolution than \code{SimpleTimezones})}
 }
 

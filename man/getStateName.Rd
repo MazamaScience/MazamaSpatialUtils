@@ -5,8 +5,8 @@
 \title{Return state names at specified locations}
 \usage{
 getStateName(
-  lon,
-  lat,
+  longitude,
+  latitude,
   dataset = "NaturalEarthAdm1",
   countryCodes = NULL,
   allData = FALSE,
@@ -14,37 +14,42 @@ getStateName(
 )
 }
 \arguments{
-\item{lon}{vector of longitudes in decimal degrees}
+\item{longitude}{Vector of longitudes in decimal degrees East.}
 
-\item{lat}{vector of latitudes in decimal degrees}
+\item{latitude}{Vector of latitudes in decimal degrees North.}
 
-\item{dataset}{name of spatial dataset to use}
+\item{dataset}{Name of spatial dataset to use.}
 
-\item{countryCodes}{vector of country codes}
+\item{countryCodes}{Vector of ISO 3166-1 alpha-2 country codes.}
 
-\item{allData}{logical specifying whether a full dataframe should be returned}
+\item{allData}{Logical specifying whether a full dataframe should be returned.}
 
-\item{useBuffering}{logical flag specifying the use of location buffering to 
-find the nearest polygon if no target polygon is found}
+\item{useBuffering}{Logical flag specifying the use of location buffering to
+find the nearest polygon if no target polygon is found.}
 }
 \value{
-Vector of state names in English
+Vector of English language state names.
 }
 \description{
-Uses spatial comparison to determine which 'state' polygons the 
+Uses spatial comparison to determine which 'state' polygons the
 locations fall into and returns the ISO 3166-2 2-character state code
 strings for those polygons.
-    
-Specification of \code{countryCodes} limits spatial searching to the 
+
+Specification of \code{countryCodes} limits spatial searching to the
 specified countries and greatly improves performance.
-    
+
 If \code{allData = TRUE}, additional data is returned.
 }
 \examples{
 \dontrun{
-lon <- seq(-140,-90)
-lat <- seq(20,70)
-getStateName(lon,lat)
+library(MazamaSpatialUtils)
+setSpatialData("~/Data/Spatial")
+
+loadSpatialData("NaturalEarthAdm1")
+
+longitude <- seq(-140, -90)
+latitude <- seq(20, 70)
+getStateName(longitude, latitude)
 }
 }
 \seealso{

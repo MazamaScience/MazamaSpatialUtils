@@ -5,8 +5,8 @@
 \title{Return country ISO codes at specified locations}
 \usage{
 getCountryCode(
-  lon,
-  lat,
+  longitude,
+  latitude,
   dataset = "SimpleCountriesEEZ",
   countryCodes = NULL,
   allData = FALSE,
@@ -14,32 +14,36 @@ getCountryCode(
 )
 }
 \arguments{
-\item{lon}{vector of longitudes in decimal degrees}
+\item{longitude}{Vector of longitudes in decimal degrees East.}
 
-\item{lat}{vector of latitudes in decimal degrees}
+\item{latitude}{Vector of latitudes in decimal degrees North.}
 
-\item{dataset}{name of spatial dataset to use}
+\item{dataset}{Name of spatial dataset to use.}
 
-\item{countryCodes}{vector of countryCodes}
+\item{countryCodes}{Vector of ISO 3166-1 alpha-2 country codes.}
 
-\item{allData}{logical specifying whether a full dataframe should be returned}
+\item{allData}{Logical specifying whether a full dataframe should be returned.}
 
-\item{useBuffering}{logical flag specifying the use of location buffering to 
-find the nearest polygon if no target polygon is found}
+\item{useBuffering}{Logical flag specifying the use of location buffering to
+find the nearest polygon if no target polygon is found.}
 }
 \value{
 Vector of ISO-3166-1 alpha-2 country codes.
 }
 \description{
-Uses spatial comparison to determine which country polygons the 
+Uses spatial comparison to determine which country polygons the
 locations fall into and returns the country code strings for those polygons.
-    
+
 If \code{allData = TRUE}, additional data is returned.
 }
 \examples{
-lon <- seq(0, 50)
-lat <- seq(0, 50)
-getCountryCode(lon, lat)
+library(MazamaSpatialUtils)
+
+longitude <- seq(0, 50)
+latitude <- seq(0, 50)
+
+getCountryCode(longitude, latitude)
+
 }
 \references{
 \url{http://www.naturalearthdata.com/downloads/10m-cultural-vectors/}

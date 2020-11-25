@@ -65,9 +65,7 @@ we are solely interested in the column referring to cases/1000 pop as this is wh
 
 ```{r ebolaTable}
 url <- "http://www.johnstonsarchive.net/policy/westafrica-ebola.html"
-raw <- xml2::read_html(url)
-tables <- rvest::html_nodes(raw, "table")
-ebolaTable <- rvest::html_table(tables[[3]])
+ebolaTable <- MazamaCoreUtils::html_getTable(url, index = 3)
 ```
 
 Using this table, we can sort the cases/100 pop for each province/county into seven levels, which we

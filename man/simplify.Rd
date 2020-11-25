@@ -7,11 +7,11 @@
 simplify(SPDF, keep = 0.05, ...)
 }
 \arguments{
-\item{SPDF}{object of class SpatialPolygonsDataFrame}
+\item{SPDF}{Object of class SpatialPolygonsDataFrame.}
 
-\item{keep}{proportion of points to retain (0-1; default 0.05)}
+\item{keep}{Proportion of points to retain (0-1; default 0.05)}
 
-\item{...}{arguments passed to \code{rmapshaper::ms_simplify()}}
+\item{...}{Arguments passed to \code{rmapshaper::ms_simplify()}}
 }
 \value{
 A simplified spatial polygons dataframe.

@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -43,12 +47,8 @@
 
 
 <meta property="og:title" content="Convert USGS hydrologic unit shapefiles — convertWBDHUC" />
-<meta property="og:description" content="Previously downloaded shapefiles from the USGS 
-Watershed Boundary Dataset are converted to a 
-SpatialPolygonsDataFrame with additional columns of data. The resulting file will be
-created in the spatial data directory which is set with setSpatialDataDir()." />
+<meta property="og:description" content="Create a SpatialPolygonsDataFrame for USGS watershed boundaries" />
 <meta property="og:image" content="/logo.png" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -66,7 +66,7 @@ created in the spatial data directory which is set with setSpatialDataDir()." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -80,7 +80,7 @@ created in the spatial data directory which is set with setSpatialDataDir()." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
       </span>
     </div>
 
@@ -106,6 +106,12 @@ created in the spatial data directory which is set with setSpatialDataDir()." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/Developer_Style_Guide.html">Developer Style Guide</a>
+    </li>
+    <li>
+      <a href="../articles/Understanding_sp_Objects.html">Understanding sp Objects</a>
+    </li>
+    <li>
       <a href="../articles/articles/Basic_GIS_in_R.html">Basic GIS Operations in R</a>
     </li>
     <li>
@@ -122,7 +128,7 @@ created in the spatial data directory which is set with setSpatialDataDir()." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/MazamaScience/MazamaSpatialUtils">
+  <a href="https://github.com/MazamaScience/MazamaSpatialUtils/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -146,44 +152,36 @@ created in the spatial data directory which is set with setSpatialDataDir()." />
     </div>
 
     <div class="ref-description">
-    <p>Previously downloaded shapefiles from the USGS 
-<a href='http://nhd.usgs.gov/wbd.html'>Watershed Boundary Dataset</a> are converted to a 
-SpatialPolygonsDataFrame with additional columns of data. The resulting file will be
-created in the spatial data directory which is set with <code><a href='setSpatialDataDir.html'>setSpatialDataDir()</a></code>.</p>
+    <p>Create a SpatialPolygonsDataFrame for USGS watershed boundaries</p>
     </div>
 
-    <pre class="usage"><span class='fu'>convertWBDHUC</span>(
-  <span class='kw'>dsnPath</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>level</span> <span class='kw'>=</span> <span class='fl'>8</span>,
-  <span class='kw'>extension</span> <span class='kw'>=</span> <span class='st'>""</span>,
-  <span class='kw'>nameOnly</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
-  <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>
-)</pre>
+    <pre class="usage"><span class='fu'>convertWBDHUC</span><span class='op'>(</span>
+  gdbDir <span class='op'>=</span> <span class='st'>"~/Data/WBD/WBD_National_GDB.gdb"</span>,
+  level <span class='op'>=</span> <span class='fl'>2</span>,
+  nameOnly <span class='op'>=</span> <span class='cn'>FALSE</span>,
+  simplify <span class='op'>=</span> <span class='cn'>TRUE</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dsnPath</th>
-      <td><p>directory where the WBD HUC datasets are found</p></td>
+      <th>gdbDir</th>
+      <td><p>Directory containing the geodatabase.</p></td>
     </tr>
     <tr>
       <th>level</th>
       <td><p>Character or integer which must be 2, 4, 6, 8, 10, 12 or 14.</p></td>
     </tr>
     <tr>
-      <th>extension</th>
-      <td><p>Character extension associated with mapshaper simplified files.</p></td>
-    </tr>
-    <tr>
       <th>nameOnly</th>
-      <td><p>Logical specifying whether to only return the name without 
+      <td><p>Logical specifying whether to only return the name without
 creating the file.</p></td>
     </tr>
     <tr>
       <th>simplify</th>
-      <td><p>Logical specifying whether to create "_02" and "_01" versions 
-of the file that are simplified to 2% and 1%.</p></td>
+      <td><p>Logical specifying whether to create "_05", _02" and "_01"
+versions of the file that are simplified to 5%, 2% and 1%.</p></td>
     </tr>
     </table>
 
@@ -192,52 +190,70 @@ of the file that are simplified to 2% and 1%.</p></td>
     <p>Name of the dataset being created.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>The full WBD dataset can be downloaded from the USGS with the 
+    <p>A USGS Watershed Boundary Dataset geodatabase is converted to a
+SpatialPolygonsDataFrame with additional columns of data. To use this
+function, the WBD geodatabase must be downloaded into a directory which is
+identified with <code>gdbDir</code>. The resulting file will be created in the
+spatial data directory which is set with <code><a href='setSpatialDataDir.html'>setSpatialDataDir()</a></code>.</p>
+<p>The full WBD dataset can be downloaded from the USGS with the
 following command:</p><pre>
 curl https://prd-tnm.s3.amazonaws.com/StagedProducts/Hydrography/WBD/National/GDB/WBD_National_GDB.zip -O
 </pre>
 
+<p>The source data is from Version 2.3 -- 2020-11-19.</p>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-<p>Typically, the raw data will be simplified using 
-<a href='https://github.com/mbloch/mapshaper'>mapshaper</a>.</p>
-<p>With mapshaper, you can reduce the number of vertices in the polygons, greatly improving
-the efficiency of spatial searches. Experimentation shows that a reduction to 1-2<!-- % -->
-of the original shapefile size still retains the recognizable shape of polygons, removing
-only the higher order "crenellations" in the polygons.</p>
-<p>An example use of mapshaper would be:</p><pre>
-mapshaper WBDHU2.shp --simplify 1<!-- % --o WBDHU2_01.shp -->
-</pre>
-
-<p>A full suite of <code>.shp, .shx, .dbf, .prj</code> files will be created for the new name <code>WBDHU2_02</code>.</p>
+    <p>From the source documentation:</p>
+<p>The Watershed Boundary Dataset (WBD) is a seamless, national hydrologic unit
+dataset. Simply put, hydrologic units represent the area of the landscape that
+drains to a portion of the stream network. More specifically, a hydrologic
+unit defines the areal extent of surface water drainage to an outlet point on
+a dendritic stream network or to multiple outlet points where the stream
+network is not dendritic. A hydrologic unit may represent all or only part of
+the total drainage area to an outlet point so that multiple hydrologic units
+may be required to define the entire drainage area at a given outlet.
+Hydrologic unit boundaries in the WBD are determined based on topographic,
+hydrologic, and other relevant landscape characteristics without regard for
+administrative, political, or jurisdictional boundaries. The WBD seamlessly
+represents hydrologic units at six required and two optional hierarchical levels.</p>
+<p>The hydrologic units (HU) in the WBD form a standardized system for organizing,
+collecting, managing, and reporting hydrologic information for the nation.
+The HU in the WBD are arranged in a nested, hierarchical system with each HU
+in the system identified using a unique code. Hydrologic unit codes (HUC) are
+developed using a progressive two-digit system where each successively smaller
+areal unit is identified by adding two digits to the identifying code the
+smaller unit is nested within. WBD contains eight levels of progressive
+hydrologic units identified by unique 2- to 16-digit codes. The dataset is
+complete for the United States to the 12-digit hydrologic unit. The 14- and
+16-digit hydrologic units are optional and are not complete for the nation.
+Efforts are ongoing to complete 10- and 12-digit unit delineations within
+8-digit hydrologic units extending across the U.S. – Canada border. Additional
+information about this effort and access to data is linked on the “resources”
+section on this page. A similar effort is complete for the 10- and 12-digit
+units extending across the U.S. – Mexico border.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p><a href='http://nhd.usgs.gov/wbd.html'>http://nhd.usgs.gov/wbd.html</a></p>
+    <p><a href='https://www.usgs.gov/core-science-systems/ngp/national-hydrography/watershed-boundary-dataset'>https://www.usgs.gov/core-science-systems/ngp/national-hydrography/watershed-boundary-dataset</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>setSpatialDataDir</p></div>
 
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#see-also">See also</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
 
       <footer>
       <div class="copyright">
-  <p>Developed by Jonathan Callahan, Roger Andre, Tom Bergamaschi, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
+  <p>Developed by Jonathan Callahan, Rachel Carroll, Eli Grosman, Roger Andre, Tom Bergamaschi, Tina Chen, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

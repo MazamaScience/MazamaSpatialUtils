@@ -3,9 +3,9 @@ testthat::context("getSpatialData()")
 
 testthat::test_that("handles errors correctly", {
   testthat::expect_error(getSpatialData(),
-                         'argument "lon" is missing, with no default')
-  testthat::expect_error(getSpatialData(0,100,SimpleCountries))
-  testthat::expect_error(getSpatialData(-200, 0,SimpleCountries))
+                         'argument "longitude" is missing, with no default')
+  testthat::expect_error(getSpatialData(0,100, SimpleCountries))
+  testthat::expect_error(getSpatialData(-200, 0 ,SimpleCountries))
   testthat::expect_error(getSpatialData(c(-100, 10), 0, SimpleCountries))
 })
 
@@ -14,7 +14,7 @@ testthat::test_that("returns correct name", {
   testthat::expect_match(getSpatialData(-80, 40, SimpleCountries)$countryCode, "US")
   testthat::expect_match(getSpatialData(c(120,-17), c(-1.5,15), SimpleCountriesEEZ)$countryCode, "ID|SN")
   testthat::expect_match(getSpatialData(c(-87.1, 73.6, 26.2, -123), c(5.5, -52.9, 35.8, 48.7), SimpleCountriesEEZ)$countryCode,
-                         "CR|HM|GR|US")
+                         "CR|AU|GR|US")
 })
 
 testthat::test_that("buffering works", {

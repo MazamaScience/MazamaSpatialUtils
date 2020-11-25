@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -44,7 +48,6 @@
 
 <meta property="og:title" content="Changelog" />
 <meta property="og:image" content="/logo.png" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -62,7 +65,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-news">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -76,7 +79,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
       </span>
     </div>
 
@@ -102,6 +105,12 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/Developer_Style_Guide.html">Developer Style Guide</a>
+    </li>
+    <li>
+      <a href="../articles/Understanding_sp_Objects.html">Understanding sp Objects</a>
+    </li>
+    <li>
       <a href="../articles/articles/Basic_GIS_in_R.html">Basic GIS Operations in R</a>
     </li>
     <li>
@@ -118,7 +127,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/MazamaScience/MazamaSpatialUtils">
+  <a href="https://github.com/MazamaScience/MazamaSpatialUtils/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -136,21 +145,145 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Changelog <small></small></h1>
+      <h1 data-toc-skip>Changelog <small></small></h1>
       <small>Source: <a href='https://github.com/MazamaScience/MazamaSpatialUtils/blob/master/NEWS.md'><code>NEWS.md</code></a></small>
     </div>
 
-    <div id="mazamaspatialutils-0-6-7" class="section level1">
-<h1 class="page-header">
-<a href="#mazamaspatialutils-0-6-7" class="anchor"></a>MazamaSpatialUtils 0.6.7<small> Unreleased </small>
+    <div id="mazamaspatialutils-070" class="section level1">
+<h1 class="page-header" data-toc-text="0.7.0">
+<a href="#mazamaspatialutils-070" class="anchor"></a>MazamaSpatialUtils 0.7.0<small> Unreleased </small>
+</h1>
+<p>Version 0.7 includes more datasets that have all been through identical processing and harmonization steps. In general, this release represents a clean-and-update revision that brings all aspects of the package up to modern standards.</p>
+<p>Improvements include:</p>
+<ul>
+<li>Fewer package dependencies.</li>
+<li>Minor updates to vignettes and articles.</li>
+<li>Consistent replacement of <code>lon</code> and <code>lat with</code>longitude<code>and</code>latitude` in all functions.</li>
+</ul>
+</div>
+    <div id="mazamaspatialutils-0616" class="section level1">
+<h1 class="page-header" data-toc-text="0.6.16">
+<a href="#mazamaspatialutils-0616" class="anchor"></a>MazamaSpatialUtils 0.6.16<small> Unreleased </small>
+</h1>
+<ul>
+<li>Updated <code>convertWikipediaTimezeonTable()</code>.</li>
+<li>Updated <code><a href="../reference/convertWorldTimezones.html">convertWorldTimezones()</a></code> and package internal dataset <code>SimpleTimezones</code>.</li>
+<li>Updated <code><a href="../reference/convertGADM.html">convertGADM()</a></code> to support GADM version 3.6.</li>
+<li>Updated <code><a href="../reference/convertEEZCountries.html">convertEEZCountries()</a></code> and <code>SimpleCountriesEEZ</code> dataset.</li>
+<li>Updated <code>SimpleCountries</code> dataset</li>
+</ul>
+</div>
+    <div id="mazamaspatialutils-0615" class="section level1">
+<h1 class="page-header" data-toc-text="0.6.15">
+<a href="#mazamaspatialutils-0615" class="anchor"></a>MazamaSpatialUtils 0.6.15<small> Unreleased </small>
+</h1>
+<ul>
+<li>Added <code>US_countyCodes</code> dataset with <code>stateCode</code>, <code>stateFIPS</code>, <code>countyName</code>, <code>countyFIPS</code>.</li>
+</ul>
+<p>New functions for converting between US county names/FIPS:</p>
+<ul>
+<li><code><a href="../reference/US_countyConversion.html">US_countyNameToFIPS()</a></code></li>
+<li><code><a href="../reference/US_countyConversion.html">US_countyFIPSToName()</a></code></li>
+</ul>
+</div>
+    <div id="mazamaspatialutils-0614" class="section level1">
+<h1 class="page-header" data-toc-text="0.6.14">
+<a href="#mazamaspatialutils-0614" class="anchor"></a>MazamaSpatialUtils 0.6.14<small> Unreleased </small>
+</h1>
+<ul>
+<li>Fixed a bug in <code><a href="../reference/loadSpatialData.html">loadSpatialData()</a></code> that was returning dataset names with <code>".rda"</code>.</li>
+</ul>
+</div>
+    <div id="mazamaspatialutils-0613" class="section level1">
+<h1 class="page-header" data-toc-text="0.6.13">
+<a href="#mazamaspatialutils-0613" class="anchor"></a>MazamaSpatialUtils 0.6.13<small> Unreleased </small>
+</h1>
+<ul>
+<li>Updated <code>convertWorldEEZ.R</code>.</li>
+<li>Updated <code>convertHMSSmoke.R</code>.</li>
+<li>Updated <code>convertStateLegislativeDistricts.R</code>.</li>
+<li>Updated <code>convertTMWorldBordersSimple.R</code>.</li>
+<li>Updated <code>convertTMWorldBorders.R</code>.</li>
+<li>Updated <code>convertSimpleCountries.R</code>.</li>
+<li>Updated <code>convertGACC.R</code>.</li>
+<li>Updated <code>convertNWSFireZones.R</code>.</li>
+</ul>
+</div>
+    <div id="mazamaspatialutils-0612" class="section level1">
+<h1 class="page-header" data-toc-text="0.6.12">
+<a href="#mazamaspatialutils-0612" class="anchor"></a>MazamaSpatialUtils 0.6.12<small> Unreleased </small>
+</h1>
+<ul>
+<li>Updated <code>convertMTBSBurnArea.R</code>.</li>
+<li>Updated <code>convertNaturalEarthAdm1.R</code>.</li>
+</ul>
+</div>
+    <div id="mazamaspatialutils-0611" class="section level1">
+<h1 class="page-header" data-toc-text="0.6.11">
+<a href="#mazamaspatialutils-0611" class="anchor"></a>MazamaSpatialUtils 0.6.11<small> Unreleased </small>
+</h1>
+<ul>
+<li>Removed non-working <code>app/</code> directory and dependency on <strong>shiny</strong>.</li>
+<li>Corrected Bosnia country code in <code>convertWikipediaTimezoneTable.R</code>.</li>
+<li>Updated <code>convertEPARegions.R</code>.</li>
+<li>Updated <code>convertOSMTimeZones.R</code>.</li>
+<li>Updated <code>convertTerrestrialEcoregions.R</code>.</li>
+<li>Updated <code>convertWeatherZones.R</code>.</li>
+</ul>
+</div>
+    <div id="mazamaspatialutils-0610" class="section level1">
+<h1 class="page-header" data-toc-text="0.6.10">
+<a href="#mazamaspatialutils-0610" class="anchor"></a>MazamaSpatialUtils 0.6.10<small> Unreleased </small>
+</h1>
+<ul>
+<li>Updated <code>convertGACC.R</code> to use 2020 data.</li>
+<li>Removed outlying territories from <code>US_stateCodes</code>.</li>
+<li>Updated <code>convertUSCensusStates.R</code> to use 2019 data.</li>
+<li>Updated <code>convertCARBAirBains.R</code> to latest coding style.</li>
+<li>Updated <code>convertUSCensusCBSA.R</code> to latest coding style.</li>
+<li>Updated <code>convertIndianLands.R</code> to latest coding style.</li>
+<li>Now using the <em>cleangeo</em> package to fix topology errors and geometry validity issues.</li>
+</ul>
+<p>New functions for converting among US state names/codes/FIPS:</p>
+<ul>
+<li><code><a href="../reference/US_stateConversion.html">US_stateCodeToName()</a></code></li>
+<li><code><a href="../reference/US_stateConversion.html">US_stateCodeToFIPS()</a></code></li>
+<li><code><a href="../reference/US_stateConversion.html">US_stateFIPSToCode()</a></code></li>
+<li><code><a href="../reference/US_stateConversion.html">US_stateFIPSToName()</a></code></li>
+<li><code><a href="../reference/US_stateConversion.html">US_stateNameToCode()</a></code></li>
+<li><code><a href="../reference/US_stateConversion.html">US_stateNameToFIPS()</a></code></li>
+</ul>
+</div>
+    <div id="mazamaspatialutils-069" class="section level1">
+<h1 class="page-header" data-toc-text="0.6.9">
+<a href="#mazamaspatialutils-069" class="anchor"></a>MazamaSpatialUtils 0.6.9<small> Unreleased </small>
+</h1>
+<ul>
+<li>Changed <code>US_stateCodes</code> dataset to include only <code>stateName</code>, <code>stateCode</code> and <code>stateFIPS</code> columns. It is now more complete with codes for all states and territories.</li>
+<li>
+<code><a href="../reference/convertLayer.html">convertLayer()</a></code> now properly passes encoding to <code><a href="http://rgdal.r-forge.r-project.org/reference/readOGR.html">rgdal::readOGR()</a></code>.</li>
+<li>Updated <code><a href="../reference/convertUSCensusCounties.html">convertUSCensusCounties()</a></code> to use 2019 data.</li>
+</ul>
+</div>
+    <div id="mazamaspatialutils-068" class="section level1">
+<h1 class="page-header" data-toc-text="0.6.8">
+<a href="#mazamaspatialutils-068" class="anchor"></a>MazamaSpatialUtils 0.6.8<small> Unreleased </small>
+</h1>
+<ul>
+<li>New “Developer Style Guide” article.</li>
+</ul>
+</div>
+    <div id="mazamaspatialutils-067" class="section level1">
+<h1 class="page-header" data-toc-text="0.6.7">
+<a href="#mazamaspatialutils-067" class="anchor"></a>MazamaSpatialUtils 0.6.7<small> Unreleased </small>
 </h1>
 <ul>
 <li>New “Basic GIS in R” article.</li>
 </ul>
 </div>
-    <div id="mazamaspatialutils-0-6-6" class="section level1">
-<h1 class="page-header">
-<a href="#mazamaspatialutils-0-6-6" class="anchor"></a>MazamaSpatialUtils 0.6.6<small> Unreleased </small>
+    <div id="mazamaspatialutils-066" class="section level1">
+<h1 class="page-header" data-toc-text="0.6.6">
+<a href="#mazamaspatialutils-066" class="anchor"></a>MazamaSpatialUtils 0.6.6<small> Unreleased </small>
 </h1>
 <ul>
 <li>
@@ -159,73 +292,73 @@
 <li>New convert functions:
 <ul>
 <li><code><a href="../reference/convertEPARegions.html">convertEPARegions()</a></code></li>
-<li><code><a href="../reference/convertMTBSBurnArea.html">convertMTBSBurnArea()</a></code></li>
+<li><code>convertMTBSBurnArea()</code></li>
 <li><code><a href="../reference/convertUSCensusUrbanAreas.html">convertUSCensusUrbanAreas()</a></code></li>
-<li><code><a href="../reference/convertUSFSRangerDistricts.html">convertUSFSRangerDistricts()</a></code></li>
+<li><code>convertUSFSRangerDistricts()</code></li>
 </ul>
 </li>
 </ul>
 </div>
-    <div id="mazamaspatialutils-0-6-5" class="section level1">
-<h1 class="page-header">
-<a href="#mazamaspatialutils-0-6-5" class="anchor"></a>MazamaSpatialUtils 0.6.5<small> Unreleased </small>
+    <div id="mazamaspatialutils-065" class="section level1">
+<h1 class="page-header" data-toc-text="0.6.5">
+<a href="#mazamaspatialutils-065" class="anchor"></a>MazamaSpatialUtils 0.6.5<small> Unreleased </small>
 </h1>
 <ul>
 <li>New <code>convertHILFDFederalLands()</code> function.</li>
-<li>Addedd <strong>tidyr</strong> package to Imports.</li>
+<li>Added <strong>tidyr</strong> package to Imports.</li>
 <li>Updated docker image.</li>
 </ul>
 </div>
-    <div id="mazamaspatialutils-0-6-4" class="section level1">
-<h1 class="page-header">
-<a href="#mazamaspatialutils-0-6-4" class="anchor"></a>MazamaSpatialUtils 0.6.4<small> 2019-09-28 </small>
+    <div id="mazamaspatialutils-064" class="section level1">
+<h1 class="page-header" data-toc-text="0.6.4">
+<a href="#mazamaspatialutils-064" class="anchor"></a>MazamaSpatialUtils 0.6.4<small> 2019-09-28 </small>
 </h1>
 <ul>
 <li>Modified test infrastructure to address CRAN issues.</li>
 </ul>
 </div>
-    <div id="mazamaspatialutils-0-6-3" class="section level1">
-<h1 class="page-header">
-<a href="#mazamaspatialutils-0-6-3" class="anchor"></a>MazamaSpatialUtils 0.6.3<small> Unreleased </small>
+    <div id="mazamaspatialutils-063" class="section level1">
+<h1 class="page-header" data-toc-text="0.6.3">
+<a href="#mazamaspatialutils-063" class="anchor"></a>MazamaSpatialUtils 0.6.3<small> Unreleased </small>
 </h1>
 <ul>
 <li>Added <code>useBuffering</code> argument to <code>getUSCounties()</code>.</li>
 <li>Addressed bug in <code><a href="../reference/loadSpatialData.html">loadSpatialData()</a></code> which errored out when a directory existed with the same name as the dataset trying to be loaded.</li>
 <li>Updated <code><a href="../reference/summarizeByPolygon.html">summarizeByPolygon()</a></code> to modern dplyr syntax.</li>
-<li>Added <code><a href="../reference/pipe.html">%&gt;%</a></code> operator.</li>
+<li>Added <code><a href="../reference/%&gt;%.html">%&gt;%</a></code> operator.</li>
 <li>Code style refactoring.</li>
 </ul>
 </div>
-    <div id="mazamaspatialutils-0-6-1" class="section level1">
-<h1 class="page-header">
-<a href="#mazamaspatialutils-0-6-1" class="anchor"></a>MazamaSpatialUtils 0.6.1<small> 2019-01-30 </small>
+    <div id="mazamaspatialutils-061" class="section level1">
+<h1 class="page-header" data-toc-text="0.6.1">
+<a href="#mazamaspatialutils-061" class="anchor"></a>MazamaSpatialUtils 0.6.1<small> 2019-01-30 </small>
 </h1>
 <ul>
 <li>made <code><a href="../reference/simplify.html">simplify()</a></code> function example <code>donotrun</code> so as to avoid a CRAN testing failure on fedora only – Ugh.</li>
 </ul>
 </div>
-    <div id="mazamaspatialutils-0-6-0" class="section level1">
-<h1 class="page-header">
-<a href="#mazamaspatialutils-0-6-0" class="anchor"></a>MazamaSpatialUtils 0.6.0<small> 2019-01-27 </small>
+    <div id="mazamaspatialutils-060" class="section level1">
+<h1 class="page-header" data-toc-text="0.6.0">
+<a href="#mazamaspatialutils-060" class="anchor"></a>MazamaSpatialUtils 0.6.0<small> 2019-01-27 </small>
 </h1>
 <ul>
 <li>changes associated with minor version bump</li>
 </ul>
 </div>
-    <div id="mazamaspatialutils-0-5-10" class="section level1">
-<h1 class="page-header">
-<a href="#mazamaspatialutils-0-5-10" class="anchor"></a>MazamaSpatialUtils 0.5.10<small> Unreleased </small>
+    <div id="mazamaspatialutils-0510" class="section level1">
+<h1 class="page-header" data-toc-text="0.5.10">
+<a href="#mazamaspatialutils-0510" class="anchor"></a>MazamaSpatialUtils 0.5.10<small> Unreleased </small>
 </h1>
 <ul>
 <li>refactored shiny app from localShiny and added it to package in inst</li>
-<li>added <code><a href="../reference/runExample.html">runExample()</a></code> to run shiny examples</li>
+<li>added <code>runExample()</code> to run shiny examples</li>
 <li>updated <code>README.md</code>
 </li>
 </ul>
 </div>
-    <div id="mazamaspatialutils-0-5-9" class="section level1">
-<h1 class="page-header">
-<a href="#mazamaspatialutils-0-5-9" class="anchor"></a>MazamaSpatialutils 0.5.9<small> Unreleased </small>
+    <div id="mazamaspatialutils-059" class="section level1">
+<h1 class="page-header" data-toc-text="0.5.9">
+<a href="#mazamaspatialutils-059" class="anchor"></a>MazamaSpatialUtils 0.5.9<small> Unreleased </small>
 </h1>
 <ul>
 <li>New convert function for public health districts</li>
@@ -233,9 +366,9 @@
 <li>more testing</li>
 </ul>
 </div>
-    <div id="mazamaspatialutils-0-5-8" class="section level1">
-<h1 class="page-header">
-<a href="#mazamaspatialutils-0-5-8" class="anchor"></a>MazamaSpatialUtils 0.5.8<small> Unreleased </small>
+    <div id="mazamaspatialutils-058" class="section level1">
+<h1 class="page-header" data-toc-text="0.5.8">
+<a href="#mazamaspatialutils-058" class="anchor"></a>MazamaSpatialUtils 0.5.8<small> Unreleased </small>
 </h1>
 <ul>
 <li>New convert functions for weather zones</li>
@@ -245,9 +378,9 @@
 </li>
 </ul>
 </div>
-    <div id="mazamaspatialutils-0-5-7" class="section level1">
-<h1 class="page-header">
-<a href="#mazamaspatialutils-0-5-7" class="anchor"></a>MazamaSpatialUtils 0.5.7<small> Unreleased </small>
+    <div id="mazamaspatialutils-057" class="section level1">
+<h1 class="page-header" data-toc-text="0.5.7">
+<a href="#mazamaspatialutils-057" class="anchor"></a>MazamaSpatialUtils 0.5.7<small> Unreleased </small>
 </h1>
 <ul>
 <li>documentation with <strong>pkgdown</strong>
@@ -257,18 +390,18 @@
 </li>
 </ul>
 </div>
-    <div id="mazamaspatialutils-0-5-6" class="section level1">
-<h1 class="page-header">
-<a href="#mazamaspatialutils-0-5-6" class="anchor"></a>MazamaSpatialUtils 0.5.6<small> Unreleased </small>
+    <div id="mazamaspatialutils-056" class="section level1">
+<h1 class="page-header" data-toc-text="0.5.6">
+<a href="#mazamaspatialutils-056" class="anchor"></a>MazamaSpatialUtils 0.5.6<small> Unreleased </small>
 </h1>
 <ul>
 <li>added <code>CONUS</code> and <code>US_52</code> vectors of US state codes as package data</li>
 <li>added <code>US_stateCodes</code> dataframe as package data</li>
 </ul>
 </div>
-    <div id="mazamaspatialutils-0-5-5" class="section level1">
-<h1 class="page-header">
-<a href="#mazamaspatialutils-0-5-5" class="anchor"></a>MazamaSpatialUtils 0.5.5<small> Unreleased </small>
+    <div id="mazamaspatialutils-055" class="section level1">
+<h1 class="page-header" data-toc-text="0.5.5">
+<a href="#mazamaspatialutils-055" class="anchor"></a>MazamaSpatialUtils 0.5.5<small> Unreleased </small>
 </h1>
 <ul>
 <li>added <code><a href="../reference/convertStateLegislativeDistricts.html">convertStateLegislativeDistricts()</a></code> function to download and convert US state level legislative districts on demand</li>
@@ -279,27 +412,27 @@
 </li>
 </ul>
 </div>
-    <div id="mazamaspatialutils-0-5-4" class="section level1">
-<h1 class="page-header">
-<a href="#mazamaspatialutils-0-5-4" class="anchor"></a>MazamaSpatialUtils 0.5.4<small> 2018-09-18 </small>
+    <div id="mazamaspatialutils-054" class="section level1">
+<h1 class="page-header" data-toc-text="0.5.4">
+<a href="#mazamaspatialutils-054" class="anchor"></a>MazamaSpatialUtils 0.5.4<small> 2018-09-18 </small>
 </h1>
 <ul>
 <li>corrected GADM URL in documentation for <code><a href="../reference/convertGADM.html">convertGADM()</a></code>
 </li>
 </ul>
 </div>
-    <div id="mazamaspatialutils-0-5-3" class="section level1">
-<h1 class="page-header">
-<a href="#mazamaspatialutils-0-5-3" class="anchor"></a>MazamaSpatialUtils 0.5.3<small> Unreleased </small>
+    <div id="mazamaspatialutils-053" class="section level1">
+<h1 class="page-header" data-toc-text="0.5.3">
+<a href="#mazamaspatialutils-053" class="anchor"></a>MazamaSpatialUtils 0.5.3<small> Unreleased </small>
 </h1>
 <ul>
 <li>added <code><a href="../reference/convertUSCensusCBSA.html">convertUSCensusCBSA()</a></code> to convert Metropolitan-/Micropolitan Statistical Areas</li>
 <li>removed <code>verbose</code> argument from <code><a href="../reference/getStateCode.html">getStateCode()</a></code> function signature</li>
 </ul>
 </div>
-    <div id="mazamaspatialutils-0-5-2" class="section level1">
-<h1 class="page-header">
-<a href="#mazamaspatialutils-0-5-2" class="anchor"></a>MazamaSpatialUtils 0.5.2<small> 2017-12-07 </small>
+    <div id="mazamaspatialutils-052" class="section level1">
+<h1 class="page-header" data-toc-text="0.5.2">
+<a href="#mazamaspatialutils-052" class="anchor"></a>MazamaSpatialUtils 0.5.2<small> 2017-12-07 </small>
 </h1>
 <ul>
 <li>fixed use of <code>allStateCodes</code> in <code>WBD~</code> datasets</li>
@@ -310,24 +443,24 @@
 <li>added <code>ebolaMap</code> vignette</li>
 </ul>
 </div>
-    <div id="mazamaspatialutils-0-5-1" class="section level1">
-<h1 class="page-header">
-<a href="#mazamaspatialutils-0-5-1" class="anchor"></a>MazamaSpatialUtils 0.5.1<small> 2017-08-03 </small>
+    <div id="mazamaspatialutils-051" class="section level1">
+<h1 class="page-header" data-toc-text="0.5.1">
+<a href="#mazamaspatialutils-051" class="anchor"></a>MazamaSpatialUtils 0.5.1<small> 2017-08-03 </small>
 </h1>
 <ul>
 <li>tweaks to satisfy CRAN</li>
 </ul>
 </div>
-    <div id="mazamaspatialutils-0-5-0" class="section level1">
-<h1 class="page-header">
-<a href="#mazamaspatialutils-0-5-0" class="anchor"></a>MazamaSpatialUtils 0.5.0<small> Unreleased </small>
+    <div id="mazamaspatialutils-050" class="section level1">
+<h1 class="page-header" data-toc-text="0.5.0">
+<a href="#mazamaspatialutils-050" class="anchor"></a>MazamaSpatialUtils 0.5.0<small> Unreleased </small>
 </h1>
 <ul>
 <li>package now <code>Depends</code> on <strong>sp</strong> package so that <strong>sp</strong> plotting is used by default</li>
 <li>package includes higher resolution <code>SimpleCountries</code> and <code>SimpleTimezones</code> datasets</li>
 <li>internal standard now requires unique <code>polygonID</code> column for every dataset</li>
 <li>
-<code><a href="../reference/organizePolygons.html">organizePolygons()</a></code> now uniformly uses <code>polygonID</code> for rownames and <code>polygons@ID</code> so you can say: <code><a href="https://rdrr.io/r/graphics/plot.html">plot(SimpleCountries['IT',])</a></code>
+<code><a href="../reference/organizePolygons.html">organizePolygons()</a></code> now uniformly uses <code>polygonID</code> for rownames and <code>polygons@ID</code> so you can say: <code><a href="https://rdrr.io/pkg/raster/man/plot.html">plot(SimpleCountries['IT',])</a></code>
 </li>
 <li>fixed bug in processing of <code>USCensusCounties</code> dataset</li>
 <li>changed <code>codeToCode()</code> to two functions: <code><a href="../reference/iso2ToIso3.html">iso2ToIso3()</a></code> and <code><a href="../reference/iso3ToIso2.html">iso3ToIso2()</a></code>
@@ -337,9 +470,9 @@
 </li>
 </ul>
 </div>
-    <div id="mazamaspatialutils-0-4-9" class="section level1">
-<h1 class="page-header">
-<a href="#mazamaspatialutils-0-4-9" class="anchor"></a>MazamaSpatialUtils 0.4.9<small> 2017-03-17 </small>
+    <div id="mazamaspatialutils-049" class="section level1">
+<h1 class="page-header" data-toc-text="0.4.9">
+<a href="#mazamaspatialutils-049" class="anchor"></a>MazamaSpatialUtils 0.4.9<small> 2017-03-17 </small>
 </h1>
 <ul>
 <li>new .tar.gz file available containing spatial datasets</li>
@@ -358,107 +491,107 @@
 </li>
 </ul>
 </div>
-    <div id="mazamaspatialutils-0-4-8" class="section level1">
-<h1 class="page-header">
-<a href="#mazamaspatialutils-0-4-8" class="anchor"></a>MazamaSpatialUtils 0.4.8<small> 2016-11-18 </small>
+    <div id="mazamaspatialutils-048" class="section level1">
+<h1 class="page-header" data-toc-text="0.4.8">
+<a href="#mazamaspatialutils-048" class="anchor"></a>MazamaSpatialUtils 0.4.8<small> 2016-11-18 </small>
 </h1>
 <ul>
 <li>locations that do not intersect any polygon now return <code>NA</code> rather than generating warnings</li>
 <li>various minor bug fixes.</li>
 </ul>
 </div>
-    <div id="mazamaspatialutils-0-4-5" class="section level1">
-<h1 class="page-header">
-<a href="#mazamaspatialutils-0-4-5" class="anchor"></a>MazamaSpatialUtils 0.4.5<small> Unreleased </small>
+    <div id="mazamaspatialutils-045" class="section level1">
+<h1 class="page-header" data-toc-text="0.4.5">
+<a href="#mazamaspatialutils-045" class="anchor"></a>MazamaSpatialUtils 0.4.5<small> Unreleased </small>
 </h1>
 <ul>
 <li>
-<code><a href="../reference/convertHMSSmoke.html">convertHMSSmoke()</a></code> now handles shapefiles with new <code>Density</code> information</li>
+<code>convertHMSSmoke()</code> now handles shapefiles with new <code>Density</code> information</li>
 </ul>
 </div>
-    <div id="mazamaspatialutils-0-4-4" class="section level1">
-<h1 class="page-header">
-<a href="#mazamaspatialutils-0-4-4" class="anchor"></a>MazamaSpatialUtils 0.4.4<small> Unreleased </small>
+    <div id="mazamaspatialutils-044" class="section level1">
+<h1 class="page-header" data-toc-text="0.4.4">
+<a href="#mazamaspatialutils-044" class="anchor"></a>MazamaSpatialUtils 0.4.4<small> Unreleased </small>
 </h1>
 <ul>
 <li>Fixed bug/typo in <code>findTimezones</code> demo.</li>
-<li>Fixed bugs/typos in <code><a href="../reference/convertWBDHUC.html">convertWBDHUC()</a></code> and <code><a href="../reference/convertHMSSmoke.html">convertHMSSmoke()</a></code>.</li>
+<li>Fixed bugs/typos in <code><a href="../reference/convertWBDHUC.html">convertWBDHUC()</a></code> and <code>convertHMSSmoke()</code>.</li>
 </ul>
 </div>
-    <div id="mazamaspatialutils-0-4-3" class="section level1">
-<h1 class="page-header">
-<a href="#mazamaspatialutils-0-4-3" class="anchor"></a>MazamaSpatialUtils 0.4.3<small> 2016-02-17 </small>
+    <div id="mazamaspatialutils-043" class="section level1">
+<h1 class="page-header" data-toc-text="0.4.3">
+<a href="#mazamaspatialutils-043" class="anchor"></a>MazamaSpatialUtils 0.4.3<small> 2016-02-17 </small>
 </h1>
 <ul>
-<li>New <code><a href="../reference/convertHMSSmoke.html">convertHMSSmoke()</a></code> function for smoke data from the <a href="http://www.ospo.noaa.gov/Products/land/hms.html">NOAA Hazard Mapping Service</a>.</li>
+<li>New <code>convertHMSSmoke()</code> function for smoke data from the <a href="http://www.ospo.noaa.gov/Products/land/hms.html">NOAA Hazard Mapping Service</a>.</li>
 <li>Shapefiles with no projection information are assigned <code>"+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs"</code>.</li>
 <li>Added dependency on <strong>lubridate</strong> package.</li>
 </ul>
 </div>
-    <div id="mazamaspatialutils-0-4-2" class="section level1">
-<h1 class="page-header">
-<a href="#mazamaspatialutils-0-4-2" class="anchor"></a>MazamaSpatialUtils 0.4.2<small> Unreleased </small>
+    <div id="mazamaspatialutils-042" class="section level1">
+<h1 class="page-header" data-toc-text="0.4.2">
+<a href="#mazamaspatialutils-042" class="anchor"></a>MazamaSpatialUtils 0.4.2<small> Unreleased </small>
 </h1>
 <ul>
 <li>Added <code>encoding</code> argument to <code>converLayer()</code>.</li>
 <li>Modified <code><a href="../reference/convertUSCensusCounties.html">convertUSCensusCounties()</a></code> to use <code>encoding='latin1'</code>.</li>
 </ul>
 </div>
-    <div id="mazamaspatialutils-0-4-1" class="section level1">
-<h1 class="page-header">
-<a href="#mazamaspatialutils-0-4-1" class="anchor"></a>MazamaSpatialUtils 0.4.1<small> Unreleased </small>
+    <div id="mazamaspatialutils-041" class="section level1">
+<h1 class="page-header" data-toc-text="0.4.1">
+<a href="#mazamaspatialutils-041" class="anchor"></a>MazamaSpatialUtils 0.4.1<small> Unreleased </small>
 </h1>
 <ul>
-<li>Added <code>useBuffering</code> arguent to <code><a href="../reference/getState.html">getState()</a></code>, <code><a href="../reference/getCountry.html">getCountry()</a></code> and <code><a href="../reference/getTimezone.html">getTimezone()</a></code>.</li>
+<li>Added <code>useBuffering</code> argument to <code><a href="../reference/getState.html">getState()</a></code>, <code><a href="../reference/getCountry.html">getCountry()</a></code> and <code><a href="../reference/getTimezone.html">getTimezone()</a></code>.</li>
 </ul>
 </div>
-    <div id="mazamaspatialutils-0-3-2" class="section level1">
-<h1 class="page-header">
-<a href="#mazamaspatialutils-0-3-2" class="anchor"></a>MazamaSpatialUtils 0.3.2<small> 2015-07-24 </small>
+    <div id="mazamaspatialutils-032" class="section level1">
+<h1 class="page-header" data-toc-text="0.3.2">
+<a href="#mazamaspatialutils-032" class="anchor"></a>MazamaSpatialUtils 0.3.2<small> 2015-07-24 </small>
 </h1>
 <ul>
 <li>
-<code><a href="../reference/getSpatialData.html">getSpatialData()</a></code> no longer fails on invliad/missing locations, now returns dataframe rows with all NA.</li>
+<code><a href="../reference/getSpatialData.html">getSpatialData()</a></code> no longer fails on invalid/missing locations, now returns dataframe rows with all NA.</li>
 </ul>
 </div>
-    <div id="mazamaspatialutils-0-3-1-addition-of-buffered-search-and-worldeez-polygons" class="section level1">
-<h1 class="page-header">
-<a href="#mazamaspatialutils-0-3-1-addition-of-buffered-search-and-worldeez-polygons" class="anchor"></a>MazamaSpatialUtils 0.3.1 – addition of buffered search and WorldEEZ polygons<small> 2015-07-11 </small>
+    <div id="mazamaspatialutils-031--addition-of-buffered-search-and-worldeez-polygons" class="section level1">
+<h1 class="page-header" data-toc-text="0.3.1">
+<a href="#mazamaspatialutils-031--addition-of-buffered-search-and-worldeez-polygons" class="anchor"></a>MazamaSpatialUtils 0.3.1 – addition of buffered search and WorldEEZ polygons<small> 2015-07-11 </small>
 </h1>
 <ul>
 <li>Updated included datasets to use <code>"+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs"</code>.</li>
 <li>Addition of buffered search so that locations can find nearby polygons.</li>
-<li>Addition of <code><a href="../reference/convertWorldEEZ.html">convertWorldEEZ()</a></code> function.</li>
+<li>Addition of <code>convertWorldEEZ()</code> function.</li>
 </ul>
 </div>
-    <div id="mazamaspatialutils-0-2-4" class="section level1">
-<h1 class="page-header">
-<a href="#mazamaspatialutils-0-2-4" class="anchor"></a>MazamaSpatialUtils 0.2.4<small> 2015-05-21 </small>
+    <div id="mazamaspatialutils-024" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.4">
+<a href="#mazamaspatialutils-024" class="anchor"></a>MazamaSpatialUtils 0.2.4<small> 2015-05-21 </small>
 </h1>
 <ul>
 <li>Updated default projection from <code>"+proj=longlat"</code> to <code>"+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs"</code> to support libproj &gt;= 4.9.1</li>
 </ul>
 </div>
-    <div id="mazamaspatialutils-0-2-3" class="section level1">
-<h1 class="page-header">
-<a href="#mazamaspatialutils-0-2-3" class="anchor"></a>MazamaSpatialUtils 0.2.3<small> 2015-03-26 </small>
+    <div id="mazamaspatialutils-023" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.3">
+<a href="#mazamaspatialutils-023" class="anchor"></a>MazamaSpatialUtils 0.2.3<small> 2015-03-26 </small>
 </h1>
 <ul>
 <li>Removed unneeded test that failed with sp version 1.1-0.</li>
 </ul>
 </div>
-    <div id="mazamaspatialutils-0-2-2-minor-tweaks-to-0-2-1" class="section level1">
-<h1 class="page-header">
-<a href="#mazamaspatialutils-0-2-2-minor-tweaks-to-0-2-1" class="anchor"></a>MazamaSpatialUtils 0.2.2 – minor tweaks to 0.2.1<small> 2015-03-02 </small>
+    <div id="mazamaspatialutils-022--minor-tweaks-to-021" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.2">
+<a href="#mazamaspatialutils-022--minor-tweaks-to-021" class="anchor"></a>MazamaSpatialUtils 0.2.2 – minor tweaks to 0.2.1<small> 2015-03-02 </small>
 </h1>
 <ul>
 <li>User specification of <code>SpatialDataDir</code> is now required.</li>
 <li>Minor documentation improvements.</li>
 </ul>
 </div>
-    <div id="mazamaspatialutils-0-2-1-addition-of-gadm-and-usgs-huc8" class="section level1">
-<h1 class="page-header">
-<a href="#mazamaspatialutils-0-2-1-addition-of-gadm-and-usgs-huc8" class="anchor"></a>MazamaSpatialUtils 0.2.1 – addition of GADM and USGS HUC8<small> 2015-02-23 </small>
+    <div id="mazamaspatialutils-021--addition-of-gadm-and-usgs-huc8" class="section level1">
+<h1 class="page-header" data-toc-text="0.2.1">
+<a href="#mazamaspatialutils-021--addition-of-gadm-and-usgs-huc8" class="anchor"></a>MazamaSpatialUtils 0.2.1 – addition of GADM and USGS HUC8<small> 2015-02-23 </small>
 </h1>
 <ul>
 <li>Convert functions for GADM administrative boundaries and and USGS watershed datasets.</li>
@@ -466,51 +599,17 @@
 <li>Addition of <code><a href="../reference/organizePolygons.html">organizePolygons()</a></code> function.</li>
 </ul>
 </div>
-    <div id="mazamaspatialutils-0-1-initial-release" class="section level1">
-<h1 class="page-header">
-<a href="#mazamaspatialutils-0-1-initial-release" class="anchor"></a>MazamaSpatialUtils 0.1 – initial release<small> Unreleased </small>
+    <div id="mazamaspatialutils-01--initial-release" class="section level1">
+<h1 class="page-header" data-toc-text="0.1">
+<a href="#mazamaspatialutils-01--initial-release" class="anchor"></a>MazamaSpatialUtils 0.1 – initial release<small> Unreleased </small>
 </h1>
 </div>
   </div>
 
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <div id="tocnav">
-      <h2>Contents</h2>
-      <ul class="nav nav-pills nav-stacked">
-        <li><a href="#mazamaspatialutils-0-6-7">0.6.7</a></li>
-        <li><a href="#mazamaspatialutils-0-6-6">0.6.6</a></li>
-        <li><a href="#mazamaspatialutils-0-6-5">0.6.5</a></li>
-        <li><a href="#mazamaspatialutils-0-6-4">0.6.4</a></li>
-        <li><a href="#mazamaspatialutils-0-6-3">0.6.3</a></li>
-        <li><a href="#mazamaspatialutils-0-6-1">0.6.1</a></li>
-        <li><a href="#mazamaspatialutils-0-6-0">0.6.0</a></li>
-        <li><a href="#mazamaspatialutils-0-5-10">0.5.10</a></li>
-        <li><a href="#mazamaspatialutils-0-5-9">0.5.9</a></li>
-        <li><a href="#mazamaspatialutils-0-5-8">0.5.8</a></li>
-        <li><a href="#mazamaspatialutils-0-5-7">0.5.7</a></li>
-        <li><a href="#mazamaspatialutils-0-5-6">0.5.6</a></li>
-        <li><a href="#mazamaspatialutils-0-5-5">0.5.5</a></li>
-        <li><a href="#mazamaspatialutils-0-5-4">0.5.4</a></li>
-        <li><a href="#mazamaspatialutils-0-5-3">0.5.3</a></li>
-        <li><a href="#mazamaspatialutils-0-5-2">0.5.2</a></li>
-        <li><a href="#mazamaspatialutils-0-5-1">0.5.1</a></li>
-        <li><a href="#mazamaspatialutils-0-5-0">0.5.0</a></li>
-        <li><a href="#mazamaspatialutils-0-4-9">0.4.9</a></li>
-        <li><a href="#mazamaspatialutils-0-4-8">0.4.8</a></li>
-        <li><a href="#mazamaspatialutils-0-4-5">0.4.5</a></li>
-        <li><a href="#mazamaspatialutils-0-4-4">0.4.4</a></li>
-        <li><a href="#mazamaspatialutils-0-4-3">0.4.3</a></li>
-        <li><a href="#mazamaspatialutils-0-4-2">0.4.2</a></li>
-        <li><a href="#mazamaspatialutils-0-4-1">0.4.1</a></li>
-        <li><a href="#mazamaspatialutils-0-3-2">0.3.2</a></li>
-        <li><a href="#mazamaspatialutils-0-3-1-addition-of-buffered-search-and-worldeez-polygons">0.3.1</a></li>
-        <li><a href="#mazamaspatialutils-0-2-4">0.2.4</a></li>
-        <li><a href="#mazamaspatialutils-0-2-3">0.2.3</a></li>
-        <li><a href="#mazamaspatialutils-0-2-2-minor-tweaks-to-0-2-1">0.2.2</a></li>
-        <li><a href="#mazamaspatialutils-0-2-1-addition-of-gadm-and-usgs-huc8">0.2.1</a></li>
-        <li><a href="#mazamaspatialutils-0-1-initial-release">0.1</a></li>
-      </ul>
-    </div>
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 
 </div>
@@ -518,11 +617,11 @@
 
       <footer>
       <div class="copyright">
-  <p>Developed by Jonathan Callahan, Roger Andre, Tom Bergamaschi, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
+  <p>Developed by Jonathan Callahan, Rachel Carroll, Eli Grosman, Roger Andre, Tom Bergamaschi, Tina Chen, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

@@ -7,46 +7,41 @@
 convertUSCensusUrbanAreas(nameOnly = FALSE, simplify = TRUE)
 }
 \arguments{
-\item{nameOnly}{Logical specifying whether to only return the name without 
+\item{nameOnly}{Logical specifying whether to only return the name without
 creating the file.}
 
-\item{simplify}{Logical specifying whether to create "_05", _02" and "_01" 
+\item{simplify}{Logical specifying whether to create "_05", _02" and "_01"
 versions of the file that are simplified to 5\%, 2\% and 1\%.}
 }
 \value{
 Name of the dataset being created.
 }
 \description{
-Create a SpatialPolygonsDataFrame for US Census Urban Areas.
-
-The USCensusUrbanAreas layer is a polygon shapefile coverage representing the 
-urban areas delineated by the US Census that represent densely developed 
-territory.  Encompassing residential, commercial, and other nonresidential 
-urban land uses, this territory consists of areas of high population density 
-and urban land use resulting in a representation of the "urban footprint."
-
-There are two types of urban areas: urbanized areas (UAs) that contain 50,000 
-or more people and urban clusters (UCs) that contain at least 2,500 people, 
-but fewer than 50,000 people (except in the U.S. Virgin Islands and Guam 
-which each contain urban clusters with populations greater than 50,000). 
-Each urban area is identified by a 5-character numeric census code that may 
-contain leading zeroes.
+Create a SpatialPolygonsDataFrame for US states
 }
 \details{
-\itemize{
-\item{\code{urbanAreaID} -- Urban area identifier}
-\item{\code{name} -- 2010 Census urban area name}
-\item{\code{urbanAreaType} -- "U" = urbanized area, "C" = urban cluster}
-\item{\code{landArea} -- land area (in sq. meters)}
-\item{\code{waterArea} -- water area (in sq. meters)}
-\item{\code{latitude} -- latitude in decimal degrees}
-\item{\code{longitude} -- longitude in decimal degrees}
-}
+A US county borders shapefile is downloaded and converted to a
+SpatialPolygonsDataFrame with additional columns of data. The resulting file
+will be created in the spatial data directory which is set with
+\code{setSpatialDataDir()}.
+
+The source data is from 2019.
 }
 \note{
-Publication Data: December 2, 2017
+From the source documentation:
+
+After each decennial census, the Census Bureau delineates urban areas that
+represent densely developed territory, encompassing residential, commercial,
+and other nonresidential urban land uses.  In general, this territory consists
+of areas of high population density and urban land use resulting in a
+representation of the "urban footprint."  There are two types of urban areas:
+urbanized areas (UAs) that contain 50,000 or more people and urban clusters (UCs)
+that contain at least 2,500 people, but fewer than 50,000 people (except in
+the U.S. Virgin Islands and Guam which each contain urban clusters with
+populations greater than 50,000).  Each urban area is identified by a 5-character
+numeric census code that may contain leading zeroes.
 }
 \references{
-\url{https://catalog.data.gov/dataset/tiger-line-shapefile-2017-2010-nation-u-s-2010-census-urban-area-national}
+\url{https://www2.census.gov/geo/tiger/TIGER2019/UAC/}
 }
 \keyword{datagen}

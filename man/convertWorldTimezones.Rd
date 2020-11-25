@@ -4,38 +4,53 @@
 \alias{convertWorldTimezones}
 \title{Convert Timezone Shapefile}
 \usage{
-convertWorldTimezones(nameOnly = FALSE)
+convertWorldTimezones(nameOnly = FALSE, simplify = TRUE)
 }
 \arguments{
-\item{nameOnly}{logical specifying whether to only return the name without creating the file}
+\item{nameOnly}{Logical specifying whether to only return the name without
+creating the file.}
+
+\item{simplify}{Logical specifying whether to create "_05", _02" and "_01"
+versions of the file that are simplified to 5\%, 2\% and 1\%.}
 }
 \value{
 Name of the dataset being created.
 }
 \description{
-A world timezone shapefile is downloaded from \url{http://efele.net/maps/tz/world/}
-and converted to a SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
-in the spatial data directory which is set with \code{setSpatialDataDir()}.
+Create a SpatialPolygonsDataFrame for world timezones.
+}
+\details{
+A world timezones shapefile is downloaded and converted to a
+SpatialPolygonsDataFrame with additional columns of data. The resulting file
+will be created in the spatial data directory which is set with
+\code{setSpatialDataDir()}.
+
+The source data is from 2020 --
+\href{https://github.com/evansiroky/timezone-boundary-builder/releases/tag/2020d}{release 2020d}.
 }
 \note{
-The following list of timezones have polygons but the associated rows in the dataframe have no data.
-These timezones also have no \code{countryCode} assigned. We hope to rectify this in a future release.
-\preformatted{
-> WorldTimezones@data$timezone[is.na(WorldTimezones$countryCode)]
-[1] "Europe/Zagreb"         "Europe/Vatican"        "America/Coral_Harbour"
-[4] "Arctic/Longyearbyen"   "uninhabited"           "America/Kralendijk"
-[7] "Europe/Jersey"         "Europe/Bratislava"     "America/St_Barthelemy"
-[10] "Europe/Ljubljana"      "Europe/Mariehamn"      "Europe/Podgorica"
-[13] "Europe/Isle_of_Man"    "Europe/Guernsey"       "Europe/San_Marino"
-[16] "Europe/Skopje"         "Europe/Sarajevo"       "America/Lower_Princes"
-[19] "America/Marigot"       "Africa/Juba"
-}
+From the source documentation:
+
+Each shape or geojson object has a single attribute or property respectively
+called tzid. The tzid corresponds to the timezone name as defined in the
+timezone database (for example: America/Los_Angeles or Asia/Shanghai).
+
+This project aims to stay up-to-date with all of the currently valid timezones
+that are defined in the timezone database. This project also will attempt to
+provide the most accurate possible boundaries of timezones according to
+community input.
+
+The underlying data is downloaded from OpenStreetMap via the overpass turbo
+API. Various boundaries are assembled together to produce each zone with
+various geographic operations.
 }
 \references{
-\url{http://efele.net/maps/tz/world/}
+\url{https://github.com/evansiroky/timezone-boundary-builder}
 }
 \seealso{
 setSpatialDataDir
+
+getTimezone
 
 convertWikipediaTimezoneTable
 }

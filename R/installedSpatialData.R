@@ -1,31 +1,31 @@
 #' @export
-#' 
+#'
 #' @title List locally installed spatial datasets
-#' 
+#'
 #' @param verbose Logical specifying whether or not to print dataset descriptions.
-#' 
+#'
 #' @description Searches the directory set with \code{\link{setSpatialDataDir}}
-#' for locally installed spatial data and returns a list of dataset names that 
+#' for locally installed spatial data and returns a list of dataset names that
 #' can be used with \code{\link{loadSpatialData}}.
-#' 
+#'
 #' If \code{verbose = TRUE}, a brief description is provided for each locally
 #' installed dataset.
-#' 
+#'
 #' @return Vector of dataset names().
 
 installedSpatialData <- function(
   verbose = TRUE
 ) {
-  
-  # ----- Validate parameters -------------------------------------------------- 
-  
+
+  # ----- Validate parameters --------------------------------------------------
+
   spatialDataDir <- getSpatialDataDir()
-  
+
   if ( !dir.exists(spatialDataDir) )
     stop(sprintf("spatialDataDir '%s' does not exist.", spatialDataDir))
-  
+
   # ----- Dataset descriptions -------------------------------------------------
-  
+
   harmonizedDatasets <- list(
     "CA_AirBasins" = "California regional air basin boundaries",
     "EEZCountries" = "Country boundaries including Exclusive Economic Zones",
@@ -62,17 +62,16 @@ installedSpatialData <- function(
     "WorldEEZ" = "Country boundaries including Exclusive Economic Zones over water",
     "WorldTimezones" = "Timezones"
   )
-  
+
   # ----- Get dataset names ----------------------------------------------------
-  
-  # Modified from Jon's, but this way keeps both .RData and .rda files, or
-  # whatever other extensions get returned
-  datasetNames <- list.files(getSpatialDataDir(), 
-                             pattern = "*[.][rR][dD]a?t?a") %>%
-    tools::file_path_sans_ext() %>% 
+
+  # Finds both .RData and .rda files
+  datasetNames <-
+    list.files(getSpatialDataDir(), pattern = "*[.][rR][dD]a?t?a") %>%
+    tools::file_path_sans_ext() %>%
     sort() %>%
     unique()
-  
+
   # Add package internal datasets at the beginning
   datasetNames <- c(
     "SimpleCountries",
@@ -80,21 +79,21 @@ installedSpatialData <- function(
     "SimpleTimezones",
     datasetNames
   )
-  
+
   # ----- Print out descriptions -----------------------------------------------
-  
+
   if ( verbose ) {
-    
+
     maxLength <- max(stringr::str_count(datasetNames))
     formatString <- paste0("%", maxLength, "s -- %s %s") # name, info, pct
     datasetTextList <- list()
-    
+
     for ( datasetName in datasetNames ) {
-      
+
       # NOTE:  We want to use the harmonized dataset names as patterns so that
       # NOTE:  we can, for example, have "GADM" match various user created
       # NOTE:  datasets like "GADM_NL_2".
-      
+
       index <- stringr::str_which(
         string = datasetName,
         pattern = names(harmonizedDatasets)
@@ -111,29 +110,29 @@ installedSpatialData <- function(
         preferredIndex <- index[maxCountsIndex]
         info <- harmonizedDatasets[[preferredIndex]]
       }
-      
+
       if ( info == "NULL" ) {
         info = ""
       }
-      
+
       # Add % simplified by matching the "_01", "_02", or "_05" at the end.
       pctString <- ""
       matchParts <- stringr::str_match(datasetName, "(.*)_0([1-9])")
       if ( !is.na(matchParts[1,3]) ) {
         pctString <- sprintf("(simplified to %s%%)", matchParts[1,3])
       }
-      
+
       datasetTextList[[datasetName]] <-
         sprintf(formatString, datasetName, info, pctString)
-      
+
     }
-    
+
     cat(paste(datasetTextList, collapse = "\n"))
-    
+
   }
-  
+
   # ----- Return ---------------------------------------------------------------
-  
+
   return(invisible(datasetNames))
-  
+
 }

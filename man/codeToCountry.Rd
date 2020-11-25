@@ -7,13 +7,13 @@
 codeToCountry(countryCodes)
 }
 \arguments{
-\item{countryCodes}{vector of country codes to be converted}
+\item{countryCodes}{Vector of ISO 3166-1 alpha-2 country codes.}
 }
 \value{
 A vector of English country names or NA.
 }
 \description{
-Converts a vector of ISO 3166-1 alpha-2 codes to the 
+Converts a vector of ISO 3166-1 alpha-2 codes to the
 corresponding English names.
 }
 \keyword{conversion}

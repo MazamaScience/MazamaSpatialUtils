@@ -1,9 +1,11 @@
 Type: Package
 Package: MazamaSpatialUtils
-Version: 0.6.10
+Version: 0.7.0
 Title: Spatial Data Download and Utility Functions
 Authors@R: c(
     person("Jonathan", "Callahan", email="jonathan.s.callahan@gmail.com", role=c("aut","cre")), 
+    person("Rachel", "Carroll", email="rachelcarroll4@gmail.com", role=c("aut")),
+    person("Eli", "Grosman", email="eligrosman1@gmail.com", role=c("aut")),
     person("Roger", "Andre", email="randre@gmail.com", role=c("aut")),
     person("Tom", "Bergamaschi", email="tbergama@gmail.com", role=c("aut")),
     person("Tina", "Chen", email="chen.tinaa@gmail.com", role=c("aut")),
@@ -15,6 +17,8 @@ Authors@R: c(
     person("Alice", "Yang", email="wenhuy@uw.edu", role=c("aut"))
     )
 Author: Jonathan Callahan [aut, cre],
+    Rachel Carroll [aut],
+    Eli Grosman [aut],
     Roger Andre [aut],
     Tom Bergamaschi [aut],
     Tina Chen [aut],
@@ -34,24 +38,20 @@ URL: https://github.com/MazamaScience/MazamaSpatialUtils
 BugReports: https://github.com/MazamaScience/MazamaSpatialUtils/issues
 Repository: CRAN
 Depends:
-    R (>= 3.1.0),
+    R (>= 3.5.0),
     sp
 Imports:
+    cleangeo,
     countrycode,
     dplyr,
-    geojsonio,
-    lubridate,
     magrittr,
+    MazamaCoreUtils (>= 0.4.5),
     rgdal,
     rgeos,
     rlang,
     rmapshaper,
-    rvest (>= 0.3.0),
-    shiny,
     stringr,
-    tidyr,
-    utils,
-    xml2
+    tidyr
 Suggests:
     knitr,
     maps,
@@ -62,4 +62,4 @@ Suggests:
 Encoding: UTF-8
 VignetteBuilder: knitr
 LazyData: true
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1

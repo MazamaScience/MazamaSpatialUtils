@@ -1,6 +1,81 @@
+# MazamaSpatialUtils 0.7.0
+
+Version 0.7 includes more datasets that have all been through identical
+processing and harmonization steps. In general, this release represents a
+clean-and-update revision that brings all aspects of the package up to modern
+standards.
+
+Improvements include:
+
+* Fewer package dependencies.
+* Minor updates to vignettes and articles.
+* Consistent replacement of `lon` and `lat with `longitude` and `latitude` in
+all functions.
+
+# MazamaSpatialUtils 0.6.16
+
+* Updated `convertWikipediaTimezeonTable()`.
+* Updated `convertWorldTimezones()` and package internal dataset `SimpleTimezones`.
+* Updated `convertGADM()` to support GADM version 3.6.
+* Updated `convertEEZCountries()` and `SimpleCountriesEEZ` dataset.
+* Updated `SimpleCountries` dataset
+
+# MazamaSpatialUtils 0.6.15
+
+* Added `US_countyCodes` dataset with `stateCode`, `stateFIPS`, `countyName`,
+`countyFIPS`.
+
+New functions for converting between US county names/FIPS:
+ * `US_countyNameToFIPS()`
+ * `US_countyFIPSToName()`
+
+# MazamaSpatialUtils 0.6.14
+
+* Fixed a bug in `loadSpatialData()` that was returning dataset names with `".rda"`.
+
+# MazamaSpatialUtils 0.6.13
+
+* Updated `convertWorldEEZ.R`.
+* Updated `convertHMSSmoke.R`.
+* Updated `convertStateLegislativeDistricts.R`.
+* Updated `convertTMWorldBordersSimple.R`.
+* Updated `convertTMWorldBorders.R`.
+* Updated `convertSimpleCountries.R`.
+* Updated `convertGACC.R`.
+* Updated `convertNWSFireZones.R`.
+
+# MazamaSpatialUtils 0.6.12
+
+* Updated `convertMTBSBurnArea.R`.
+* Updated `convertNaturalEarthAdm1.R`.
+
+# MazamaSpatialUtils 0.6.11
+
+* Removed non-working `app/` directory and dependency on **shiny**.
+* Corrected Bosnia country code in `convertWikipediaTimezoneTable.R`.
+* Updated `convertEPARegions.R`.
+* Updated `convertOSMTimeZones.R`.
+* Updated `convertTerrestrialEcoregions.R`.
+* Updated `convertWeatherZones.R`.
+
 # MazamaSpatialUtils 0.6.10
 
-* Updated `convertGACC()` to use 2020 data.
+* Updated `convertGACC.R` to use 2020 data.
+* Removed outlying territories from `US_stateCodes`.
+* Updated `convertUSCensusStates.R` to use 2019 data.
+* Updated `convertCARBAirBains.R` to latest coding style.
+* Updated `convertUSCensusCBSA.R` to latest coding style.
+* Updated `convertIndianLands.R` to latest coding style.
+* Now using the *cleangeo* package to fix topology errors and geometry validity
+issues.
+
+New functions for converting among US state names/codes/FIPS:
+ * `US_stateCodeToName()`
+ * `US_stateCodeToFIPS()`
+ * `US_stateFIPSToCode()`
+ * `US_stateFIPSToName()`
+ * `US_stateNameToCode()`
+ * `US_stateNameToFIPS()`
 
 # MazamaSpatialUtils 0.6.9
 
@@ -31,7 +106,7 @@ territories.
 # MazamaSpatialUtils 0.6.5
 
 * New `convertHILFDFederalLands()` function.
-* Addedd **tidyr** package to Imports.
+* Added **tidyr** package to Imports.
 * Updated docker image.
 
 # MazamaSpatialUtils 0.6.4
@@ -62,7 +137,7 @@ avoid a CRAN testing failure on fedora only -- Ugh.
 * added `runExample()` to run shiny examples
 * updated `README.md`
 
-# MazamaSpatialutils 0.5.9
+# MazamaSpatialUtils 0.5.9
 
 * New convert function for public health districts
 * New convert function for GACCs
@@ -172,11 +247,11 @@ generating warnings
 
 # MazamaSpatialUtils 0.4.1
 
-* Added `useBuffering` arguent to `getState()`, `getCountry()` and `getTimezone()`.
+* Added `useBuffering` argument to `getState()`, `getCountry()` and `getTimezone()`.
 
 # MazamaSpatialUtils 0.3.2
 
-* `getSpatialData()` no longer fails on invliad/missing locations, now returns 
+* `getSpatialData()` no longer fails on invalid/missing locations, now returns 
 dataframe rows with all NA.
 
 # MazamaSpatialUtils 0.3.1 -- addition of buffered search and WorldEEZ polygons

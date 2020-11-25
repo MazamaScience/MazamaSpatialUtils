@@ -6,6 +6,8 @@
 #' @param dataset name of spatial dataset to use
 #' @param HUCs vector of Hydrologic Unit Codes
 #' @param allData logical specifying whether a full dataframe should be returned
+#' @param useBuffering Logical flag specifying the use of location buffering to 
+#' find the nearest polygon if not target polygon is found.
 #' @description Uses spatial comparison to determine which HUC polygons the 
 #' locations fall into and returns the HUC names for those polygons.
 #'     
@@ -18,7 +20,8 @@ getHUCName <- function(
   lat, 
   dataset = "WBDHU10_02", 
   HUCs = NULL, 
-  allData = FALSE
+  allData = FALSE,
+  useBuffering = FALSE
 ) {
   
   # ----- Validate parameters -------------------------------------------------- 
@@ -56,7 +59,9 @@ getHUCName <- function(
   }
   
   # Pull out rows from SPDF@data based on point-in-polygon search 
-  locationsDF <- getSpatialData(lon, lat, SPDF)
+  locationsDF <- getSpatialData(lon, lat, SPDF, useBuffering = useBuffering)
+  
+  # ----- Return results ---------------------------------------------------------
   
   if (allData) {
     

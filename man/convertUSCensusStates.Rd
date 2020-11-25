@@ -4,26 +4,72 @@
 \alias{convertUSCensusStates}
 \title{Convert US Census State Shapefile}
 \usage{
-convertUSCensusStates(nameOnly = FALSE)
+convertUSCensusStates(nameOnly = FALSE, simplify = TRUE)
 }
 \arguments{
-\item{nameOnly}{logical specifying whether to only return the name without creating the file}
+\item{nameOnly}{Logical specifying whether to only return the name without
+creating the file.}
+
+\item{simplify}{Logical specifying whether to create "_05", _02" and "_01"
+versions of the file that are simplified to 5\%, 2\% and 1\%.}
 }
 \value{
 Name of the dataset being created.
 }
 \description{
-Returns a SpatialPolygonsDataFrame for US States
+Create a SpatialPolygonsDataFrame for US states
 }
 \details{
-A US state shapefile is downloaded and converted to a
-SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
-in the spatial data directory which is set with \code{setSpatialDataDir()}.
+A US state borders shapefile is downloaded and converted to a
+SpatialPolygonsDataFrame with additional columns of data. The resulting file
+will be created in the spatial data directory which is set with
+\code{setSpatialDataDir()}.
+
+The source data is from 2019.
+}
+\note{
+From the source documentation:
+
+The 2019 cartographic boundary shapefiles are simplified representations of
+selected geographic areas from the U.S. Census Bureau's Master Address File /
+Topologically Integrated Geographic Encoding and Referencing (MAF/TIGER)
+Database (MTDB). These boundary files are specifically designed for
+small-scale thematic mapping. When possible, generalization is performed with
+the intent to maintain the hierarchical relationships among geographies and
+to maintain the alignment of geographies within a file set for a given year.
+Geographic areas may not align with the same areas from another year. Some
+geographies are available as nation-based files while others are available
+only as state-based files.
+
+States and equivalent entities are the primary governmental divisions of the
+United States. In addition to the fifty states, the Census Bureau treats the
+District of Columbia, Puerto Rico, and each of the Island Areas (American
+Samoa, the Commonwealth of the Northern Mariana Islands, Guam, and the U.S.
+Virgin Islands) as the statistical equivalents of states for the purpose of
+data presentation.
+
+\strong{\emph{"Island Areas" are removed in the MazamaSpatialUtils version.}}
+
+These files were specifically created to support small-scale thematic mapping.
+To improve the appearance of shapes at small scales, areas are represented
+with fewer vertices than detailed TIGER/Line Shapefiles. Cartographic boundary
+files take up less disk space than their ungeneralized counterparts.
+Cartographic boundary files take less time to render on screen than TIGER/Line
+Shapefiles. You can join this file with table data downloaded from American
+FactFinder by using the AFFGEOID field in the cartographic boundary file. If
+detailed boundaries are required, please use the TIGER/Line Shapefiles instead
+of the generalized cartographic boundary files.
 }
 \references{
-\url{https://www.census.gov/geo/maps-data/data/cbf/cbf_state.html}
+\url{https://www2.census.gov/geo/tiger/GENZ2019/}
 }
 \seealso{
 setSpatialDataDir
+
+getState
+
+getCode
+
+getName
 }
 \keyword{datagen}

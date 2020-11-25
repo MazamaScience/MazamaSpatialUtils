@@ -4,39 +4,81 @@
 \alias{convertEEZCountries}
 \title{Convert Exclusive Economic Zones countries shapefile}
 \usage{
-convertEEZCountries(dsnPath = NULL, nameOnly = FALSE)
+convertEEZCountries(nameOnly = FALSE, simplify = TRUE)
 }
 \arguments{
-\item{dsnPath}{Directory where EEZCountries .zip file is found.}
-
-\item{nameOnly}{Logical specifying whether to only return the name without 
+\item{nameOnly}{Logical specifying whether to only return the name without
 creating the file.}
+
+\item{simplify}{Logical specifying whether to create "_05", _02" and "_01"
+versions of the file that are simplified to 5\%, 2\% and 1\%.}
 }
 \value{
 Name of the dataset being created.
 }
 \description{
-A previously downloaded file from 
-\url{http://www.marineregions.org/downloads.php#unioneezcountry} is converted
-to a SpatialPolygonsDataFrame with additional columns of data. The resulting
-file will be created in the spatial data directory which is set with 
-\code{setSpatialDataDir()}.
+Create a SpatialPolygonsDataFrame for combined EEZ/country boundaries
 }
 \details{
-The dataset can be downloaded from 
-\url{http://www.marineregions.org/download_file.php?name=EEZ_land_union_v2_201410.zip}
-by answering the questions and clicking "download".
+A world EEZ/countries shapefile is converted to a SpatialPolygonsDataFrame
+with additional columns of data. To use this function, the file
+"EEZ_land_union_v3_202003.zip" must be downloaded into the user's spatial
+directory which is set with \code{setSpatialDataDir()}. The resulting file
+will be created in this same spatial data directory.
 }
-\examples{
-\dontrun{
-convertEEZCountries("~/Data/Spatial/EEZ_land_union_v2_201410.zip")
-}
+\note{
+For polygons with overlapping claims of sovereignty, we arbitrarily
+assign the polygon to the country identified in the \code{ISO_SOV1} field.
+
+The source data is from Version 3 -- 2020-03-17.
+
+From the source documentation:
+
+Geographic Information Systems have become indispensable tools in managing
+and displaying marine data and information. However, a unique georeferenced
+standard of marine place names and areas was not available, hampering several
+marine geographic applications, for example the linking of these locations to
+databases to integrate data. The purpose of Marine Regions is therefore to
+create a standard, relational list of geographic names, coupled with information
+and maps of the geographic location of these features. This will improve access
+and clarity of the different geographic, marine names such as seas, sandbanks,
+ridges and bays and display univocally the boundaries of marine biogeographic
+or managerial marine areas.
+
+Marine Regions is an integration of the VLIMAR Gazetteer and the VLIZ Maritime
+Boundaries Geodatabase. The VLIMAR Gazetteer is a database with geographic,
+mainly marine names such as seas, sandbanks, seamounts, ridges, bays or even
+standard sampling stations used in marine research. The geographic cover of
+the VLIMAR gazetteer is global but initially focused on the Belgian Continental
+Shelf and the Scheldt Estuary and the Southern Bight of the North Sea. Gradually
+more regional and global geographic information was added to VLIMAR and combining
+this information with the Maritime Boundaries database, representing the
+Exclusive Economic Zone (EEZ) of the world, led to the creation of marineregions.org.
+
+Marine Regions is managed by the Flanders Marine Institute. Funding for the
+creation of the VLIMAR gazetteer was provided initially through the EU Network
+of Excellence MarBEF, but also other European initiatives such as Lifewatch
+provide the necessary funding for the maintenance and management of Marine Regions.
+
+Marine Regions depends on data and knowledge sharing from global, European,
+regional and national data providers and relevant experts. By setting up
+Collaboration Agreements, data providers will benefit from belonging to the
+Marine Regions partnership as they would get increased visibility, gain access
+to a variety of data analysis services which will benefit from integration of
+several distributed spatial datasets, as well as enjoying the benefit of the
+creation of stable unique identifiers. An example template of a Collaboration
+Agreement can be found here. Please contact info@marineregions.org if your
+organisation is interested to explore this collaboration.
+
+Citation:
+Flanders Marine Institute (2020). Union of the ESRI Country shapefile and the
+Exclusive Economic Zones (version 3). Available online at
+https://www.marineregions.org/. https://doi.org/10.14284/403
 }
 \references{
-\url{http://www.marineregions.org/downloads.php#unioneezcountry}
-
-VLIZ (2014). Union of the ESRI Country shapefile and the Exclusive 
-Economic Zones (version 2). Available online at http://www.marineregions.org/.
-Consulted on 2017-07-20.
+\url{https://www.marineregions.org/sources.php#unioneezcountry}
+}
+\seealso{
+setSpatialDataDir
 }
 \keyword{datagen}

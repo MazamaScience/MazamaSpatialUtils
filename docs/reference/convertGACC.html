@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convert Geographic Area Coordination Center geojson, as defined by NIFC — convertGACC • MazamaSpatialUtils</title>
+<title>Convert Geographic Area Coordination Center shapefile — convertGACC • MazamaSpatialUtils</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -42,10 +46,11 @@
 
 
 
-<meta property="og:title" content="Convert Geographic Area Coordination Center geojson, as defined by NIFC — convertGACC" />
-<meta property="og:description" content="Returns a SpatialPolygonsDataFrame for Geographic Area Coordination Centers (GACCs)" />
+<meta property="og:title" content="Convert Geographic Area Coordination Center shapefile — convertGACC" />
+<meta property="og:description" content="Create a SpatialPolygonsDataFrame for Geographic Area
+Coordination Centers (GACCs). These are regions defined by the National
+Interagency Fire Center (NIFC)." />
 <meta property="og:image" content="/logo.png" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -63,7 +68,7 @@
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -77,7 +82,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
       </span>
     </div>
 
@@ -103,6 +108,12 @@
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/Developer_Style_Guide.html">Developer Style Guide</a>
+    </li>
+    <li>
+      <a href="../articles/Understanding_sp_Objects.html">Understanding sp Objects</a>
+    </li>
+    <li>
       <a href="../articles/articles/Basic_GIS_in_R.html">Basic GIS Operations in R</a>
     </li>
     <li>
@@ -119,7 +130,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/MazamaScience/MazamaSpatialUtils">
+  <a href="https://github.com/MazamaScience/MazamaSpatialUtils/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -137,27 +148,31 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Convert Geographic Area Coordination Center geojson, as defined by NIFC</h1>
+    <h1>Convert Geographic Area Coordination Center shapefile</h1>
     <small class="dont-index">Source: <a href='https://github.com/MazamaScience/MazamaSpatialUtils/blob/master/R/convertGACC.R'><code>R/convertGACC.R</code></a></small>
     <div class="hidden name"><code>convertGACC.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Returns a SpatialPolygonsDataFrame for Geographic Area Coordination Centers (GACCs)</p>
+    <p>Create a SpatialPolygonsDataFrame for Geographic Area
+Coordination Centers (GACCs). These are regions defined by the National
+Interagency Fire Center (NIFC).</p>
     </div>
 
-    <pre class="usage"><span class='fu'>convertGACC</span>(<span class='kw'>nameOnly</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>simplify</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
+    <pre class="usage"><span class='fu'>convertGACC</span><span class='op'>(</span>nameOnly <span class='op'>=</span> <span class='cn'>FALSE</span>, simplify <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>nameOnly</th>
-      <td><p>logical specifying whether to only return the name without creating the file</p></td>
+      <td><p>Logical specifying whether to only return the name without
+creating the file.</p></td>
     </tr>
     <tr>
       <th>simplify</th>
-      <td><p>logical specifying whether to create "_05" version of the file that is simplified to 5%</p></td>
+      <td><p>Logical specifying whether to create "_05", _02" and "_01"
+versions of the file that are simplified to 5%, 2% and 1%.</p></td>
     </tr>
     </table>
 
@@ -166,38 +181,93 @@
     <p>Name of the dataset being created.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>A GACC shapefile is downloaded and converted to a 
-SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
-in the spatial data directory which is set with <code><a href='setSpatialDataDir.html'>setSpatialDataDir()</a></code>.</p>
+    <p>A GACC shapefile is downloaded and converted to a
+SpatialPolygonsDataFrame with additional columns of data. The resulting
+file will be created in the spatial data directory which is set with
+<code><a href='setSpatialDataDir.html'>setSpatialDataDir()</a></code>.</p>
+<p>The source data is from 2020.</p>
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>From the source documentation:</p>
+<p>Although the primary mission of the GACC is logistical coordination, the
+Center also has support programs in Predictive Services, Intelligence, and in
+several Center's Fire Information. Predictive Services consists primarily of
+professional meteorologists who monitor weather and fuel conditions, conduct
+briefings, produce fire weather related products, liaison with the National
+Weather Service, and oversee all aspects of the Remote Automated Weather
+System (RAWS). The Intelligence Section is primarily responsible for
+collecting and disseminating wildland fire and prescribed fire activity
+information, monitoring the status of national firefighting resources,
+maintaining year-to-date and historical fire occurrence data, and managing
+the Sit Report and ICS-209 programs.</p>
+<p>In some GACCs, the Predictive Services and Intelligence sections work as one
+unit called the Predictive Services Group. The Predictive Services and
+Intelligence Sections, whether separated or combined, work collaboratively
+producing Weekly, Monthly, and Seasonal Fire Weather/Fire Danger Outlooks.
+Each Coordination Center provides additional support to their respective
+geographic area's wildland fire community through training, workshops,
+special projects, and other tasks. Except for dispatch of air tankers and
+lead planes based outside the dispatch center responsibility the fire is
+located in, the GACC does not have initial-attack dispatch responsibilities.
+The United States and Alaska are divided into 11 Geographic Areas for the
+purpose of incident management and mobilization of resources (people,
+aircraft, ground equipment). Within each Area, an interagency Geographic Area
+Coordinating Group (GACG), made up of Fire Directors from each of the Federal
+and State land management agencies from within the Area, is established.</p>
+<p>Working collaboratively, the GACG's mission is to provide leadership and
+support not only for wildland fire emergencies, but to other emergency
+incidents (i.e. earthquakes, floods, hurricanes, tornadoes, etc), as
+necessary. Authority for establishment of the GACG is through departmental
+policy and interagency agreements. Additional agreements are established with
+cooperators and other organizations in order to facilitate efficient fire
+management activities within and adjacent to the Area. A cost-effective
+sharing of resources among public agencies is a key component of the GACG
+mission and is expected by the public, Congress, and States. All agencies and
+geographic areas work together under the auspices and direction of the
+National Interagency Fire Center (NIFC). The Geographic Area Coordination
+Centers (GACC) is a result of an interagency agreement established by the
+respective Geographic Area Coordinating Group. The primary mission of the
+GACC is to serve Federal and State wildland fire agencies through logistical
+coordination and mobilization of resources (people, aircraft, ground
+equipment) throughout the geographical area, and with other geographic areas,
+as necessary. This is generally done through coordinating the movement of
+resources between the many Dispatch Centers within the geographic area and,
+as necessary, with the National Interagency Coordination Center (NICC) when
+resources are unavailable within the Area or when mobilization support is
+needed in other geographic areas. As you survey each GACC website, it will
+become obvious they are technical in design and are primarily for use by
+local and geographic area wildland fire managers and firefighters. For the
+general public, the GACC website may not meet your needs. If this is the case,
+please check out the National Fire News website, provided by the National
+Interagency Fire Center, and the InciWeb website, provided as a guide to
+large fire incidents throughout the United States.</p>
+<p>The National Wildfire Coordinating Group (NWCG) makes no claims, promises, or
+guarantees about the accuracy, completeness, or adequacy of the content; and
+expressly disclaims liability for errors and omissions. No warranty of any
+kind, implied, expressed or statutory is given with respect to the contents.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p><a href='https://hub.arcgis.com/items/72213d9266eb4aefa4403a1bf21dfd61'>https://hub.arcgis.com/items/72213d9266eb4aefa4403a1bf21dfd61</a></p>
+    <p><a href='https://hub.arcgis.com/datasets/7dc5f4a286bd47e0aaafa0ab05302fe9_0'>https://hub.arcgis.com/datasets/7dc5f4a286bd47e0aaafa0ab05302fe9_0</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>setSpatialDataDir</p></div>
 
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#details">Details</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#see-also">See also</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
 
       <footer>
       <div class="copyright">
-  <p>Developed by Jonathan Callahan, Roger Andre, Tom Bergamaschi, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
+  <p>Developed by Jonathan Callahan, Rachel Carroll, Eli Grosman, Roger Andre, Tom Bergamaschi, Tina Chen, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

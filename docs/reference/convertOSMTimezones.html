@@ -17,23 +17,27 @@
 <link rel="apple-touch-icon" type="image/png" sizes="60x60" href="../apple-touch-icon-60x60.png" />
 
 <!-- jquery -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <!-- Bootstrap -->
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha256-916EbMg70RQy9LHiGkXzG8hSg9EdNy97GazNG/aiY1w=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous" />
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha256-U5ZEeKfGNOja007MMD3YBI0A3OSZOQbeG6z2f2Y0hu8=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script>
+
+<!-- bootstrap-toc -->
+<link rel="stylesheet" href="../bootstrap-toc.css">
+<script src="../bootstrap-toc.js"></script>
 
 <!-- Font Awesome icons -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/all.min.css" integrity="sha256-nAmazAk6vS34Xqo0BSrTb+abbtFlgsFK7NKSi6o7Y78=" crossorigin="anonymous" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.7.1/css/v4-shims.min.css" integrity="sha256-6qHlizsOWFskGlwVOKuns+D1nB6ssZrHQrNj1wGplHc=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous" />
 
 <!-- clipboard.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.4/clipboard.min.js" integrity="sha256-FiZwavyI2V6+EXO1U+xzLG3IKldpiTFf3153ea9zikQ=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script>
 
 <!-- headroom.js -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/headroom.min.js" integrity="sha256-DJFC1kqIhelURkuza0AvYal5RxMtpzLjFhsnVIeuk+U=" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.9.4/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script>
 
 <!-- pkgdown -->
 <link href="../pkgdown.css" rel="stylesheet">
@@ -43,11 +47,8 @@
 
 
 <meta property="og:title" content="Convert OSM Timezone Shapefile — convertOSMTimezones" />
-<meta property="og:description" content="A world timezone shapefile is downloaded from https://github.com/evansiroky/timezone-boundary-builder/releases
-and converted to a SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
-in the spatial data directory which is set with setSpatialDataDir()." />
+<meta property="og:description" content="Create a SpatialPolygonsDataFrame for world timezones." />
 <meta property="og:image" content="/logo.png" />
-<meta name="twitter:card" content="summary" />
 
 
 
@@ -65,7 +66,7 @@ in the spatial data directory which is set with setSpatialDataDir()." />
 
   </head>
 
-  <body>
+  <body data-spy="scroll" data-target="#toc">
     <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -79,7 +80,7 @@ in the spatial data directory which is set with setSpatialDataDir()." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.6.7</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
       </span>
     </div>
 
@@ -105,6 +106,12 @@ in the spatial data directory which is set with setSpatialDataDir()." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
+      <a href="../articles/Developer_Style_Guide.html">Developer Style Guide</a>
+    </li>
+    <li>
+      <a href="../articles/Understanding_sp_Objects.html">Understanding sp Objects</a>
+    </li>
+    <li>
       <a href="../articles/articles/Basic_GIS_in_R.html">Basic GIS Operations in R</a>
     </li>
     <li>
@@ -121,7 +128,7 @@ in the spatial data directory which is set with setSpatialDataDir()." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/MazamaScience/MazamaSpatialUtils">
+  <a href="https://github.com/MazamaScience/MazamaSpatialUtils/">
     <span class="fab fa fab fa-github fa-lg"></span>
      
   </a>
@@ -145,85 +152,82 @@ in the spatial data directory which is set with setSpatialDataDir()." />
     </div>
 
     <div class="ref-description">
-    <p>A world timezone shapefile is downloaded from <a href='https://github.com/evansiroky/timezone-boundary-builder/releases'>https://github.com/evansiroky/timezone-boundary-builder/releases</a>
-and converted to a SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
-in the spatial data directory which is set with <code><a href='setSpatialDataDir.html'>setSpatialDataDir()</a></code>.</p>
+    <p>Create a SpatialPolygonsDataFrame for world timezones.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>convertOSMTimezones</span>(<span class='kw'>dsnPath</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>nameOnly</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>convertOSMTimezones</span><span class='op'>(</span>nameOnly <span class='op'>=</span> <span class='cn'>FALSE</span>, simplify <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>dsnPath</th>
-      <td><p>optional directory where the timezones.shapefile.zip file is found (in case web access isn't working)</p></td>
+      <th>nameOnly</th>
+      <td><p>Logical specifying whether to only return the name without
+creating the file.</p></td>
     </tr>
     <tr>
-      <th>nameOnly</th>
-      <td><p>logical specifying whether to only return the name without creating the file</p></td>
+      <th>simplify</th>
+      <td><p>Logical specifying whether to create "_05", _02" and "_01"
+versions of the file that are simplified to 5%, 2% and 1%.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>Name of the dataset being created.</p>
-    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>There are 86 timezones which have polygons but the associated rows in the dataframe have no data. 
-These timezones also have no <code>countryCode</code> assigned. We hope to rectify this in a future release. 
+    <p>A world timezone shapefile is downloaded and converted to a
+SpatialPolygonsDataFrame with additional columns of data. The resulting file
+will be created in the spatial data directory which is set with
+<code><a href='setSpatialDataDir.html'>setSpatialDataDir()</a></code>.</p>
+<p>There are 2 timezones which have polygons but the associated rows in the dataframe have no data.
+These timezones also have no <code>countryCode</code> assigned. We hope to rectify this in a future release.
 These are the missing timezones:</p><pre>
 &gt; OSMTimezones@data$timezone[is.na(OSMTimezones$countryCode)]
- [1] "Africa/Addis_Ababa"    "Africa/Asmara"         "Africa/Bamako"         "Africa/Bangui"         "Africa/Banjul"        
- [6] "Africa/Blantyre"       "Africa/Brazzaville"    "Africa/Bujumbura"      "Africa/Conakry"        "Africa/Dakar"         
-[11] "Africa/Dar_es_Salaam"  "Africa/Djibouti"       "Africa/Douala"         "Africa/Freetown"       "Africa/Gaborone"      
-[16] "Africa/Harare"         "Africa/Juba"           "Africa/Kampala"        "Africa/Kigali"         "Africa/Kinshasa"      
-[21] "Africa/Libreville"     "Africa/Lome"           "Africa/Luanda"         "Africa/Lubumbashi"     "Africa/Lusaka"        
-[26] "Africa/Malabo"         "Africa/Maseru"         "Africa/Mbabane"        "Africa/Mogadishu"      "Africa/Niamey"        
-[31] "Africa/Nouakchott"     "Africa/Ouagadougou"    "Africa/Porto-Novo"     "Africa/Sao_Tome"       "America/Anguilla"     
-[36] "America/Antigua"       "America/Aruba"         "America/Cayman"        "America/Coral_Harbour" "America/Dominica"     
-[41] "America/Grenada"       "America/Guadeloupe"    "America/Kralendijk"    "America/Lower_Princes" "America/Marigot"      
-[46] "America/Montreal"      "America/Montserrat"    "America/St_Barthelemy" "America/St_Kitts"      "America/St_Lucia"     
-[51] "America/St_Thomas"     "America/St_Vincent"    "America/Tortola"       "Arctic/Longyearbyen"   "Asia/Aden"            
-[56] "Asia/Bahrain"          "Asia/Chongqing"        "Asia/Harbin"           "Asia/Kashgar"          "Asia/Kuwait"          
-[61] "Asia/Muscat"           "Asia/Phnom_Penh"       "Asia/Rangoon"          "Asia/Vientiane"        "Atlantic/St_Helena"   
-[66] "Europe/Bratislava"     "Europe/Busingen"       "Europe/Guernsey"       "Europe/Isle_of_Man"    "Europe/Jersey"        
-[71] "Europe/Ljubljana"      "Europe/Mariehamn"      "Europe/Podgorica"      "Europe/San_Marino"     "Europe/Sarajevo"      
-[76] "Europe/Skopje"         "Europe/Vaduz"          "Europe/Vatican"        "Europe/Zagreb"         "Indian/Antananarivo"  
-[81] "Indian/Comoro"         "Indian/Mayotte"        "Pacific/Johnston"      "Pacific/Midway"        "Pacific/Saipan"       
-[86] "Pacific/Yap"     
+ [1] "America/Nuuk"  "Asia/Qostanay"
 </pre>
 
+    <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
+
+    <p>From the source documentation:</p>
+<p>This project aims to stay up-to-date with all of the currently valid
+timezones that are defined in the timezone database. This project also will
+attempt to provide the most accurate possible boundaries of timezones
+according to community input.</p>
+<p>The underlying data is downloaded from OpenStreetMap via the overpass turbo
+API. Various boundaries are assembled together to produce each zone with
+various geographic operations. In numerous edge cases arbitrary boundaries
+get created in various zones which are noted in the timezones.json file.</p>
+<p>To maintain consistency with the timezone database, this project will only
+create a new release after the timezone database creates a new release. If
+there are no new timezones created or deleted in a timezone database release,
+then this project will only create a release if there have been changes
+performed to the boundary definitions of an existing zone within this project.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p><a href='https://github.com/evansiroky/timezone-boundary-builder/releases'>https://github.com/evansiroky/timezone-boundary-builder/releases</a></p>
+    <p><a href='https://github.com/evansiroky/timezone-boundary-builder'>https://github.com/evansiroky/timezone-boundary-builder</a></p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>setSpatialDataDir</p>
-<p>convertWikipediaTimezoneTable</p></div>
+<p>getVariable</p></div>
 
   </div>
-  <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
-    <h2>Contents</h2>
-    <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
-      <li><a href="#value">Value</a></li>
-      <li><a href="#note">Note</a></li>
-      <li><a href="#references">References</a></li>
-      <li><a href="#see-also">See also</a></li>
-    </ul>
-
+  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
+    <nav id="toc" data-toggle="toc" class="sticky-top">
+      <h2 data-toc-skip>Contents</h2>
+    </nav>
   </div>
 </div>
 
 
       <footer>
       <div class="copyright">
-  <p>Developed by Jonathan Callahan, Roger Andre, Tom Bergamaschi, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
+  <p>Developed by Jonathan Callahan, Rachel Carroll, Eli Grosman, Roger Andre, Tom Bergamaschi, Tina Chen, Ruby Fore, Will Leahy, Helen Miller, Henry Nguyen, Robin Winstanley, Alice Yang.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.4.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

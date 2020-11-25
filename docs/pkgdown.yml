@@ -1,9 +1,12 @@
-pandoc: 2.3.1
-pkgdown: 1.4.1
+pandoc: 2.10.1
+pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
+  Developer_Style_Guide: Developer_Style_Guide.html
   MazamaSpatialUtils: MazamaSpatialUtils.html
-  Basic_GIS_in_R: articles/Basic_GIS_in_R.html
-  ebolamap: articles/ebolamap.html
+  Understanding_sp_Objects: Understanding_sp_Objects.html
+  articles/Basic_GIS_in_R: Basic_GIS_in_R.html
+  articles/ebolamap: ebolamap.html
   available-data: available-data.html
+last_built: 2020-11-25T23:07Z
 

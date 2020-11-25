@@ -5,43 +5,48 @@
 \title{Return SPDF variable at specified locations}
 \usage{
 getVariable(
-  lon,
-  lat,
+  longitude,
+  latitude,
   dataset = NULL,
   variable = NULL,
   countryCodes = NULL,
-  allData = FALSE
+  allData = FALSE,
+  useBuffering = FALSE
 )
 }
 \arguments{
-\item{lon}{vector of longitudes in decimal degrees}
+\item{longitude}{Vector of longitudes in decimal degrees East.}
 
-\item{lat}{vector of latitudes in decimal degrees}
+\item{latitude}{Vector of latitudes in decimal degrees North.}
 
-\item{dataset}{name of spatial dataset to use}
+\item{dataset}{Name of spatial dataset to use.}
 
-\item{variable}{name of dataframe column to be returned}
+\item{variable}{Name of dataframe column to be returned.}
 
-\item{countryCodes}{vector of countryCodes}
+\item{countryCodes}{Vector of ISO 3166-1 alpha-2 country codes.}
 
-\item{allData}{logical specifying whether a full dataframe should be returned}
+\item{allData}{Logical specifying whether a full dataframe should be returned.}
+
+\item{useBuffering}{Logical flag specifying the use of location buffering to
+find the nearest polygon if no target polygon is found.}
 }
 \value{
 Vector or dataframe.
 }
 \description{
-Uses spatial comparison to determine which polygons the 
+Uses spatial comparison to determine which polygons the
 locations fall into and returns the variable associated with those polygons.
-    
+
 If \code{allData = TRUE}, the entire dataframe is returned.
 }
 \examples{
-\dontrun{
-loadSpatialData("NaturalEarthAdm1")
-lon <- seq(0, 50)
-lat <- seq(0, 50)
-getVariable(lon, lat, "NaturalEarthAdm1", "gns_lang")
-}
+library(MazamaSpatialUtils)
+
+longitude <- seq(0, 50)
+latitude <- seq(0, 50)
+
+getVariable(longitude, latitude, "SimpleCountries", "UN_region")
+
 }
 \seealso{
 getSpatialData

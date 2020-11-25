@@ -4,7 +4,14 @@
 \alias{getHUCName}
 \title{Return HUC names at specified locations}
 \usage{
-getHUCName(lon, lat, dataset = "WBDHU10_02", HUCs = NULL, allData = FALSE)
+getHUCName(
+  lon,
+  lat,
+  dataset = "WBDHU10_02",
+  HUCs = NULL,
+  allData = FALSE,
+  useBuffering = FALSE
+)
 }
 \arguments{
 \item{lon}{vector of longitudes in decimal degrees}
@@ -16,6 +23,9 @@ getHUCName(lon, lat, dataset = "WBDHU10_02", HUCs = NULL, allData = FALSE)
 \item{HUCs}{vector of Hydrologic Unit Codes}
 
 \item{allData}{logical specifying whether a full dataframe should be returned}
+
+\item{useBuffering}{Logical flag specifying the use of location buffering to 
+find the nearest polygon if not target polygon is found.}
 }
 \value{
 Vector of HUC names.

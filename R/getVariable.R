@@ -1,81 +1,94 @@
 #' @keywords locator
 #' @export
+#'
 #' @title Return SPDF variable at specified locations
-#' @param lon vector of longitudes in decimal degrees
-#' @param lat vector of latitudes in decimal degrees
-#' @param dataset name of spatial dataset to use
-#' @param variable name of dataframe column to be returned
-#' @param countryCodes vector of countryCodes
-#' @param allData logical specifying whether a full dataframe should be returned
-#' @description Uses spatial comparison to determine which polygons the 
+#'
+#' @param longitude Vector of longitudes in decimal degrees East.
+#' @param latitude Vector of latitudes in decimal degrees North.
+#' @param dataset Name of spatial dataset to use.
+#' @param variable Name of dataframe column to be returned.
+#' @param countryCodes Vector of ISO 3166-1 alpha-2 country codes.
+#' @param allData Logical specifying whether a full dataframe should be returned.
+#' @param useBuffering Logical flag specifying the use of location buffering to
+#' find the nearest polygon if no target polygon is found.
+#'
+#' @description Uses spatial comparison to determine which polygons the
 #' locations fall into and returns the variable associated with those polygons.
-#'     
+#'
 #' If \code{allData = TRUE}, the entire dataframe is returned.
+#'
 #' @return Vector or dataframe.
+#'
 #' @examples
-#' \dontrun{
-#' loadSpatialData("NaturalEarthAdm1")
-#' lon <- seq(0, 50)
-#' lat <- seq(0, 50)
-#' getVariable(lon, lat, "NaturalEarthAdm1", "gns_lang")
-#' }
+#' library(MazamaSpatialUtils)
+#'
+#' longitude <- seq(0, 50)
+#' latitude <- seq(0, 50)
+#'
+#' getVariable(longitude, latitude, "SimpleCountries", "UN_region")
+#'
 #' @seealso getSpatialData
+#'
 getVariable <- function(
-  lon, 
-  lat, 
-  dataset = NULL, 
-  variable = NULL, 
-  countryCodes = NULL, 
-  allData = FALSE
+  longitude,
+  latitude,
+  dataset = NULL,
+  variable = NULL,
+  countryCodes = NULL,
+  allData = FALSE,
+  useBuffering = FALSE
 ) {
-  
-  # ----- Validate parameters -------------------------------------------------- 
-  
+
+  # ----- Validate parameters --------------------------------------------------
+
   # Check existence of dataset
   if ( is.null(dataset) || !exists(dataset) ) {
     stop("Missing dataset. Please loadSpatialData(\"", dataset, "\")",
          call. = FALSE)
   }
-  
-  # Check lon, lat ranges
-  if ( min(lon, na.rm = TRUE) < -180 || 
-       max(lon, na.rm = TRUE) > 180) {
-    stop("'lon' must be specified in the range -180:180.")
+
+  # Check longitude, latitude ranges
+  if ( min(longitude, na.rm = TRUE) < -180 ||
+       max(longitude, na.rm = TRUE) > 180) {
+    stop("'longitude' must be specified in the range -180:180.")
   }
-  if ( min(lat, na.rm = TRUE) < -90 || 
-       max(lat, na.rm = TRUE) > 90 ) {
-    stop("'lat' must be specified in the range -90:90.")
+  if ( min(latitude, na.rm = TRUE) < -90 ||
+       max(latitude, na.rm = TRUE) > 90 ) {
+    stop("'latitude' must be specified in the range -90:90.")
   }
-  
+
   # ----- Get the data ---------------------------------------------------------
-  
+
   SPDF <- get(dataset)
-  
+
   # Check variable name
   if ( !is.null(variable) ) {
     if ( !(variable %in% names(SPDF)) ) {
       stop(paste0('Dataset ',
                   dataset,
                   ' does not contain the variable ',
-                  variable), 
-           call.=FALSE)
+                  variable),
+           call. = FALSE)
     }
   }
-  
+
   # Subset by country before searching
-  if ( !is.null(countryCodes) ) 
+  if ( !is.null(countryCodes) )
     SPDF <- SPDF[SPDF$countryCode %in% countryCodes,]
-  
-  locationsDF <- getSpatialData(lon, lat, SPDF)
-  
+
+  # Pull out rows from SPDF@data based on point-in-polygon search
+  locationsDF <- getSpatialData(longitude, latitude, SPDF, useBuffering = useBuffering)
+
+  # ----- Return results ---------------------------------------------------------
+
   if (allData) {
-    
+
     return(locationsDF)
-    
+
   } else {
-    
+
     return(locationsDF[[variable]])
-    
+
   }
-  
+
 }

@@ -5,60 +5,78 @@
 \title{Convert USGS hydrologic unit shapefiles}
 \usage{
 convertWBDHUC(
-  dsnPath = NULL,
-  level = 8,
-  extension = "",
+  gdbDir = "~/Data/WBD/WBD_National_GDB.gdb",
+  level = 2,
   nameOnly = FALSE,
-  simplify = FALSE
+  simplify = TRUE
 )
 }
 \arguments{
-\item{dsnPath}{directory where the WBD HUC datasets are found}
+\item{gdbDir}{Directory containing the geodatabase.}
 
 \item{level}{Character or integer which must be 2, 4, 6, 8, 10, 12 or 14.}
 
-\item{extension}{Character extension associated with mapshaper simplified files.}
-
-\item{nameOnly}{Logical specifying whether to only return the name without 
+\item{nameOnly}{Logical specifying whether to only return the name without
 creating the file.}
 
-\item{simplify}{Logical specifying whether to create "_02" and "_01" versions 
-of the file that are simplified to 2\% and 1\%.}
+\item{simplify}{Logical specifying whether to create "_05", _02" and "_01"
+versions of the file that are simplified to 5\%, 2\% and 1\%.}
 }
 \value{
 Name of the dataset being created.
 }
 \description{
-Previously downloaded shapefiles from the USGS 
-\href{http://nhd.usgs.gov/wbd.html}{Watershed Boundary Dataset} are converted to a 
-SpatialPolygonsDataFrame with additional columns of data. The resulting file will be
-created in the spatial data directory which is set with \code{setSpatialDataDir()}.
+Create a SpatialPolygonsDataFrame for USGS watershed boundaries
 }
 \details{
-The full WBD dataset can be downloaded from the USGS with the 
+A USGS Watershed Boundary Dataset geodatabase is converted to a
+SpatialPolygonsDataFrame with additional columns of data. To use this
+function, the WBD geodatabase must be downloaded into a directory which is
+identified with \code{gdbDir}. The resulting file will be created in the
+spatial data directory which is set with \code{setSpatialDataDir()}.
+
+The full WBD dataset can be downloaded from the USGS with the
 following command:
 \preformatted{
 curl https://prd-tnm.s3.amazonaws.com/StagedProducts/Hydrography/WBD/National/GDB/WBD_National_GDB.zip -O
 }
 
-
-Typically, the raw data will be simplified using 
-\href{https://github.com/mbloch/mapshaper}{mapshaper}.
-
-With mapshaper, you can reduce the number of vertices in the polygons, greatly improving
-the efficiency of spatial searches. Experimentation shows that a reduction to 1-2%
-of the original shapefile size still retains the recognizable shape of polygons, removing
-only the higher order "crenellations" in the polygons.
-
-An example use of mapshaper would be:
-\preformatted{
-mapshaper WBDHU2.shp --simplify 1% --o WBDHU2_01.shp
+The source data is from Version 2.3 -- 2020-11-19.
 }
+\note{
+From the source documentation:
 
-A full suite of \code{.shp, .shx, .dbf, .prj} files will be created for the new name \code{WBDHU2_02}.
+The Watershed Boundary Dataset (WBD) is a seamless, national hydrologic unit
+dataset. Simply put, hydrologic units represent the area of the landscape that
+drains to a portion of the stream network. More specifically, a hydrologic
+unit defines the areal extent of surface water drainage to an outlet point on
+a dendritic stream network or to multiple outlet points where the stream
+network is not dendritic. A hydrologic unit may represent all or only part of
+the total drainage area to an outlet point so that multiple hydrologic units
+may be required to define the entire drainage area at a given outlet.
+Hydrologic unit boundaries in the WBD are determined based on topographic,
+hydrologic, and other relevant landscape characteristics without regard for
+administrative, political, or jurisdictional boundaries. The WBD seamlessly
+represents hydrologic units at six required and two optional hierarchical levels.
+
+The hydrologic units (HU) in the WBD form a standardized system for organizing,
+collecting, managing, and reporting hydrologic information for the nation.
+The HU in the WBD are arranged in a nested, hierarchical system with each HU
+in the system identified using a unique code. Hydrologic unit codes (HUC) are
+developed using a progressive two-digit system where each successively smaller
+areal unit is identified by adding two digits to the identifying code the
+smaller unit is nested within. WBD contains eight levels of progressive
+hydrologic units identified by unique 2- to 16-digit codes. The dataset is
+complete for the United States to the 12-digit hydrologic unit. The 14- and
+16-digit hydrologic units are optional and are not complete for the nation.
+Efforts are ongoing to complete 10- and 12-digit unit delineations within
+8-digit hydrologic units extending across the U.S. – Canada border. Additional
+information about this effort and access to data is linked on the “resources”
+section on this page. A similar effort is complete for the 10- and 12-digit
+units extending across the U.S. – Mexico border.
 }
 \references{
-\url{http://nhd.usgs.gov/wbd.html}
+\url{https://www.usgs.gov/core-science-systems/ngp/national-hydrography/watershed-boundary-dataset}
 }
 \seealso{
 setSpatialDataDir

@@ -4,53 +4,60 @@
 \alias{convertOSMTimezones}
 \title{Convert OSM Timezone Shapefile}
 \usage{
-convertOSMTimezones(dsnPath = NULL, nameOnly = FALSE)
+convertOSMTimezones(nameOnly = FALSE, simplify = TRUE)
 }
 \arguments{
-\item{dsnPath}{optional directory where the timezones.shapefile.zip file is found (in case web access isn't working)}
+\item{nameOnly}{Logical specifying whether to only return the name without
+creating the file.}
 
-\item{nameOnly}{logical specifying whether to only return the name without creating the file}
+\item{simplify}{Logical specifying whether to create "_05", _02" and "_01"
+versions of the file that are simplified to 5\%, 2\% and 1\%.}
 }
 \value{
 Name of the dataset being created.
 }
 \description{
-A world timezone shapefile is downloaded from \url{https://github.com/evansiroky/timezone-boundary-builder/releases}
-and converted to a SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
-in the spatial data directory which is set with \code{setSpatialDataDir()}.
+Create a SpatialPolygonsDataFrame for world timezones.
 }
-\note{
-There are 86 timezones which have polygons but the associated rows in the dataframe have no data. 
-These timezones also have no \code{countryCode} assigned. We hope to rectify this in a future release. 
+\details{
+A world timezone shapefile is downloaded and converted to a
+SpatialPolygonsDataFrame with additional columns of data. The resulting file
+will be created in the spatial data directory which is set with
+\code{setSpatialDataDir()}.
+
+There are 2 timezones which have polygons but the associated rows in the dataframe have no data.
+These timezones also have no \code{countryCode} assigned. We hope to rectify this in a future release.
 These are the missing timezones:
 \preformatted{
 > OSMTimezones@data$timezone[is.na(OSMTimezones$countryCode)]
- [1] "Africa/Addis_Ababa"    "Africa/Asmara"         "Africa/Bamako"         "Africa/Bangui"         "Africa/Banjul"        
- [6] "Africa/Blantyre"       "Africa/Brazzaville"    "Africa/Bujumbura"      "Africa/Conakry"        "Africa/Dakar"         
-[11] "Africa/Dar_es_Salaam"  "Africa/Djibouti"       "Africa/Douala"         "Africa/Freetown"       "Africa/Gaborone"      
-[16] "Africa/Harare"         "Africa/Juba"           "Africa/Kampala"        "Africa/Kigali"         "Africa/Kinshasa"      
-[21] "Africa/Libreville"     "Africa/Lome"           "Africa/Luanda"         "Africa/Lubumbashi"     "Africa/Lusaka"        
-[26] "Africa/Malabo"         "Africa/Maseru"         "Africa/Mbabane"        "Africa/Mogadishu"      "Africa/Niamey"        
-[31] "Africa/Nouakchott"     "Africa/Ouagadougou"    "Africa/Porto-Novo"     "Africa/Sao_Tome"       "America/Anguilla"     
-[36] "America/Antigua"       "America/Aruba"         "America/Cayman"        "America/Coral_Harbour" "America/Dominica"     
-[41] "America/Grenada"       "America/Guadeloupe"    "America/Kralendijk"    "America/Lower_Princes" "America/Marigot"      
-[46] "America/Montreal"      "America/Montserrat"    "America/St_Barthelemy" "America/St_Kitts"      "America/St_Lucia"     
-[51] "America/St_Thomas"     "America/St_Vincent"    "America/Tortola"       "Arctic/Longyearbyen"   "Asia/Aden"            
-[56] "Asia/Bahrain"          "Asia/Chongqing"        "Asia/Harbin"           "Asia/Kashgar"          "Asia/Kuwait"          
-[61] "Asia/Muscat"           "Asia/Phnom_Penh"       "Asia/Rangoon"          "Asia/Vientiane"        "Atlantic/St_Helena"   
-[66] "Europe/Bratislava"     "Europe/Busingen"       "Europe/Guernsey"       "Europe/Isle_of_Man"    "Europe/Jersey"        
-[71] "Europe/Ljubljana"      "Europe/Mariehamn"      "Europe/Podgorica"      "Europe/San_Marino"     "Europe/Sarajevo"      
-[76] "Europe/Skopje"         "Europe/Vaduz"          "Europe/Vatican"        "Europe/Zagreb"         "Indian/Antananarivo"  
-[81] "Indian/Comoro"         "Indian/Mayotte"        "Pacific/Johnston"      "Pacific/Midway"        "Pacific/Saipan"       
-[86] "Pacific/Yap"     
+ [1] "America/Nuuk"  "Asia/Qostanay"
 }
+}
+\note{
+From the source documentation:
+
+This project aims to stay up-to-date with all of the currently valid
+timezones that are defined in the timezone database. This project also will
+attempt to provide the most accurate possible boundaries of timezones
+according to community input.
+
+The underlying data is downloaded from OpenStreetMap via the overpass turbo
+API. Various boundaries are assembled together to produce each zone with
+various geographic operations. In numerous edge cases arbitrary boundaries
+get created in various zones which are noted in the timezones.json file.
+
+To maintain consistency with the timezone database, this project will only
+create a new release after the timezone database creates a new release. If
+there are no new timezones created or deleted in a timezone database release,
+then this project will only create a release if there have been changes
+performed to the boundary definitions of an existing zone within this project.
 }
 \references{
-\url{https://github.com/evansiroky/timezone-boundary-builder/releases}
+\url{https://github.com/evansiroky/timezone-boundary-builder}
 }
 \seealso{
 setSpatialDataDir
 
-convertWikipediaTimezoneTable
+getVariable
 }
 \keyword{datagen}

@@ -7,7 +7,7 @@
 setSpatialDataDir(dataDir)
 }
 \arguments{
-\item{dataDir}{directory where spatial datasets are created}
+\item{dataDir}{Directory where spatial datasets are created.}
 }
 \value{
 Silently returns previous value of data directory.

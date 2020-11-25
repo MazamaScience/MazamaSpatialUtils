@@ -4,24 +4,27 @@
 \alias{convertTMWorldBordersSimple}
 \title{Convert (Simple) World Borders Shapefile}
 \usage{
-convertTMWorldBordersSimple(nameOnly = FALSE)
+convertTMWorldBordersSimple(nameOnly = FALSE, simplify = TRUE)
 }
 \arguments{
-\item{nameOnly}{logical specifying whether to only return the name without creating the file}
+\item{nameOnly}{Logical specifying whether to only return the name without
+creating the file.}
+
+\item{simplify}{Logical specifying whether to create "_05", _02" and "_01"
+versions of the file that are simplified to 5\%, 2\% and 1\%.}
 }
 \value{
 Name of the dataset being created.
 }
 \description{
-Returns a SpatialPolygonsDataFrame for a simple world divisions
+Returns a SpatialPolygonsDataFrame for simple world divisions
 }
 \details{
 A world borders shapefile is downloaded and converted to a
 SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
 in the package \code{SpatialDataDir} which is set with \code{setSpatialDataDir()}.
 
-This shapefile is a greatly simplified version of the TMWorldBorders shapefile and is especially suited
-for spatial searches. This is the default dataset used in \code{getCountry()} and \code{getCountryCode()}.
+This shapefile is a simplified version of the TMWorldBorders shapefile.
 Users may wish to use a higher resolution dataset when plotting.
 }
 \references{

@@ -5,7 +5,7 @@
 \alias{US_stateCodes}
 \title{Dataframe of US state codes}
 \format{
-A dataframe with 51 rows and 6 columns of data.
+A dataframe with 52 rows and 3 columns of data.
 }
 \usage{
 US_stateCodes
@@ -17,8 +17,10 @@ US_stateCodes the following columns for US states and territories:
 \item{\code{stateCode} -- ISO 3166-2 alpha-2}
 \item{\code{stateFIPS} -- two-digit FIPS code}
 }
+
+This dataset was generated on 2020-06-11 by running:
+
+\preformatted{
 }
-\references{
-\href{https://en.wikipedia.org/wiki/Federal_Information_Processing_Standard_state_code}{Wikipedia}
 }
 \keyword{datasets}

@@ -7,21 +7,21 @@
 stateToCode(stateNames, countryCodes = NULL, dataset = "NaturalEarthAdm1")
 }
 \arguments{
-\item{stateNames}{state names to be converted}
+\item{stateNames}{Vector of state names to be converted.}
 
-\item{countryCodes}{ISO 3166-2 alpha-2 country codes the state might be found in}
+\item{countryCodes}{Vector of ISO 3166-2 alpha-2 country codes the state might be found in.}
 
-\item{dataset}{name of dataset containing state-level identifiers}
+\item{dataset}{Name of dataset containing state-level identifiers.}
 }
 \value{
 A vector of ISO 3166-2 codes or NA.
 }
 \description{
-Converts a vector of state names to an ISO 3166-2 two character 
+Converts a vector of state names to an ISO 3166-2 two character
 state codes.
 }
 \details{
-For this function to work, you must first run 
+For this function to work, you must first run
 \code{initializeSpatialData()} to
 download, convert and install the necessary spatial data.
 }
