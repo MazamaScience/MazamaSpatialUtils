@@ -275,7 +275,7 @@ convertWBDHUC <- function(
   # NOTE:
   # NOTE:  If centroids don't work we'll just default to the center of the bbox for each polygon
 
-  if ( class(result)[1] == "try-error" ) {
+  if ( "try-error" %in% class(result) ) {
     warning('NOTE: rgeos::gCentroid() failed with the following message. Using bbox() to calculate lon and lat.\n')
     warning(geterrmessage(),'\n')
     lon <- rep(as.numeric(NA), nrow(SPDF))
@@ -298,12 +298,15 @@ convertWBDHUC <- function(
 
   # Hack to change missing stateCodes to the value from allStateCodes
 
-  for (i in seq_len(nrow(SPDF)) ) {
+  for ( i in seq_len(nrow(SPDF)) ) {
     if ( is.na(SPDF@data$stateCode[i]) ) {
       SPDF@data$stateCode[i] <- SPDF@data$allStateCodes[i]
     }
-    if ( stringr::str_length(SPDF@data$stateCode[i]) > 2 ) {
-      SPDF@data$stateCode[i] <- substr(SPDF@data$stateCode[i], start = 1, stop = 2)
+    # NOTE:  Still NA in the case of level 2 HUC named "United States Minor Outlying Islands"
+    if ( !is.na(SPDF@data$stateCode[i]) ) {
+      if ( stringr::str_length(SPDF@data$stateCode[i]) > 2 ) {
+        SPDF@data$stateCode[i] <- substr(SPDF@data$stateCode[i], start = 1, stop = 2)
+      }
     }
   }
 
