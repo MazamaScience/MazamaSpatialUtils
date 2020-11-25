@@ -8,7 +8,8 @@ convertWBDHUC(
   gdbDir = "~/Data/WBD/WBD_National_GDB.gdb",
   level = 2,
   nameOnly = FALSE,
-  simplify = TRUE
+  simplify = TRUE,
+  cleanTopology = FALSE
 )
 }
 \arguments{
@@ -21,6 +22,9 @@ creating the file.}
 
 \item{simplify}{Logical specifying whether to create "_05", _02" and "_01"
 versions of the file that are simplified to 5\%, 2\% and 1\%.}
+
+\item{cleanTopology}{Logical specifying to use the \pkg{cleangeo} package to
+clean topological errors in the shapefiles.}
 }
 \value{
 Name of the dataset being created.
@@ -40,10 +44,13 @@ following command:
 \preformatted{
 curl https://prd-tnm.s3.amazonaws.com/StagedProducts/Hydrography/WBD/National/GDB/WBD_National_GDB.zip -O
 }
-
-The source data is from Version 2.3 -- 2020-11-19.
 }
 \note{
+If processing takes too long you can greatly speed things up with:
+\code{simplify = FALSE, cleanTopology = FALSE}
+
+The source data is from Version 2.3 -- 2020-11-19.
+
 From the source documentation:
 
 The Watershed Boundary Dataset (WBD) is a seamless, national hydrologic unit

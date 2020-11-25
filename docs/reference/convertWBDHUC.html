@@ -159,7 +159,8 @@
   gdbDir <span class='op'>=</span> <span class='st'>"~/Data/WBD/WBD_National_GDB.gdb"</span>,
   level <span class='op'>=</span> <span class='fl'>2</span>,
   nameOnly <span class='op'>=</span> <span class='cn'>FALSE</span>,
-  simplify <span class='op'>=</span> <span class='cn'>TRUE</span>
+  simplify <span class='op'>=</span> <span class='cn'>TRUE</span>,
+  cleanTopology <span class='op'>=</span> <span class='cn'>FALSE</span>
 <span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -183,6 +184,11 @@ creating the file.</p></td>
       <td><p>Logical specifying whether to create "_05", _02" and "_01"
 versions of the file that are simplified to 5%, 2% and 1%.</p></td>
     </tr>
+    <tr>
+      <th>cleanTopology</th>
+      <td><p>Logical specifying to use the <span class="pkg">cleangeo</span> package to
+clean topological errors in the shapefiles.</p></td>
+    </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
@@ -200,10 +206,12 @@ following command:</p><pre>
 curl https://prd-tnm.s3.amazonaws.com/StagedProducts/Hydrography/WBD/National/GDB/WBD_National_GDB.zip -O
 </pre>
 
-<p>The source data is from Version 2.3 -- 2020-11-19.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p>From the source documentation:</p>
+    <p>If processing takes too long you can greatly speed things up with:
+<code>simplify = FALSE, cleanTopology = FALSE</code></p>
+<p>The source data is from Version 2.3 -- 2020-11-19.</p>
+<p>From the source documentation:</p>
 <p>The Watershed Boundary Dataset (WBD) is a seamless, national hydrologic unit
 dataset. Simply put, hydrologic units represent the area of the landscape that
 drains to a portion of the stream network. More specifically, a hydrologic

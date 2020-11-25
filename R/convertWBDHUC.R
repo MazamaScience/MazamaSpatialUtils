@@ -10,6 +10,8 @@
 #' creating the file.
 #' @param simplify Logical specifying whether to create "_05", _02" and "_01"
 #' versions of the file that are simplified to 5\%, 2\% and 1\%.
+#' @param cleanTopology Logical specifying to use the \pkg{cleangeo} package to
+#' clean topological errors in the shapefiles.
 #'
 #' @description Create a SpatialPolygonsDataFrame for USGS watershed boundaries
 #'
@@ -24,6 +26,9 @@
 #' \preformatted{
 #' curl https://prd-tnm.s3.amazonaws.com/StagedProducts/Hydrography/WBD/National/GDB/WBD_National_GDB.zip -O
 #' }
+#'
+#' @note If processing takes too long you can greatly speed things up with:
+#' \code{simplify = FALSE, cleanTopology = FALSE}
 #'
 #' The source data is from Version 2.3 -- 2020-11-19.
 #'
@@ -72,7 +77,8 @@ convertWBDHUC <- function(
   gdbDir = "~/Data/WBD/WBD_National_GDB.gdb",
   level = 2,
   nameOnly = FALSE,
-  simplify = TRUE
+  simplify = TRUE,
+  cleanTopology = FALSE
 ) {
 
   # ----- Setup ----------------------------------------------------------------
@@ -133,7 +139,9 @@ convertWBDHUC <- function(
 
   # ----- Select useful columns and rename -------------------------------------
 
-  # NOTE:  Comments are relevant to the WBD as downlaoded on 2020-11-20
+  message("Harmonizing @data...\n")
+
+  # NOTE:  Comments are relevant to the WBD as downloaded on 2020-11-20
 
   if ( level == '2' ) {
     # > pryr::object_size(SPDF)
@@ -219,24 +227,31 @@ convertWBDHUC <- function(
   names(SPDF) <- c('loadDate', 'area', 'allStateCodes', 'HUC', 'HUCName')
 
   # Change are from km^2 to m^2
-  SPDF@data$area <- as.numeric(SPDF@data$area) * 1000000
+  SPDF@data$area <- as.numeric(SPDF@data$area) * 1e6
 
   # ----- Clean SPDF -----------------------------------------------------------
 
   # NOTE:  All polygons are unique so we just add polygonID manually
 
-  # # Group polygons with the same identifier (stateFIPS)
+  # # Group polygons with the same identifier (HUC)
+  # message("Organizing polygons...\n")
   # SPDF <- organizePolygons(
   #   SPDF,
-  #   uniqueID = 'stateFIPS',
-  #   sumColumns = c('landArea', 'waterArea')
+  #   uniqueID = 'HUC',
+  #   sumColumns = c('area')
   # )
 
   SPDF@data$polygonID <- SPDF@data$HUC
 
-  # Clean topology errors
-  if ( !cleangeo::clgeo_IsValid(SPDF) ) {
-    SPDF <- cleangeo::clgeo_Clean(SPDF, verbose = TRUE)
+  if ( cleanTopology ) {
+
+    message("Checking for topology errors...\n")
+    # Clean topology errors
+    if ( !cleangeo::clgeo_IsValid(SPDF) ) {
+      message("Cleaning topology errors...\n")
+      SPDF <- cleangeo::clgeo_Clean(SPDF, verbose = TRUE)
+    }
+
   }
 
   # ----- Add stateCode --------------------------------------------------------
