@@ -20,8 +20,8 @@ countryCode <- c('CR', 'HM', 'GR', 'PF', 'NZ', 'CL', 'TK', 'AU', 'CN', 'US')
 
 # Check timing
 benchmark(getCountryCode(lon = longitude, lat = latitude, dataset = 'simpleCountries'),
-          getCountryCode(lon = longitude, lat = latitude, dataset = 'TMWorldBorders'), 
-          getCountryCode(lon = longitude, lat = latitude, dataset = 'EEZCountries'), 
+          getCountryCode(lon = longitude, lat = latitude, dataset = 'TMWorldBorders'),
+          getCountryCode(lon = longitude, lat = latitude, dataset = 'EEZCountries'),
           getCountryCode(lon = longitude, lat = latitude, dataset = 'simpleCountries', useBuffering = TRUE),
           replications = 10)
 
