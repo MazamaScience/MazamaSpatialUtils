@@ -69,13 +69,13 @@ associated with a set of locations.
 
 Current functionality includes the following:
 
-* `getCountry~(lon,lat,...)` -- returns names, ISO codes and other country-level data specified lo cations
-* `getState~(lon,lat,...)` -- returns names, ISO codes and other state-level at specified locations
-* `getUSCounty~(lon,lat,...)` -- returns names and other county-level data at specified locations
-* `getTimezones(lon,lat,...)` -- returns Olson timezones and other data at specified locations
-* `getHUC~(lon,lat,...)` -- returns USGS Hydrologic Unit Codes and other data at specified locations
+* `getCountry~(longitude, latitude, ...)` -- returns names, ISO codes and other country-level data specified lo cations
+* `getState~(longitude, latitude, ...)` -- returns names, ISO codes and other state-level at specified locations
+* `getUSCounty~(longitude, latitude, ...)` -- returns names and other county-level data at specified locations
+* `getTimezones(longitude, latitude, ...)` -- returns Olson timezones and other data at specified locations
+* `getHUC~(longitude, latitude, ...)` -- returns USGS Hydrologic Unit Codes and other data at specified locations
 
-A generic `getSpatialData(lon,lat,...)` returns a dataframe whose rows are associated with specified locations.
+A generic `getSpatialData(longitude, latitude, ...)` returns a dataframe whose rows are associated with specified locations.
 This function can be used with newly converted SpatialPolygonsDataFrames.
 
 For those working with geo-located data, the ability to enhance location metadata with this information can be extremely helpful.
@@ -92,45 +92,44 @@ sets the directory where spatial data will be installed and loaded from.
 * `SimpleCountriesEEZ` -- country outlines including Exclusive Economic Zones over water
 * `SimpleTimezones` -- timezones
 
-Version 0.5.x of the package is built around the three built-in datasets and several other core 
+Version 0.7 of the package is built around the three built-in datasets and several other core 
 datasets that may be installed including: 
 
- * `  2 Mb EEZCountries.RData` -- country boundaries including Exclusive Economic Zones
- * ` 15 Mb NaturalEarthAdm1.RData` -- state/province/oblast level boundaries	 
- * ` 61 Mb OSMTimezones.RData` -- Open Street Map high resolution time zones
- * `  4 Mb TMWorldBorders.RData` -- high resolution country level boundaries
- * ` 48 Mb TerrestrialEcoregions.RData` -- terrestrial eco-regions
- * `  7 Mb USCensus115thCongress.RData` -- US congressional districts
- * `  2 Mb USCensusCounties.RData` -- US county level boundaries
- * `  3 Mb USCensusStates.RData` -- US state level boundaries
- * `  3 Mb USIndianLands.RData` -- US tribal boundaries
- * ` 16 Mb WorldTimezones.RData` -- high resolution timezones
+ * `  2 Mb EEZCountries.rda` -- country boundaries including Exclusive Economic Zones
+ * ` 15 Mb NaturalEarthAdm1.rda` -- state/province/oblast level boundaries	 
+ * ` 61 Mb OSMTimezones.rda` -- Open Street Map high resolution time zones
+ * `  4 Mb TMWorldBorders.rda` -- high resolution country level boundaries
+ * ` 48 Mb TerrestrialEcoregions.rda` -- terrestrial eco-regions
+ * `  7 Mb USCensus115thCongress.rda` -- US congressional districts
+ * `  2 Mb USCensusCounties.rda` -- US county level boundaries
+ * `  3 Mb USCensusStates.rda` -- US state level boundaries
+ * `  3 Mb USIndianLands.rda` -- US tribal boundaries
+ * ` 16 Mb WorldTimezones.rda` -- high resolution timezones
 
-Install these with:
+Install these one at a time with:
 
 ```{r setSpatialData, eval = FALSE}
 setSpatialDataDir('~/Data/Spatial')
-installSpatialData()
+installSpatialData("<datasetName>")
 ```
 
-This may take some time to download and untar the 170 Mb file.
-
-Once datasets have been installed, `loadSpatialData()` can be used load datasets found in the `SpatialDataDir` that match a particular pattern, *e.g*:
+Once datasets have been installed, `loadSpatialData()` can be used load datasets 
+found in the `SpatialDataDir` that match a particular pattern, *e.g*:
 
 ```{r loadSpatialData, eval = FALSE}
-loadSpatialData('NaturalEarthAdm1')
-loadSpatialData('USCensus')
+loadSpatialData('USCensusStates')
+loadSpatialData('USCensusCounties')
 ```
 
 Additional watershed data from the [Watershed Boundary Dataset](http://nhd.usgs.gov/wbd.html) are quite
-large and can be downloaded separately from http://data.mazamascience.com/MazamaSpatialUtils/Spatial.
+large and can be downloaded separately from http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7.
 
- * ` 38 Mb WBDHU2.RData` -- USGS level 2 watersheds
- * `107 Mb WBDHU4.RData` -- USGS level 4 watersheds
- * `136 Mb WBDHU6.RData` -- USGS level 6 watersheds
- * `294 Mb WBDHU8.RData` -- USGS level 8 watersheds
- * `768 Mb WBDHU10.RData` -- USGS level 10 watersheds	 
- * `1.4 Gb WBDHU12.RData` -- USGS level 12 watersheds
+ * ` 38 Mb WBDHU2.rda` -- USGS level 2 watersheds
+ * `107 Mb WBDHU4.rda` -- USGS level 4 watersheds
+ * `136 Mb WBDHU6.rda` -- USGS level 6 watersheds
+ * `294 Mb WBDHU8.rda` -- USGS level 8 watersheds
+ * `768 Mb WBDHU10.rda` -- USGS level 10 watersheds	 
+ * `1.4 Gb WBDHU12.rda` -- USGS level 12 watersheds
 
 ## `getCountry()` and `getCountryCode()`
 
@@ -148,15 +147,15 @@ In this example we'll find which countries a vector of points fall in.
 ```{r getCountry}
 library(MazamaSpatialUtils)
 
-lon <- c(-122.3, -73.5, 21.1, 2.5)
-lat <- c(47.5, 40.75, 52.1, 48.5)
+longitude <- c(-122.3, -73.5, 21.1, 2.5)
+latitudeitude <- c(47.5, 40.75, 52.1, 48.5)
 
 # Get countries/codes associated with locations
-getCountry(lon, lat)
-getCountryCode(lon, lat)
+getCountry(longitude, latitudeitude)
+getCountryCode(longitude, latitudeitude)
 
 # Review all available data
-getCountry(lon, lat, allData=TRUE)
+getCountry(longitude, latitudeitude, allData=TRUE)
 ```
 
 ## `getState()` and `getStateCode()`
@@ -164,7 +163,7 @@ getCountry(lon, lat, allData=TRUE)
 Similar to above, these functions return state names and ISO 3166 code. They also take 
 the same arguments. Adding the `countryCodes` argument is more important for `getState()` 
 and `getStateCode()` because the `NaturalEarthAdm1` dataset is fairly large. Lets use the 
-same `lat` and `lon` variables as above and assign states to those locations.
+same `latitude` and `longitude` variables as above and assign states to those locations.
 
 These functions require installation of the large `NaturalEarthAdm1` dataset which is not 
 distributed with the package.
@@ -176,14 +175,14 @@ distributed with the package.
 loadSpatialData('NaturalEarthAdm1')
 
 # Get country codes associated with locations
-countryCodes <- getCountryCode(lon, lat)
+countryCodes <- getCountryCode(longitude, latitudeitude)
 
 # Pass the countryCodes as an argument to speed everything up
-getState(lon, lat, countryCodes = countryCodes)
-getStateCode(lon, lat, countryCodes = countryCodes)
+getState(longitude, latitudeitude, countryCodes = countryCodes)
+getStateCode(longitude, latitudeitude, countryCodes = countryCodes)
 
 # This is a very detailed dataset so we'll grab a few important columns
-states <- getState(lon, lat, allData=TRUE, countryCodes = countryCodes)
+states <- getState(longitude, latitudeitude, allData=TRUE, countryCodes = countryCodes)
 states[c('countryCode', 'stateCode', 'stateName')]
 ```
 
@@ -197,16 +196,16 @@ without loading any additional datasets.
 
 ```{r getTimezone}
 # Find the timezones the points are in
-getTimezone(lon, lat)
+getTimezone(longitude, latitudeitude)
 
 # Get country codes associated with locations
-countryCodes <- getCountryCode(lon, lat)
+countryCodes <- getCountryCode(longitude, latitudeitude)
 
 # Pass the countryCodes as an argument to potentially speed things up
-getTimezone(lon, lat, countryCodes = countryCodes)
+getTimezone(longitude, latitudeitude, countryCodes = countryCodes)
 
 # Review all available data
-getTimezone(lon, lat, allData=TRUE, countryCodes = countryCodes)
+getTimezone(longitude, latitudeitude, allData=TRUE, countryCodes = countryCodes)
 ```
 
 ## `getUSCounty()`
@@ -222,11 +221,11 @@ dataset is US specific.
 loadSpatialData("USCensusCounties")
 
 # New dataset of points only in the US
-stateCodes <- getStateCode(lon,lat)
+stateCodes <- getStateCode(longitude,latitudeitude)
 
 # Optionally pass the stateCodes as an argument to speed everything up
-getUSCounty(lon, lat, stateCodes=stateCodes)
-getUSCounty(lon, lat, allData=TRUE, stateCodes=stateCodes)
+getUSCounty(longitude, latitudeitude, stateCodes=stateCodes)
+getUSCounty(longitude, latitudeitude, allData=TRUE, stateCodes=stateCodes)
 ```
 
 ## Timezone Map

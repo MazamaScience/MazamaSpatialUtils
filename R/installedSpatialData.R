@@ -45,7 +45,7 @@ installedSpatialData <- function(
     "SimpleTimezones" = "Simplified version of WorldTimezones",
     "TerrestrialEcoregions" = "Terrestrial eco-regions",
     "TMWorldBorders" = "Country level boundaries",
-    "USCensus115thCongress" = "US congressional districts",
+    "USCensus116thCongress" = "US congressional districts",
     "USCensusCBSA" = "US Core Based Statistical Areas",
     "USCensusCounties" = "US county level boundaries",
     "USCensusStates" = "US state level boundaries",
@@ -127,7 +127,9 @@ installedSpatialData <- function(
 
     }
 
-    cat(paste(datasetTextList, collapse = "\n"))
+    datasetTextString <- paste(datasetTextList, collapse = "\n")
+
+    cat(paste0(datasetTextString, "\n"))
 
   }
 

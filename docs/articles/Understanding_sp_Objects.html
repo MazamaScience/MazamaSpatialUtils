@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.1</span>
       </span>
     </div>
 
@@ -120,7 +120,7 @@
 <div id="understanding-sp-objectss" class="section level1">
 <h1 class="hasAnchor">
 <a href="#understanding-sp-objectss" class="anchor"></a>Understanding ‘sp’ Objectss</h1>
-<p>To work efficiently with the <code>SpatialPolygonsDataFrame</code> (SPDF) objects used in the <strong>MazamaSpatialUtils</strong> package, it is important to understand the <strong>S4</strong> object classes that underly the <strong>sp</strong> package. This vignette introduces simple concepts assocuated with R’s object classes so that newcomers to this style of coding can work efficiently with SPDFs.</p>
+<p>To work efficiently with the <code>SpatialPolygonsDataFrame</code> (SPDF) objects used in the <strong>MazamaSpatialUtils</strong> package, it is important to understand the <strong>S4</strong> object classes that make up the <strong>sp</strong> package. This vignette introduces simple concepts associated with R’s object classes so that newcomers to this style of coding can work efficiently with SPDFs.</p>
 <div id="objects-in-r" class="section level2">
 <h2 class="hasAnchor">
 <a href="#objects-in-r" class="anchor"></a>Objects in R</h2>
@@ -134,7 +134,7 @@
 <ul>
 <li>S3 objects are just lists</li>
 <li>S3 objects have attributes</li>
-<li>S3 compenents are accessed like normal list components</li>
+<li>S3 components are accessed like normal list components</li>
 <li>The <code>class</code> attribute determines how <em>“methods are dispatched”</em>
 </li>
 </ul>
@@ -181,11 +181,11 @@
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Let's look a "counts"</span>
 <span class="va">h</span><span class="op">$</span><span class="va">counts</span></code></pre></div>
-<pre><code>##  [1]  1  9  8 15 19 16 16  6  5  3  1  1</code></pre>
+<pre><code>##  [1]  3  3  9 22 19 18 13  8  4  1</code></pre>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Or, altenatively</span>
+<code class="sourceCode R"><span class="co"># Or, alternatively</span>
 <span class="va">h</span><span class="op">[[</span><span class="st">"counts"</span><span class="op">]</span><span class="op">]</span></code></pre></div>
-<pre><code>##  [1]  1  9  8 15 19 16 16  6  5  3  1  1</code></pre>
+<pre><code>##  [1]  3  3  9 22 19 18 13  8  4  1</code></pre>
 </div>
 <div id="calling-s3-methods" class="section level3">
 <h3 class="hasAnchor">

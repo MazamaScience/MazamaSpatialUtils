@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.1</span>
       </span>
     </div>
 
@@ -158,17 +158,17 @@
 <p>Current functionality includes the following:</p>
 <ul>
 <li>
-<code>getCountry~(lon,lat,...)</code> – returns names, ISO codes and other country-level data specified lo cations</li>
+<code>getCountry~(longitude, latitude, ...)</code> – returns names, ISO codes and other country-level data specified lo cations</li>
 <li>
-<code>getState~(lon,lat,...)</code> – returns names, ISO codes and other state-level at specified locations</li>
+<code>getState~(longitude, latitude, ...)</code> – returns names, ISO codes and other state-level at specified locations</li>
 <li>
-<code>getUSCounty~(lon,lat,...)</code> – returns names and other county-level data at specified locations</li>
+<code>getUSCounty~(longitude, latitude, ...)</code> – returns names and other county-level data at specified locations</li>
 <li>
-<code>getTimezones(lon,lat,...)</code> – returns Olson timezones and other data at specified locations</li>
+<code>getTimezones(longitude, latitude, ...)</code> – returns Olson timezones and other data at specified locations</li>
 <li>
-<code>getHUC~(lon,lat,...)</code> – returns USGS Hydrologic Unit Codes and other data at specified locations</li>
+<code>getHUC~(longitude, latitude, ...)</code> – returns USGS Hydrologic Unit Codes and other data at specified locations</li>
 </ul>
-<p>A generic <code><a href="../reference/getSpatialData.html">getSpatialData(lon,lat,...)</a></code> returns a dataframe whose rows are associated with specified locations. This function can be used with newly converted SpatialPolygonsDataFrames.</p>
+<p>A generic <code><a href="../reference/getSpatialData.html">getSpatialData(longitude, latitude, ...)</a></code> returns a dataframe whose rows are associated with specified locations. This function can be used with newly converted SpatialPolygonsDataFrames.</p>
 <p>For those working with geo-located data, the ability to enhance location metadata with this information can be extremely helpful.</p>
 </div>
 <div id="standard-datasets-and-setup" class="section level2">
@@ -184,54 +184,53 @@
 <li>
 <code>SimpleTimezones</code> – timezones</li>
 </ul>
-<p>Version 0.5.x of the package is built around the three built-in datasets and several other core datasets that may be installed including:</p>
+<p>Version 0.7 of the package is built around the three built-in datasets and several other core datasets that may be installed including:</p>
 <ul>
 <li>
-<code>2 Mb EEZCountries.RData</code> – country boundaries including Exclusive Economic Zones</li>
+<code>2 Mb EEZCountries.rda</code> – country boundaries including Exclusive Economic Zones</li>
 <li>
-<code>15 Mb NaturalEarthAdm1.RData</code> – state/province/oblast level boundaries<br>
+<code>15 Mb NaturalEarthAdm1.rda</code> – state/province/oblast level boundaries<br>
 </li>
 <li>
-<code>61 Mb OSMTimezones.RData</code> – Open Street Map high resolution time zones</li>
+<code>61 Mb OSMTimezones.rda</code> – Open Street Map high resolution time zones</li>
 <li>
-<code>4 Mb TMWorldBorders.RData</code> – high resolution country level boundaries</li>
+<code>4 Mb TMWorldBorders.rda</code> – high resolution country level boundaries</li>
 <li>
-<code>48 Mb TerrestrialEcoregions.RData</code> – terrestrial eco-regions</li>
+<code>48 Mb TerrestrialEcoregions.rda</code> – terrestrial eco-regions</li>
 <li>
-<code>7 Mb USCensus115thCongress.RData</code> – US congressional districts</li>
+<code>7 Mb USCensus115thCongress.rda</code> – US congressional districts</li>
 <li>
-<code>2 Mb USCensusCounties.RData</code> – US county level boundaries</li>
+<code>2 Mb USCensusCounties.rda</code> – US county level boundaries</li>
 <li>
-<code>3 Mb USCensusStates.RData</code> – US state level boundaries</li>
+<code>3 Mb USCensusStates.rda</code> – US state level boundaries</li>
 <li>
-<code>3 Mb USIndianLands.RData</code> – US tribal boundaries</li>
+<code>3 Mb USIndianLands.rda</code> – US tribal boundaries</li>
 <li>
-<code>16 Mb WorldTimezones.RData</code> – high resolution timezones</li>
+<code>16 Mb WorldTimezones.rda</code> – high resolution timezones</li>
 </ul>
-<p>Install these with:</p>
+<p>Install these one at a time with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/setSpatialDataDir.html">setSpatialDataDir</a></span><span class="op">(</span><span class="st">'~/Data/Spatial'</span><span class="op">)</span>
-<span class="fu"><a href="../reference/installSpatialData.html">installSpatialData</a></span><span class="op">(</span><span class="op">)</span></code></pre></div>
-<p>This may take some time to download and untar the 170 Mb file.</p>
+<span class="fu"><a href="../reference/installSpatialData.html">installSpatialData</a></span><span class="op">(</span><span class="st">"&lt;datasetName&gt;"</span><span class="op">)</span></code></pre></div>
 <p>Once datasets have been installed, <code><a href="../reference/loadSpatialData.html">loadSpatialData()</a></code> can be used load datasets found in the <code>SpatialDataDir</code> that match a particular pattern, <em>e.g</em>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/loadSpatialData.html">loadSpatialData</a></span><span class="op">(</span><span class="st">'NaturalEarthAdm1'</span><span class="op">)</span>
-<span class="fu"><a href="../reference/loadSpatialData.html">loadSpatialData</a></span><span class="op">(</span><span class="st">'USCensus'</span><span class="op">)</span></code></pre></div>
-<p>Additional watershed data from the <a href="http://nhd.usgs.gov/wbd.html">Watershed Boundary Dataset</a> are quite large and can be downloaded separately from <a href="http://data.mazamascience.com/MazamaSpatialUtils/Spatial" class="uri">http://data.mazamascience.com/MazamaSpatialUtils/Spatial</a>.</p>
+<code class="sourceCode R"><span class="fu"><a href="../reference/loadSpatialData.html">loadSpatialData</a></span><span class="op">(</span><span class="st">'USCensusStates'</span><span class="op">)</span>
+<span class="fu"><a href="../reference/loadSpatialData.html">loadSpatialData</a></span><span class="op">(</span><span class="st">'USCensusCounties'</span><span class="op">)</span></code></pre></div>
+<p>Additional watershed data from the <a href="http://nhd.usgs.gov/wbd.html">Watershed Boundary Dataset</a> are quite large and can be downloaded separately from <a href="http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7" class="uri">http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7</a>.</p>
 <ul>
 <li>
-<code>38 Mb WBDHU2.RData</code> – USGS level 2 watersheds</li>
+<code>38 Mb WBDHU2.rda</code> – USGS level 2 watersheds</li>
 <li>
-<code>107 Mb WBDHU4.RData</code> – USGS level 4 watersheds</li>
+<code>107 Mb WBDHU4.rda</code> – USGS level 4 watersheds</li>
 <li>
-<code>136 Mb WBDHU6.RData</code> – USGS level 6 watersheds</li>
+<code>136 Mb WBDHU6.rda</code> – USGS level 6 watersheds</li>
 <li>
-<code>294 Mb WBDHU8.RData</code> – USGS level 8 watersheds</li>
+<code>294 Mb WBDHU8.rda</code> – USGS level 8 watersheds</li>
 <li>
-<code>768 Mb WBDHU10.RData</code> – USGS level 10 watersheds<br>
+<code>768 Mb WBDHU10.rda</code> – USGS level 10 watersheds<br>
 </li>
 <li>
-<code>1.4 Gb WBDHU12.RData</code> – USGS level 12 watersheds</li>
+<code>1.4 Gb WBDHU12.rda</code> – USGS level 12 watersheds</li>
 </ul>
 </div>
 <div id="getcountry-and-getcountrycode" class="section level2">
@@ -245,18 +244,18 @@
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/MazamaSpatialUtils">MazamaSpatialUtils</a></span><span class="op">)</span></code></pre></div>
 <pre><code>## Loading required package: sp</code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="va">lon</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">122.3</span>, <span class="op">-</span><span class="fl">73.5</span>, <span class="fl">21.1</span>, <span class="fl">2.5</span><span class="op">)</span>
-<span class="va">lat</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">47.5</span>, <span class="fl">40.75</span>, <span class="fl">52.1</span>, <span class="fl">48.5</span><span class="op">)</span>
+<code class="sourceCode R"><span class="va">longitude</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">122.3</span>, <span class="op">-</span><span class="fl">73.5</span>, <span class="fl">21.1</span>, <span class="fl">2.5</span><span class="op">)</span>
+<span class="va">latitudeitude</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">47.5</span>, <span class="fl">40.75</span>, <span class="fl">52.1</span>, <span class="fl">48.5</span><span class="op">)</span>
 
 <span class="co"># Get countries/codes associated with locations</span>
-<span class="fu"><a href="../reference/getCountry.html">getCountry</a></span><span class="op">(</span><span class="va">lon</span>, <span class="va">lat</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/getCountry.html">getCountry</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitudeitude</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "United States" "United States" "Poland"        "France"</code></pre>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/getCountryCode.html">getCountryCode</a></span><span class="op">(</span><span class="va">lon</span>, <span class="va">lat</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../reference/getCountryCode.html">getCountryCode</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitudeitude</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "US" "US" "PL" "FR"</code></pre>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Review all available data</span>
-<span class="fu"><a href="../reference/getCountry.html">getCountry</a></span><span class="op">(</span><span class="va">lon</span>, <span class="va">lat</span>, allData<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/getCountry.html">getCountry</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitudeitude</span>, allData<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <pre><code>##   countryCode   countryName polygonID
 ## 1          US United States       113
 ## 2          US United States       113
@@ -267,7 +266,7 @@
 <h2 class="hasAnchor">
 <a href="#getstate-and-getstatecode" class="anchor"></a><code>getState()</code> and <code>getStateCode()</code>
 </h2>
-<p>Similar to above, these functions return state names and ISO 3166 code. They also take the same arguments. Adding the <code>countryCodes</code> argument is more important for <code><a href="../reference/getState.html">getState()</a></code> and <code><a href="../reference/getStateCode.html">getStateCode()</a></code> because the <code>NaturalEarthAdm1</code> dataset is fairly large. Lets use the same <code>lat</code> and <code>lon</code> variables as above and assign states to those locations.</p>
+<p>Similar to above, these functions return state names and ISO 3166 code. They also take the same arguments. Adding the <code>countryCodes</code> argument is more important for <code><a href="../reference/getState.html">getState()</a></code> and <code><a href="../reference/getStateCode.html">getStateCode()</a></code> because the <code>NaturalEarthAdm1</code> dataset is fairly large. Lets use the same <code>latitude</code> and <code>longitude</code> variables as above and assign states to those locations.</p>
 <p>These functions require installation of the large <code>NaturalEarthAdm1</code> dataset which is not distributed with the package.</p>
 <p>(<em>The next block of code is not evaluated in the vignette.</em>)</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
@@ -275,14 +274,14 @@
 <span class="fu"><a href="../reference/loadSpatialData.html">loadSpatialData</a></span><span class="op">(</span><span class="st">'NaturalEarthAdm1'</span><span class="op">)</span>
 
 <span class="co"># Get country codes associated with locations</span>
-<span class="va">countryCodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getCountryCode.html">getCountryCode</a></span><span class="op">(</span><span class="va">lon</span>, <span class="va">lat</span><span class="op">)</span>
+<span class="va">countryCodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getCountryCode.html">getCountryCode</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitudeitude</span><span class="op">)</span>
 
 <span class="co"># Pass the countryCodes as an argument to speed everything up</span>
-<span class="fu"><a href="../reference/getState.html">getState</a></span><span class="op">(</span><span class="va">lon</span>, <span class="va">lat</span>, countryCodes <span class="op">=</span> <span class="va">countryCodes</span><span class="op">)</span>
-<span class="fu"><a href="../reference/getStateCode.html">getStateCode</a></span><span class="op">(</span><span class="va">lon</span>, <span class="va">lat</span>, countryCodes <span class="op">=</span> <span class="va">countryCodes</span><span class="op">)</span>
+<span class="fu"><a href="../reference/getState.html">getState</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitudeitude</span>, countryCodes <span class="op">=</span> <span class="va">countryCodes</span><span class="op">)</span>
+<span class="fu"><a href="../reference/getStateCode.html">getStateCode</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitudeitude</span>, countryCodes <span class="op">=</span> <span class="va">countryCodes</span><span class="op">)</span>
 
 <span class="co"># This is a very detailed dataset so we'll grab a few important columns</span>
-<span class="va">states</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getState.html">getState</a></span><span class="op">(</span><span class="va">lon</span>, <span class="va">lat</span>, allData<span class="op">=</span><span class="cn">TRUE</span>, countryCodes <span class="op">=</span> <span class="va">countryCodes</span><span class="op">)</span>
+<span class="va">states</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getState.html">getState</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitudeitude</span>, allData<span class="op">=</span><span class="cn">TRUE</span>, countryCodes <span class="op">=</span> <span class="va">countryCodes</span><span class="op">)</span>
 <span class="va">states</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'countryCode'</span>, <span class="st">'stateCode'</span>, <span class="st">'stateName'</span><span class="op">)</span><span class="op">]</span></code></pre></div>
 </div>
 <div id="gettimezone" class="section level2">
@@ -293,20 +292,20 @@
 <p>These functions use the package-internal <code>SimpleTimezones</code> dataset which can be used without loading any additional datasets.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Find the timezones the points are in</span>
-<span class="fu"><a href="../reference/getTimezone.html">getTimezone</a></span><span class="op">(</span><span class="va">lon</span>, <span class="va">lat</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/getTimezone.html">getTimezone</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitudeitude</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "America/Los_Angeles" "America/New_York"    "Europe/Warsaw"      
 ## [4] "Europe/Paris"</code></pre>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Get country codes associated with locations</span>
-<span class="va">countryCodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getCountryCode.html">getCountryCode</a></span><span class="op">(</span><span class="va">lon</span>, <span class="va">lat</span><span class="op">)</span>
+<span class="va">countryCodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getCountryCode.html">getCountryCode</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitudeitude</span><span class="op">)</span>
 
 <span class="co"># Pass the countryCodes as an argument to potentially speed things up</span>
-<span class="fu"><a href="../reference/getTimezone.html">getTimezone</a></span><span class="op">(</span><span class="va">lon</span>, <span class="va">lat</span>, countryCodes <span class="op">=</span> <span class="va">countryCodes</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/getTimezone.html">getTimezone</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitudeitude</span>, countryCodes <span class="op">=</span> <span class="va">countryCodes</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "America/Los_Angeles" "America/New_York"    "Europe/Warsaw"      
 ## [4] "Europe/Paris"</code></pre>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Review all available data</span>
-<span class="fu"><a href="../reference/getTimezone.html">getTimezone</a></span><span class="op">(</span><span class="va">lon</span>, <span class="va">lat</span>, allData<span class="op">=</span><span class="cn">TRUE</span>, countryCodes <span class="op">=</span> <span class="va">countryCodes</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/getTimezone.html">getTimezone</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitudeitude</span>, allData<span class="op">=</span><span class="cn">TRUE</span>, countryCodes <span class="op">=</span> <span class="va">countryCodes</span><span class="op">)</span></code></pre></div>
 <pre><code>##              timezone UTC_offset UTC_DST_offset countryCode   longitude
 ## 1 America/Los_Angeles         -8             -7          US -118.242778
 ## 2    America/New_York         -5             -4          US  -74.006389
@@ -329,11 +328,11 @@
 <span class="fu"><a href="../reference/loadSpatialData.html">loadSpatialData</a></span><span class="op">(</span><span class="st">"USCensusCounties"</span><span class="op">)</span>
 
 <span class="co"># New dataset of points only in the US</span>
-<span class="va">stateCodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getStateCode.html">getStateCode</a></span><span class="op">(</span><span class="va">lon</span>,<span class="va">lat</span><span class="op">)</span>
+<span class="va">stateCodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getStateCode.html">getStateCode</a></span><span class="op">(</span><span class="va">longitude</span>,<span class="va">latitudeitude</span><span class="op">)</span>
 
 <span class="co"># Optionally pass the stateCodes as an argument to speed everything up</span>
-<span class="fu"><a href="../reference/getUSCounty.html">getUSCounty</a></span><span class="op">(</span><span class="va">lon</span>, <span class="va">lat</span>, stateCodes<span class="op">=</span><span class="va">stateCodes</span><span class="op">)</span>
-<span class="fu"><a href="../reference/getUSCounty.html">getUSCounty</a></span><span class="op">(</span><span class="va">lon</span>, <span class="va">lat</span>, allData<span class="op">=</span><span class="cn">TRUE</span>, stateCodes<span class="op">=</span><span class="va">stateCodes</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/getUSCounty.html">getUSCounty</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitudeitude</span>, stateCodes<span class="op">=</span><span class="va">stateCodes</span><span class="op">)</span>
+<span class="fu"><a href="../reference/getUSCounty.html">getUSCounty</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitudeitude</span>, allData<span class="op">=</span><span class="cn">TRUE</span>, stateCodes<span class="op">=</span><span class="va">stateCodes</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="timezone-map" class="section level2">
 <h2 class="hasAnchor">

@@ -1,3 +1,13 @@
+# MazamaSpatialUtils 0.7.1
+
+* Reordered parameters in `installSpatialData()` so that `dataset` comes first.
+* `installSpatialData()` attempts to install simplified versions of datasets:
+"_05", "_02" and "_01".
+* Replacement of `lon` and `lat` in `getHUC()` and `getHUCName()`.
+* `subsetHUC()` now handles `NA` values in `SPDF@data$allStateCodes`.
+* Congressional districts dataset name now includes session number:  
+`USCensus116thCongress`.
+
 # MazamaSpatialUtils 0.7.0
 
 Version 0.7 includes more datasets that have all been through identical

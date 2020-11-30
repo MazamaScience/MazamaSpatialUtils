@@ -5,35 +5,35 @@
 \title{Return HUCs at specified locations}
 \usage{
 getHUC(
-  lon,
-  lat,
-  dataset = "WBDHU10_02",
+  longitude,
+  latitude,
+  dataset = NULL,
   HUCs = NULL,
   allData = FALSE,
   useBuffering = FALSE
 )
 }
 \arguments{
-\item{lon}{vector of longitudes in decimal degrees}
+\item{longitude}{Vector of longitudes in decimal degrees East.}
 
-\item{lat}{vector of latitudes in decimal degrees}
+\item{latitude}{Vector of latitudes in decimal degrees North.}
 
-\item{dataset}{name of spatial dataset to use}
+\item{dataset}{Name of spatial dataset to use.}
 
-\item{HUCs}{vector of Hydrologic Unit Codes}
+\item{HUCs}{Vector of Hydrologic Unit Codes.}
 
 \item{allData}{logical specifying whether a full dataframe should be returned}
 
-\item{useBuffering}{Logical flag specifying the use of location buffering to 
+\item{useBuffering}{Logical flag specifying the use of location buffering to
 find the nearest polygon if not target polygon is found.}
 }
 \value{
 Vector of HUC identifiers.
 }
 \description{
-Uses spatial comparison to determine which HUC polygons the 
+Uses spatial comparison to determine which HUC polygons the
 locations fall into and returns the HUC identifier strings for those polygons.
-    
+
 If \code{allData = TRUE}, additional data is returned.
 }
 \seealso{

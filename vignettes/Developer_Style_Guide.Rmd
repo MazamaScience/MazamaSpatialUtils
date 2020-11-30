@@ -79,7 +79,7 @@ organizePolygons()
 
 Each file should contain a single function of the same name. Thus, the function 
 named `getCountryCode()` is defined in `getCountryCode.R`. An exception is made
-for small, mostly internal functions used in conjuction with a particular type
+for small, mostly internal functions used in conjunction with a particular type
 of object or activity. These can be stored together in a file named `utils-~`:
 
 ```

@@ -5,14 +5,14 @@
 \title{Install spatial datasets}
 \usage{
 installSpatialData(
-  urlBase = "http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7",
-  dataset = NULL
+  dataset = NULL,
+  urlBase = "http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7"
 )
 }
 \arguments{
-\item{urlBase}{Location of spatial data files.}
-
 \item{dataset}{Name of spatial dataset to install.}
+
+\item{urlBase}{Location of spatial data files.}
 }
 \value{
 If \code{pattern = NULL} a vector of dataset names.

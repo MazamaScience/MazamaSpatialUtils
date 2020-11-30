@@ -71,7 +71,7 @@ summary(spdf_abcd)
 ```
 
 Note that a CRS has been assigned to the new feature.  This is needed in order to 
-do spatial comparisons bewteen this feature and others later on.
+do spatial comparisons between this feature and others later on.
 
 ## Creating Spatial Points Data Frames
 
@@ -124,7 +124,7 @@ Method 2 converts the data frame in place and in doing so, the columns with the 
 
 ## Basic Plotting
 
-Now that we have some features created, what do they look like?  The basic `plot()` function works extremely well with S4 Spatial objects.  One thing to keep in mind, though, is that the first feature plotted defines the plot extents.  One way to take advantage of this is to create a "map area" feature which can be used to both center subsequent plots and also to define a neatline for the map.
+Now that we have some features created, what do they look like?  The basic `plot()` function works extremely well with S4 Spatial objects.  One thing to keep in mind, though, is that the first feature plotted defines the plot extents.  One way to take advantage of this is to create a "map area" feature which can be used to both center subsequent plots and also to define a _neatline_ for the map.
 
 ```{r basic_plot, fig.width=7, fig.height=7, fig.align='center'}
 # bbox (just needed to be able to plot 2 objects that don't share the same bbox)
@@ -378,7 +378,7 @@ plot(zoned_tracts, col = "pink", add = TRUE)
 text(zoned_tracts, labels = zoned_tracts$zone)
 title("Dissolved by Zone")
 ```
-Most common dissolve tools will leave the field behind that was used to do the aggregation, in this case the "zone" attribute.  The _raster::aggregate_ function has some nice additional functionality in that it can also include other fields as well.  These can be aggregated in various ways, such as by selecting the 1st entry, or by calulating the mean value.
+Most common dissolve tools will leave the field behind that was used to do the aggregation, in this case the "zone" attribute.  The _raster::aggregate_ function has some nice additional functionality in that it can also include other fields as well.  These can be aggregated in various ways, such as by selecting the 1st entry, or by calculating the mean value.
 
 Below we dissolve the data set by the "zone" field and then aggregate the "type" and "county" fields by keeping their 1st values in the set.   We also calculate the mean of the "id" field for the 2 values in each "zone".  
 
@@ -481,4 +481,4 @@ If we join this data back to the input feature, we get something that looks like
 
 ## Conclusion
 
-As we can see, all standard GIS operations can be done in R using _sp_ and _raster_ on S4 spatial objects.  Care should be taken to determine what type of object the function returns, as the behavior changes based on the input types.  Also, as mentioned briefly at the beginning of the documnt, all spatial features should be assigned a common Coordinate Reference System (CRS) for thes tools to work properly.  Aside from these cautions, the functions perform very well and are analogous to those found in other GIS packages.
+As we can see, all standard GIS operations can be done in R using _sp_ and _raster_ on S4 spatial objects.  Care should be taken to determine what type of object the function returns, as the behavior changes based on the input types.  Also, as mentioned briefly at the beginning of the document, all spatial features should be assigned a common Coordinate Reference System (CRS) for these tools to work properly.  Aside from these cautions, the functions perform very well and are analogous to those found in other GIS packages.

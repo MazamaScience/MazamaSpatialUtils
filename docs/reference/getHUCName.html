@@ -47,8 +47,8 @@
 
 
 <meta property="og:title" content="Return HUC names at specified locations — getHUCName" />
-<meta property="og:description" content="Uses spatial comparison to determine which HUC polygons the 
-locations fall into and returns the HUC names for those polygons.    
+<meta property="og:description" content="Uses spatial comparison to determine which HUC polygons the
+locations fall into and returns the HUC names for those polygons.
 If allData = TRUE, additional data is returned." />
 <meta property="og:image" content="/logo.png" />
 
@@ -82,7 +82,7 @@ If allData = TRUE, additional data is returned." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.1</span>
       </span>
     </div>
 
@@ -154,15 +154,15 @@ If allData = TRUE, additional data is returned." />
     </div>
 
     <div class="ref-description">
-    <p>Uses spatial comparison to determine which HUC polygons the 
-locations fall into and returns the HUC names for those polygons.</p>    
+    <p>Uses spatial comparison to determine which HUC polygons the
+locations fall into and returns the HUC names for those polygons.</p>
 <p>If <code>allData = TRUE</code>, additional data is returned.</p>
     </div>
 
     <pre class="usage"><span class='fu'>getHUCName</span><span class='op'>(</span>
-  <span class='va'>lon</span>,
-  <span class='va'>lat</span>,
-  dataset <span class='op'>=</span> <span class='st'>"WBDHU10_02"</span>,
+  <span class='va'>longitude</span>,
+  <span class='va'>latitude</span>,
+  dataset <span class='op'>=</span> <span class='cn'>NULL</span>,
   HUCs <span class='op'>=</span> <span class='cn'>NULL</span>,
   allData <span class='op'>=</span> <span class='cn'>FALSE</span>,
   useBuffering <span class='op'>=</span> <span class='cn'>FALSE</span>
@@ -172,28 +172,28 @@ locations fall into and returns the HUC names for those polygons.</p>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>lon</th>
-      <td><p>vector of longitudes in decimal degrees</p></td>
+      <th>longitude</th>
+      <td><p>Vector of longitudes in decimal degrees East.</p></td>
     </tr>
     <tr>
-      <th>lat</th>
-      <td><p>vector of latitudes in decimal degrees</p></td>
+      <th>latitude</th>
+      <td><p>Vector of latitudes in decimal degrees North.</p></td>
     </tr>
     <tr>
       <th>dataset</th>
-      <td><p>name of spatial dataset to use</p></td>
+      <td><p>Name of spatial dataset to use.</p></td>
     </tr>
     <tr>
       <th>HUCs</th>
-      <td><p>vector of Hydrologic Unit Codes</p></td>
+      <td><p>Vector of Hydrologic Unit Codes.</p></td>
     </tr>
     <tr>
       <th>allData</th>
-      <td><p>logical specifying whether a full dataframe should be returned</p></td>
+      <td><p>Logical specifying whether a full dataframe should be returned</p></td>
     </tr>
     <tr>
       <th>useBuffering</th>
-      <td><p>Logical flag specifying the use of location buffering to 
+      <td><p>Logical flag specifying the use of location buffering to
 find the nearest polygon if not target polygon is found.</p></td>
     </tr>
     </table>

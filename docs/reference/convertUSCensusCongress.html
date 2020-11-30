@@ -47,7 +47,7 @@
 
 
 <meta property="og:title" content="Convert US congressional districts shapefile — convertUSCensusCongress" />
-<meta property="og:description" content="Returns a SpatialPolygonsDataFrame for US Congressional Districts 
+<meta property="og:description" content="Returns a SpatialPolygonsDataFrame for US Congressional Districts
 for the 116th US House of Representatives." />
 <meta property="og:image" content="/logo.png" />
 
@@ -81,7 +81,7 @@ for the 116th US House of Representatives." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.1</span>
       </span>
     </div>
 
@@ -153,7 +153,7 @@ for the 116th US House of Representatives." />
     </div>
 
     <div class="ref-description">
-    <p>Returns a SpatialPolygonsDataFrame for US Congressional Districts 
+    <p>Returns a SpatialPolygonsDataFrame for US Congressional Districts
 for the 116th US House of Representatives.</p>
     </div>
 
@@ -164,12 +164,12 @@ for the 116th US House of Representatives.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>nameOnly</th>
-      <td><p>Logical specifying whether to only return the name without 
+      <td><p>Logical specifying whether to only return the name without
 creating the file.</p></td>
     </tr>
     <tr>
       <th>simplify</th>
-      <td><p>Logical specifying whether to create "_05", _02" and "_01" 
+      <td><p>Logical specifying whether to create "_05", _02" and "_01"
 versions of the file that are simplified to 5%, 2% and 1%.</p></td>
     </tr>
     </table>
@@ -180,26 +180,26 @@ versions of the file that are simplified to 5%, 2% and 1%.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>A US congressional district shapefile is downloaded and converted to
-a SpatialPolygonsDataFrame with additional columns of data. The resulting 
-file will be created in the spatial data directory which is set with 
+a SpatialPolygonsDataFrame with additional columns of data. The resulting
+file will be created in the spatial data directory which is set with
 <code><a href='setSpatialDataDir.html'>setSpatialDataDir()</a></code>.</p>
 <p>#' The source data is from 2019.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
     <p>From the source documentation:</p>
-<p>Congressional Districts are the 435 areas from which people are elected to the 
-U.S. House of Representatives. After the apportionment of congressional seats 
-among the states based on census population counts, each state is responsible 
-for establishing congressional districts for the purpose of electing representatives. 
-Each congressional district is to be as equal in population to all other 
-congressional districts in a state as practicable. The 116th Congress is seated 
-from January 2019 to 2021. The cartographic boundary files for the District of 
-Columbia, Puerto Rico, and the Island Areas (American Samoa, Guam, the Commonwealth 
-of the Northern Mariana Islands, and the U.S. Virgin Islands) each contain a 
-single record for the non-voting delegate district in these areas. The boundaries 
-of all other congressional districts are provided to the Census Bureau by the 
+<p>Congressional Districts are the 435 areas from which people are elected to the
+U.S. House of Representatives. After the apportionment of congressional seats
+among the states based on census population counts, each state is responsible
+for establishing congressional districts for the purpose of electing representatives.
+Each congressional district is to be as equal in population to all other
+congressional districts in a state as practicable. The 116th Congress is seated
+from January 2019 to 2021. The cartographic boundary files for the District of
+Columbia, Puerto Rico, and the Island Areas (American Samoa, Guam, the Commonwealth
+of the Northern Mariana Islands, and the U.S. Virgin Islands) each contain a
+single record for the non-voting delegate district in these areas. The boundaries
+of all other congressional districts are provided to the Census Bureau by the
 states by May 1, 2018.</p>
-<p>You can join this file with table data downloaded from American FactFinder by 
+<p>You can join this file with table data downloaded from American FactFinder by
 using the AFFGEOID field in the cartographic boundary file.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 

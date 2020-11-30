@@ -95,6 +95,12 @@ convertWBDHUC <- function(
   if (nameOnly)
     return(datasetName)
 
+  # Check existence of NaturalEarthAdm1 needed for assignment of stateCode
+  if ( !exists("NaturalEarthAdm1") ) {
+    stop("Missing dataset. Please loadSpatialData(\"NaturalEarthAdm1\")",
+         call. = FALSE)
+  }
+
   # ----- Get the data ---------------------------------------------------------
 
   # NOTE:  This 2.2 GB file was downloaded manually and unzipped to create gdbDir

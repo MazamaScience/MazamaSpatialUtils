@@ -13,8 +13,8 @@ vignette: >
 
 To work efficiently with the `SpatialPolygonsDataFrame` (SPDF) objects used in
 the **MazamaSpatialUtils** package, it is important to understand the **S4**
-object classes that underly the **sp** package. This vignette introduces simple 
-concepts assocuated with R's object classes so that newcomers to this style of
+object classes that make up the **sp** package. This vignette introduces simple 
+concepts associated with R's object classes so that newcomers to this style of
 coding can work efficiently with SPDFs.
 
 ## Objects in R
@@ -37,7 +37,7 @@ investigating a familiar function and its return value and learn the following:
 
 * S3 objects are just lists
 * S3 objects have attributes
-* S3 compenents are accessed like normal list components
+* S3 components are accessed like normal list components
 * The `class` attribute determines how _"methods are dispatched"_
 
 ### What is an S3 Object
@@ -69,7 +69,7 @@ str(lapply(h, class))
 # Let's look a "counts"
 h$counts
 
-# Or, altenatively
+# Or, alternatively
 h[["counts"]]
 ```
 

@@ -1,8 +1,8 @@
 #' @keywords environment
 #' @export
 #' @title Install spatial datasets
-#' @param urlBase Location of spatial data files.
 #' @param dataset Name of spatial dataset to install.
+#' @param urlBase Location of spatial data files.
 #' @description Install spatial datasets found  at \code{url} into the directory
 #' previously set with \code{setSpatialDataDir()}.
 #'
@@ -11,8 +11,8 @@
 #' @return If \code{pattern = NULL} a vector of dataset names.
 #'
 installSpatialData <- function(
-  urlBase = "http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7",
-  dataset = NULL
+  dataset = NULL,
+  urlBase = "http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7"
 ) {
 
   # Use package internal data directory
@@ -45,10 +45,19 @@ installSpatialData <- function(
     filePath <- file.path(dataDir, fileName)
 
     if ( !file.exists(filePath) ) {
-      utils::download.file(paste0(urlBase, '/', fileName), filePath)
+
+      result <- try({
+        utils::download.file(paste0(urlBase, '/', fileName), filePath)
+      }, silent = TRUE)
+
+      if ( "try-error" %in% class(result) ) {
+        message(geterrmessage())
+      }
+
     }
 
   }
 
 }
+
 

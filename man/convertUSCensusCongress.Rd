@@ -7,23 +7,23 @@
 convertUSCensusCongress(nameOnly = FALSE, simplify = TRUE)
 }
 \arguments{
-\item{nameOnly}{Logical specifying whether to only return the name without 
+\item{nameOnly}{Logical specifying whether to only return the name without
 creating the file.}
 
-\item{simplify}{Logical specifying whether to create "_05", _02" and "_01" 
+\item{simplify}{Logical specifying whether to create "_05", _02" and "_01"
 versions of the file that are simplified to 5\%, 2\% and 1\%.}
 }
 \value{
 Name of the dataset being created.
 }
 \description{
-Returns a SpatialPolygonsDataFrame for US Congressional Districts 
+Returns a SpatialPolygonsDataFrame for US Congressional Districts
 for the 116th US House of Representatives.
 }
 \details{
 A US congressional district shapefile is downloaded and converted to
-a SpatialPolygonsDataFrame with additional columns of data. The resulting 
-file will be created in the spatial data directory which is set with 
+a SpatialPolygonsDataFrame with additional columns of data. The resulting
+file will be created in the spatial data directory which is set with
 \code{setSpatialDataDir()}.
 
 #' The source data is from 2019.
@@ -31,20 +31,20 @@ file will be created in the spatial data directory which is set with
 \note{
 From the source documentation:
 
-Congressional Districts are the 435 areas from which people are elected to the 
-U.S. House of Representatives. After the apportionment of congressional seats 
-among the states based on census population counts, each state is responsible 
-for establishing congressional districts for the purpose of electing representatives. 
-Each congressional district is to be as equal in population to all other 
-congressional districts in a state as practicable. The 116th Congress is seated 
-from January 2019 to 2021. The cartographic boundary files for the District of 
-Columbia, Puerto Rico, and the Island Areas (American Samoa, Guam, the Commonwealth 
-of the Northern Mariana Islands, and the U.S. Virgin Islands) each contain a 
-single record for the non-voting delegate district in these areas. The boundaries 
-of all other congressional districts are provided to the Census Bureau by the 
+Congressional Districts are the 435 areas from which people are elected to the
+U.S. House of Representatives. After the apportionment of congressional seats
+among the states based on census population counts, each state is responsible
+for establishing congressional districts for the purpose of electing representatives.
+Each congressional district is to be as equal in population to all other
+congressional districts in a state as practicable. The 116th Congress is seated
+from January 2019 to 2021. The cartographic boundary files for the District of
+Columbia, Puerto Rico, and the Island Areas (American Samoa, Guam, the Commonwealth
+of the Northern Mariana Islands, and the U.S. Virgin Islands) each contain a
+single record for the non-voting delegate district in these areas. The boundaries
+of all other congressional districts are provided to the Census Bureau by the
 states by May 1, 2018.
 
-You can join this file with table data downloaded from American FactFinder by 
+You can join this file with table data downloaded from American FactFinder by
 using the AFFGEOID field in the cartographic boundary file.
 }
 \references{

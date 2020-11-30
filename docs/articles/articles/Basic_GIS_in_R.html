@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.1</span>
       </span>
     </div>
 
@@ -161,7 +161,7 @@
 ##  Length:4          
 ##  Class :character  
 ##  Mode  :character</code></pre>
-<p>Note that a CRS has been assigned to the new feature. This is needed in order to do spatial comparisons bewteen this feature and others later on.</p>
+<p>Note that a CRS has been assigned to the new feature. This is needed in order to do spatial comparisons between this feature and others later on.</p>
 </div>
 <div id="creating-spatial-points-data-frames" class="section level2">
 <h2 class="hasAnchor">
@@ -247,7 +247,7 @@ id  x  y  temp
 <div id="basic-plotting" class="section level2">
 <h2 class="hasAnchor">
 <a href="#basic-plotting" class="anchor"></a>Basic Plotting</h2>
-<p>Now that we have some features created, what do they look like? The basic <code><a href="https://rdrr.io/pkg/raster/man/plot.html">plot()</a></code> function works extremely well with S4 Spatial objects. One thing to keep in mind, though, is that the first feature plotted defines the plot extents. One way to take advantage of this is to create a “map area” feature which can be used to both center subsequent plots and also to define a neatline for the map.</p>
+<p>Now that we have some features created, what do they look like? The basic <code><a href="https://rdrr.io/pkg/raster/man/plot.html">plot()</a></code> function works extremely well with S4 Spatial objects. One thing to keep in mind, though, is that the first feature plotted defines the plot extents. One way to take advantage of this is to create a “map area” feature which can be used to both center subsequent plots and also to define a <em>neatline</em> for the map.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># bbox (just needed to be able to plot 2 objects that don't share the same bbox)</span>
 <span class="va">bbox</span> <span class="op">&lt;-</span> <span class="fu">as</span><span class="op">(</span><span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/extent.html">extent</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">27.0</span>, <span class="fl">0</span>, <span class="fl">27.0</span><span class="op">)</span>, <span class="st">"SpatialPolygons"</span><span class="op">)</span>
@@ -387,7 +387,7 @@ plot(disjoint_e_clip, col = "lightgreen", add = TRUE)</code></pre>
 ## 1.4    D  4      1 tract    2</a></code></pre>
 <p>We can see the way that the zones are situated in the left plot below. When we dissolve the features using the “zone” as the aggregation feature, we get the result in the plot on the right.</p>
 <pre><code>zoned_tracts &lt;- raster::aggregate(spdf_abcd, by='zone')</code></pre>
-<p><img src="Basic_GIS_in_R_files/figure-html/dissolve-1.png" width="672"> Most common dissolve tools will leave the field behind that was used to do the aggregation, in this case the “zone” attribute. The <em>raster::aggregate</em> function has some nice additional functionality in that it can also include other fields as well. These can be aggregated in various ways, such as by selecting the 1st entry, or by calulating the mean value.</p>
+<p><img src="Basic_GIS_in_R_files/figure-html/dissolve-1.png" width="672"> Most common dissolve tools will leave the field behind that was used to do the aggregation, in this case the “zone” attribute. The <em>raster::aggregate</em> function has some nice additional functionality in that it can also include other fields as well. These can be aggregated in various ways, such as by selecting the 1st entry, or by calculating the mean value.</p>
 <p>Below we dissolve the data set by the “zone” field and then aggregate the “type” and “county” fields by keeping their 1st values in the set. We also calculate the mean of the “id” field for the 2 values in each “zone”.</p>
 <pre><code>spdf_abcd@data$id &lt;- as.numeric(spdf_abcd@data$id)
 
@@ -437,7 +437,7 @@ zoned_tracts &lt;- raster::aggregate(spdf_abcd,
 <div id="conclusion" class="section level2">
 <h2 class="hasAnchor">
 <a href="#conclusion" class="anchor"></a>Conclusion</h2>
-<p>As we can see, all standard GIS operations can be done in R using <em>sp</em> and <em>raster</em> on S4 spatial objects. Care should be taken to determine what type of object the function returns, as the behavior changes based on the input types. Also, as mentioned briefly at the beginning of the documnt, all spatial features should be assigned a common Coordinate Reference System (CRS) for thes tools to work properly. Aside from these cautions, the functions perform very well and are analogous to those found in other GIS packages.</p>
+<p>As we can see, all standard GIS operations can be done in R using <em>sp</em> and <em>raster</em> on S4 spatial objects. Care should be taken to determine what type of object the function returns, as the behavior changes based on the input types. Also, as mentioned briefly at the beginning of the document, all spatial features should be assigned a common Coordinate Reference System (CRS) for these tools to work properly. Aside from these cautions, the functions perform very well and are analogous to those found in other GIS packages.</p>
 </div>
   </div>
 

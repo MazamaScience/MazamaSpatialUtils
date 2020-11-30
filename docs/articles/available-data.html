@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.1</span>
       </span>
     </div>
 
@@ -108,7 +108,7 @@
       <h1 data-toc-skip>Available Data</h1>
                         <h4 class="author">Mazama Science</h4>
             
-            <h4 class="date">March 05, 2020</h4>
+            <h4 class="date">2020-11-30</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/MazamaScience/MazamaSpatialUtils/blob/master/vignettes/available-data.Rmd"><code>vignettes/available-data.Rmd</code></a></small>
       <div class="hidden name"><code>available-data.Rmd</code></div>
@@ -122,7 +122,7 @@
 <a href="#available-data-for-mazamaspatialutils" class="anchor"></a>Available Data for MazamaSpatialUtils</h2>
 <p>This document provides documentation for the most important of the available datasets that can be used with <strong>MazamaSpatialUtils</strong>.</p>
 <p>Spatial datasets that have been converted to objects of class  and adhere to the <strong>MazamaSpatialUtils</strong> standards are considerd to be “harmonized”.</p>
-<p>For reproducibility, the R code that ingests and harmonizes each spatial dataset is included in the package as a  function. Most of the resulting datasets have been been pre-generated and can be downloaded from <a href="http://data.mazamascience.com/MazamaSpatialUtils/Spatial/">http://data.mazamascience.com/MazamaSpatialUtils/Spatial/</a>.</p>
+<p>For reproducibility, the R code that ingests and harmonizes each spatial dataset is included in the package as a  function. Most of the resulting datasets have been been pre-generated and can be downloaded from <a href="http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/">http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/</a>.</p>
 <div id="built-in-data" class="section level3">
 <h3 class="hasAnchor">
 <a href="#built-in-data" class="anchor"></a>Built in data</h3>
@@ -136,41 +136,80 @@
 <code>SimpleTimezones</code> – Timezones</li>
 </ul>
 </div>
-<div id="core-data" class="section level3">
+<div id="downloadable-data" class="section level3">
 <h3 class="hasAnchor">
-<a href="#core-data" class="anchor"></a>Core data</h3>
-<p>Running <code><a href="../reference/installSpatialData.html">installSpatialData()</a></code> will install the following pregenerated datasets, which can then be loaded with <code>loadSpatialData(&lt;dataset&gt;)</code></p>
+<a href="#downloadable-data" class="anchor"></a>Downloadable data</h3>
+<p>Running <code><a href="../reference/installSpatialData.html">installSpatialData()</a></code> allows users to install the following pregenerated datasets, which can then be loaded with <code>loadSpatialData(&lt;dataset&gt;)</code></p>
 <ul>
+<li>
+<code>CA_AirBasins</code> – California regional air basin boundaries</li>
 <li>
 <code>EEZCountries</code> – Country boundaries including Exclusive Economic Zones</li>
 <li>
+<code>EPARegions</code> – US EPA region boundaries</li>
+<li>
+<code>GACC</code> – Geographic Area Coordination Center (GACC) boundaries</li>
+<li>
+<code>GADM</code> – GADM administrative area boundaries</li>
+<li>
+<code>HIFLDFederalLands</code> – US federal lands</li>
+<li>
+<code>HMSSmoke</code> – NOAA Hazard Mapping System Smoke (HMSS) areas</li>
+<li>
+<code>HouseLegislativeDistricts</code> – US state legislative districts, by chamber</li>
+<li>
+<code>MTBSBurnAreas</code> – MTBS burn areas from 1984 - 2017</li>
+<li>
 <code>NaturalEarthAdm1</code> – State/province/oblast level boundaries</li>
+<li>
+<code>NWSFireZones</code> – NWS weather forecast zones</li>
 <li>
 <code>OSMTimezones</code> – OpenStreetMap time zones</li>
 <li>
-<code>OSMTimezones_05</code> – OpenStreetMap time zones (simpliefied to 5%)</li>
+<code>PHDs</code> – Public Health Districts for Washington, Oregon, Idaho, and California</li>
+<li>
+<code>SimpleCountries</code> – Simplified version of the TMWorldBorders</li>
+<li>
+<code>SimpleCountriesEEZ</code> – Simplified version of EEZCountries</li>
+<li>
+<code>SimpleTimezones</code> – Simplified version of WorldTimezones</li>
 <li>
 <code>TerrestrialEcoregions</code> – Terrestrial eco-regions</li>
 <li>
-<code>TerrestrialEcoregions_05</code> – Terrestrial eco-regions (simplified to 5%)</li>
-<li>
 <code>TMWorldBorders</code> – Country level boundaries</li>
 <li>
-<code>USCensus115thCongress</code> – US congressional districts</li>
+<code>USCensus116thCongress</code> – US congressional districts</li>
+<li>
+<code>USCensusCBSA</code> – US Core Based Statistical Areas</li>
 <li>
 <code>USCensusCounties</code> – US county level boundaries</li>
 <li>
 <code>USCensusStates</code> – US state level boundaries</li>
 <li>
+<code>USCensusUrbanAreas</code> – US urban areas</li>
+<li>
+<code>USFSRangerDistricts</code> – US Forest Service ranger districts</li>
+<li>
 <code>USIndianLands</code> – US tribal boundaries</li>
 <li>
-<code>WorldTimezones</code> – Timezones</li>
+<code>WBDHU2</code> – Watershed boundary level-2 hydrologic units</li>
+<li>
+<code>WBDHU4</code> – Watershed boundary level-4 hydrologic units</li>
+<li>
+<code>WBDHU6</code> – Watershed boundary level-6 hydrologic units</li>
+<li>
+<code>WBDHU8</code> – Watershed boundary level-8 hydrologic units</li>
+<li>
+<code>WBDHU10</code> – Watershed boundary level-10 hydrologic units</li>
+<li>
+<code>WBDHU12</code> – Watershed boundary level-12 hydrologic units</li>
+<li>
+<code>weatherZones</code> – NWS public weather forecast zones</li>
+<li>
+<code>WorldEEZ</code> – Country boundaries including Exclusive Economic Zones over water</li>
+<li>
+<code>WorldTimezones</code> – Timezone</li>
 </ul>
-</div>
-<div id="additional-data" class="section level3">
-<h3 class="hasAnchor">
-<a href="#additional-data" class="anchor"></a>Additional data</h3>
-<p>Additional datasets can be generated by by using the specific <code>convert&lt;dataset&gt;()</code> functions.</p>
 </div>
 </div>
 <div id="dataset-descriptions" class="section level2">
@@ -247,8 +286,8 @@ A coordination center serves federal, state and local wildland fire agencies thr
 <a href="#gadm" class="anchor"></a>GADM</h4>
 <p>Use <code><a href="../reference/convertGADM.html">convertGADM()</a></code> to download and convert this dataset.</p>
 <p>The GADM dataset is a <code>SpatialPolygonsDataFrame</code> representing the administrative divisions of a specific country at a specific administrative level. GADM, the <em>Database of Global Administrative Areas</em>, is a high-resolution database of country administrative areas.</p>
-<p><strong>NOTE:</strong> This script will generate .RData files named <code>GADM_&lt;countryCode&gt;_&lt;admLevel&gt;.RData</code> and requires user input to specify the country and admin level desired. For example, to generate Admin 1 level boundaries for Belgium, run <code>convertGADM(countryCode = "BE", admLevel = 1</code>.<br>
-This will create <code>GADM_BE_1.RData</code>. Not all countries have the same number of levels. Many just have two levels while France has five.</p>
+<p><strong>NOTE:</strong> This script will generate .rda files named <code>GADM_&lt;countryCode&gt;_&lt;admLevel&gt;.rda</code> and requires user input to specify the country and admin level desired. For example, to generate Admin 1 level boundaries for Belgium, run <code>convertGADM(countryCode = "BE", admLevel = 1</code>.<br>
+This will create <code>GADM_BE_1.rda</code>. Not all countries have the same number of levels. Many just have two levels while France has five.</p>
 </div>
 <div id="hifldfederallands" class="section level4">
 <h4 class="hasAnchor">
@@ -261,7 +300,7 @@ This will create <code>GADM_BE_1.RData</code>. Not all countries have the same n
 <a href="#hmssmoke" class="anchor"></a>HMSSmoke</h4>
 <p>Use <code>convertHMSSmoke()</code> to download and convert this dataset.</p>
 <p>The HMSSmoke dataset is a <code>SpatialPolygonsDataFrame</code> representing the areas of smoke identified for a specific day. This data is derived from analysis of visible satellite imagery obtained during daylight hours.</p>
-<p><strong>NOTE:</strong> This script will generate .RData files named <code>HMSSmoke_&lt;datestamp&gt;</code> and requires user input to specify the date of interest using the <code>datestamp</code> parameter in the format of <code>datestamp = "YYYYmmdd"</code>.</p>
+<p><strong>NOTE:</strong> This script will generate .rda files named <code>HMSSmoke_&lt;datestamp&gt;</code> and requires user input to specify the date of interest using the <code>datestamp</code> parameter in the format of <code>datestamp = "YYYYmmdd"</code>.</p>
 </div>
 <div id="mtbsburnareas" class="section level4">
 <h4 class="hasAnchor">
@@ -307,7 +346,7 @@ This will create <code>GADM_BE_1.RData</code>. Not all countries have the same n
 <a href="#houselegislativedistricts" class="anchor"></a>HouseLegislativeDistricts</h4>
 <p>Use <code><a href="../reference/convertStateLegislativeDistricts.html">convertStateLegislativeDistricts()</a></code> to download and convert this data set.</p>
 <p>This creates a <code>SpatialPolygonsDataFrame</code> for US State Legislative Districts.<br>
-User input is required to specify the <code>stateCode</code> (2-digit ISO 3166) and which <code>house</code> (Upper or Lower chamber) the data should represent. For example, to obtain data on the Washington State Senate Legislative Districts, run <code><a href="../reference/convertStateLegislativeDistricts.html">convertStateLegislativeDistricts(stateCode = "WA", house = "Upper")</a></code>. This will generate a file named <code>WA_upperHouseLegislativeDistricts.RData</code></p>
+User input is required to specify the <code>stateCode</code> (2-digit ISO 3166) and which <code>house</code> (Upper or Lower chamber) the data should represent. For example, to obtain data on the Washington State Senate Legislative Districts, run <code><a href="../reference/convertStateLegislativeDistricts.html">convertStateLegislativeDistricts(stateCode = "WA", house = "Upper")</a></code>. This will generate a file named <code>WA_upperHouseLegislativeDistricts.rda</code></p>
 </div>
 <div id="tmworldborderssimple" class="section level4">
 <h4 class="hasAnchor">
@@ -327,7 +366,7 @@ User input is required to specify the <code>stateCode</code> (2-digit ISO 3166) 
 <a href="#uscensusurbanareas" class="anchor"></a>USCensusUrbanAreas</h4>
 <p>Use <code><a href="../reference/convertUSCensusUrbanAreas.html">convertUSCensusUrbanAreas()</a></code> to download and convert this data set.</p>
 <p>The USCensusUrbanAreas dataset is a SpatialPolygonsDataFrame which represent the urban areas delineated by the US Census that represent densely developed territory. There are two types of urban areas: urbanized areas (UAs) that contain 50,000 or more people and urban clusters (UCs) that contain at least 2,500 people, but fewer than 50,000 people.</p>
-<p>December 2, 2017 Version</p>
+<p>2018 Version</p>
 </div>
 <div id="usfsrangerdistricts" class="section level4">
 <h4 class="hasAnchor">
@@ -341,7 +380,7 @@ User input is required to specify the <code>stateCode</code> (2-digit ISO 3166) 
 <a href="#wbdhu" class="anchor"></a>WBDHU</h4>
 <p>Use <code><a href="../reference/convertWBDHUC.html">convertWBDHUC()</a></code> to download and convert this data set.</p>
 <p>This creates a <code>SpatialPolygonsDataFrame</code> that represents a specific level of hydrologic unit from national Watershed Boundary Dataset (WBD). This is a seamless, national dataset which represents the area of the landscape that drains to a portion of the stream network.</p>
-<p>User input is required to specify the <code>level</code> of data to generate. The <code>level</code> must be one of the following: [2, 4, 6, 8, 10, 12 or 14]. To generate a Level 8 data set, run <code><a href="../reference/convertWBDHUC.html">convertWBDHUC(level = 8)</a></code> which will generate a file named <code>WBDHU8.RData</code>.</p>
+<p>User input is required to specify the <code>level</code> of data to generate. The <code>level</code> must be one of the following: [2, 4, 6, 8, 10, 12 or 14]. To generate a Level 8 data set, run <code><a href="../reference/convertWBDHUC.html">convertWBDHUC(level = 8)</a></code> which will generate a file named <code>WBDHU8.rda</code>.</p>
 </div>
 <div id="weatherzones" class="section level4">
 <h4 class="hasAnchor">
