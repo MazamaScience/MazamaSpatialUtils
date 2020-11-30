@@ -51,7 +51,8 @@ installSpatialData <- function(
       }, silent = TRUE)
 
       if ( "try-error" %in% class(result) ) {
-        message(geterrmessage())
+        # NOTE:  This is redundant when download.file(quiet = FALSE) by default
+        ###message(geterrmessage())
       }
 
     }
