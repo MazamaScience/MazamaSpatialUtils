@@ -33,7 +33,7 @@
 #'
 #' @return Name of the dataset being created.
 #'
-#' @references \url{https://www.arb.ca.gov/ei/gislib/gislib.htm}
+#' @references \url{https://ww2.arb.ca.gov//ei/gislib/gislib.htm}
 #'
 #' @seealso setSpatialDataDir
 #' @seealso getVariable

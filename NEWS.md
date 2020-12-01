@@ -1,3 +1,7 @@
+# MazamaSpatialUtils 0.7.2
+
+* URL corrections after testing with win-builder.
+
 # MazamaSpatialUtils 0.7.1
 
 * Reordered parameters in `installSpatialData()` so that `dataset` comes first.
@@ -245,7 +249,7 @@ generating warnings
 # MazamaSpatialUtils 0.4.3
 
 * New `convertHMSSmoke()` function for smoke data from the 
-[NOAA Hazard Mapping Service](http://www.ospo.noaa.gov/Products/land/hms.html).
+[NOAA Hazard Mapping Service](https://www.ospo.noaa.gov/Products/land/hms.html).
 * Shapefiles with no projection information are assigned 
 `"+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs"`.
 * Added dependency on **lubridate** package.
