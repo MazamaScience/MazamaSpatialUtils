@@ -42,7 +42,7 @@ conditions and consideration for political boundary lines, and are related
 to air pollution and its transport.
 }
 \references{
-\url{https://www.arb.ca.gov/ei/gislib/gislib.htm}
+\url{https://ww2.arb.ca.gov//ei/gislib/gislib.htm}
 }
 \seealso{
 setSpatialDataDir

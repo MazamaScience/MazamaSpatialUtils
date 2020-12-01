@@ -21,7 +21,7 @@ setup_HUCs <- function() {
   if (!exists("WBDHU4_02")) {
     skip("Could not load WBDHU4_02")
   }
-  return (spatialDataDir)
+  return(spatialDataDir)
 
 }
 
@@ -79,10 +79,10 @@ testthat::test_that("allData returns are correct dimension and type", {
   # Setup
   spatialDataDir <- setup_HUCs()
 
-  testthat::expect_s3_class(getHUC(-114, 32, dataset = "WBDHU4_02", allData=TRUE), "data.frame")
-  testthat::expect_equal(dim(getHUC(-100, 48, dataset = "WBDHU4_02", allData=TRUE)), c(1,ncol(WBDHU4_02)))
-  testthat::expect_s3_class(getHUC(c(-80, -90), c(40, 41), dataset = "WBDHU4_02", allData=TRUE), "data.frame")
-  testthat::expect_equal(dim(getHUC(c(-80, -90), c(40, 41), dataset = "WBDHU4_02", allData=TRUE)), c(2,ncol(WBDHU4_02)))
+  testthat::expect_s3_class(getHUC(-114, 32, dataset = "WBDHU4_02", allData = TRUE), "data.frame")
+  testthat::expect_equal(dim(getHUC(-100, 48, dataset = "WBDHU4_02", allData = TRUE)), c(1,ncol(WBDHU4_02)))
+  testthat::expect_s3_class(getHUC(c(-80, -90), c(40, 41), dataset = "WBDHU4_02", allData = TRUE), "data.frame")
+  testthat::expect_equal(dim(getHUC(c(-80, -90), c(40, 41), dataset = "WBDHU4_02", allData = TRUE)), c(2,ncol(WBDHU4_02)))
 
   # Teardown
   if (class(spatialDataDir) == "character") {

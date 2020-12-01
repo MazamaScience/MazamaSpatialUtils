@@ -1,3 +1,9 @@
+# MazamaSpatialUtils 0.7.3
+
+* URL corrections for CRAN submission.
+* Vignette wordsmithing.
+* Test updates.
+
 # MazamaSpatialUtils 0.7.2
 
 * URL corrections after testing with win-builder.

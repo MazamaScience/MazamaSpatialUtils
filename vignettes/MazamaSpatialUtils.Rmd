@@ -1,7 +1,7 @@
 ---
 title: "Introduction to MazamaSpatialUtils"
 author: "Mazama Science"
-date: "March 05, 2020"
+date: "Dec 01, 2020"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction to MazamaSpatialUtils}
@@ -10,35 +10,39 @@ vignette: >
 ---
 
 ```{r setup, echo=FALSE}
-knitr::opts_chunk$set(fig.width=7, fig.height=5)
+knitr::opts_chunk$set(fig.width = 7, fig.height = 5)
 ```
 
 ## Background
 
-The **MazamaSpatialUtils package** was created by [MazamaScience](http://mazamascience.com) to 
-regularize our work with spatial data. The **sp**, **rgdal** and **maptools** packages have 
-made it much easier to work with spatial data found in shapefiles. Many sources of shapefile 
-data are available and can be used to make beautiful maps in R. Unfortunately, the data attached 
-to these datasets, even when fairly complete, often lacks standardized identifiers such as the 
-ISO 3166-1 alpha-2 encodings for countries. Maddeningly, even when these ISO codes are used, 
-the dataframe column in which they are stored does not have a standardized name. It may be
-called `ISO` or `ISO2` or `alpha` or `COUNTRY` or any of a dozen other names we have seen.
+The **MazamaSpatialUtils package** was created by [MazamaScience](http://mazamascience.com) 
+to regularize our work with spatial data. The **sp**, **rgdal** and **maptools** 
+packages have made it much easier to work with spatial data found in shapefiles. 
+Many sources of shapefile data are available and can be used to make beautiful 
+maps in R. Unfortunately, the data attached to these datasets, even when fairly
+complete, often lacks standardized identifiers such as the ISO 3166-1 alpha-2 
+encodings for countries. Maddeningly, even when these ISO codes are used, the 
+dataframe column in which they are stored does not have a standardized name. It 
+may be called `ISO` or `ISO2` or `alpha` or `COUNTRY` or any of a dozen other 
+names we have seen.
 
-While many mapping packages provide 'natural' naming of countries, those who wish to develop 
-operational, GIS-like systems need something that is both standardized and language-independent. 
-The ISO 3166-1 alpha-2 encodings have emerged as the *de facto* standard for this sort of work. 
-In similar fashion, ISO 3166-2 alpha-2 encodings are available for the next administrative 
-level down -- state/province/oblast, *etc*. For timezones, the *de facto* standard is the set 
-of Olson timezones used in all UNIX systems.
+While many mapping packages provide 'natural' naming of countries, those who 
+wish to develop operational, GIS-like systems need something that is both 
+standardized and language-independent. The ISO 3166-1 alpha-2 encodings have
+emerged as the *de facto* standard for this sort of work. In similar fashion, 
+ISO 3166-2 alpha-2 encodings are available for the next administrative level 
+down -- state/province/oblast, *etc*. For timezones, the *de facto* standard is 
+the set of Olson timezones used in all UNIX systems.
 
-The main goal of this package is to create an internally standardized set of spatial data 
-that we can use in various projects. Along with three built-in datasets, this package provides 
-`convert~()` functions for other spatial datasets that we currently use. These convert functions 
-all follow the same recipe:
+The main goal of this package is to create an internally standardized set of 
+spatial data that we can use in various projects. Along with three built-in 
+datasets, this package provides `convert~()` functions for other spatial 
+datasets that we currently use. These convert functions all follow the same recipe:
 
 * download spatial data in shapefile format into a standard directory
 * convert shapefile data into a *sp* SpatialPolygonsDataFrame
-* modify the dataframe in the @data slot so that it adheres to package internal standards
+* clean up any toplogical errors
+* modify the dataframe in the `@data` slot so that it adheres to package internal standards
 
 Other datasets can be added following the same procedure.
 
@@ -57,34 +61,39 @@ The 'package internal standards' are very simple.
 
 * stateCode -- 'state' at centroid of polygon (ISO 3166-2 alpha-2)
 
-If other columns contain these data, those columns must be renamed or duplicated with the 
-internally standardized name. This simple level of consistency makes it possible to generate 
-maps for any data that is ISO encoded. It also makes it possible to create functions that 
-return the country, state or timezone associated with a set of locations.
+If other columns contain these data, those columns must be renamed or duplicated 
+with the internally standardized name. This simple level of consistency makes it 
+possible to generate maps for any data that is ISO encoded. It also makes it 
+possible to create functions that return the country, state or timezone 
+associated with a set of locations.
 
 ## Functionality
 
-The core functionality for which this package was developed is determining spatial information 
-associated with a set of locations.
+The core functionality for which this package was developed is determining
+spatial information associated with a set of locations.
 
 Current functionality includes the following:
 
-* `getCountry~(longitude, latitude, ...)` -- returns names, ISO codes and other country-level data specified lo cations
+* `getCountry~(longitude, latitude, ...)` -- returns names, ISO codes and other country-level data at specified locations
 * `getState~(longitude, latitude, ...)` -- returns names, ISO codes and other state-level at specified locations
 * `getUSCounty~(longitude, latitude, ...)` -- returns names and other county-level data at specified locations
 * `getTimezones(longitude, latitude, ...)` -- returns Olson timezones and other data at specified locations
 * `getHUC~(longitude, latitude, ...)` -- returns USGS Hydrologic Unit Codes and other data at specified locations
 
-A generic `getSpatialData(longitude, latitude, ...)` returns a dataframe whose rows are associated with specified locations.
-This function can be used with newly converted SpatialPolygonsDataFrames.
+A generic `getSpatialData(longitude, latitude, ...)` returns a dataframe whose 
+rows are associated with specified locations. This function can be used with 
+newly converted SpatialPolygonsDataFrames.
 
-For those working with geo-located data, the ability to enhance location metadata with this information can be extremely helpful.
-
+For those working with geo-located data, the ability to enhance location 
+metadata with this information can be extremely helpful.
 
 ## Standard Datasets and Setup
 
-When using MazamaSpatialUtils, always run `setSpatialDataDir(<spatial_data_directory>)` first. This 
-sets the directory where spatial data will be installed and loaded from.
+When using **MazamaSpatialUtils**, always run 
+`setSpatialDataDir(<spatial_data_directory>)` first. This sets the directory 
+where spatial data will be installed and loaded from. This can be a directory
+on a user's personal computer or perhaps a remotely mounted disk if huge spatial 
+datasets are going to be used.
 
 **MazamaSpatialUtils** has three built-in datasets:
 
@@ -95,17 +104,21 @@ sets the directory where spatial data will be installed and loaded from.
 Version 0.7 of the package is built around the three built-in datasets and several other core 
 datasets that may be installed including: 
 
- * `  2 Mb EEZCountries.rda` -- country boundaries including Exclusive Economic Zones
- * ` 15 Mb NaturalEarthAdm1.rda` -- state/province/oblast level boundaries	 
- * ` 61 Mb OSMTimezones.rda` -- Open Street Map high resolution time zones
- * `  4 Mb TMWorldBorders.rda` -- high resolution country level boundaries
- * ` 48 Mb TerrestrialEcoregions.rda` -- terrestrial eco-regions
- * `  7 Mb USCensus115thCongress.rda` -- US congressional districts
- * `  2 Mb USCensusCounties.rda` -- US county level boundaries
- * `  3 Mb USCensusStates.rda` -- US state level boundaries
- * `  3 Mb USIndianLands.rda` -- US tribal boundaries
- * ` 16 Mb WorldTimezones.rda` -- high resolution timezones
-
+ * ` 21 Mb EEZCountries` -- country boundaries including Exclusive Economic Zones
+ * `  5 Mb EEZCountries` -- US EPA region boundaries
+ * `  6 Mb GACC` -- Geographic Area Coordination Center (GACC) boundaries
+ * ` 14 Mb NaturalEarthAdm1` -- state/province/oblast level boundaries	 
+ * `  8 Mb NWSFireZones` -- "NWS weather forecast zones
+ * ` 53 Mb TerrestrialEcoregions` -- terrestrial eco-regions
+ * `  4 Mb TMWorldBorders` -- high resolution country level boundaries
+ * `  7 Mb USCensus116thCongress` -- US congressional districts
+ * ` 34 Mb USCensusCBSA` -- US Core Based Statistical Areas
+ * ` 12 Mb USCensusCounties` -- US county level boundaries
+ * `  3 Mb USCensusStates` -- US state level boundaries
+ * `  1 Mb USIndianLands` -- US tribal boundaries
+ * `  9 Mb WeatherZones` -- NWS public weather forecast zones
+ * ` 16 Mb WorldTimezones` -- timezones
+ 
 Install these one at a time with:
 
 ```{r setSpatialData, eval = FALSE}
@@ -121,52 +134,55 @@ loadSpatialData('USCensusStates')
 loadSpatialData('USCensusCounties')
 ```
 
-Additional watershed data from the [Watershed Boundary Dataset](http://nhd.usgs.gov/wbd.html) are quite
-large and can be downloaded separately from http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/.
+Additional watershed data from the 
+[Watershed Boundary Dataset](http://nhd.usgs.gov/wbd.html) are quite large and 
+may be installed in the same way:
 
- * ` 38 Mb WBDHU2.rda` -- USGS level 2 watersheds
- * `107 Mb WBDHU4.rda` -- USGS level 4 watersheds
- * `136 Mb WBDHU6.rda` -- USGS level 6 watersheds
- * `294 Mb WBDHU8.rda` -- USGS level 8 watersheds
- * `768 Mb WBDHU10.rda` -- USGS level 10 watersheds	 
- * `1.4 Gb WBDHU12.rda` -- USGS level 12 watersheds
+ * ` 40 Mb WBDHU2.rda` -- USGS level 2 watersheds
+ * `127 Mb WBDHU4.rda` -- USGS level 4 watersheds
+ * `157 Mb WBDHU6.rda` -- USGS level 6 watersheds
+ * `337 Mb WBDHU8.rda` -- USGS level 8 watersheds
+ * `??? Mb WBDHU10.rda` -- USGS level 10 watersheds	(_not yet available_)
+ * `??? Gb WBDHU12.rda` -- USGS level 12 watersheds (_not yet available_)
 
 ## `getCountry()` and `getCountryCode()`
 
 These two functions are used for assigning countries to one or many locations. 
-`getCountry()` returns English country names and `getCountryCode()` returns the ISO-3166 two 
-character country code. Both functions can be passed `allData = TRUE` which returns a dataframe 
-with more information on the countries. You can also specify `countryCodes = c(<codes>)` to speed
-up searching by restricting the search to polygons associated within those countries.
+`getCountry()` returns English country names and `getCountryCode()` returns the 
+ISO-3166 two character country code. Both functions can be passed `allData = TRUE` 
+which returns a dataframe with more information on the countries. You can also 
+specify `countryCodes = c(<codes>)` to speedup searching by restricting the 
+search to polygons associated within those countries.
 
-These functions use the package-internal `SimpleCountries` dataset which can be used without 
-loading any additional datasets.
+These functions use the package-internal `SimpleCountries` dataset which can be 
+used without loading any additional datasets.
 
-In this example we'll find which countries a vector of points fall in. 
+In this example we'll find the countries underneath a vector of points: 
 
 ```{r getCountry}
 library(MazamaSpatialUtils)
 
 longitude <- c(-122.3, -73.5, 21.1, 2.5)
-latitudeitude <- c(47.5, 40.75, 52.1, 48.5)
+latitude <- c(47.5, 40.75, 52.1, 48.5)
 
 # Get countries/codes associated with locations
-getCountry(longitude, latitudeitude)
-getCountryCode(longitude, latitudeitude)
+getCountry(longitude, latitude)
+getCountryCode(longitude, latitude)
 
 # Review all available data
-getCountry(longitude, latitudeitude, allData=TRUE)
+getCountry(longitude, latitude, allData = TRUE)
 ```
 
 ## `getState()` and `getStateCode()`
 
-Similar to above, these functions return state names and ISO 3166 code. They also take 
-the same arguments. Adding the `countryCodes` argument is more important for `getState()` 
-and `getStateCode()` because the `NaturalEarthAdm1` dataset is fairly large. Lets use the 
-same `latitude` and `longitude` variables as above and assign states to those locations.
+Similar to above, these functions return state names and ISO 3166 codes. They 
+also take the same arguments. Adding the `countryCodes` argument is more 
+important for `getState()` and `getStateCode()` because the `NaturalEarthAdm1` 
+dataset is fairly large. Lets use the same `latitude` and `longitude` variables 
+as above and assign states to those locations.
 
-These functions require installation of the large `NaturalEarthAdm1` dataset which is not 
-distributed with the package.
+These functions require installation of the large `NaturalEarthAdm1` dataset 
+which is not distributed with the package.
 
 (*The next block of code is not evaluated in the vignette.*)
 
@@ -175,44 +191,45 @@ distributed with the package.
 loadSpatialData('NaturalEarthAdm1')
 
 # Get country codes associated with locations
-countryCodes <- getCountryCode(longitude, latitudeitude)
+countryCodes <- getCountryCode(longitude, latitude)
 
 # Pass the countryCodes as an argument to speed everything up
-getState(longitude, latitudeitude, countryCodes = countryCodes)
-getStateCode(longitude, latitudeitude, countryCodes = countryCodes)
+getState(longitude, latitude, countryCodes = countryCodes)
+getStateCode(longitude, latitude, countryCodes = countryCodes)
 
 # This is a very detailed dataset so we'll grab a few important columns
-states <- getState(longitude, latitudeitude, allData=TRUE, countryCodes = countryCodes)
+states <- getState(longitude, latitude, allData = TRUE, countryCodes = countryCodes)
 states[c('countryCode', 'stateCode', 'stateName')]
 ```
 
 ## `getTimezone()`
 
-Returns the Olsen Timezone where the given points are located. Arguments are the same as 
-the previous functions. `allData=TRUE` will return other useful information such as the UTC Offset.
+Returns the Olsen Timezone where the given points are located. Arguments are the 
+same as the previous functions. `allData = TRUE` will return other useful 
+information such as the UTC Offset.
 
-These functions use the package-internal `SimpleTimezones` dataset which can be used 
-without loading any additional datasets.
+These functions use the package-internal `SimpleTimezones` dataset which can be 
+used without loading any additional datasets.
 
 ```{r getTimezone}
 # Find the timezones the points are in
-getTimezone(longitude, latitudeitude)
+getTimezone(longitude, latitude)
 
 # Get country codes associated with locations
-countryCodes <- getCountryCode(longitude, latitudeitude)
+countryCodes <- getCountryCode(longitude, latitude)
 
 # Pass the countryCodes as an argument to potentially speed things up
-getTimezone(longitude, latitudeitude, countryCodes = countryCodes)
+getTimezone(longitude, latitude, countryCodes = countryCodes)
 
 # Review all available data
-getTimezone(longitude, latitudeitude, allData=TRUE, countryCodes = countryCodes)
+getTimezone(longitude, latitude, allData = TRUE, countryCodes = countryCodes)
 ```
 
 ## `getUSCounty()`
 
-Returns the US County which name pairs of coordinates fall in. The arguments are similar 
-as above except that `stateCodes=c()` is used instead of `countryCodes=c()` since this 
-dataset is US specific.
+Returns the US County which name pairs of coordinates fall in. The arguments are 
+similar as above except that `stateCodes=c()` is used instead of `countryCodes=c()` 
+since this dataset is US specific.
 
 (*The next block of code is not evaluated in the vignette.*)
 
@@ -221,45 +238,45 @@ dataset is US specific.
 loadSpatialData("USCensusCounties")
 
 # New dataset of points only in the US
-stateCodes <- getStateCode(longitude,latitudeitude)
+stateCodes <- getStateCode(longitude,latitude)
 
 # Optionally pass the stateCodes as an argument to speed everything up
-getUSCounty(longitude, latitudeitude, stateCodes=stateCodes)
-getUSCounty(longitude, latitudeitude, allData=TRUE, stateCodes=stateCodes)
+getUSCounty(longitude, latitude, stateCodes = stateCodes)
+getUSCounty(longitude, latitude, allData = TRUE, stateCodes = stateCodes)
 ```
 
 ## Timezone Map
 
 While identifying the states, countries and timezones associated with a set of 
-locations is important, we can also generate some quick eye candy with these datasets.
-Let's color the timezones by the data variable 'UTC_offset'
+locations is important, we can also generate some quick eye candy with these 
+datasets. Let's color the timezones by the data variable 'UTC_offset'
 
 ```{r timezoneMap}
 library(sp)         # For spatial plotting
 
 # Assign timezones polygons an index based on UTC_offset
-colorIndices <- .bincode(SimpleTimezones@data$UTC_offset, breaks=seq(-12.5,12.5,1))
+colorIndices <- .bincode(SimpleTimezones@data$UTC_offset, breaks = seq(-12.5,12.5,1))
 
 # Color our timezones by UTC_offset
-plot(SimpleTimezones, col=rainbow(25)[colorIndices])
-title(line=0,'Timezone Offsets from UTC')
+plot(SimpleTimezones, col = rainbow(25)[colorIndices])
+title(line = 0, 'Timezone Offsets from UTC')
 ```
 
 ## Working with ISO 3166-1 Encoded Data
 
-On of the main reasons for ensuring that our spatial datasets use ISO encoding is that 
-it makes it easy to generate plots with any datasets that use that encoding. Here is a 
-slightly more involved example using Energy data from the British Petroleum Statistical 
-Review that has been ISO-encoded.
+On of the main reasons for ensuring that our spatial datasets use ISO encoding 
+is that it makes it easy to generate plots with any datasets that use that 
+encoding. Here is a slightly more involved example using Energy data from the 
+British Petroleum Statistical Review that has been ISO-encoded.
 
 ```{r netExport}
 library(sp)         # For spatial plotting
 
 # Read in ISO-encoded oil production and consumption data
 prod <- read.csv(url('http://mazamascience.com/OilExport/BP_2016_oil_production_bbl.csv'),
-                 skip=6, stringsAsFactors=FALSE, na.strings='na')
+                 skip = 6, stringsAsFactors = FALSE, na.strings = 'na')
 cons <- read.csv(url('http://mazamascience.com/OilExport/BP_2016_oil_consumption_bbl.csv'),
-                 skip=6, stringsAsFactors=FALSE, na.strings='na')
+                 skip = 6, stringsAsFactors = FALSE, na.strings = 'na')
 
 # Only work with ISO-encoded columns of data
 prodCountryCodes <- names(prod)[ stringr::str_length(names(prod)) == 2 ]
@@ -292,13 +309,17 @@ color_missing = 'gray90'
 
 # Base plot (without Antarctica)
 notAQ <- SimpleCountries@data$countryCode != 'AQ'
-plot(SimpleCountries[notAQ,],col=color_missing)
+plot(SimpleCountries[notAQ,], col = color_missing)
 
-plot(SimpleCountries[netExportMask,],col=color_export,add=TRUE)
-plot(SimpleCountries[onlyExportMask,],col=color_export,add=TRUE)
-plot(SimpleCountries[netImportMask,],col=color_import,add=TRUE)
-plot(SimpleCountries[onlyImportMask,],col=color_import,add=TRUE)
+plot(SimpleCountries[netExportMask,], col = color_export, add = TRUE)
+plot(SimpleCountries[onlyExportMask,], col = color_export, add = TRUE)
+plot(SimpleCountries[netImportMask,], col = color_import, add = TRUE)
+plot(SimpleCountries[onlyImportMask,], col = color_import, add = TRUE)
 
-legend('bottomleft',legend=c('Net Exporters','Net Importers'),fill=c(color_export,color_import))
-title(line=0,paste('World Crude Oil in',year))
+legend(
+  'bottomleft',
+  legend = c('Net Exporters','Net Importers'),
+  fill = c(color_export,color_import)
+)
+title(line = 0, paste('World Crude Oil in', year))
 ```

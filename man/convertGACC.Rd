@@ -93,7 +93,7 @@ expressly disclaims liability for errors and omissions. No warranty of any
 kind, implied, expressed or statutory is given with respect to the contents.
 }
 \references{
-\url{https://hub.arcgis.com/datasets/7dc5f4a286bd47e0aaafa0ab05302fe9_0}
+https://hub.arcgis.com/datasets/7dc5f4a286bd47e0aaafa0ab05302fe9_0
 }
 \seealso{
 setSpatialDataDir

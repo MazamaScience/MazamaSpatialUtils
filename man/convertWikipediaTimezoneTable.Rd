@@ -29,6 +29,6 @@ Older named timezones from the table which are linked to more modern
 equivalents are not included in the returned dataframe.
 }
 \references{
-\url{http://en.wikipedia.org/wiki/List_of_tz_database_time_zones}
+\url{https://en.wikipedia.org/wiki/List_of_tz_database_time_zones}
 }
 \keyword{datagen}

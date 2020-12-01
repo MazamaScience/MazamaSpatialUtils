@@ -18,9 +18,9 @@ installSpatialData <- function(
   # Use package internal data directory
   dataDir <- getSpatialDataDir()
 
-  # ----- Display all available data -------------------------------------------
-
   if ( is.null(dataset) ) {
+
+    # ----- Display all available data -----------------------------------------
 
     allDatasets <-
       MazamaCoreUtils::html_getLinkUrls(urlBase) %>%
@@ -35,24 +35,26 @@ installSpatialData <- function(
       paste0("  ", allDatasets, collapse = "\n")
     ))
 
-  }
+  } else {
 
-  # ----- Get files matching pattern -------------------------------------------
+    # ----- Get files matching pattern -----------------------------------------
 
-  for ( version in c("", "_05", "_02", "_01") ) {
+    for ( version in c("", "_05", "_02", "_01") ) {
 
-    fileName <- paste0(dataset, version, ".rda")
-    filePath <- file.path(dataDir, fileName)
+      fileName <- paste0(dataset, version, ".rda")
+      filePath <- file.path(dataDir, fileName)
 
-    if ( !file.exists(filePath) ) {
+      if ( !file.exists(filePath) ) {
 
-      result <- try({
-        utils::download.file(paste0(urlBase, '/', fileName), filePath)
-      }, silent = TRUE)
+        result <- try({
+          utils::download.file(paste0(urlBase, '/', fileName), filePath)
+        }, silent = TRUE)
 
-      if ( "try-error" %in% class(result) ) {
-        # NOTE:  This is redundant when download.file(quiet = FALSE) by default
-        ###message(geterrmessage())
+        if ( "try-error" %in% class(result) ) {
+          # NOTE:  This is redundant when download.file(quiet = FALSE) by default
+          ###message(geterrmessage())
+        }
+
       }
 
     }

@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.3</span>
       </span>
     </div>
 
@@ -108,7 +108,7 @@
       <h1 data-toc-skip>Introduction to MazamaSpatialUtils</h1>
                         <h4 class="author">Mazama Science</h4>
             
-            <h4 class="date">March 05, 2020</h4>
+            <h4 class="date">Dec 01, 2020</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/MazamaScience/MazamaSpatialUtils/blob/master/vignettes/MazamaSpatialUtils.Rmd"><code>vignettes/MazamaSpatialUtils.Rmd</code></a></small>
       <div class="hidden name"><code>MazamaSpatialUtils.Rmd</code></div>
@@ -126,7 +126,8 @@
 <ul>
 <li>download spatial data in shapefile format into a standard directory</li>
 <li>convert shapefile data into a <em>sp</em> SpatialPolygonsDataFrame</li>
-<li>modify the dataframe in the <span class="citation">@data</span> slot so that it adheres to package internal standards</li>
+<li>clean up any toplogical errors</li>
+<li>modify the dataframe in the <code>@data</code> slot so that it adheres to package internal standards</li>
 </ul>
 <p>Other datasets can be added following the same procedure.</p>
 <p>The ‘package internal standards’ are very simple.</p>
@@ -158,7 +159,7 @@
 <p>Current functionality includes the following:</p>
 <ul>
 <li>
-<code>getCountry~(longitude, latitude, ...)</code> – returns names, ISO codes and other country-level data specified lo cations</li>
+<code>getCountry~(longitude, latitude, ...)</code> – returns names, ISO codes and other country-level data at specified locations</li>
 <li>
 <code>getState~(longitude, latitude, ...)</code> – returns names, ISO codes and other state-level at specified locations</li>
 <li>
@@ -174,7 +175,7 @@
 <div id="standard-datasets-and-setup" class="section level2">
 <h2 class="hasAnchor">
 <a href="#standard-datasets-and-setup" class="anchor"></a>Standard Datasets and Setup</h2>
-<p>When using MazamaSpatialUtils, always run <code>setSpatialDataDir(&lt;spatial_data_directory&gt;)</code> first. This sets the directory where spatial data will be installed and loaded from.</p>
+<p>When using <strong>MazamaSpatialUtils</strong>, always run <code>setSpatialDataDir(&lt;spatial_data_directory&gt;)</code> first. This sets the directory where spatial data will be installed and loaded from. This can be a directory on a user’s personal computer or perhaps a remotely mounted disk if huge spatial datasets are going to be used.</p>
 <p><strong>MazamaSpatialUtils</strong> has three built-in datasets:</p>
 <ul>
 <li>
@@ -187,26 +188,34 @@
 <p>Version 0.7 of the package is built around the three built-in datasets and several other core datasets that may be installed including:</p>
 <ul>
 <li>
-<code>2 Mb EEZCountries.rda</code> – country boundaries including Exclusive Economic Zones</li>
+<code>21 Mb EEZCountries</code> – country boundaries including Exclusive Economic Zones</li>
 <li>
-<code>15 Mb NaturalEarthAdm1.rda</code> – state/province/oblast level boundaries<br>
+<code>5 Mb EEZCountries</code> – US EPA region boundaries</li>
+<li>
+<code>6 Mb GACC</code> – Geographic Area Coordination Center (GACC) boundaries</li>
+<li>
+<code>14 Mb NaturalEarthAdm1</code> – state/province/oblast level boundaries<br>
 </li>
 <li>
-<code>61 Mb OSMTimezones.rda</code> – Open Street Map high resolution time zones</li>
+<code>8 Mb NWSFireZones</code> – "NWS weather forecast zones</li>
 <li>
-<code>4 Mb TMWorldBorders.rda</code> – high resolution country level boundaries</li>
+<code>53 Mb TerrestrialEcoregions</code> – terrestrial eco-regions</li>
 <li>
-<code>48 Mb TerrestrialEcoregions.rda</code> – terrestrial eco-regions</li>
+<code>4 Mb TMWorldBorders</code> – high resolution country level boundaries</li>
 <li>
-<code>7 Mb USCensus115thCongress.rda</code> – US congressional districts</li>
+<code>7 Mb USCensus116thCongress</code> – US congressional districts</li>
 <li>
-<code>2 Mb USCensusCounties.rda</code> – US county level boundaries</li>
+<code>34 Mb USCensusCBSA</code> – US Core Based Statistical Areas</li>
 <li>
-<code>3 Mb USCensusStates.rda</code> – US state level boundaries</li>
+<code>12 Mb USCensusCounties</code> – US county level boundaries</li>
 <li>
-<code>3 Mb USIndianLands.rda</code> – US tribal boundaries</li>
+<code>3 Mb USCensusStates</code> – US state level boundaries</li>
 <li>
-<code>16 Mb WorldTimezones.rda</code> – high resolution timezones</li>
+<code>1 Mb USIndianLands</code> – US tribal boundaries</li>
+<li>
+<code>9 Mb WeatherZones</code> – NWS public weather forecast zones</li>
+<li>
+<code>16 Mb WorldTimezones</code> – timezones</li>
 </ul>
 <p>Install these one at a time with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -216,46 +225,45 @@
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/loadSpatialData.html">loadSpatialData</a></span><span class="op">(</span><span class="st">'USCensusStates'</span><span class="op">)</span>
 <span class="fu"><a href="../reference/loadSpatialData.html">loadSpatialData</a></span><span class="op">(</span><span class="st">'USCensusCounties'</span><span class="op">)</span></code></pre></div>
-<p>Additional watershed data from the <a href="http://nhd.usgs.gov/wbd.html">Watershed Boundary Dataset</a> are quite large and can be downloaded separately from <a href="http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/" class="uri">http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/</a>.</p>
+<p>Additional watershed data from the <a href="http://nhd.usgs.gov/wbd.html">Watershed Boundary Dataset</a> are quite large and may be installed in the same way:</p>
 <ul>
 <li>
-<code>38 Mb WBDHU2.rda</code> – USGS level 2 watersheds</li>
+<code>40 Mb WBDHU2.rda</code> – USGS level 2 watersheds</li>
 <li>
-<code>107 Mb WBDHU4.rda</code> – USGS level 4 watersheds</li>
+<code>127 Mb WBDHU4.rda</code> – USGS level 4 watersheds</li>
 <li>
-<code>136 Mb WBDHU6.rda</code> – USGS level 6 watersheds</li>
+<code>157 Mb WBDHU6.rda</code> – USGS level 6 watersheds</li>
 <li>
-<code>294 Mb WBDHU8.rda</code> – USGS level 8 watersheds</li>
+<code>337 Mb WBDHU8.rda</code> – USGS level 8 watersheds</li>
 <li>
-<code>768 Mb WBDHU10.rda</code> – USGS level 10 watersheds<br>
-</li>
+<code>??? Mb WBDHU10.rda</code> – USGS level 10 watersheds (<em>not yet available</em>)</li>
 <li>
-<code>1.4 Gb WBDHU12.rda</code> – USGS level 12 watersheds</li>
+<code>??? Gb WBDHU12.rda</code> – USGS level 12 watersheds (<em>not yet available</em>)</li>
 </ul>
 </div>
 <div id="getcountry-and-getcountrycode" class="section level2">
 <h2 class="hasAnchor">
 <a href="#getcountry-and-getcountrycode" class="anchor"></a><code>getCountry()</code> and <code>getCountryCode()</code>
 </h2>
-<p>These two functions are used for assigning countries to one or many locations. <code><a href="../reference/getCountry.html">getCountry()</a></code> returns English country names and <code><a href="../reference/getCountryCode.html">getCountryCode()</a></code> returns the ISO-3166 two character country code. Both functions can be passed <code>allData = TRUE</code> which returns a dataframe with more information on the countries. You can also specify <code>countryCodes = c(&lt;codes&gt;)</code> to speed up searching by restricting the search to polygons associated within those countries.</p>
+<p>These two functions are used for assigning countries to one or many locations. <code><a href="../reference/getCountry.html">getCountry()</a></code> returns English country names and <code><a href="../reference/getCountryCode.html">getCountryCode()</a></code> returns the ISO-3166 two character country code. Both functions can be passed <code>allData = TRUE</code> which returns a dataframe with more information on the countries. You can also specify <code>countryCodes = c(&lt;codes&gt;)</code> to speedup searching by restricting the search to polygons associated within those countries.</p>
 <p>These functions use the package-internal <code>SimpleCountries</code> dataset which can be used without loading any additional datasets.</p>
-<p>In this example we’ll find which countries a vector of points fall in.</p>
+<p>In this example we’ll find the countries underneath a vector of points:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/MazamaSpatialUtils">MazamaSpatialUtils</a></span><span class="op">)</span></code></pre></div>
 <pre><code>## Loading required package: sp</code></pre>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">longitude</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="op">-</span><span class="fl">122.3</span>, <span class="op">-</span><span class="fl">73.5</span>, <span class="fl">21.1</span>, <span class="fl">2.5</span><span class="op">)</span>
-<span class="va">latitudeitude</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">47.5</span>, <span class="fl">40.75</span>, <span class="fl">52.1</span>, <span class="fl">48.5</span><span class="op">)</span>
+<span class="va">latitude</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">47.5</span>, <span class="fl">40.75</span>, <span class="fl">52.1</span>, <span class="fl">48.5</span><span class="op">)</span>
 
 <span class="co"># Get countries/codes associated with locations</span>
-<span class="fu"><a href="../reference/getCountry.html">getCountry</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitudeitude</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/getCountry.html">getCountry</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitude</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "United States" "United States" "Poland"        "France"</code></pre>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="../reference/getCountryCode.html">getCountryCode</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitudeitude</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="fu"><a href="../reference/getCountryCode.html">getCountryCode</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitude</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "US" "US" "PL" "FR"</code></pre>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Review all available data</span>
-<span class="fu"><a href="../reference/getCountry.html">getCountry</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitudeitude</span>, allData<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/getCountry.html">getCountry</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitude</span>, allData <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></code></pre></div>
 <pre><code>##   countryCode   countryName polygonID
 ## 1          US United States       113
 ## 2          US United States       113
@@ -266,7 +274,7 @@
 <h2 class="hasAnchor">
 <a href="#getstate-and-getstatecode" class="anchor"></a><code>getState()</code> and <code>getStateCode()</code>
 </h2>
-<p>Similar to above, these functions return state names and ISO 3166 code. They also take the same arguments. Adding the <code>countryCodes</code> argument is more important for <code><a href="../reference/getState.html">getState()</a></code> and <code><a href="../reference/getStateCode.html">getStateCode()</a></code> because the <code>NaturalEarthAdm1</code> dataset is fairly large. Lets use the same <code>latitude</code> and <code>longitude</code> variables as above and assign states to those locations.</p>
+<p>Similar to above, these functions return state names and ISO 3166 codes. They also take the same arguments. Adding the <code>countryCodes</code> argument is more important for <code><a href="../reference/getState.html">getState()</a></code> and <code><a href="../reference/getStateCode.html">getStateCode()</a></code> because the <code>NaturalEarthAdm1</code> dataset is fairly large. Lets use the same <code>latitude</code> and <code>longitude</code> variables as above and assign states to those locations.</p>
 <p>These functions require installation of the large <code>NaturalEarthAdm1</code> dataset which is not distributed with the package.</p>
 <p>(<em>The next block of code is not evaluated in the vignette.</em>)</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
@@ -274,38 +282,38 @@
 <span class="fu"><a href="../reference/loadSpatialData.html">loadSpatialData</a></span><span class="op">(</span><span class="st">'NaturalEarthAdm1'</span><span class="op">)</span>
 
 <span class="co"># Get country codes associated with locations</span>
-<span class="va">countryCodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getCountryCode.html">getCountryCode</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitudeitude</span><span class="op">)</span>
+<span class="va">countryCodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getCountryCode.html">getCountryCode</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitude</span><span class="op">)</span>
 
 <span class="co"># Pass the countryCodes as an argument to speed everything up</span>
-<span class="fu"><a href="../reference/getState.html">getState</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitudeitude</span>, countryCodes <span class="op">=</span> <span class="va">countryCodes</span><span class="op">)</span>
-<span class="fu"><a href="../reference/getStateCode.html">getStateCode</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitudeitude</span>, countryCodes <span class="op">=</span> <span class="va">countryCodes</span><span class="op">)</span>
+<span class="fu"><a href="../reference/getState.html">getState</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitude</span>, countryCodes <span class="op">=</span> <span class="va">countryCodes</span><span class="op">)</span>
+<span class="fu"><a href="../reference/getStateCode.html">getStateCode</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitude</span>, countryCodes <span class="op">=</span> <span class="va">countryCodes</span><span class="op">)</span>
 
 <span class="co"># This is a very detailed dataset so we'll grab a few important columns</span>
-<span class="va">states</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getState.html">getState</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitudeitude</span>, allData<span class="op">=</span><span class="cn">TRUE</span>, countryCodes <span class="op">=</span> <span class="va">countryCodes</span><span class="op">)</span>
+<span class="va">states</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getState.html">getState</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitude</span>, allData <span class="op">=</span> <span class="cn">TRUE</span>, countryCodes <span class="op">=</span> <span class="va">countryCodes</span><span class="op">)</span>
 <span class="va">states</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'countryCode'</span>, <span class="st">'stateCode'</span>, <span class="st">'stateName'</span><span class="op">)</span><span class="op">]</span></code></pre></div>
 </div>
 <div id="gettimezone" class="section level2">
 <h2 class="hasAnchor">
 <a href="#gettimezone" class="anchor"></a><code>getTimezone()</code>
 </h2>
-<p>Returns the Olsen Timezone where the given points are located. Arguments are the same as the previous functions. <code>allData=TRUE</code> will return other useful information such as the UTC Offset.</p>
+<p>Returns the Olsen Timezone where the given points are located. Arguments are the same as the previous functions. <code>allData = TRUE</code> will return other useful information such as the UTC Offset.</p>
 <p>These functions use the package-internal <code>SimpleTimezones</code> dataset which can be used without loading any additional datasets.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Find the timezones the points are in</span>
-<span class="fu"><a href="../reference/getTimezone.html">getTimezone</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitudeitude</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/getTimezone.html">getTimezone</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitude</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "America/Los_Angeles" "America/New_York"    "Europe/Warsaw"      
 ## [4] "Europe/Paris"</code></pre>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Get country codes associated with locations</span>
-<span class="va">countryCodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getCountryCode.html">getCountryCode</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitudeitude</span><span class="op">)</span>
+<span class="va">countryCodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getCountryCode.html">getCountryCode</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitude</span><span class="op">)</span>
 
 <span class="co"># Pass the countryCodes as an argument to potentially speed things up</span>
-<span class="fu"><a href="../reference/getTimezone.html">getTimezone</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitudeitude</span>, countryCodes <span class="op">=</span> <span class="va">countryCodes</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/getTimezone.html">getTimezone</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitude</span>, countryCodes <span class="op">=</span> <span class="va">countryCodes</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "America/Los_Angeles" "America/New_York"    "Europe/Warsaw"      
 ## [4] "Europe/Paris"</code></pre>
 <div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Review all available data</span>
-<span class="fu"><a href="../reference/getTimezone.html">getTimezone</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitudeitude</span>, allData<span class="op">=</span><span class="cn">TRUE</span>, countryCodes <span class="op">=</span> <span class="va">countryCodes</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/getTimezone.html">getTimezone</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitude</span>, allData <span class="op">=</span> <span class="cn">TRUE</span>, countryCodes <span class="op">=</span> <span class="va">countryCodes</span><span class="op">)</span></code></pre></div>
 <pre><code>##              timezone UTC_offset UTC_DST_offset countryCode   longitude
 ## 1 America/Los_Angeles         -8             -7          US -118.242778
 ## 2    America/New_York         -5             -4          US  -74.006389
@@ -328,11 +336,11 @@
 <span class="fu"><a href="../reference/loadSpatialData.html">loadSpatialData</a></span><span class="op">(</span><span class="st">"USCensusCounties"</span><span class="op">)</span>
 
 <span class="co"># New dataset of points only in the US</span>
-<span class="va">stateCodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getStateCode.html">getStateCode</a></span><span class="op">(</span><span class="va">longitude</span>,<span class="va">latitudeitude</span><span class="op">)</span>
+<span class="va">stateCodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/getStateCode.html">getStateCode</a></span><span class="op">(</span><span class="va">longitude</span>,<span class="va">latitude</span><span class="op">)</span>
 
 <span class="co"># Optionally pass the stateCodes as an argument to speed everything up</span>
-<span class="fu"><a href="../reference/getUSCounty.html">getUSCounty</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitudeitude</span>, stateCodes<span class="op">=</span><span class="va">stateCodes</span><span class="op">)</span>
-<span class="fu"><a href="../reference/getUSCounty.html">getUSCounty</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitudeitude</span>, allData<span class="op">=</span><span class="cn">TRUE</span>, stateCodes<span class="op">=</span><span class="va">stateCodes</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="../reference/getUSCounty.html">getUSCounty</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitude</span>, stateCodes <span class="op">=</span> <span class="va">stateCodes</span><span class="op">)</span>
+<span class="fu"><a href="../reference/getUSCounty.html">getUSCounty</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitude</span>, allData <span class="op">=</span> <span class="cn">TRUE</span>, stateCodes <span class="op">=</span> <span class="va">stateCodes</span><span class="op">)</span></code></pre></div>
 </div>
 <div id="timezone-map" class="section level2">
 <h2 class="hasAnchor">
@@ -342,11 +350,11 @@
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/edzer/sp/">sp</a></span><span class="op">)</span>         <span class="co"># For spatial plotting</span>
 
 <span class="co"># Assign timezones polygons an index based on UTC_offset</span>
-<span class="va">colorIndices</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/bincode.html">.bincode</a></span><span class="op">(</span><span class="va">SimpleTimezones</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">UTC_offset</span>, breaks<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">12.5</span>,<span class="fl">12.5</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span>
+<span class="va">colorIndices</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/bincode.html">.bincode</a></span><span class="op">(</span><span class="va">SimpleTimezones</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">UTC_offset</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">12.5</span>,<span class="fl">12.5</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span>
 
 <span class="co"># Color our timezones by UTC_offset</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">SimpleTimezones</span>, col<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">rainbow</a></span><span class="op">(</span><span class="fl">25</span><span class="op">)</span><span class="op">[</span><span class="va">colorIndices</span><span class="op">]</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/title.html">title</a></span><span class="op">(</span>line<span class="op">=</span><span class="fl">0</span>,<span class="st">'Timezone Offsets from UTC'</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">SimpleTimezones</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">rainbow</a></span><span class="op">(</span><span class="fl">25</span><span class="op">)</span><span class="op">[</span><span class="va">colorIndices</span><span class="op">]</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/title.html">title</a></span><span class="op">(</span>line <span class="op">=</span> <span class="fl">0</span>, <span class="st">'Timezone Offsets from UTC'</span><span class="op">)</span></code></pre></div>
 <p><img src="MazamaSpatialUtils_files/figure-html/timezoneMap-1.png" width="672"></p>
 </div>
 <div id="working-with-iso-3166-1-encoded-data" class="section level2">
@@ -358,9 +366,9 @@
 
 <span class="co"># Read in ISO-encoded oil production and consumption data</span>
 <span class="va">prod</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/connections.html">url</a></span><span class="op">(</span><span class="st">'http://mazamascience.com/OilExport/BP_2016_oil_production_bbl.csv'</span><span class="op">)</span>,
-                 skip<span class="op">=</span><span class="fl">6</span>, stringsAsFactors<span class="op">=</span><span class="cn">FALSE</span>, na.strings<span class="op">=</span><span class="st">'na'</span><span class="op">)</span>
+                 skip <span class="op">=</span> <span class="fl">6</span>, stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span>, na.strings <span class="op">=</span> <span class="st">'na'</span><span class="op">)</span>
 <span class="va">cons</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.csv</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/connections.html">url</a></span><span class="op">(</span><span class="st">'http://mazamascience.com/OilExport/BP_2016_oil_consumption_bbl.csv'</span><span class="op">)</span>,
-                 skip<span class="op">=</span><span class="fl">6</span>, stringsAsFactors<span class="op">=</span><span class="cn">FALSE</span>, na.strings<span class="op">=</span><span class="st">'na'</span><span class="op">)</span>
+                 skip <span class="op">=</span> <span class="fl">6</span>, stringsAsFactors <span class="op">=</span> <span class="cn">FALSE</span>, na.strings <span class="op">=</span> <span class="st">'na'</span><span class="op">)</span>
 
 <span class="co"># Only work with ISO-encoded columns of data</span>
 <span class="va">prodCountryCodes</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">prod</span><span class="op">)</span><span class="op">[</span> <span class="fu">stringr</span><span class="fu">::</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_length.html">str_length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span><span class="op">(</span><span class="va">prod</span><span class="op">)</span><span class="op">)</span> <span class="op">==</span> <span class="fl">2</span> <span class="op">]</span>
@@ -393,15 +401,19 @@
 
 <span class="co"># Base plot (without Antarctica)</span>
 <span class="va">notAQ</span> <span class="op">&lt;-</span> <span class="va">SimpleCountries</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">countryCode</span> <span class="op">!=</span> <span class="st">'AQ'</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">SimpleCountries</span><span class="op">[</span><span class="va">notAQ</span>,<span class="op">]</span>,col<span class="op">=</span><span class="va">color_missing</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">SimpleCountries</span><span class="op">[</span><span class="va">notAQ</span>,<span class="op">]</span>, col <span class="op">=</span> <span class="va">color_missing</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">SimpleCountries</span><span class="op">[</span><span class="va">netExportMask</span>,<span class="op">]</span>,col<span class="op">=</span><span class="va">color_export</span>,add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">SimpleCountries</span><span class="op">[</span><span class="va">onlyExportMask</span>,<span class="op">]</span>,col<span class="op">=</span><span class="va">color_export</span>,add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">SimpleCountries</span><span class="op">[</span><span class="va">netImportMask</span>,<span class="op">]</span>,col<span class="op">=</span><span class="va">color_import</span>,add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">SimpleCountries</span><span class="op">[</span><span class="va">onlyImportMask</span>,<span class="op">]</span>,col<span class="op">=</span><span class="va">color_import</span>,add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">SimpleCountries</span><span class="op">[</span><span class="va">netExportMask</span>,<span class="op">]</span>, col <span class="op">=</span> <span class="va">color_export</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">SimpleCountries</span><span class="op">[</span><span class="va">onlyExportMask</span>,<span class="op">]</span>, col <span class="op">=</span> <span class="va">color_export</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">SimpleCountries</span><span class="op">[</span><span class="va">netImportMask</span>,<span class="op">]</span>, col <span class="op">=</span> <span class="va">color_import</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">SimpleCountries</span><span class="op">[</span><span class="va">onlyImportMask</span>,<span class="op">]</span>, col <span class="op">=</span> <span class="va">color_import</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
-<span class="fu"><a href="https://rdrr.io/r/graphics/legend.html">legend</a></span><span class="op">(</span><span class="st">'bottomleft'</span>,legend<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'Net Exporters'</span>,<span class="st">'Net Importers'</span><span class="op">)</span>,fill<span class="op">=</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">color_export</span>,<span class="va">color_import</span><span class="op">)</span><span class="op">)</span>
-<span class="fu"><a href="https://rdrr.io/r/graphics/title.html">title</a></span><span class="op">(</span>line<span class="op">=</span><span class="fl">0</span>,<span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">'World Crude Oil in'</span>,<span class="va">year</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+<span class="fu"><a href="https://rdrr.io/r/graphics/legend.html">legend</a></span><span class="op">(</span>
+  <span class="st">'bottomleft'</span>,
+  legend <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'Net Exporters'</span>,<span class="st">'Net Importers'</span><span class="op">)</span>,
+  fill <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="va">color_export</span>,<span class="va">color_import</span><span class="op">)</span>
+<span class="op">)</span>
+<span class="fu"><a href="https://rdrr.io/r/graphics/title.html">title</a></span><span class="op">(</span>line <span class="op">=</span> <span class="fl">0</span>, <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste</a></span><span class="op">(</span><span class="st">'World Crude Oil in'</span>, <span class="va">year</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <p><img src="MazamaSpatialUtils_files/figure-html/netExport-1.png" width="672"></p>
 </div>
   </div>

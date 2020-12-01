@@ -151,7 +151,7 @@ test_that("warns when there are multiple states for a code", {
   spatialDataDir <- setup_spatial_data()
 
   expect_warning(codeToState("WA"), "9 states with code")
-  expect_warning(codeToState("CB"), "12 states with code")
+  expect_warning(codeToState("CB"), "15 states with code")
 
   # Teardown
   if (class(spatialDataDir) == "character") {

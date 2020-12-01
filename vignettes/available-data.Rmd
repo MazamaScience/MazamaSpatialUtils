@@ -48,7 +48,7 @@ pregenerated datasets, which can then be loaded with `loadSpatialData(<dataset>)
  * `HouseLegislativeDistricts` -- US state legislative districts, by chamber
  * `MTBSBurnAreas` -- MTBS burn areas from 1984 - 2017
  * `NaturalEarthAdm1` -- State/province/oblast level boundaries
- * `NWSFireZones` -- NWS weather forecast zones
+ * `NWSFireZones` -- NWS fire weather forecast zones
  * `OSMTimezones` -- OpenStreetMap time zones
  * `PHDs` -- Public Health Districts for Washington, Oregon, Idaho, and California
  * `SimpleCountries` -- Simplified version of the TMWorldBorders
@@ -82,7 +82,7 @@ pregenerated datasets, which can then be loaded with `loadSpatialData(<dataset>)
  * [`HIFLDFederalLands`:](#hifldfederallands) US Federal Lands
  * [`HMSSmoke`:](#hmssmoke) NOAA Hazard Mapping System Smoke (HMSS) areas
  * [`MTBSBurnAreas`:](#mtbsburnareas)  MTBS Burn Areas from 1984 - 2017
- * [`NWSFireZones`:](#nwsfirezones) NWS forecast zones
+ * [`NWSFireZones`:](#nwsfirezones) NWS fire weather forecast zones
  * [`PHDs`:](#phds) Public Health Districts for Washington, Oregon, Idaho, and California
  * [`SimpleCountries`:](#simplecountries) Simplified version of the TMWorldBorders shapefile
  * [`SimpleCountriesEEZ`:](#simplecountriesEEZ) Simplified version of EEZCountries

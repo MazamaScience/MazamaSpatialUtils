@@ -84,7 +84,7 @@
 #'
 #' @return Name of the dataset being created.
 #'
-#' @references \url{https://hub.arcgis.com/datasets/7dc5f4a286bd47e0aaafa0ab05302fe9_0}
+#' @references https://hub.arcgis.com/datasets/7dc5f4a286bd47e0aaafa0ab05302fe9_0
 #'
 #' @seealso setSpatialDataDir
 #'

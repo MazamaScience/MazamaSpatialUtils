@@ -18,10 +18,10 @@
 #' @details Older named timezones from the table which are linked to more modern
 #' equivalents are not included in the returned dataframe.
 #' @return Dataframe with 388 rows and 10 columns.
-#' @references \url{http://en.wikipedia.org/wiki/List_of_tz_database_time_zones}
+#' @references \url{https://en.wikipedia.org/wiki/List_of_tz_database_time_zones}
 convertWikipediaTimezoneTable <- function() {
 
-  url <- "http://en.wikipedia.org/wiki/List_of_tz_database_time_zones"
+  url <- "https://en.wikipedia.org/wiki/List_of_tz_database_time_zones"
 
   # From the web page:
   #

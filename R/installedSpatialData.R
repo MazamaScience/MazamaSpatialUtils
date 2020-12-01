@@ -37,7 +37,7 @@ installedSpatialData <- function(
     "HouseLegislativeDistricts" = "US state legislative districts, by chamber",
     "MTBSBurnAreas" = "MTBS burn areas from 1984 - 2017",
     "NaturalEarthAdm1" = "State/province/oblast level boundaries",
-    "NWSFireZones" = "NWS weather forecast zones",
+    "NWSFireZones" = "NWS fire weather forecast zones",
     "OSMTimezones" = "OpenStreetMap time zones",
     "PHDs" = "Public Health Districts for Washington, Oregon, Idaho, and California",
     "SimpleCountries" = "Simplified version of the TMWorldBorders",
