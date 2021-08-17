@@ -15,12 +15,18 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## Objective
 
-The goal of this document is to show how basic spatial operations common to Geographic Information Systems (GIS) can be done in R using S4 objects and the _sp_ and _raster_ packages.  I have chosen to focus on vector data, specifically point and polygon sets, as those are the ones most commonly encountered when using the MazamaSpatialUtils.
+The goal of this document is to show how basic spatial operations common to 
+Geographic Information Systems (GIS) can be done in R using S4 objects and the 
+**sp** and **raster** packages.  I have chosen to focus on vector data, 
+specifically point and polygon sets, as those are the ones most commonly 
+encountered when using the MazamaSpatialUtils.
 
 ## Creating Spatial Polygon Data Frames
 
-An easy way to create a rectangular Spatial Polygon Data Frame is to use the Bounding Box, or extent, of another spatial feature to define the geometry of the feature you want to create.  A separate data frame with feature attributes can then be attached to this geometry 
-to form a SpatialPolygonsDataFrame.
+An easy way to create a rectangular Spatial Polygon Data Frame is to use the 
+Bounding Box, or extent, of another spatial feature to define the geometry of 
+the feature you want to create.  A separate data frame with feature attributes 
+can then be attached to this geometry  to form a SpatialPolygonsDataFrame.
 
 ```{r polygon_a_creation, message=FALSE}
 library(raster)
@@ -76,7 +82,10 @@ do spatial comparisons between this feature and others later on.
 ## Creating Spatial Points Data Frames
 
 There are multiple ways in which points can be converted into Spatial Point Data Frames.  
-They share the same basic idea though - take a regular data frame which contains X and Y values that define point coordinates and then convert it into a `SpatialPointsDataFrame` using the _sp_ package.  Two ways are shown below.  In both cases, a data frame is used to define the point locations and attributes of the data. 
+They share the same basic idea though - take a regular data frame which contains 
+X and Y values that define point coordinates and then convert it into a 
+`SpatialPointsDataFrame` using the **sp** package.  Two ways are shown below.  
+In both cases, a data frame is used to define the point locations and attributes of the data. 
 
 ```{r point_dataframe}
 # Create a data frame with coordinates and some data, temperature readings, perhaps...
@@ -120,11 +129,17 @@ temp_df@data$id <- as.character(temp_df@data$id)
 summary(temp_df)
 ```
 
-Method 2 converts the data frame in place and in doing so, the columns with the coordinate values are moved out of the `@data` slot.  This can be advantageous if you don't need the coordinates for anything more than to define the point geometry.
+Method 2 converts the data frame in place and in doing so, the columns with the 
+coordinate values are moved out of the `@data` slot.  This can be advantageous 
+if you don't need the coordinates for anything more than to define the point geometry.
 
 ## Basic Plotting
 
-Now that we have some features created, what do they look like?  The basic `plot()` function works extremely well with S4 Spatial objects.  One thing to keep in mind, though, is that the first feature plotted defines the plot extents.  One way to take advantage of this is to create a "map area" feature which can be used to both center subsequent plots and also to define a _neatline_ for the map.
+Now that we have some features created, what do they look like?  The basic 
+`plot()` function works extremely well with S4 Spatial objects.  One thing to 
+keep in mind, though, is that the first feature plotted defines the plot extents.  
+One way to take advantage of this is to create a "map area" feature which can be 
+used to both center subsequent plots and also to define a _neatline_ for the map.
 
 ```{r basic_plot, fig.width=7, fig.height=7, fig.align='center'}
 # bbox (just needed to be able to plot 2 objects that don't share the same bbox)
@@ -160,11 +175,16 @@ Generally speaking, there are 5 operations commonly performed while doing spatia
 4. Dissolve
 5. Spatial Join
 
-The _raster_ and _sp_ packages provide all the functionality needed to perform these operations.
+The **raster** and **sp** packages provide all the functionality needed to perform 
+these operations.
 
 ## Buffer
 
-The _raster::buffer()_ function buffers a specific distance away from a feature or group of features.  It uses the units of the map projection as the units for the buffer distance.  Often a buffer is used to define a zone around a specific point.  Here, we will create a 500,000 meter buffer around the _temp_df_ point feature with "id = 4".
+The `raster::buffer()` function buffers a specific distance away from a feature 
+or group of features.  It uses the units of the map projection as the units for 
+the buffer distance.  Often a buffer is used to define a zone around a specific 
+point.  Here, we will create a 500,000 meter buffer around the _temp_df_ point 
+feature with "id = 4".
 
 ```
 # Subset a single point out of set
@@ -211,7 +231,11 @@ plot(bbox, add = TRUE)
 
 ## Clip
 
-Clipping works a bit like a cookie-cutter.  It is done using the _raster::intersect()_ function which takes an input geometry and calculates the spatial intersection with another geometry.  Here we will clip the pink "spdf_abcd" feature and the green "spdf_e" feature with the "buffer_zone" we created above. 
+Clipping works a bit like a cookie-cutter.  It is done using the 
+`raster::intersect()` function which takes an input geometry and calculates the 
+spatial intersection with another geometry.  Here we will clip the pink 
+"spdf_abcd" feature and the green "spdf_e" feature with the "buffer_zone" we 
+created above. 
 
 ```
 # Clip the features
@@ -246,7 +270,10 @@ text(point_4, labels = point_4$id, pos = 3)
 plot(bbox, add=TRUE)
 ```
 
-It is very important to note that the new "_clip" features contain all of the attributes which were contained in the "spdf_abcd" and "spdf_e" SpatialPolygonsDataFrames.  In other words, the feature that was clipped retained all of its original attribute information.
+It is very important to note that the new "_clip" features contain all of the 
+attributes which were contained in the "spdf_abcd" and "spdf_e" 
+SpatialPolygonsDataFrames.  In other words, the feature that was clipped 
+retained all of its original attribute information.
 
 ```
 head(abcd_clip@data)
@@ -259,7 +286,8 @@ head(e_clip@data)
 ## 1    E  1      2 forest
 ```
 
-This is ONLY because the "buffer_zone" (clipping) feature lacked a data frame of its own and was simply a SpatialPolygon object, and not a SpatialPolygonsDataFrame.  
+This is ONLY because the "buffer_zone" (clipping) feature lacked a data frame of 
+its own and was simply a SpatialPolygon object, and not a SpatialPolygonsDataFrame.  
 
 ```
 summary(buffer_zone)
@@ -273,11 +301,19 @@ Is projected: FALSE
 proj4string :
 [+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs +towgs84=0,0,0 +units=m]
 ```
-The behavior of the _raster::intersect()_ function is very different when both features are SpatialPolygonsDataFrames.  When 2 SpatialPolygonsDataFrames are intersected, the default behavior of the _raster::intersect()_ function is to combine the attributes from both data sets.  Which brings us to the next type of operation.
+The behavior of the `raster::intersect()` function is very different when both 
+features are SpatialPolygonsDataFrames.  When 2 SpatialPolygonsDataFrames are 
+intersected, the default behavior of the `raster::intersect()` function is to 
+combine the attributes from both data sets.  Which brings us to the next type of 
+operation.
 
 ## Intersection
 
-The intersection operation computes the spatial intersection between 2 features and returns a new geometry that is this intersection area.  It also combines the feature attributes of both features.  In the example below, we are intersecting the 2 clipped features with each other.  Note the attributes and the geometry that are returned.  Unsurprisingly, this is also done with the _raster::intersect()_ function.
+The intersection operation computes the spatial intersection between 2 features 
+and returns a new geometry that is this intersection area.  It also combines the 
+feature attributes of both features.  In the example below, we are intersecting 
+the 2 clipped features with each other.  Note the attributes and the geometry 
+that are returned.  Unsurprisingly, this is also done with the `raster::intersect()` function.
 
 ```
 combined_clips <- raster::intersect(abcd_clip, e_clip)
@@ -301,17 +337,28 @@ plot(combined_clips, col = "pink", add = TRUE)
 plot(bbox, add=TRUE)
 ```
 
-If we look at just the attributes from "abcd_clip" (which was created in the "Clip" section above) we see that it only contains attributes from the original "spdf_abcd" feature set.
+If we look at just the attributes from "abcd_clip" (which was created in the 
+"Clip" section above) we see that it only contains attributes from the original 
+"spdf_abcd" feature set.
 
-This behavior is consistent with how the intersection tool works in other systems and in fact, here is a description of the difference between the "clip" and "intersection" functions in ArcGIS.
+This behavior is consistent with how the intersection tool works in other systems 
+and in fact, here is a description of the difference between the "clip" and 
+"intersection" functions in ArcGIS.
 
 > What's the **difference between** the **clip** tool and the **intersect** tool? The main **difference is** the resulting attributes. When you run the **clip** tool, only the input features attributes will be **in the** output. When you use the **intersect** tool, the attributes from all features will be **in the** output.
 
-When performing clipping operations with 2 SpatialPolygonsDataFrame features, it may be useful to create your own function which modifies the contents of the returned data frame to match the definition listed above.
+When performing clipping operations with 2 SpatialPolygonsDataFrame features, it 
+may be useful to create your own function which modifies the contents of the 
+returned data frame to match the definition listed above.
 
 ### !Intersection
 
-While this isn't listed as one of the 5 basic operations, I include it here because I think it's important and not generally easy to find a solution for.  Very often what we want is to compute the difference between 2 spatial features, rather than the area of intersection.  For example, in the clipped regions we've created above, the "e_clip" region is a full disk that extends behind the "abcd_clip" region. 
+While this isn't listed as one of the 5 basic operations, I include it here 
+because I think it's important and not generally easy to find a solution for.  
+Very often what we want is to compute the difference between 2 spatial features, 
+rather than the area of intersection.  For example, in the clipped regions we've 
+created above, the "e_clip" region is a full disk that extends behind the 
+"abcd_clip" region. 
 
 If we only wanted the region of "e_clip" that DOESN'T intersect with "abcd_clip", it's very 
 R-like and easy to obtain that by subtracting one from the other.
@@ -344,9 +391,14 @@ head(disjoint_e_clip@data)
 
 ## Dissolve
 
-The Dissolve operation is a form of spatial aggregation in which the internal borders of a feature set are removed, or dissolved, leaving larger regions behind that are the result of aggregating by a specific value.  This aggregation value is usually defined by a column in the data set.  Appropriately enough, the function that does this for us is named _raster::aggregate()_.
+The Dissolve operation is a form of spatial aggregation in which the internal 
+borders of a feature set are removed, or dissolved, leaving larger regions 
+behind that are the result of aggregating by a specific value.  This aggregation 
+value is usually defined by a column in the data set.  Appropriately enough, the 
+function that does this for us is named `raster::aggregate()`.
 
-Our original "spdf_abcd" data set contains a "zone" field that we can use to dissolve the features with.
+Our original "spdf_abcd" data set contains a "zone" field that we can use to 
+dissolve the features with.
 
 ```
 head(spdf_abcd@data)
@@ -357,7 +409,9 @@ head(spdf_abcd@data)
 ## 1.3    C  3      1 tract    2
 ## 1.4    D  4      1 tract    2
 ```
-We can see the way that the zones are situated in the left plot below.  When we dissolve the features using the "zone" as the aggregation feature, we get the result in the plot on the right.
+We can see the way that the zones are situated in the left plot below.  When we 
+dissolve the features using the "zone" as the aggregation feature, we get the 
+result in the plot on the right.
 
 ```
 zoned_tracts <- raster::aggregate(spdf_abcd, by='zone')
@@ -378,9 +432,16 @@ plot(zoned_tracts, col = "pink", add = TRUE)
 text(zoned_tracts, labels = zoned_tracts$zone)
 title("Dissolved by Zone")
 ```
-Most common dissolve tools will leave the field behind that was used to do the aggregation, in this case the "zone" attribute.  The _raster::aggregate_ function has some nice additional functionality in that it can also include other fields as well.  These can be aggregated in various ways, such as by selecting the 1st entry, or by calculating the mean value.
 
-Below we dissolve the data set by the "zone" field and then aggregate the "type" and "county" fields by keeping their 1st values in the set.   We also calculate the mean of the "id" field for the 2 values in each "zone".  
+Most common dissolve tools will leave the field behind that was used to do the 
+aggregation, in this case the "zone" attribute.  The _raster::aggregate_ function 
+has some nice additional functionality in that it can also include other fields 
+as well.  These can be aggregated in various ways, such as by selecting the 1st 
+entry, or by calculating the mean value.
+
+Below we dissolve the data set by the "zone" field and then aggregate the "type" 
+and "county" fields by keeping their 1st values in the set.   We also calculate 
+the mean of the "id" field for the 2 values in each "zone".  
 
 ```
 spdf_abcd@data$id <- as.numeric(spdf_abcd@data$id)
@@ -412,9 +473,13 @@ This can be exceptionally useful.
 
 ## Spatial Join
 
-The Spatial Join operation is one where tabular data from one data set is attached to another based on spatial context.  This functionality is provided by the _sp::over_ function.  
+The Spatial Join operation is one where tabular data from one data set is 
+attached to another based on spatial context.  This functionality is provided by 
+the `sp::over()` function.  
 
-In our data, let's say that we want to assign the mean temperature value from the point data to each polygon that contains temperature values.  Here is how we do that.
+In our data, let's say that we want to assign the mean temperature value from 
+the point data to each polygon that contains temperature values.  Here is how 
+we do that.
 
 ```{r}
 poly_temp_df <- sp::over(spdf_abcd, temp_spdf[,"temp"],  fn = mean)
@@ -459,7 +524,10 @@ plot(bbox, add = TRUE)
 title("Mean Temperature per Polygon")
 ```
 
-Note that _sp::over()_ returns a data frame with the same number of rows as the input feature and attribute data from the feature being unioned.  Since here we requested that the "temp" data be aggregated by mean, we get back a table of mean temperatures for each polygon.
+Note that `sp::over()` returns a data frame with the same number of rows as the 
+input feature and attribute data from the feature being unioned.  Since here we 
+requested that the "temp" data be aggregated by mean, we get back a table of 
+mean temperatures for each polygon.
 
 ```
 ##     temp
@@ -481,4 +549,11 @@ If we join this data back to the input feature, we get something that looks like
 
 ## Conclusion
 
-As we can see, all standard GIS operations can be done in R using _sp_ and _raster_ on S4 spatial objects.  Care should be taken to determine what type of object the function returns, as the behavior changes based on the input types.  Also, as mentioned briefly at the beginning of the document, all spatial features should be assigned a common Coordinate Reference System (CRS) for these tools to work properly.  Aside from these cautions, the functions perform very well and are analogous to those found in other GIS packages.
+As we can see, all standard GIS operations can be done in R using **sp** and 
+**raster** on S4 spatial objects.  Care should be taken to determine what type 
+of object the function returns, as the behavior changes based on the input types.  
+Also, as mentioned briefly at the beginning of the document, all spatial features 
+should be assigned a common Coordinate Reference System (CRS) for these tools to 
+work properly.  Aside from these cautions, the functions perform very well and 
+are analogous to those found in other GIS packages.
+

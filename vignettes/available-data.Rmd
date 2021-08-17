@@ -16,7 +16,7 @@ datasets that can be used with **MazamaSpatialUtils**.
 
 Spatial datasets that have been converted to objects of class
 \code{SpatialPolygonsDataFrame} and adhere to the **MazamaSpatialUtils**
-standards are considerd to be "harmonized". 
+standards are considered to be "harmonized". 
 
 For reproducibility, the R code that ingests and harmonizes each spatial dataset
 is included in the package as a \code{convert<dataset>()} function.
@@ -31,12 +31,12 @@ quick identification of \code{countryCode} or \code{timezone}.
 
 * `SimpleCountries` -- Country outlines
 * `SimpleCountriesEEZ` -- Country outlines including Exclusive Economic Zones over water
-* `SimpleTimezones` -- Timezones
+* `SimpleTimezones` -- Time zones
 
 ### Downloadable data
 
 Running `installSpatialData()` allows users to install the following 
-pregenerated datasets, which can then be loaded with `loadSpatialData(<dataset>)`
+pre-generated datasets, which can then be loaded with `loadSpatialData(<dataset>)`
 
  * `CA_AirBasins` -- California regional air basin boundaries
  * `EEZCountries` -- Country boundaries including Exclusive Economic Zones
@@ -174,7 +174,7 @@ and requires user input to specify the date of interest using the `datestamp`
 parameter in the format of `datestamp = "YYYYmmdd"`.
 
 #### MTBSBurnAreas
-Use `convertMTBSBurnArea()` to download and convert this datset.
+Use `convertMTBSBurnArea()` to download and convert this dataset.
 
 The MTBSBurnAreas dataset is a  `SpatialPolygonsDataFrame` representing all 
 large wildland fires (includes wildfire, wildland fire use, and prescribed fire) 

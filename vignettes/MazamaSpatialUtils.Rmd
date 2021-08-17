@@ -41,7 +41,7 @@ datasets that we currently use. These convert functions all follow the same reci
 
 * download spatial data in shapefile format into a standard directory
 * convert shapefile data into a *sp* SpatialPolygonsDataFrame
-* clean up any toplogical errors
+* clean up any topological errors
 * modify the dataframe in the `@data` slot so that it adheres to package internal standards
 
 Other datasets can be added following the same procedure.

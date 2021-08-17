@@ -1,3 +1,9 @@
+# MazamaSpatialUtils 0.7.4
+
+* Minor documentation improvements.
+* Removed unused dependency on *tidyr*.
+* Replaced non-ASCII characters to satisfy CRAN checks.
+
 # MazamaSpatialUtils 0.7.3
 
 * URL corrections for CRAN submission.

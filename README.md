@@ -28,17 +28,17 @@ Maddeningly, even when these ISO codes are used, the dataframe column in which
 they are stored does not have a standardized name. It may be called ISO or ISO2
 or alpha or COUNTRY or any of a dozen other names we have seen.
 
-While many mapping packages provide ‘natural’ naming of countries, those who
+While many mapping packages provide 'natural' naming of countries, those who
 wish to develop operational, GIS-like systems need something that is both
 standardized and language-independent. The ISO 3166-1 alpha-2 encodings have
 emerged as the defacto standard for this sort of work. In similar fashion, ISO
-3166-2 alpha-2 encodings are available for the next administrative level down –
+3166-2 alpha-2 encodings are available for the next administrative level down --
 state/province/oblast, etc.. For time zones, the _defacto_ standard is the set of
 Olson time zones used in all UNIX systems.
 
 The main goal of this package is to create an internally standardized set of
 spatial data that we can use in various projects. Along with three built-in
-datasets, this package provides ‘convert~’ functions for other spatial datasets
+datasets, this package provides `convert~()` functions for other spatial datasets
 that we currently use. These convert functions all follow the same recipe:
 
  * download spatial data in shapefile format into a standard directory

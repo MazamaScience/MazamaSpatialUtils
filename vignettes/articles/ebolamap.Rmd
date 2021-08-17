@@ -1,11 +1,15 @@
 ---
 title: "Ebola Map Example"
-author: "Robin Winstanley"
+author: "Robin Winstanley, Mazama Science"
 date: July 14, 2015
-output: rmarkdown::html_document
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Ebola Map Example}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
-```{r, echo=FALSE}
+```{r setup, echo=FALSE}
 knitr::opts_chunk$set(fig.width=7, fig.height=5)
 ```
 
@@ -14,7 +18,7 @@ knitr::opts_chunk$set(fig.width=7, fig.height=5)
 The Ebola Map described in the following was created as a response to a map seen online,
 created by [Robert Johnston](http://www.johnstonsarchive.net/policy/westafrica-ebola.html). 
 This map seemed interesting to me and I decided to go about recreating it, with help from
-the MazamaSpatialUtils package by [Mazama Science](http://mazamascience.com). The map details
+the **MazamaSpatialUtils** package by [Mazama Science](http://mazamascience.com). The map details
 the number of Ebola cases per 1,000 residents in each of the countries of Guinea, Sierra Leone,
 and Liberia. These cases are comprised of both confirmed and unconfirmed cases, as recorded
 by the World Health Organization. The data used for the graph was also given on the website. 
@@ -24,8 +28,8 @@ by the World Health Organization. The data used for the graph was also given on 
 ## Preliminary Mapping
 
 The first step in recreating this graph, after loading the appropriate data and setting my 
-directory was to identify the border of each country from the TMWorldBorders data. This was done
-through taking a subset of the TMWorldBorders data that referred to the three countries of 
+directory was to identify the border of each country from the `TMWorldBorders` data. This was done
+through taking a subset of the `TMWorldBorders` data that referred to the three countries of 
 interest. The borders between the countries could then be plotted, with thicker lines used to 
 further distinguish the borders.
 
@@ -41,7 +45,7 @@ ebolaCountries <- subset(TMWorldBorders, countryName %in% c('Liberia', 'Sierra L
 plot(ebolaCountries, lwd=3)
 ```
 
-The next step was to use the `convertGADM` function to download the required country data from the
+The next step was to use the `convertGADM()` function to download the required country data from the
 GADM database at the correct level. The map uses the provinces of Guinea (level 2), the provinces 
 of Sierra Leone (level 2), and the counties of Liberia (level 1).
 
@@ -59,7 +63,7 @@ to data acquisition regarding Ebola cases and their use in our map.
 
 ## Acquiring Data
 
-Using `rvest`, we acquire the necessary Ebola counts per province/county in one central table. While
+Using `rvest()`, we acquire the necessary Ebola counts per province/county in one central table. While
 the table also includes information for a 2014 population estimate and the total number of Ebola cases,
 we are solely interested in the column referring to cases/1000 pop as this is what we will be graphing.
 
