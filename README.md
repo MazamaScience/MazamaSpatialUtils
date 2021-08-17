@@ -12,7 +12,7 @@ pagetitle: MazamaSpatialUtils
 ```
 A suite of conversion functions to create internally standardized
 spatial polygons data frames. Utility functions use these data sets to
-return values such as country, state, timezone, watershed, etc. associated
+return values such as country, state, time zone, watershed, etc. associated
 with a set of longitude/latitude pairs. (They also make cool maps.)
 ```
 
@@ -33,8 +33,8 @@ wish to develop operational, GIS-like systems need something that is both
 standardized and language-independent. The ISO 3166-1 alpha-2 encodings have
 emerged as the defacto standard for this sort of work. In similar fashion, ISO
 3166-2 alpha-2 encodings are available for the next administrative level down –
-state/province/oblast, etc.. For timezones, the defacto standard is the set of
-Olson timezones used in all UNIX systems.
+state/province/oblast, etc.. For time zones, the _defacto_ standard is the set of
+Olson time zones used in all UNIX systems.
 
 The main goal of this package is to create an internally standardized set of
 spatial data that we can use in various projects. Along with three built-in
@@ -54,7 +54,7 @@ The 'package internal standards' are very simple.
 * polygonID -- unique identifier for each polygon
 * countryCode -- country at centroid of polygon (ISO 3166-1 alpha-2)
 
-2) Spatial datasets with timezone data **must** contain the following column:
+2) Spatial datasets with time zone data **must** contain the following column:
 
 * timezone -- Olson timezone
 
@@ -65,7 +65,7 @@ The 'package internal standards' are very simple.
 If other columns contain these data, those columns must be renamed or duplicated with the 
 internally standardized name. This simple level of consistency makes it possible to generate 
 maps for any data that is ISO encoded. It also makes it possible to create functions that 
-return the country, state or timezone associated with a set of locations.
+return the country, state or time zone associated with a set of locations.
 
 ## Installation
 
@@ -92,7 +92,7 @@ The package comes with the following simplified spatial spatial datasets:
 ```
 
 These datasets allow you to work with low-resolution country outlines and
-timezones.
+time zones.
 
 ### Core Datasets
 

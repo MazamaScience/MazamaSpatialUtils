@@ -31,7 +31,7 @@ Author: Jonathan Callahan [aut, cre],
 Maintainer: Jonathan Callahan <jonathan.s.callahan@gmail.com>
 Description: A suite of conversion functions to create internally standardized
     spatial polygons data frames. Utility functions use these data sets to
-    return values such as country, state, timezone, watershed, etc. associated
+    return values such as country, state, time zone, watershed, etc. associated
     with a set of longitude/latitude pairs. (They also make cool maps.)
 License: GPL-2
 URL: https://github.com/MazamaScience/MazamaSpatialUtils
