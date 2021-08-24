@@ -31,8 +31,8 @@ wish to develop operational, GIS-like systems need something that is both
 standardized and language-independent. The ISO 3166-1 alpha-2 encodings have
 emerged as the *de facto* standard for this sort of work. In similar fashion, 
 ISO 3166-2 alpha-2 encodings are available for the next administrative level 
-down -- state/province/oblast, *etc*. For timezones, the *de facto* standard is 
-the set of Olson timezones used in all UNIX systems.
+down -- state/province/oblast, *etc*. For time zones, the *de facto* standard is 
+the set of Olson time zones used in all UNIX systems.
 
 The main goal of this package is to create an internally standardized set of 
 spatial data that we can use in various projects. Along with three built-in 
@@ -53,9 +53,9 @@ The 'package internal standards' are very simple.
 * polygonID -- unique identifier for each polygon
 * countryCode -- country at centroid of polygon (ISO 3166-1 alpha-2)
 
-2) Spatial datasets with timezone data **must** contain the following column:
+2) Spatial datasets with time zone data **must** contain the following column:
 
-* timezone -- Olson timezone
+* timezone -- Olson time zone
 
 3) Spatial datasets at scales smaller than the nation-state **should** contain the following column:
 
@@ -64,7 +64,7 @@ The 'package internal standards' are very simple.
 If other columns contain these data, those columns must be renamed or duplicated 
 with the internally standardized name. This simple level of consistency makes it 
 possible to generate maps for any data that is ISO encoded. It also makes it 
-possible to create functions that return the country, state or timezone 
+possible to create functions that return the country, state or time zone 
 associated with a set of locations.
 
 ## Functionality
@@ -77,7 +77,7 @@ Current functionality includes the following:
 * `getCountry~(longitude, latitude, ...)` -- returns names, ISO codes and other country-level data at specified locations
 * `getState~(longitude, latitude, ...)` -- returns names, ISO codes and other state-level at specified locations
 * `getUSCounty~(longitude, latitude, ...)` -- returns names and other county-level data at specified locations
-* `getTimezones(longitude, latitude, ...)` -- returns Olson timezones and other data at specified locations
+* `getTimezones(longitude, latitude, ...)` -- returns Olson time zones and other data at specified locations
 * `getHUC~(longitude, latitude, ...)` -- returns USGS Hydrologic Unit Codes and other data at specified locations
 
 A generic `getSpatialData(longitude, latitude, ...)` returns a dataframe whose 
@@ -99,7 +99,7 @@ datasets are going to be used.
 
 * `SimpleCountries` -- country outlines
 * `SimpleCountriesEEZ` -- country outlines including Exclusive Economic Zones over water
-* `SimpleTimezones` -- timezones
+* `SimpleTimezones` -- time zones
 
 Version 0.7 of the package is built around the three built-in datasets and several other core 
 datasets that may be installed including: 
@@ -117,7 +117,7 @@ datasets that may be installed including:
  * `  3 Mb USCensusStates` -- US state level boundaries
  * `  1 Mb USIndianLands` -- US tribal boundaries
  * `  9 Mb WeatherZones` -- NWS public weather forecast zones
- * ` 16 Mb WorldTimezones` -- timezones
+ * ` 16 Mb WorldTimezones` -- time zones
  
 Install these one at a time with:
 
@@ -204,7 +204,7 @@ states[c('countryCode', 'stateCode', 'stateName')]
 
 ## `getTimezone()`
 
-Returns the Olsen Timezone where the given points are located. Arguments are the 
+Returns the Olsen time zone where the given points are located. Arguments are the 
 same as the previous functions. `allData = TRUE` will return other useful 
 information such as the UTC Offset.
 
@@ -212,7 +212,7 @@ These functions use the package-internal `SimpleTimezones` dataset which can be
 used without loading any additional datasets.
 
 ```{r getTimezone}
-# Find the timezones the points are in
+# Find the time zones the points are in
 getTimezone(longitude, latitude)
 
 # Get country codes associated with locations
@@ -247,17 +247,17 @@ getUSCounty(longitude, latitude, allData = TRUE, stateCodes = stateCodes)
 
 ## Timezone Map
 
-While identifying the states, countries and timezones associated with a set of 
+While identifying the states, countries and time zones associated with a set of 
 locations is important, we can also generate some quick eye candy with these 
-datasets. Let's color the timezones by the data variable 'UTC_offset'
+datasets. Let's color the time zones by the data variable 'UTC_offset'
 
 ```{r timezoneMap}
 library(sp)         # For spatial plotting
 
-# Assign timezones polygons an index based on UTC_offset
+# Assign time zones polygons an index based on UTC_offset
 colorIndices <- .bincode(SimpleTimezones@data$UTC_offset, breaks = seq(-12.5,12.5,1))
 
-# Color our timezones by UTC_offset
+# Color our time zones by UTC_offset
 plot(SimpleTimezones, col = rainbow(25)[colorIndices])
 title(line = 0, 'Timezone Offsets from UTC')
 ```

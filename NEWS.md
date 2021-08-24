@@ -3,6 +3,7 @@
 * Minor documentation improvements.
 * Removed unused dependency on *tidyr*.
 * Replaced non-ASCII characters to satisfy CRAN checks.
+* Consistent parameter validation in all `get~()` functions.
 
 # MazamaSpatialUtils 0.7.3
 

@@ -36,7 +36,7 @@ testthat::test_that("handles errors correctly", {
 
   testthat::expect_error(getStateName())
   testthat::expect_error(getStateName(),
-                         'argument "longitude" is missing, with no default')
+                         "argument 'longitude' must not be NULL.")
   testthat::expect_error(getStateName(0,100))
   testthat::expect_error(getStateName(-400, 0))
 

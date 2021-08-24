@@ -19,8 +19,8 @@
 #' @seealso getSpatialData
 
 getHUCName <- function(
-  longitude,
-  latitude,
+  longitude = NULL,
+  latitude = NULL,
   dataset = NULL,
   HUCs = NULL,
   allData = FALSE,
@@ -29,7 +29,11 @@ getHUCName <- function(
 
   # ----- Validate parameters --------------------------------------------------
 
+  MazamaCoreUtils::stopIfNull(longitude)
+  MazamaCoreUtils::stopIfNull(latitude)
   MazamaCoreUtils::stopIfNull(dataset)
+  MazamaCoreUtils::stopIfNull(allData)
+  MazamaCoreUtils::stopIfNull(useBuffering)
 
   # Check existence of dataset
   if ( !exists(dataset) ) {

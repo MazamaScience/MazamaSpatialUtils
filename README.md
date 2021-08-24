@@ -70,7 +70,7 @@ return the country, state or time zone associated with a set of locations.
 ## Installation
 
 This package is designed to be used with [R](https://cran.r-project.org) (>= 3.1.0)
-and [RStudio](https://rstudio.com/) so make sure you have those installed first.
+and [RStudio](https://www.rstudio.com/) so make sure you have those installed first.
 
 Users can use the **devtools** package to install the latest version of the 
 package which may have new features that are not yet available on CRAN:

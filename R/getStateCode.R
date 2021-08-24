@@ -34,8 +34,8 @@
 #' }
 #' @seealso getSpatialData
 getStateCode <- function(
-  longitude,
-  latitude,
+  longitude = NULL,
+  latitude = NULL,
   dataset = "NaturalEarthAdm1",
   countryCodes = NULL,
   allData = FALSE,
@@ -43,6 +43,12 @@ getStateCode <- function(
 ) {
 
   # ----- Validate parameters --------------------------------------------------
+
+  MazamaCoreUtils::stopIfNull(longitude)
+  MazamaCoreUtils::stopIfNull(latitude)
+  MazamaCoreUtils::stopIfNull(dataset)
+  MazamaCoreUtils::stopIfNull(allData)
+  MazamaCoreUtils::stopIfNull(useBuffering)
 
   # Check existence of dataset
   if ( !exists(dataset) ) {

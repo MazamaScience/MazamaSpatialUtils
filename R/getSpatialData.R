@@ -32,14 +32,20 @@
 #' result in \code{NA}s at those positions in the returned vector or data frame.
 
 getSpatialData <- function(
-  longitude,
-  latitude,
-  SPDF,
+  longitude = NULL,
+  latitude = NULL,
+  SPDF = NULL,
   useBuffering = FALSE,
   verbose = FALSE
 ) {
 
   # ----- Validate parameters --------------------------------------------------
+
+  MazamaCoreUtils::stopIfNull(longitude)
+  MazamaCoreUtils::stopIfNull(latitude)
+  MazamaCoreUtils::stopIfNull(SPDF)
+  MazamaCoreUtils::stopIfNull(useBuffering)
+  MazamaCoreUtils::stopIfNull(verbose)
 
   # Sanity check -- same number of latitudes and longitudes
   if ( length(longitude) != length(latitude) ) {
@@ -70,7 +76,7 @@ getSpatialData <- function(
   location <- sp::SpatialPoints(validPairs, proj4string = SPDF@proj4string)
 
   # Use the 'over' function to do point-in-polygon searches and extract data
-  validDF <- sp::over(location,SPDF)
+  validDF <- sp::over(location, SPDF)
 
   # Find the index of the points where the 'over' function failed to place a
   # coordinate location in a polygon

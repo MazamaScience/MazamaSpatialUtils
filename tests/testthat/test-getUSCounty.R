@@ -35,7 +35,7 @@ testthat::test_that("handles errors correctly", {
 
   testthat::expect_error(getUSCounty())
   testthat::expect_error(getUSCounty(dataset = "USCensusCounties"),
-                         'argument "longitude" is missing, with no default')
+                         "argument 'longitude' must not be NULL.")
   testthat::expect_error(getUSCounty(0,100))
   testthat::expect_error(getUSCounty(-400, 0))
 

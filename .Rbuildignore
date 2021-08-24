@@ -20,6 +20,7 @@
 # Ignore other directories
 ^app$
 ^docker$
+^pkgdown$
 
 # Ignore configuration files for other tools
 ^\.travis\.yml$

@@ -35,7 +35,7 @@ testthat::test_that("handles errors correctly", {
 
   testthat::expect_error(getHUCName())
   testthat::expect_error(getHUCName(dataset = "WBDHU4_02"),
-                         'argument "longitude" is missing, with no default')
+                         "argument 'longitude' must not be NULL.")
   testthat::expect_error(getHUCName(0,100, dataset = "WBDHU4_02"))
   testthat::expect_error(getHUCName(-400, 0, dataset = "WBDHU4_02"))
 

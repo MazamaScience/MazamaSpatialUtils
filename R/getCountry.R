@@ -30,8 +30,8 @@
 #' @seealso getSpatialData
 #'
 getCountry <- function(
-  longitude,
-  latitude,
+  longitude = NULL,
+  latitude = NULL,
   dataset = "SimpleCountriesEEZ",
   countryCodes = NULL,
   allData = FALSE,
@@ -39,6 +39,12 @@ getCountry <- function(
 ) {
 
   # ----- Validate parameters --------------------------------------------------
+
+  MazamaCoreUtils::stopIfNull(longitude)
+  MazamaCoreUtils::stopIfNull(latitude)
+  MazamaCoreUtils::stopIfNull(dataset)
+  MazamaCoreUtils::stopIfNull(allData)
+  MazamaCoreUtils::stopIfNull(useBuffering)
 
   # Check existence of dataset
   if ( !exists(dataset) ) {

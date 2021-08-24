@@ -3,9 +3,9 @@ testthat::context("getVariable()")
 
 testthat::test_that("handles errors correctly", {
   testthat::expect_error(getVariable(dataset = "SimpleCountries"),
-                         'argument "longitude" is missing, with no default')
+                         "argument 'longitude' must not be NULL.")
   testthat::expect_error(getVariable(0,100, dataset = "SimpleCountries"))
-  testthat::expect_error(getVariable(10, 10), "Missing dataset")
+  testthat::expect_error(getVariable(10, 10), "argument 'dataset' must not be NULL.")
 })
 
 testthat::test_that("returns correct name", {

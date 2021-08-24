@@ -63,7 +63,7 @@ to data acquisition regarding Ebola cases and their use in our map.
 
 ## Acquiring Data
 
-Using `rvest()`, we acquire the necessary Ebola counts per province/county in one central table. While
+Using `MazamaCoreUtils::html_getTable()`, we acquire the necessary Ebola counts per province/county in one central table. While
 the table also includes information for a 2014 population estimate and the total number of Ebola cases,
 we are solely interested in the column referring to cases/1000 pop as this is what we will be graphing.
 
