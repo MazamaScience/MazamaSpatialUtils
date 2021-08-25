@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.4</span>
       </span>
     </div>
 
@@ -46,7 +46,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -87,7 +87,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/MazamaScience/MazamaSpatialUtils/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -101,8 +101,7 @@
 
       
 
-      </header><script src="MazamaSpatialUtils_files/header-attrs-2.5/header-attrs.js"></script><link href="MazamaSpatialUtils_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
-<script src="MazamaSpatialUtils_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
+      </header><script src="MazamaSpatialUtils_files/header-attrs-2.10/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Introduction to MazamaSpatialUtils</h1>
@@ -121,12 +120,12 @@
 <h2 class="hasAnchor">
 <a href="#background" class="anchor"></a>Background</h2>
 <p>The <strong>MazamaSpatialUtils package</strong> was created by <a href="http://mazamascience.com">MazamaScience</a> to regularize our work with spatial data. The <strong>sp</strong>, <strong>rgdal</strong> and <strong>maptools</strong> packages have made it much easier to work with spatial data found in shapefiles. Many sources of shapefile data are available and can be used to make beautiful maps in R. Unfortunately, the data attached to these datasets, even when fairly complete, often lacks standardized identifiers such as the ISO 3166-1 alpha-2 encodings for countries. Maddeningly, even when these ISO codes are used, the dataframe column in which they are stored does not have a standardized name. It may be called <code>ISO</code> or <code>ISO2</code> or <code>alpha</code> or <code>COUNTRY</code> or any of a dozen other names we have seen.</p>
-<p>While many mapping packages provide ‘natural’ naming of countries, those who wish to develop operational, GIS-like systems need something that is both standardized and language-independent. The ISO 3166-1 alpha-2 encodings have emerged as the <em>de facto</em> standard for this sort of work. In similar fashion, ISO 3166-2 alpha-2 encodings are available for the next administrative level down – state/province/oblast, <em>etc</em>. For timezones, the <em>de facto</em> standard is the set of Olson timezones used in all UNIX systems.</p>
+<p>While many mapping packages provide ‘natural’ naming of countries, those who wish to develop operational, GIS-like systems need something that is both standardized and language-independent. The ISO 3166-1 alpha-2 encodings have emerged as the <em>de facto</em> standard for this sort of work. In similar fashion, ISO 3166-2 alpha-2 encodings are available for the next administrative level down – state/province/oblast, <em>etc</em>. For time zones, the <em>de facto</em> standard is the set of Olson time zones used in all UNIX systems.</p>
 <p>The main goal of this package is to create an internally standardized set of spatial data that we can use in various projects. Along with three built-in datasets, this package provides <code>convert~()</code> functions for other spatial datasets that we currently use. These convert functions all follow the same recipe:</p>
 <ul>
 <li>download spatial data in shapefile format into a standard directory</li>
 <li>convert shapefile data into a <em>sp</em> SpatialPolygonsDataFrame</li>
-<li>clean up any toplogical errors</li>
+<li>clean up any topological errors</li>
 <li>modify the dataframe in the <code>@data</code> slot so that it adheres to package internal standards</li>
 </ul>
 <p>Other datasets can be added following the same procedure.</p>
@@ -139,10 +138,10 @@
 <li>countryCode – country at centroid of polygon (ISO 3166-1 alpha-2)</li>
 </ul>
 <ol start="2" style="list-style-type: decimal">
-<li>Spatial datasets with timezone data <strong>must</strong> contain the following column:</li>
+<li>Spatial datasets with time zone data <strong>must</strong> contain the following column:</li>
 </ol>
 <ul>
-<li>timezone – Olson timezone</li>
+<li>timezone – Olson time zone</li>
 </ul>
 <ol start="3" style="list-style-type: decimal">
 <li>Spatial datasets at scales smaller than the nation-state <strong>should</strong> contain the following column:</li>
@@ -150,7 +149,7 @@
 <ul>
 <li>stateCode – ‘state’ at centroid of polygon (ISO 3166-2 alpha-2)</li>
 </ul>
-<p>If other columns contain these data, those columns must be renamed or duplicated with the internally standardized name. This simple level of consistency makes it possible to generate maps for any data that is ISO encoded. It also makes it possible to create functions that return the country, state or timezone associated with a set of locations.</p>
+<p>If other columns contain these data, those columns must be renamed or duplicated with the internally standardized name. This simple level of consistency makes it possible to generate maps for any data that is ISO encoded. It also makes it possible to create functions that return the country, state or time zone associated with a set of locations.</p>
 </div>
 <div id="functionality" class="section level2">
 <h2 class="hasAnchor">
@@ -165,7 +164,7 @@
 <li>
 <code>getUSCounty~(longitude, latitude, ...)</code> – returns names and other county-level data at specified locations</li>
 <li>
-<code>getTimezones(longitude, latitude, ...)</code> – returns Olson timezones and other data at specified locations</li>
+<code>getTimezones(longitude, latitude, ...)</code> – returns Olson time zones and other data at specified locations</li>
 <li>
 <code>getHUC~(longitude, latitude, ...)</code> – returns USGS Hydrologic Unit Codes and other data at specified locations</li>
 </ul>
@@ -183,7 +182,7 @@
 <li>
 <code>SimpleCountriesEEZ</code> – country outlines including Exclusive Economic Zones over water</li>
 <li>
-<code>SimpleTimezones</code> – timezones</li>
+<code>SimpleTimezones</code> – time zones</li>
 </ul>
 <p>Version 0.7 of the package is built around the three built-in datasets and several other core datasets that may be installed including:</p>
 <ul>
@@ -215,7 +214,7 @@
 <li>
 <code>9 Mb WeatherZones</code> – NWS public weather forecast zones</li>
 <li>
-<code>16 Mb WorldTimezones</code> – timezones</li>
+<code>16 Mb WorldTimezones</code> – time zones</li>
 </ul>
 <p>Install these one at a time with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -296,10 +295,10 @@
 <h2 class="hasAnchor">
 <a href="#gettimezone" class="anchor"></a><code>getTimezone()</code>
 </h2>
-<p>Returns the Olsen Timezone where the given points are located. Arguments are the same as the previous functions. <code>allData = TRUE</code> will return other useful information such as the UTC Offset.</p>
+<p>Returns the Olsen time zone where the given points are located. Arguments are the same as the previous functions. <code>allData = TRUE</code> will return other useful information such as the UTC Offset.</p>
 <p>These functions use the package-internal <code>SimpleTimezones</code> dataset which can be used without loading any additional datasets.</p>
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># Find the timezones the points are in</span>
+<code class="sourceCode R"><span class="co"># Find the time zones the points are in</span>
 <span class="fu"><a href="../reference/getTimezone.html">getTimezone</a></span><span class="op">(</span><span class="va">longitude</span>, <span class="va">latitude</span><span class="op">)</span></code></pre></div>
 <pre><code>## [1] "America/Los_Angeles" "America/New_York"    "Europe/Warsaw"      
 ## [4] "Europe/Paris"</code></pre>
@@ -345,14 +344,14 @@
 <div id="timezone-map" class="section level2">
 <h2 class="hasAnchor">
 <a href="#timezone-map" class="anchor"></a>Timezone Map</h2>
-<p>While identifying the states, countries and timezones associated with a set of locations is important, we can also generate some quick eye candy with these datasets. Let’s color the timezones by the data variable ‘UTC_offset’</p>
+<p>While identifying the states, countries and time zones associated with a set of locations is important, we can also generate some quick eye candy with these datasets. Let’s color the time zones by the data variable ‘UTC_offset’</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/edzer/sp/">sp</a></span><span class="op">)</span>         <span class="co"># For spatial plotting</span>
 
-<span class="co"># Assign timezones polygons an index based on UTC_offset</span>
+<span class="co"># Assign time zones polygons an index based on UTC_offset</span>
 <span class="va">colorIndices</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/bincode.html">.bincode</a></span><span class="op">(</span><span class="va">SimpleTimezones</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">UTC_offset</span>, breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html">seq</a></span><span class="op">(</span><span class="op">-</span><span class="fl">12.5</span>,<span class="fl">12.5</span>,<span class="fl">1</span><span class="op">)</span><span class="op">)</span>
 
-<span class="co"># Color our timezones by UTC_offset</span>
+<span class="co"># Color our time zones by UTC_offset</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">SimpleTimezones</span>, col <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/grDevices/palettes.html">rainbow</a></span><span class="op">(</span><span class="fl">25</span><span class="op">)</span><span class="op">[</span><span class="va">colorIndices</span><span class="op">]</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/title.html">title</a></span><span class="op">(</span>line <span class="op">=</span> <span class="fl">0</span>, <span class="st">'Timezone Offsets from UTC'</span><span class="op">)</span></code></pre></div>
 <p><img src="MazamaSpatialUtils_files/figure-html/timezoneMap-1.png" width="672"></p>

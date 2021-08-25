@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.4</span>
       </span>
     </div>
 
@@ -46,7 +46,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -87,7 +87,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/MazamaScience/MazamaSpatialUtils/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -101,8 +101,7 @@
 
       
 
-      </header><script src="Basic_GIS_in_R_files/header-attrs-2.5/header-attrs.js"></script><link href="Basic_GIS_in_R_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
-<script src="Basic_GIS_in_R_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
+      </header><script src="Basic_GIS_in_R_files/header-attrs-2.10/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Basic GIS Operations in R</h1>
@@ -120,7 +119,7 @@
 <div id="objective" class="section level2">
 <h2 class="hasAnchor">
 <a href="#objective" class="anchor"></a>Objective</h2>
-<p>The goal of this document is to show how basic spatial operations common to Geographic Information Systems (GIS) can be done in R using S4 objects and the <em>sp</em> and <em>raster</em> packages. I have chosen to focus on vector data, specifically point and polygon sets, as those are the ones most commonly encountered when using the MazamaSpatialUtils.</p>
+<p>The goal of this document is to show how basic spatial operations common to Geographic Information Systems (GIS) can be done in R using S4 objects and the <strong>sp</strong> and <strong>raster</strong> packages. I have chosen to focus on vector data, specifically point and polygon sets, as those are the ones most commonly encountered when using the MazamaSpatialUtils.</p>
 </div>
 <div id="creating-spatial-polygon-data-frames" class="section level2">
 <h2 class="hasAnchor">
@@ -167,7 +166,8 @@
 <h2 class="hasAnchor">
 <a href="#creating-spatial-points-data-frames" class="anchor"></a>Creating Spatial Points Data Frames</h2>
 <p>There are multiple ways in which points can be converted into Spatial Point Data Frames.<br>
-They share the same basic idea though - take a regular data frame which contains X and Y values that define point coordinates and then convert it into a <code>SpatialPointsDataFrame</code> using the <em>sp</em> package. Two ways are shown below. In both cases, a data frame is used to define the point locations and attributes of the data.</p>
+They share the same basic idea though - take a regular data frame which contains X and Y values that define point coordinates and then convert it into a <code>SpatialPointsDataFrame</code> using the <strong>sp</strong> package. Two ways are shown below.<br>
+In both cases, a data frame is used to define the point locations and attributes of the data.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Create a data frame with coordinates and some data, temperature readings, perhaps...</span>
 <span class="va">temp_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/read.table.html">read.table</a></span><span class="op">(</span>header <span class="op">=</span> <span class="cn">TRUE</span>, text <span class="op">=</span> <span class="st">"
@@ -247,7 +247,8 @@ id  x  y  temp
 <div id="basic-plotting" class="section level2">
 <h2 class="hasAnchor">
 <a href="#basic-plotting" class="anchor"></a>Basic Plotting</h2>
-<p>Now that we have some features created, what do they look like? The basic <code><a href="https://rdrr.io/pkg/raster/man/plot.html">plot()</a></code> function works extremely well with S4 Spatial objects. One thing to keep in mind, though, is that the first feature plotted defines the plot extents. One way to take advantage of this is to create a “map area” feature which can be used to both center subsequent plots and also to define a <em>neatline</em> for the map.</p>
+<p>Now that we have some features created, what do they look like? The basic <code><a href="https://rdrr.io/pkg/raster/man/plot.html">plot()</a></code> function works extremely well with S4 Spatial objects. One thing to keep in mind, though, is that the first feature plotted defines the plot extents.<br>
+One way to take advantage of this is to create a “map area” feature which can be used to both center subsequent plots and also to define a <em>neatline</em> for the map.</p>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># bbox (just needed to be able to plot 2 objects that don't share the same bbox)</span>
 <span class="va">bbox</span> <span class="op">&lt;-</span> <span class="fu">as</span><span class="op">(</span><span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/extent.html">extent</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">27.0</span>, <span class="fl">0</span>, <span class="fl">27.0</span><span class="op">)</span>, <span class="st">"SpatialPolygons"</span><span class="op">)</span>
@@ -282,12 +283,12 @@ id  x  y  temp
 <li>Dissolve</li>
 <li>Spatial Join</li>
 </ol>
-<p>The <em>raster</em> and <em>sp</em> packages provide all the functionality needed to perform these operations.</p>
+<p>The <strong>raster</strong> and <strong>sp</strong> packages provide all the functionality needed to perform these operations.</p>
 </div>
 <div id="buffer" class="section level2">
 <h2 class="hasAnchor">
 <a href="#buffer" class="anchor"></a>Buffer</h2>
-<p>The <em>raster::buffer()</em> function buffers a specific distance away from a feature or group of features. It uses the units of the map projection as the units for the buffer distance. Often a buffer is used to define a zone around a specific point. Here, we will create a 500,000 meter buffer around the <em>temp_df</em> point feature with “id = 4”.</p>
+<p>The <code><a href="https://rdrr.io/pkg/raster/man/buffer.html">raster::buffer()</a></code> function buffers a specific distance away from a feature or group of features. It uses the units of the map projection as the units for the buffer distance. Often a buffer is used to define a zone around a specific point. Here, we will create a 500,000 meter buffer around the <em>temp_df</em> point feature with “id = 4”.</p>
 <pre><code># Subset a single point out of set
 point_4 &lt;- subset(temp_df, id == 4)
 
@@ -305,7 +306,7 @@ text(point_4, labels = point_4$id, pos = 3)</code></pre>
 <div id="clip" class="section level2">
 <h2 class="hasAnchor">
 <a href="#clip" class="anchor"></a>Clip</h2>
-<p>Clipping works a bit like a cookie-cutter. It is done using the <em>raster::intersect()</em> function which takes an input geometry and calculates the spatial intersection with another geometry. Here we will clip the pink “spdf_abcd” feature and the green “spdf_e” feature with the “buffer_zone” we created above.</p>
+<p>Clipping works a bit like a cookie-cutter. It is done using the <code><a href="https://rdrr.io/pkg/raster/man/intersect.html">raster::intersect()</a></code> function which takes an input geometry and calculates the spatial intersection with another geometry. Here we will clip the pink “spdf_abcd” feature and the green “spdf_e” feature with the “buffer_zone” we created above.</p>
 <pre><code># Clip the features
 abcd_clip &lt;- raster::intersect(spdf_abcd, buffer_zone)
 e_clip &lt;- raster::intersect(spdf_e, buffer_zone)
@@ -338,12 +339,12 @@ y  8.479751 17.51868
 Is projected: FALSE 
 proj4string :
 [+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs +towgs84=0,0,0 +units=m]</code></pre>
-<p>The behavior of the <em>raster::intersect()</em> function is very different when both features are SpatialPolygonsDataFrames. When 2 SpatialPolygonsDataFrames are intersected, the default behavior of the <em>raster::intersect()</em> function is to combine the attributes from both data sets. Which brings us to the next type of operation.</p>
+<p>The behavior of the <code><a href="https://rdrr.io/pkg/raster/man/intersect.html">raster::intersect()</a></code> function is very different when both features are SpatialPolygonsDataFrames. When 2 SpatialPolygonsDataFrames are intersected, the default behavior of the <code><a href="https://rdrr.io/pkg/raster/man/intersect.html">raster::intersect()</a></code> function is to combine the attributes from both data sets. Which brings us to the next type of operation.</p>
 </div>
 <div id="intersection" class="section level2">
 <h2 class="hasAnchor">
 <a href="#intersection" class="anchor"></a>Intersection</h2>
-<p>The intersection operation computes the spatial intersection between 2 features and returns a new geometry that is this intersection area. It also combines the feature attributes of both features. In the example below, we are intersecting the 2 clipped features with each other. Note the attributes and the geometry that are returned. Unsurprisingly, this is also done with the <em>raster::intersect()</em> function.</p>
+<p>The intersection operation computes the spatial intersection between 2 features and returns a new geometry that is this intersection area. It also combines the feature attributes of both features. In the example below, we are intersecting the 2 clipped features with each other. Note the attributes and the geometry that are returned. Unsurprisingly, this is also done with the <code><a href="https://rdrr.io/pkg/raster/man/intersect.html">raster::intersect()</a></code> function.</p>
 <pre><code>combined_clips &lt;- raster::intersect(abcd_clip, e_clip)
 head(combined_clips@data)
 
@@ -360,7 +361,8 @@ head(combined_clips@data)
 <div id="intersection-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#intersection-1" class="anchor"></a>!Intersection</h3>
-<p>While this isn’t listed as one of the 5 basic operations, I include it here because I think it’s important and not generally easy to find a solution for. Very often what we want is to compute the difference between 2 spatial features, rather than the area of intersection. For example, in the clipped regions we’ve created above, the “e_clip” region is a full disk that extends behind the “abcd_clip” region.</p>
+<p>While this isn’t listed as one of the 5 basic operations, I include it here because I think it’s important and not generally easy to find a solution for.<br>
+Very often what we want is to compute the difference between 2 spatial features, rather than the area of intersection. For example, in the clipped regions we’ve created above, the “e_clip” region is a full disk that extends behind the “abcd_clip” region.</p>
 <p>If we only wanted the region of “e_clip” that DOESN’T intersect with “abcd_clip”, it’s very R-like and easy to obtain that by subtracting one from the other.</p>
 <pre><code># Subtract abcd_clip geometry from e_clip geometry
 disjoint_e_clip &lt;- (e_clip - abcd_clip) 
@@ -376,7 +378,7 @@ plot(disjoint_e_clip, col = "lightgreen", add = TRUE)</code></pre>
 <div id="dissolve" class="section level2">
 <h2 class="hasAnchor">
 <a href="#dissolve" class="anchor"></a>Dissolve</h2>
-<p>The Dissolve operation is a form of spatial aggregation in which the internal borders of a feature set are removed, or dissolved, leaving larger regions behind that are the result of aggregating by a specific value. This aggregation value is usually defined by a column in the data set. Appropriately enough, the function that does this for us is named <em>raster::aggregate()</em>.</p>
+<p>The Dissolve operation is a form of spatial aggregation in which the internal borders of a feature set are removed, or dissolved, leaving larger regions behind that are the result of aggregating by a specific value. This aggregation value is usually defined by a column in the data set. Appropriately enough, the function that does this for us is named <code><a href="https://rdrr.io/pkg/raster/man/aggregate.html">raster::aggregate()</a></code>.</p>
 <p>Our original “spdf_abcd” data set contains a “zone” field that we can use to dissolve the features with.</p>
 <pre><code><a href="https://rdrr.io/pkg/raster/man/headtail.html">head(spdf_abcd@data)
 
@@ -387,7 +389,8 @@ plot(disjoint_e_clip, col = "lightgreen", add = TRUE)</code></pre>
 ## 1.4    D  4      1 tract    2</a></code></pre>
 <p>We can see the way that the zones are situated in the left plot below. When we dissolve the features using the “zone” as the aggregation feature, we get the result in the plot on the right.</p>
 <pre><code>zoned_tracts &lt;- raster::aggregate(spdf_abcd, by='zone')</code></pre>
-<p><img src="Basic_GIS_in_R_files/figure-html/dissolve-1.png" width="672"> Most common dissolve tools will leave the field behind that was used to do the aggregation, in this case the “zone” attribute. The <em>raster::aggregate</em> function has some nice additional functionality in that it can also include other fields as well. These can be aggregated in various ways, such as by selecting the 1st entry, or by calculating the mean value.</p>
+<p><img src="Basic_GIS_in_R_files/figure-html/dissolve-1.png" width="672"></p>
+<p>Most common dissolve tools will leave the field behind that was used to do the aggregation, in this case the “zone” attribute. The <em>raster::aggregate</em> function has some nice additional functionality in that it can also include other fields as well. These can be aggregated in various ways, such as by selecting the 1st entry, or by calculating the mean value.</p>
 <p>Below we dissolve the data set by the “zone” field and then aggregate the “type” and “county” fields by keeping their 1st values in the set. We also calculate the mean of the “id” field for the 2 values in each “zone”.</p>
 <pre><code>spdf_abcd@data$id &lt;- as.numeric(spdf_abcd@data$id)
 
@@ -413,7 +416,7 @@ zoned_tracts &lt;- raster::aggregate(spdf_abcd,
 <div id="spatial-join" class="section level2">
 <h2 class="hasAnchor">
 <a href="#spatial-join" class="anchor"></a>Spatial Join</h2>
-<p>The Spatial Join operation is one where tabular data from one data set is attached to another based on spatial context. This functionality is provided by the <em>sp::over</em> function.</p>
+<p>The Spatial Join operation is one where tabular data from one data set is attached to another based on spatial context. This functionality is provided by the <code><a href="https://rdrr.io/pkg/sp/man/over.html">sp::over()</a></code> function.</p>
 <p>In our data, let’s say that we want to assign the mean temperature value from the point data to each polygon that contains temperature values. Here is how we do that.</p>
 <div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">poly_temp_df</span> <span class="op">&lt;-</span> <span class="fu">sp</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/sp/man/over.html">over</a></span><span class="op">(</span><span class="va">spdf_abcd</span>, <span class="va">temp_spdf</span><span class="op">[</span>,<span class="st">"temp"</span><span class="op">]</span>,  fn <span class="op">=</span> <span class="va">mean</span><span class="op">)</span>
@@ -421,7 +424,7 @@ zoned_tracts &lt;- raster::aggregate(spdf_abcd,
 <span class="co"># Create a new column in the original data set with the new values</span>
 <span class="va">spdf_abcd</span><span class="op">@</span><span class="va">data</span><span class="op">$</span><span class="va">temp</span> <span class="op">&lt;-</span> <span class="va">poly_temp_df</span><span class="op">$</span><span class="va">temp</span></code></pre></div>
 <p><img src="Basic_GIS_in_R_files/figure-html/spatial_join-1.png" width="672"></p>
-<p>Note that <em>sp::over()</em> returns a data frame with the same number of rows as the input feature and attribute data from the feature being unioned. Since here we requested that the “temp” data be aggregated by mean, we get back a table of mean temperatures for each polygon.</p>
+<p>Note that <code><a href="https://rdrr.io/pkg/sp/man/over.html">sp::over()</a></code> returns a data frame with the same number of rows as the input feature and attribute data from the feature being unioned. Since here we requested that the “temp” data be aggregated by mean, we get back a table of mean temperatures for each polygon.</p>
 <pre><code>##     temp
 ## 1.1 52.5
 ## 1.2 51.5
@@ -437,7 +440,8 @@ zoned_tracts &lt;- raster::aggregate(spdf_abcd,
 <div id="conclusion" class="section level2">
 <h2 class="hasAnchor">
 <a href="#conclusion" class="anchor"></a>Conclusion</h2>
-<p>As we can see, all standard GIS operations can be done in R using <em>sp</em> and <em>raster</em> on S4 spatial objects. Care should be taken to determine what type of object the function returns, as the behavior changes based on the input types. Also, as mentioned briefly at the beginning of the document, all spatial features should be assigned a common Coordinate Reference System (CRS) for these tools to work properly. Aside from these cautions, the functions perform very well and are analogous to those found in other GIS packages.</p>
+<p>As we can see, all standard GIS operations can be done in R using <strong>sp</strong> and <strong>raster</strong> on S4 spatial objects. Care should be taken to determine what type of object the function returns, as the behavior changes based on the input types.<br>
+Also, as mentioned briefly at the beginning of the document, all spatial features should be assigned a common Coordinate Reference System (CRS) for these tools to work properly. Aside from these cautions, the functions perform very well and are analogous to those found in other GIS packages.</p>
 </div>
   </div>
 

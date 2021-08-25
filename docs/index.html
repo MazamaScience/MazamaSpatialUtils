@@ -20,7 +20,7 @@
 <script src="pkgdown.js"></script><meta property="og:title" content="Spatial Data Download and Utility Functions">
 <meta property="og:description" content="A suite of conversion functions to create internally standardized
     spatial polygons data frames. Utility functions use these data sets to
-    return values such as country, state, timezone, watershed, etc. associated
+    return values such as country, state, time zone, watershed, etc. associated
     with a set of longitude/latitude pairs. (They also make cool maps.)">
 <meta property="og:image" content="/logo.png">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
@@ -41,7 +41,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.4</span>
       </span>
     </div>
 
@@ -49,7 +49,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -90,7 +90,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/MazamaScience/MazamaSpatialUtils/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -115,14 +115,14 @@
 <a href="#mazamaspatialutils" class="anchor"></a>MazamaSpatialUtils</h1></div>
 <pre><code>A suite of conversion functions to create internally standardized
 spatial polygons data frames. Utility functions use these data sets to
-return values such as country, state, timezone, watershed, etc. associated
+return values such as country, state, time zone, watershed, etc. associated
 with a set of longitude/latitude pairs. (They also make cool maps.)</code></pre>
 <div id="background" class="section level2">
 <h2 class="hasAnchor">
 <a href="#background" class="anchor"></a>Background</h2>
 <p>The MazamaSpatialUtils package was created by MazamaScience to regularize our work with spatial data. The sp, rgdal and maptools packages have made it much easier to work with spatial data found in shapefiles. Many sources of shapefile data are available and can be used to make beautiful maps in R. Unfortunately, the data attached to these datasets, even when fairly complete, often lacks standardized identifiers such as the ISO 3166-1 alpha-2 encodings for countries. Maddeningly, even when these ISO codes are used, the dataframe column in which they are stored does not have a standardized name. It may be called ISO or ISO2 or alpha or COUNTRY or any of a dozen other names we have seen.</p>
-<p>While many mapping packages provide ‘natural’ naming of countries, those who wish to develop operational, GIS-like systems need something that is both standardized and language-independent. The ISO 3166-1 alpha-2 encodings have emerged as the defacto standard for this sort of work. In similar fashion, ISO 3166-2 alpha-2 encodings are available for the next administrative level down – state/province/oblast, etc.. For timezones, the defacto standard is the set of Olson timezones used in all UNIX systems.</p>
-<p>The main goal of this package is to create an internally standardized set of spatial data that we can use in various projects. Along with three built-in datasets, this package provides ‘convert~’ functions for other spatial datasets that we currently use. These convert functions all follow the same recipe:</p>
+<p>While many mapping packages provide ‘natural’ naming of countries, those who wish to develop operational, GIS-like systems need something that is both standardized and language-independent. The ISO 3166-1 alpha-2 encodings have emerged as the defacto standard for this sort of work. In similar fashion, ISO 3166-2 alpha-2 encodings are available for the next administrative level down – state/province/oblast, etc.. For time zones, the <em>defacto</em> standard is the set of Olson time zones used in all UNIX systems.</p>
+<p>The main goal of this package is to create an internally standardized set of spatial data that we can use in various projects. Along with three built-in datasets, this package provides <code>convert~()</code> functions for other spatial datasets that we currently use. These convert functions all follow the same recipe:</p>
 <ul>
 <li>download spatial data in shapefile format into a standard directory</li>
 <li>convert shapefile data into a sp SpatialPolygonsDataFrame</li>
@@ -135,7 +135,7 @@ with a set of longitude/latitude pairs. (They also make cool maps.)</code></pre>
 <li>polygonID – unique identifier for each polygon</li>
 <li>countryCode – country at centroid of polygon (ISO 3166-1 alpha-2)</li>
 </ul>
-<p>2) Spatial datasets with timezone data <strong>must</strong> contain the following column:</p>
+<p>2) Spatial datasets with time zone data <strong>must</strong> contain the following column:</p>
 <ul>
 <li>timezone – Olson timezone</li>
 </ul>
@@ -143,12 +143,12 @@ with a set of longitude/latitude pairs. (They also make cool maps.)</code></pre>
 <ul>
 <li>stateCode – ‘state’ at centroid of polygon (ISO 3166-2 alpha-2)</li>
 </ul>
-<p>If other columns contain these data, those columns must be renamed or duplicated with the internally standardized name. This simple level of consistency makes it possible to generate maps for any data that is ISO encoded. It also makes it possible to create functions that return the country, state or timezone associated with a set of locations.</p>
+<p>If other columns contain these data, those columns must be renamed or duplicated with the internally standardized name. This simple level of consistency makes it possible to generate maps for any data that is ISO encoded. It also makes it possible to create functions that return the country, state or time zone associated with a set of locations.</p>
 </div>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>This package is designed to be used with <a href="https://cran.r-project.org">R</a> (&gt;= 3.1.0) and <a href="https://rstudio.com/">RStudio</a> so make sure you have those installed first.</p>
+<p>This package is designed to be used with <a href="https://cran.r-project.org">R</a> (&gt;= 3.1.0) and <a href="https://www.rstudio.com/">RStudio</a> so make sure you have those installed first.</p>
 <p>Users can use the <strong>devtools</strong> package to install the latest version of the package which may have new features that are not yet available on CRAN:</p>
 <pre><code><a href="https://devtools.r-lib.org//reference/remote-reexports.html">devtools::install_github('mazamascience/MazamaSpatialUtils', build_vignettes=TRUE)</a></code></pre>
 </div>
@@ -162,7 +162,7 @@ with a set of longitude/latitude pairs. (They also make cool maps.)</code></pre>
 <pre><code> * 276K data/SimpleCountries.RData
  * 2.1M data/SimpleCountriesEEZ.RData
  * 1.1M data/SimpleTimezones.RData</code></pre>
-<p>These datasets allow you to work with low-resolution country outlines and timezones.</p>
+<p>These datasets allow you to work with low-resolution country outlines and time zones.</p>
 </div>
 <div id="core-datasets" class="section level3">
 <h3 class="hasAnchor">

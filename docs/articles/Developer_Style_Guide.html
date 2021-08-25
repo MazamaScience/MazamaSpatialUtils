@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.4</span>
       </span>
     </div>
 
@@ -46,7 +46,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -87,7 +87,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/MazamaScience/MazamaSpatialUtils/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -101,8 +101,7 @@
 
       
 
-      </header><script src="Developer_Style_Guide_files/header-attrs-2.5/header-attrs.js"></script><link href="Developer_Style_Guide_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
-<script src="Developer_Style_Guide_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
+      </header><script src="Developer_Style_Guide_files/header-attrs-2.10/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Developer Style Guide</h1>
@@ -120,7 +119,7 @@
 <div id="r-style-guide" class="section level1">
 <h1 class="hasAnchor">
 <a href="#r-style-guide" class="anchor"></a>R Style Guide</h1>
-<p>This document describes the coding style used within the package. Having a consistent style enhances the readability and “understandability” of the code and make it easier for users and developers to work with this package and with other, related packages from <a href="http://mazamascience.com">Mazama Science</a>.</p>
+<p>This document describes the coding style used within the package. Having a consistent style enhances the readability and “understandability” of the code and makes it easier for users and developers to work with this package and with other, related packages from <a href="http://mazamascience.com">Mazama Science</a>.</p>
 <div id="naming-objects" class="section level2">
 <h2 class="hasAnchor">
 <a href="#naming-objects" class="anchor"></a>Naming Objects</h2>
@@ -128,31 +127,31 @@
 <p>Mazama Science embraces <strong><code>lowerCamelCase</code></strong> for object names.</p>
 <p>With the casing settled, we use an ornithologist’s sensibility for how to identify things:</p>
 <ul>
-<li>What is it? — a <code>bird</code>
+<li>What is it? – a <code>bird</code>
 </li>
-<li>What kind of bird is it? — a <code>blackBird</code>
+<li>What kind of bird is it? – a <code>blackBird</code>
 </li>
-<li>What kind of blackBird is it? — a <code>redwingedBlackBird</code>
+<li>What kind of blackBird is it? – a <code>redwingedBlackBird</code>
 </li>
 </ul>
 <p>It’s a simple system: start with a noun and prefix it with descriptors until it is uniquely identified.</p>
-<p>In this system we would never have a variable called: <code>num_hours</code>. Instead we go through our process:</p>
+<p>In this system we would never have a variable called: <code>num_hours</code>. Instead, we go through our process:</p>
 <ul>
-<li>What is it? — <em>(Hmmm. What noun describes this? Ah yes!)</em> — a <code>count</code>
+<li>What is it? – <em>(Hmmm. What noun describes this? Ah yes!)</em> – a <code>count</code>
 </li>
-<li>What kind of count is it? — <em>(It’s not a “head count” or a “body count”.)</em> It’s an <code>hourCount</code>.</li>
+<li>What kind of count is it? – <em>(It’s not a “head count” or a “body count”.)</em> It’s an <code>hourCount</code>.</li>
 </ul>
 <p>For complex objects it is often helpful to give readers of the code a hint as to what type of object it is so they will know how to work with it. We often use variable names like:</p>
 <ul>
 <li>
-<code>locationsDF</code> — a <code>dataframe</code> of location info</li>
+<code>locationsDF</code> – a <code>dataframe</code> of location info</li>
 <li>
-<code>SPDF</code> — a <code>SpatialPolygonsDataFrame</code>
+<code>SPDF</code> – a <code>SpatialPolygonsDataFrame</code>
 </li>
 <li>
-<code>SpatialPolygonsList</code> — a <code>list</code> of <code>SpatialPolygons</code> objects</li>
+<code>SpatialPolygonsList</code> – a <code>list</code> of <code>SpatialPolygons</code> objects</li>
 </ul>
-<p>We occasionally use ‘_’ to create classes of similar variables that are otherwise hard to name, e.g.:</p>
+<p>We occasionally use ’_’ to create classes of similar variables that are otherwise hard to name, e.g.:</p>
 <pre><code>SPDF_01
 SPDF_02
 SPDF_05</code></pre>
@@ -192,8 +191,8 @@ organizePolygons()
 <a href="#lists" class="anchor"></a>Lists</h3>
 <p>We generally like to specify R lists with each <code>parameter = value</code> pair on a separate line. This goes for regular lists and for named argument lists passed to a function:</p>
 <pre><code>getStateCode &lt;- function(
-  lon, 
-  lat, 
+  longitude = NULL, 
+  latitude = NULL, 
   dataset = "NaturalEarthAdm1", 
   countryCodes = NULL, 
   allData = FALSE, 

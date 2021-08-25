@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.4</span>
       </span>
     </div>
 
@@ -46,7 +46,7 @@
       <ul class="nav navbar-nav">
 <li>
   <a href="../../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -87,7 +87,7 @@
 <ul class="nav navbar-nav navbar-right">
 <li>
   <a href="https://github.com/MazamaScience/MazamaSpatialUtils/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -101,12 +101,11 @@
 
       
 
-      </header><script src="ebolamap_files/header-attrs-2.5/header-attrs.js"></script><link href="ebolamap_files/anchor-sections-1.0/anchor-sections.css" rel="stylesheet">
-<script src="ebolamap_files/anchor-sections-1.0/anchor-sections.js"></script><div class="row">
+      </header><script src="ebolamap_files/header-attrs-2.10/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Ebola Map Example</h1>
-                        <h4 class="author">Robin Winstanley</h4>
+                        <h4 class="author">Robin Winstanley, Mazama Science</h4>
             
             <h4 class="date">July 14, 2015</h4>
       
@@ -120,13 +119,13 @@
 <div id="background" class="section level2">
 <h2 class="hasAnchor">
 <a href="#background" class="anchor"></a>Background</h2>
-<p>The Ebola Map described in the following was created as a response to a map seen online, created by <a href="http://www.johnstonsarchive.net/policy/westafrica-ebola.html">Robert Johnston</a>. This map seemed interesting to me and I decided to go about recreating it, with help from the MazamaSpatialUtils package by <a href="http://mazamascience.com">Mazama Science</a>. The map details the number of Ebola cases per 1,000 residents in each of the countries of Guinea, Sierra Leone, and Liberia. These cases are comprised of both confirmed and unconfirmed cases, as recorded by the World Health Organization. The data used for the graph was also given on the website.</p>
+<p>The Ebola Map described in the following was created as a response to a map seen online, created by <a href="http://www.johnstonsarchive.net/policy/westafrica-ebola.html">Robert Johnston</a>. This map seemed interesting to me and I decided to go about recreating it, with help from the <strong>MazamaSpatialUtils</strong> package by <a href="http://mazamascience.com">Mazama Science</a>. The map details the number of Ebola cases per 1,000 residents in each of the countries of Guinea, Sierra Leone, and Liberia. These cases are comprised of both confirmed and unconfirmed cases, as recorded by the World Health Organization. The data used for the graph was also given on the website.</p>
 <p><img src="http://www.johnstonsarchive.net/policy/WAebola150509-map.gif"></p>
 </div>
 <div id="preliminary-mapping" class="section level2">
 <h2 class="hasAnchor">
 <a href="#preliminary-mapping" class="anchor"></a>Preliminary Mapping</h2>
-<p>The first step in recreating this graph, after loading the appropriate data and setting my directory was to identify the border of each country from the TMWorldBorders data. This was done through taking a subset of the TMWorldBorders data that referred to the three countries of interest. The borders between the countries could then be plotted, with thicker lines used to further distinguish the borders.</p>
+<p>The first step in recreating this graph, after loading the appropriate data and setting my directory was to identify the border of each country from the <code>TMWorldBorders</code> data. This was done through taking a subset of the <code>TMWorldBorders</code> data that referred to the three countries of interest. The borders between the countries could then be plotted, with thicker lines used to further distinguish the borders.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/MazamaSpatialUtils">MazamaSpatialUtils</a></span><span class="op">)</span></code></pre></div>
 <pre><code>## Loading required package: sp</code></pre>
@@ -140,7 +139,7 @@
 <span class="va">ebolaCountries</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/subset.html">subset</a></span><span class="op">(</span><span class="va">TMWorldBorders</span>, <span class="va">countryName</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'Liberia'</span>, <span class="st">'Sierra Leone'</span>, <span class="st">'Guinea'</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span><span class="op">(</span><span class="va">ebolaCountries</span>, lwd<span class="op">=</span><span class="fl">3</span><span class="op">)</span></code></pre></div>
 <p><img src="ebolamap_files/figure-html/ebolaCountries-1.png" width="672"></p>
-<p>The next step was to use the <code>convertGADM</code> function to download the required country data from the GADM database at the correct level. The map uses the provinces of Guinea (level 2), the provinces of Sierra Leone (level 2), and the counties of Liberia (level 1).</p>
+<p>The next step was to use the <code><a href="../../reference/convertGADM.html">convertGADM()</a></code> function to download the required country data from the GADM database at the correct level. The map uses the provinces of Guinea (level 2), the provinces of Sierra Leone (level 2), and the counties of Liberia (level 1).</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/convertGADM.html">convertGADM</a></span><span class="op">(</span>countryCode<span class="op">=</span><span class="va">countryCodes</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, admLevel<span class="op">=</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
 <pre><code>## Saving full resolution version...</code></pre>
@@ -159,7 +158,7 @@
 <div id="acquiring-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#acquiring-data" class="anchor"></a>Acquiring Data</h2>
-<p>Using <code>rvest</code>, we acquire the necessary Ebola counts per province/county in one central table. While the table also includes information for a 2014 population estimate and the total number of Ebola cases, we are solely interested in the column referring to cases/1000 pop as this is what we will be graphing.</p>
+<p>Using <code><a href="https://rdrr.io/pkg/MazamaCoreUtils/man/html_getTables.html">MazamaCoreUtils::html_getTable()</a></code>, we acquire the necessary Ebola counts per province/county in one central table. While the table also includes information for a 2014 population estimate and the total number of Ebola cases, we are solely interested in the column referring to cases/1000 pop as this is what we will be graphing.</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">url</span> <span class="op">&lt;-</span> <span class="st">"http://www.johnstonsarchive.net/policy/westafrica-ebola.html"</span>
 <span class="va">ebolaTable</span> <span class="op">&lt;-</span> <span class="fu">MazamaCoreUtils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MazamaCoreUtils/man/html_getTables.html">html_getTable</a></span><span class="op">(</span><span class="va">url</span>, index <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></code></pre></div>

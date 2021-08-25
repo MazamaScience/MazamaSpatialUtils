@@ -1,4 +1,4 @@
-pandoc: 2.10.1
+pandoc: 2.11.4
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
@@ -8,5 +8,5 @@ articles:
   articles/Basic_GIS_in_R: Basic_GIS_in_R.html
   articles/ebolamap: ebolamap.html
   available-data: available-data.html
-last_built: 2020-12-01T19:20Z
+last_built: 2021-08-25T15:12Z
 
