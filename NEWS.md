@@ -1,3 +1,7 @@
+# MazamaSpatialUtils 0.7.5
+
+* Updated ebolamap.Rmd vignette to pass R CMD check.
+
 # MazamaSpatialUtils 0.7.4
 
 * Minor documentation improvements.
