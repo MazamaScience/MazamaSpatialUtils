@@ -21,10 +21,11 @@
 #' makes sense in the United 'States'. In other countries this level is known as
 #' 'province', 'territory' or some other term.
 #'
+#' See: naturalearthdata.com
+#'
 #' @return Name of the dataset being created.
 #'
-#' @references \url{http://www.naturalearthdata.com/downloads/}
-#' @references \url{http://www.statoids.com/ihasc.html}
+#' @references http://www.statoids.com/ihasc.html
 #' @seealso setSpatialDataDir
 #' @seealso getVariable
 convertNaturalEarthAdm1 <- function(

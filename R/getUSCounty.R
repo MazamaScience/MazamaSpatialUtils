@@ -33,7 +33,7 @@
 #' getUSCounty(longitude, latitude)
 #' }
 #'
-#' @references \url{http://www.naturalearthdata.com/downloads/10m-cultural-vectors/}
+#' @references http://www.naturalearthdata.com/downloads/10m-cultural-vectors/
 #' @seealso getSpatialData
 #'
 getUSCounty <- function(

@@ -1,6 +1,12 @@
+# MazamaSpatialUtils 0.7.6
+
+* Removed links to slow-to-respond http://www.naturalearthdata.com/ to pass CRAN 
+submission tests.
+* Updated out-of-date URLs.
+
 # MazamaSpatialUtils 0.7.5
 
-* Updated ebolamap.Rmd vignette to pass R CMD check.
+* Updated `ebolamap.Rmd` vignette to pass R CMD check.
 
 # MazamaSpatialUtils 0.7.4
 
