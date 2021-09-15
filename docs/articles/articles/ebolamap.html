@@ -38,7 +38,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.5</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.7.6</span>
       </span>
     </div>
 
@@ -138,21 +138,20 @@
 <span class="va">countryCodes</span> <span class="op">=</span> <span class="va">ebolaCountries</span><span class="op">[</span>,<span class="fl">2</span><span class="op">]</span>
 <span class="va">ebolaCountries</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/raster/man/subset.html">subset</a></span><span class="op">(</span><span class="va">TMWorldBorders</span>, <span class="va">countryName</span> <span class="op">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'Liberia'</span>, <span class="st">'Sierra Leone'</span>, <span class="st">'Guinea'</span><span class="op">)</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span><span class="op">(</span><span class="va">ebolaCountries</span>, lwd<span class="op">=</span><span class="fl">3</span><span class="op">)</span></code></pre></div>
-<pre><code>## Warning in wkt(obj): CRS object has no comment</code></pre>
 <p><img src="ebolamap_files/figure-html/ebolaCountries-1.png" width="672"></p>
 <p>The next step was to use the <code><a href="../../reference/convertGADM.html">convertGADM()</a></code> function to download the required country data from the GADM database at the correct level. The map uses the provinces of Guinea (level 2), the provinces of Sierra Leone (level 2), and the counties of Liberia (level 1).</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/convertGADM.html">convertGADM</a></span><span class="op">(</span>countryCode<span class="op">=</span><span class="va">countryCodes</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, admLevel<span class="op">=</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
 <pre><code>## Saving full resolution version...</code></pre>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/loadSpatialData.html">loadSpatialData</a></span><span class="op">(</span><span class="st">'GADM_GN_2'</span><span class="op">)</span>
 <span class="fu"><a href="../../reference/convertGADM.html">convertGADM</a></span><span class="op">(</span>countryCode<span class="op">=</span><span class="va">countryCodes</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, admLevel<span class="op">=</span><span class="fl">1</span><span class="op">)</span></code></pre></div>
 <pre><code>## Saving full resolution version...</code></pre>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/loadSpatialData.html">loadSpatialData</a></span><span class="op">(</span><span class="st">'GADM_LR_1'</span><span class="op">)</span>
 <span class="fu"><a href="../../reference/convertGADM.html">convertGADM</a></span><span class="op">(</span>countryCode<span class="op">=</span><span class="va">countryCodes</span><span class="op">[</span><span class="fl">3</span><span class="op">]</span>, admLevel<span class="op">=</span><span class="fl">2</span><span class="op">)</span></code></pre></div>
 <pre><code>## Saving full resolution version...</code></pre>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../../reference/loadSpatialData.html">loadSpatialData</a></span><span class="op">(</span><span class="st">'GADM_SL_2'</span><span class="op">)</span></code></pre></div>
 <p>Now that we have each country of interest divided into provinces/counties, we are ready to proceed to data acquisition regarding Ebola cases and their use in our map.</p>
 </div>
@@ -160,11 +159,11 @@
 <h2 class="hasAnchor">
 <a href="#acquiring-data" class="anchor"></a>Acquiring Data</h2>
 <p>Using <code><a href="https://rdrr.io/pkg/MazamaCoreUtils/man/html_getTables.html">MazamaCoreUtils::html_getTable()</a></code>, we acquire the necessary Ebola counts per province/county in one central table. While the table also includes information for a 2014 population estimate and the total number of Ebola cases, we are solely interested in the column referring to cases/1000 pop as this is what we will be graphing.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">url</span> <span class="op">&lt;-</span> <span class="st">"http://www.johnstonsarchive.net/policy/westafrica-ebola.html"</span>
 <span class="va">ebolaTable</span> <span class="op">&lt;-</span> <span class="fu">MazamaCoreUtils</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/MazamaCoreUtils/man/html_getTables.html">html_getTable</a></span><span class="op">(</span><span class="va">url</span>, index <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></code></pre></div>
 <p>Using this table, we can sort the cases/100 pop for each province/county into seven levels, which we pull from the original graph in order to achieve as close a copy as possible. Note that these levels are not linear. We also pull the colors used in the legend of the original graph, again with the goal of providing a close match to the original graph. We sort the data into these seven levels, with corresponding colors. We also add to the end an additional color, the color white, in order to take into account those values from the data which are NA (Values of NA indicate that there were 0 Ebola cases reported, resulting in a NA value for cases/100 pop).</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">breaks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fl">.003</span>,<span class="fl">.01</span>,<span class="fl">.03</span>,<span class="fl">.1</span>,<span class="fl">.3</span>,<span class="fl">1</span>,<span class="fl">3</span>,<span class="fl">10</span><span class="op">)</span>
 <span class="va">values</span> <span class="op">&lt;-</span> 
   <span class="va">ebolaTable</span> <span class="op">%&gt;%</span> 
@@ -181,10 +180,10 @@
 <a href="#applying-data-to-map" class="anchor"></a>Applying Data to Map</h2>
 <p>Now that we have sorted our data into categories, we can refer to our preliminary mappings to proceed in adding our chosen colors to the graph. As we have already labeled the data by level and assigned corresponding colors, we simply plot the GADM data for each country, adding the new plot on top of what we have already created. However, adding the colorization for each country has overridden the original borders between the countries, so we must add them back using our original plot containing only the country outlines, not the provinces/counties.</p>
 <p>We are almost there! Our graph is looking very similar to the original graph, but it is missing a few crucial pieces. We add a legend defining our use of color, as well as labels for each country, and a title for the graph.</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span><span class="op">(</span><span class="va">GADM_GN_2</span>, col<span class="op">=</span><span class="va">colors</span><span class="op">[</span><span class="va">colorIndices</span><span class="op">[</span><span class="fl">31</span><span class="op">:</span><span class="fl">71</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <pre><code>## Warning in wkt(obj): CRS object has no comment</code></pre>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span><span class="op">(</span><span class="va">GADM_LR_1</span>, col<span class="op">=</span><span class="va">colors</span><span class="op">[</span><span class="va">colorIndices</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">15</span><span class="op">]</span><span class="op">]</span>, add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span><span class="op">(</span><span class="va">GADM_SL_2</span>, col<span class="op">=</span><span class="va">colors</span><span class="op">[</span><span class="va">colorIndices</span><span class="op">[</span><span class="fl">16</span><span class="op">:</span><span class="fl">30</span><span class="op">]</span><span class="op">]</span>, add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/raster/man/plot.html">plot</a></span><span class="op">(</span><span class="va">ebolaCountries</span>, lwd<span class="op">=</span><span class="fl">3</span>, add<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span>
