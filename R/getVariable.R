@@ -1,7 +1,6 @@
-#' @keywords locator
 #' @export
 #'
-#' @title Return SPDF variable at specified locations
+#' @title Return SFDF variable at specified locations
 #'
 #' @param longitude Vector of longitudes in decimal degrees East.
 #' @param latitude Vector of latitudes in decimal degrees North.
@@ -48,28 +47,20 @@ getVariable <- function(
   MazamaCoreUtils::stopIfNull(useBuffering)
 
   # Check existence of dataset
-  if ( is.null(dataset) || !exists(dataset) ) {
+  if ( !exists(dataset) ) {
     stop("Missing dataset. Please loadSpatialData(\"", dataset, "\")",
          call. = FALSE)
   }
 
-  # Check longitude, latitude ranges
-  if ( min(longitude, na.rm = TRUE) < -180 ||
-       max(longitude, na.rm = TRUE) > 180) {
-    stop("'longitude' must be specified in the range -180:180.")
-  }
-  if ( min(latitude, na.rm = TRUE) < -90 ||
-       max(latitude, na.rm = TRUE) > 90 ) {
-    stop("'latitude' must be specified in the range -90:90.")
-  }
+  MazamaCoreUtils::validateLonsLats(longitude, latitude, na.rm = TRUE)
 
   # ----- Get the data ---------------------------------------------------------
 
-  SPDF <- get(dataset)
+  SFDF <- get(dataset)
 
   # Check variable name
   if ( !is.null(variable) ) {
-    if ( !(variable %in% names(SPDF)) ) {
+    if ( !(variable %in% names(SFDF)) ) {
       stop(paste0('Dataset ',
                   dataset,
                   ' does not contain the variable ',
@@ -80,10 +71,10 @@ getVariable <- function(
 
   # Subset by country before searching
   if ( !is.null(countryCodes) )
-    SPDF <- SPDF[SPDF$countryCode %in% countryCodes,]
+    SFDF <- SFDF[SFDF$countryCode %in% countryCodes,]
 
-  # Pull out rows from SPDF@data based on point-in-polygon search
-  locationsDF <- getSpatialData(longitude, latitude, SPDF, useBuffering = useBuffering)
+  # Pull out rows from SFDF@data based on point-in-polygon search
+  locationsDF <- getSpatialData(longitude, latitude, SFDF, useBuffering = useBuffering)
 
   # ----- Return results ---------------------------------------------------------
 

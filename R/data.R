@@ -97,7 +97,7 @@ US_52 <- c(
 
 #' # ===== Data in the data/ directory ============================================
 #'
-#' #' @title Dataframe of US state codes
+#' #' @title Dataframe of US county codes
 #' #' @format A dataframe with 3196 rows and 4 columns of data.
 #' #' @description US_countyCodes The following columns for US states and territories:
 #' #' \itemize{
