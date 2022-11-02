@@ -16,4 +16,3 @@ A vector of ISO 3166-1 alpha-2 codes or NA.
 Converts a vector of English country names to the corresponding
 ISO 3166-1 alpha-2 codes.
 }
-\keyword{conversion}

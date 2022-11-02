@@ -61,7 +61,7 @@ detailed boundaries are required, please use the TIGER/Line Shapefiles instead
 of the generalized cartographic boundary files.
 }
 \references{
-\url{https://www2.census.gov/geo/tiger/GENZ2019/}
+\url{https://www2.census.gov/geo/tiger/GENZ2021/}
 }
 \seealso{
 setSpatialDataDir
@@ -72,4 +72,3 @@ getCode
 
 getName
 }
-\keyword{datagen}

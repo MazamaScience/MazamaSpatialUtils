@@ -16,4 +16,3 @@ A vector of ISO3 country codes
 Converts a vector of ISO 3166-1 alpha-2 codes to the
 corresponding ISO 3166-1 alpha-3 codes.
 }
-\keyword{conversion}

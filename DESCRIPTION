@@ -1,6 +1,6 @@
 Type: Package
 Package: MazamaSpatialUtils
-Version: 0.7.6
+Version: 0.8.0
 Title: Spatial Data Download and Utility Functions
 Authors@R: c(
     person("Jonathan", "Callahan", email="jonathan.s.callahan@gmail.com", role=c("aut","cre")), 
@@ -38,18 +38,15 @@ URL: https://github.com/MazamaScience/MazamaSpatialUtils
 BugReports: https://github.com/MazamaScience/MazamaSpatialUtils/issues
 Repository: CRAN
 Depends:
-    R (>= 3.5.0),
-    sp
+    R (>= 4.0.0)
 Imports:
-    cleangeo,
     countrycode,
     dplyr,
     magrittr,
     MazamaCoreUtils (>= 0.4.5),
-    rgdal,
-    rgeos,
     rlang,
     rmapshaper,
+    sf,
     stringr
 Suggests:
     knitr,
@@ -61,4 +58,4 @@ Suggests:
 Encoding: UTF-8
 VignetteBuilder: knitr
 LazyData: true
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2

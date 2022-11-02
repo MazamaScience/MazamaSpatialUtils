@@ -21,4 +21,3 @@ SpatialDataDir
 
 getSpatialDataDir
 }
-\keyword{environment}

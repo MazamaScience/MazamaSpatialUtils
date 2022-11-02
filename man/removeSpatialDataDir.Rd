@@ -19,5 +19,4 @@ getSpatialDataDir
 
 setSpatialDataDir
 }
-\keyword{environment}
 \keyword{internal}

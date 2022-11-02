@@ -1,3 +1,9 @@
+# MazamaSpatialUtils 0.8.0
+
+Version 0.8.x is a complete refactoring of **MazamaSpatialUtils** to upgrade
+from dependence on the **sp** package to use of the **sf** package. As much as
+possible, the suite of functions and arguments will remain the same.
+
 # MazamaSpatialUtils 0.7.6
 
 * Removed links to slow-to-respond http://www.naturalearthdata.com/ to pass CRAN 
