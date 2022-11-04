@@ -29,7 +29,7 @@ submission tests.
 
 # MazamaSpatialUtils 0.7.3
 
-* URL corrections for CRAN submission.
+* URL corrections for CRAN submission. 
 * Vignette wordsmithing.
 * Test updates.
 

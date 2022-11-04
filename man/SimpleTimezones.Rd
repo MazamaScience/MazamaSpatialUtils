@@ -12,7 +12,7 @@ SimpleTimezones
 }
 \description{
 This dataset is used by default in the \code{getTimezones()}
-function and contains the following columns of data in the \code{@data} slot:
+function and contains the following columns of data:
 \itemize{
 \item{\code{timezone} -- Olson timezone}
 \item{\code{UTC_offset} -- offset from UTC (hours)}
@@ -38,34 +38,5 @@ loadSpatialData("OSMTimezones_02")
 SimpleTimezones <- OSMTimezones_02
 save(SimpleTimezones, file = "data/SimpleTimezones.rda")
 }
-}
-\details{
-# ===== Data in the data/ directory ============================================
-
-#' @title Dataframe of US county codes
-#' @format A dataframe with 3196 rows and 4 columns of data.
-#' @description US_countyCodes The following columns for US states and territories:
-#' \itemize{
-#' \item{\code{stateCode} -- ISO 3166-2 alpha-2}
-#' \item{\code{stateFIPS} -- 2-digit FIPS code}
-#' \item{\code{countyName} -- English language county name}
-#' \item{\code{countyFIPS} -- five-digit FIPS code (2-digit state and 3-digit
-#' county combined to create a unique identifier)}
-#' }
-#'
-#' This dataset was generated on 2020-10-26 by running:
-#'
-#' \preformatted{
-#' library(MazamaSpatialUtils)
-#' setSpatialDataDir("~/Data/Spatial")
-#' loadSpatialData("USCensusCounties_02")
-#'
-#' US_countyCodes <-
-#'   USCensusCounties_02@data %>%
-#'   dplyr::select(stateCode, stateFIPS, countyName, countyFIPS)
-#'
-#' save(US_countyCodes, file = "data/US_countyCodes.rda")
-#' }
-"US_countyCodes"
 }
 \keyword{datasets}

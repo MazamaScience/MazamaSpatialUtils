@@ -281,17 +281,24 @@ stateToCode <- function(
 #' @description Simplify a spatial polygons dataframe. This is a convenience
 #' wrapper for \code{\link[rmapshaper]{ms_simplify}}
 #' @return A simplified spatial polygons dataframe.
-# @examples
-# \dontrun{
-# FR <- subset(SimpleCountries, countryCode == 'FR')
-# par(mfrow = c(3, 3), mar = c(1, 1, 3, 1))
-# for (i in 9:1) {
-#   keep <- 0.1 * i
-#   plot(simplify(FR, keep), main=paste0("keep = ", keep))
-# }
-# layout(1)
-# par(mar = c(5,4,4,2)+.1)
-# }
+#' @examples
+#' \dontrun{
+#' library(MazamaSpatialUtils)
+#' FR <-
+#'   SimpleCountries %>%
+#'   dplyr::filter(countryCode == "FR")
+#' par(mfrow = c(3, 3), mar = c(1, 1, 3, 1))
+#' for (i in 9:1) {
+#'   keep <- 0.1 * i
+#'   geom <-
+#'     FR %>%
+#'     simplify(keep) %>%
+#'     sf::st_geometry()
+#'   plot(geom, main=paste0("keep = ", keep))
+#' }
+#' layout(1)
+#' par(mar = c(5,4,4,2)+.1)
+#' }
 
 simplify <- function(
   SFDF,
@@ -303,6 +310,7 @@ simplify <- function(
 }
 
 
+#' @export
 #' @title Aggregate shapes in a simple features data frame
 #' @param SFDF Object of class simple features data frame.
 #' @param field Name of the field to dissolve on.
@@ -313,12 +321,12 @@ simplify <- function(
 #' @description Aggregate shapes in a spatial polygons dataframe. This is a
 #' convenience wrapper for \code{\link[rmapshaper]{ms_dissolve}}.
 #' @return A spatial polygons dataframe with aggregated shapes.
-# @examples
-# \donttest{
-# regions <- dissolve(SimpleCountries, field = "UN_region", sum_fields = "area")
-# plot(regions)
-# regions@data
-# }
+#' @examples
+#' \donttest{
+#' regions <- dissolve(SimpleCountries, field = "UN_region", sum_fields = "area")
+#' plot(regions)
+#' dplyr::glimpse(regions)
+#' }
 
 dissolve <- function(
   SFDF,
@@ -328,9 +336,9 @@ dissolve <- function(
   ...
 ) {
 
-  if (!field %in% names(SFDF)) {
+  if (!field %in% names(SFDF))
     stop(paste0("Field '", field, "' not found."))
-  }
+
   SFDF_dissolved <- rmapshaper::ms_dissolve(SFDF, field, sum_fields, copy_fields, ...)
 
   return(SFDF_dissolved)

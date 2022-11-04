@@ -114,7 +114,7 @@ convertUSCensusCongress <- function(
   SFDF$stateCode <- US_stateFIPSToCode(SFDF$STATEFP)
 
   # Remove outlying territories
-  SFDF <- subset(SFDF, SFDF$stateCode %in% US_52)
+  SFDF <- dplyr::filter(SFDF, .data$stateCode %in% US_52)
 
   # Create the new dataframe in a specific column order
   SFDF <-

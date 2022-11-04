@@ -15,7 +15,7 @@
 #' will summarize given values by spatial polygon using the \code{FUN} and return
 #' a dataframe with polygon IDs and summary values.
 #'
-#' @note This function has not been thoroughly tested and should only be included
+#' @note This function has not been thoroughly tested and is included
 #' in the package for experimental use only.
 #'
 #' @return A dataframe with the same rows as `SFDF` but containing only two
@@ -40,9 +40,8 @@ summarizeByPolygon <- function(
     stop("longitude, latitude and value should have the same length")
   }
 
-  if ( !"polygonID" %in% names(SFDF) ) {
+  if ( !"polygonID" %in% names(SFDF) )
     stop("polygonID not present in SFDF")
-  }
 
   # ----- Get the data ---------------------------------------------------------
 
@@ -51,7 +50,7 @@ summarizeByPolygon <- function(
                     latitude = latitude,
                     value = value)
 
-  df$location <- paste0(longitude,'_',latitude)
+  df$location <- MazamaCoreUtils::createLocationID(longitude, latitude)
 
   # To speed things up, only work with unique locations
   df_unique <- df[!duplicated(df$location),]

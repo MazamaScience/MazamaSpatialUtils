@@ -107,9 +107,9 @@ convertNWSFireZones <- function(
   # NOTE:  WorldTimezones file so that field will be dropped to avoid confusion.
   # NOTE:  For example:
   # NOTE:  loadSpatialData("WorldTimezones")
-  # NOTE:  plot(subset(SFDF, TIME_ZONE == "A"))
-  # NOTE:  plot(subset(WorldTimezones, timezone == "America/Anchorage"), border = "red", add = TRUE)
-  # NOTE:  plot(subset(WorldTimezones, timezone == "America/Nome"), border = "blue", add = TRUE)
+  # NOTE:  plot(dplyr::filter(SFDF, TIME_ZONE == "A"))
+  # NOTE:  plot(dplyr::filter(WorldTimezones, timezone == "America/Anchorage"), border = "red", add = TRUE)
+  # NOTE:  plot(dplyr::filter(WorldTimezones, timezone == "America/Nome"), border = "blue", add = TRUE)
 
   # Create the new dataframe in a specific column order
   SFDF <-

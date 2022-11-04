@@ -1,4 +1,3 @@
-#' @keywords datagen
 #' @importFrom rlang .data
 #' @export
 #'
@@ -14,9 +13,9 @@
 #' @details A US county borders shapefile is downloaded and converted to a
 #' simple features data frame with additional columns of data. The resulting file
 #' will be created in the spatial data directory which is set with
-#' \code{setSpatialDataDir()}.
+#' \link{setSpatialDataDir}.
 #'
-#' The source data is from 2019.
+#' The source data is from 2021.
 #'
 #' @note From the source documentation:
 #'
@@ -43,10 +42,9 @@
 #'
 #' @return Name of the datasetName being created.
 #'
-#' @references \url{https://www2.census.gov/geo/tiger/GENZ2019/}
+#' @references \url{https://www2.census.gov/geo/tiger/GENZ2021/}
 #'
-#' @seealso setSpatialDataDir
-#' @seealso getUSCounty
+
 
 convertUSCensusCounties <- function(
   nameOnly = FALSE,
@@ -68,7 +66,7 @@ convertUSCensusCounties <- function(
 
   # Build appropriate request URL
   # NOTE: 500k means resolution level 1:500k.
-  url <- 'https://www2.census.gov/geo/tiger/GENZ2019/shp/cb_2019_us_county_500k.zip'
+  url <- 'https://www2.census.gov/geo/tiger/GENZ2021/shp/cb_2021_us_county_500k.zip'
 
   filePath <- file.path(dataDir,basename(url))
   utils::download.file(url,filePath)
@@ -80,35 +78,41 @@ convertUSCensusCounties <- function(
   # Convert shapefile into simple features data frame
   # NOTE:  The 'counties' directory has been created
   dsnPath <- file.path(dataDir, 'counties')
-  shpName <- 'cb_2019_us_county_500k'
+  shpName <- 'cb_2021_us_county_500k'
   SFDF <- .convertLayer(
     dsn = dsnPath,
-    layer = shpName,
-    encoding = 'UTF-8'
+    layer = shpName
   )
 
   # ----- Select useful columns and rename -------------------------------------
 
-  # > dplyr::glimpse(SFDF)
-  # Observations: 3,233
-  # Variables: 9
-  # $ STATEFP  <chr> "48", "48", "48", "48", "48", "48", "48", "48", "51", "51", "…
-  # $ COUNTYFP <chr> "081", "273", "203", "223", "033", "419", "067", "025", "167"…
-  # $ COUNTYNS <chr> "01383826", "01383922", "01383887", "01383897", "01383802", "…
-  # $ AFFGEOID <chr> "0500000US48081", "0500000US48273", "0500000US48203", "050000…
-  # $ GEOID    <chr> "48081", "48273", "48203", "48223", "48033", "48419", "48067"…
-  # $ NAME     <chr> "Coke", "Kleberg", "Harrison", "Hopkins", "Borden", "Shelby",…
-  # $ LSAD     <chr> "06", "06", "06", "06", "06", "06", "06", "06", "06", "06", "…
-  # $ ALAND    <chr> "2361153195", "2282572445", "2331138836", "1987629163", "2324…
-  # $ AWATER   <chr> "42331832", "541041659", "40651525", "65639829", "22297606", …
+  # > dplyr::glimpse(SFDF, width = 75)
+  # Rows: 3,234
+  # Columns: 13
+  # $ STATEFP    <chr> "20", "19", "30", "16", "55", "31", "08", "42", "40", …
+  # $ COUNTYFP   <chr> "161", "159", "009", "007", "011", "185", "037", "129"…
+  # $ COUNTYNS   <chr> "00485044", "00465268", "01720111", "00395090", "01581…
+  # $ AFFGEOID   <chr> "0500000US20161", "0500000US19159", "0500000US30009", …
+  # $ GEOID      <chr> "20161", "19159", "30009", "16007", "55011", "31185", …
+  # $ NAME       <chr> "Riley", "Ringgold", "Carbon", "Bear Lake", "Buffalo",…
+  # $ NAMELSAD   <chr> "Riley County", "Ringgold County", "Carbon County", "B…
+  # $ STUSPS     <chr> "KS", "IA", "MT", "ID", "WI", "NE", "CO", "PA", "OK", …
+  # $ STATE_NAME <chr> "Kansas", "Iowa", "Montana", "Idaho", "Wisconsin", "Ne…
+  # $ LSAD       <chr> "06", "06", "06", "06", "06", "06", "06", "06", "06", …
+  # $ ALAND      <dbl> 1579077672, 1386932347, 5303728455, 2527123155, 175029…
+  # $ AWATER     <dbl> 32047392, 8723135, 35213028, 191364281, 87549529, 8595…
+  # $ geometry   <MULTIPOLYGON [°]> MULTIPOLYGON (((-96.96095 3..., MULTIPOLY…
 
   # Data Dictionary:
   #   STATEFP -----> stateFIPS: 2-digit FIPS code
-  #   COUNTYFP -----> combined with STATEFP to make countyFIPS
-  #   COUNTYNS -----> COUNTYNS
-  #   AFFGEOID ----> (drop)
+  #   COUNTYFP ----> combined with STATEFP to make countyFIPS
+  #   COUNTYNS ----> COUNTYNS
+  #   AFFGEOID ----> AFFGEOID
   #   GEOID -------> (drop)
   #   NAME --------> countyName: English language name
+  #   NAMELSAD ----> (drop)
+  #   STUSPS ------> stateCode
+  #   STATE_NAME --> stateName
   #   LSAD --------> (drop)
   #   ALAND -------> landArea: land area (in sq. meters)
   #   AWATER ------> waterArea: water area (in sq. meters)
@@ -117,12 +121,12 @@ convertUSCensusCounties <- function(
   SFDF$ALAND <- as.numeric(SFDF$ALAND)
   SFDF$AWATER <- as.numeric(SFDF$AWATER)
 
-  SFDF$stateCode <- US_stateFIPSToCode(SFDF$STATEFP)
   SFDF$countryCode <- "US"
+  SFDF$stateCode <- SFDF$STUSPS
   SFDF$countyFIPS <- paste0(SFDF$STATEFP, SFDF$COUNTYFP)
 
   # Remove outlying territories
-  SFDF <- subset(SFDF, SFDF$stateCode %in% US_52)
+  SFDF <- dplyr::filter(SFDF, .data$stateCode %in% US_52)
 
   # Create the new dataframe in a specific column order
   SFDF <- dplyr::select(
@@ -130,26 +134,29 @@ convertUSCensusCounties <- function(
       countryCode = .data$countryCode,
       stateCode = .data$stateCode,
       stateFIPS = .data$STATEFP,
+      stateName = .data$STATE_NAME,
       countyName = .data$NAME,
       countyFIPS = .data$countyFIPS,
       landArea = .data$ALAND,
       waterArea = .data$AWATER,
-      COUNTYNS = .data$COUNTYNS
+      COUNTYNS = .data$COUNTYNS,
+      AFFGEOID = .data$AFFGEOID
     )
 
   # ----- Clean SFDF -----------------------------------------------------------
 
-  # Group polygons with the same identifier (countyName)
-  SFDF <- organizePolygons(
-    SFDF,
-    uniqueID = 'COUNTYNS',
-    sumColumns = c('landArea', 'waterArea')
-  )
+  uniqueIdentifier <- "countyFIPS"
 
-  # Clean topology errors
-  if ( !cleangeo::clgeo_IsValid(SFDF) ) {
-    SFDF <- cleangeo::clgeo_Clean(SFDF)
-  }
+  # Guarantee that all polygons are unique
+  if ( any(duplicated(SFDF[[uniqueIdentifier]])) )
+    stop(sprintf("Column '%s' has multiple records. An organizePolygons() step is needed.", uniqueIdentifier))
+
+  # All polygons are unique so we just add polygonID manually
+  SFDF$polygonID <- as.character(seq_len(nrow(SFDF)))
+
+  # Guarantee that all geometries are valid
+  if ( any(!sf::st_is_valid(SFDF)) )
+    SFDF <- sf::st_make_valid(SFDF)
 
   # ----- Name and save the data -----------------------------------------------
 
@@ -159,50 +166,10 @@ convertUSCensusCounties <- function(
   save(list = c(datasetName), file = paste0(dataDir, '/', datasetName, '.rda'))
   rm(list = datasetName)
 
-  # ----- Simplify -------------------------------------------------------------
+  # * Simplify -----
 
-  if ( simplify ) {
-    # Create new, simplified datsets: one with 5%, 2%, and one with 1% of the vertices of the original
-    # NOTE:  This may take several minutes.
-    message("Simplifying to 5%...\n")
-    SFDF_05 <- rmapshaper::ms_simplify(SFDF, 0.05)
-    SFDF_05@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
-    # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SFDF_05) ) {
-      SFDF_05 <- cleangeo::clgeo_Clean(SFDF_05)
-    }
-    datasetName_05 <- paste0(datasetName, "_05")
-    message("Saving 5% version...\n")
-    assign(datasetName_05, SFDF_05)
-    save(list = datasetName_05, file = paste0(dataDir,"/", datasetName_05, '.rda'))
-    rm(list = c("SFDF_05",datasetName_05))
-
-    message("Simplifying to 2%...\n")
-    SFDF_02 <- rmapshaper::ms_simplify(SFDF, 0.02)
-    SFDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
-    # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SFDF_02) ) {
-      SFDF_02 <- cleangeo::clgeo_Clean(SFDF_02)
-    }
-    datasetName_02 <- paste0(datasetName, "_02")
-    message("Saving 2% version...\n")
-    assign(datasetName_02, SFDF_02)
-    save(list = datasetName_02, file = paste0(dataDir,"/", datasetName_02, '.rda'))
-    rm(list = c("SFDF_02",datasetName_02))
-
-    message("Simplifying to 1%...\n")
-    SFDF_01 <- rmapshaper::ms_simplify(SFDF, 0.01)
-    SFDF_01@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
-    # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SFDF_01) ) {
-      SFDF_01 <- cleangeo::clgeo_Clean(SFDF_01)
-    }
-    datasetName_01 <- paste0(datasetName, "_01")
-    message("Saving 1% version...\n")
-    assign(datasetName_01, SFDF_01)
-    save(list = datasetName_01, file = paste0(dataDir,"/", datasetName_01, '.rda'))
-    rm(list = c("SFDF_01",datasetName_01))
-  }
+  if ( simplify )
+    .simplifyAndSave(SFDF, datasetName, dataDir)
 
   # ----- Clean up and return --------------------------------------------------
 

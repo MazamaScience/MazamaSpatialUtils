@@ -25,3 +25,10 @@ A spatial polygons dataframe with aggregated shapes.
 Aggregate shapes in a spatial polygons dataframe. This is a
 convenience wrapper for \code{\link[rmapshaper]{ms_dissolve}}.
 }
+\examples{
+\donttest{
+regions <- dissolve(SimpleCountries, field = "UN_region", sum_fields = "area")
+plot(regions)
+dplyr::glimpse(regions)
+}
+}

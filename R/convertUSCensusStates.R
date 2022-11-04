@@ -118,7 +118,9 @@ convertUSCensusStates <- function(
   # $ geometry <MULTIPOLYGON [°]> MULTIPOLYGON (((-111.0546 4..., MULTIPOLYGO…
 
   # Remove outlying territories
-  SFDF <- subset(SFDF, SFDF$STUSPS %in% US_52)
+  SFDF <-
+    SFDF %>%
+    dplyr::filter(.data$STUSPS %in% US_52)
 
   # Data Dictionary:
   #   STATEFP -----> stateFIPS: 2-digit FIPS code
@@ -150,21 +152,20 @@ convertUSCensusStates <- function(
       AFFGEOID = .data$AFFGEOID
     )
 
-  # # ----- Clean SFDF -----------------------------------------------------------
+  # ----- Clean SFDF -----------------------------------------------------------
 
-  # # Group polygons with the same identifier (stateFIPS)
-  # SFDF <- organizePolygons(
-  #   SFDF,
-  #   uniqueID = 'stateFIPS',
-  #   sumColumns = c('landArea', 'waterArea')
-  # )
+  uniqueIdentifier <- "stateFIPS"
+
+  # Guarantee that all polygons are unique
+  if ( any(duplicated(SFDF[[uniqueIdentifier]])) )
+    stop(sprintf("Column '%s' has multiple records. An organizePolygons() step is needed.", uniqueIdentifier))
+
+  # All polygons are unique so we just add polygonID manually
+  SFDF$polygonID <- as.character(seq_len(nrow(SFDF)))
 
   # Guarantee that all geometries are valid
   if ( any(!sf::st_is_valid(SFDF)) )
     SFDF <- sf::st_make_valid(SFDF)
-
-  # NOTE:  All polygons are unique so we just add polygonID manually
-  SFDF$polygonID <- as.character(seq_len(nrow(SFDF)))
 
   # ----- Name and save the data -----------------------------------------------
 

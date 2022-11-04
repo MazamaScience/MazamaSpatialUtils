@@ -118,7 +118,7 @@ convertUSCensusCBSA <- function(
   # We can use longitude and latitude to get one state code for each polygon.
   # Validation plot -- check if lon/lat are polygon centroids
   if ( FALSE ) {
-    tx <- subset(SFDF, stringr::str_detect(SFDF$NAME, "TX"))
+    tx <- dplyr::filter(SFDF, stringr::str_detect(SFDF$NAME, "TX"))
     plot(tx)
     points(tx$INTPTLON, tx$INTPTLAT, pch = 16, col = 'red')
   }

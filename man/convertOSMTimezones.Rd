@@ -29,7 +29,7 @@ There are 2 timezones which have polygons but the associated rows in the datafra
 These timezones also have no \code{countryCode} assigned. We hope to rectify this in a future release.
 These are the missing timezones:
 \preformatted{
-> OSMTimezones@data$timezone[is.na(OSMTimezones$countryCode)]
+> OSMTimezones$timezone[is.na(OSMTimezones$countryCode)]
  [1] "America/Nuuk"  "Asia/Qostanay"
 }
 }

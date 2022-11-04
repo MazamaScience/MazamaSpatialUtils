@@ -11,7 +11,7 @@ setup_counties <- function() {
   if (!exists('USCensusCounties')) {
     tryCatch(getSpatialDataDir(),
              error = function(error) {
-               setSpatialDataDir("~/Data/Spatial")
+               setSpatialDataDir("~/Data/Spatial_0.8")
              })
     tryCatch(loadSpatialData("USCensusCounties"),
              error = function(error) {
@@ -34,8 +34,7 @@ testthat::test_that("handles errors correctly", {
   spatialDataDir <- setup_counties()
 
   testthat::expect_error(getUSCounty())
-  testthat::expect_error(getUSCounty(dataset = "USCensusCounties"),
-                         "argument 'longitude' must not be NULL.")
+  testthat::expect_error(getUSCounty(dataset = "USCensusCounties"))
   testthat::expect_error(getUSCounty(0,100))
   testthat::expect_error(getUSCounty(-400, 0))
 
@@ -43,32 +42,33 @@ testthat::test_that("handles errors correctly", {
   if (class(spatialDataDir) == "character") {
     setSpatialDataDir(spatialDataDir)
   } else {
-    removeSpatialDataDir()
+    .removeSpatialDataDir()
   }
 
 })
 
-testthat::test_that("returns correct name", {
-
-  skip_on_cran()
-  skip_on_travis()
-
-  # Setup
-  spatialDataDir <- setup_counties()
-
-  testthat::expect_match(getUSCounty(-112.97, 35.1), "Yavapai")
-  testthat::expect_match(getUSCounty(-97.5, 38.7), "Saline")
-  testthat::expect_match(getUSCounty(c(-112.97, -97.5), c(35.1, 38.7)), "Yavapai|Saline")
-  testthat::expect_equal(getUSCounty(10,10), NA_character_)
-
-  # Teardown
-  if (class(spatialDataDir) == "character") {
-    setSpatialDataDir(spatialDataDir)
-  } else {
-    removeSpatialDataDir()
-  }
-
-})
+# NOTE:  Slow!
+# testthat::test_that("returns correct name", {
+#
+#   skip_on_cran()
+#   skip_on_travis()
+#
+#   # Setup
+#   spatialDataDir <- setup_counties()
+#
+#   testthat::expect_match(getUSCounty(-112.97, 35.1), "Yavapai")
+#   testthat::expect_match(getUSCounty(-97.5, 38.7), "Saline")
+#   testthat::expect_match(getUSCounty(c(-112.97, -97.5), c(35.1, 38.7)), "Yavapai|Saline")
+#   testthat::expect_equal(getUSCounty(10,10), NA_character_)
+#
+#   # Teardown
+#   if (class(spatialDataDir) == "character") {
+#     setSpatialDataDir(spatialDataDir)
+#   } else {
+#     .removeSpatialDataDir()
+#   }
+#
+# })
 
 testthat::test_that("subsetting by stateCode works", {
 
@@ -87,7 +87,7 @@ testthat::test_that("subsetting by stateCode works", {
   if (class(spatialDataDir) == "character") {
     setSpatialDataDir(spatialDataDir)
   } else {
-    removeSpatialDataDir()
+    .removeSpatialDataDir()
   }
 
 })
@@ -100,16 +100,16 @@ testthat::test_that("allData returns are correct dimension and type", {
   # Setup
   spatialDataDir <- setup_counties()
 
-  testthat::expect_s3_class(getUSCounty(-114, 32, allData=TRUE), "data.frame")
-  testthat::expect_equal(dim(getUSCounty(-100, 48, allData=TRUE)), c(1,ncol(USCensusCounties)))
-  testthat::expect_s3_class(getUSCounty(c(-80, -90), c(40, 41), allData=TRUE), "data.frame")
-  testthat::expect_equal(dim(getUSCounty(c(-80, -90), c(40, 41), allData=TRUE)), c(2,ncol(USCensusCounties)))
+  testthat::expect_s3_class(getUSCounty(-112.97, 35.1, stateCodes = "AZ", allData = TRUE), "data.frame")
+  testthat::expect_equal(dim(getUSCounty(-112.97, 35.1, stateCodes = "AZ", allData = TRUE)), c(1, ncol(USCensusCounties) - 1)) # SFDF has an extra 'geometry' column
+  testthat::expect_s3_class(getUSCounty(c(-112.97, -97.5), c(35.1, 38.7), stateCodes = c("AZ", "KS"), allData = TRUE), "data.frame")
+  testthat::expect_equal(dim(getUSCounty(c(-112.97, -97.5), c(35.1, 38.7), stateCodes = c("AZ", "KS"), allData = TRUE)), c(2, ncol(USCensusCounties) - 1)) # SFDF has an extra 'geometry' column
 
   # Teardown
   if (class(spatialDataDir) == "character") {
     setSpatialDataDir(spatialDataDir)
   } else {
-    removeSpatialDataDir()
+    .removeSpatialDataDir()
   }
 
 })

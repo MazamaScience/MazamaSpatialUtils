@@ -130,7 +130,7 @@ convertUSCensusUrbanAreas <- function(
   SFDF$countryCode <- "US"
 
   # Remove outlying territories
-  SFDF <- subset(SFDF, SFDF$stateCode %in% US_52)
+  SFDF <- dplylr::filter(SFDF, .data$stateCode %in% US_52)
 
   # Create the new dataframe in a specific column order
   SFDF <- dplyr::select(

@@ -20,7 +20,7 @@
 #' These timezones also have no \code{countryCode} assigned. We hope to rectify this in a future release.
 #' These are the missing timezones:
 #' \preformatted{
-#' > OSMTimezones@data$timezone[is.na(OSMTimezones$countryCode)]
+#' > OSMTimezones$timezone[is.na(OSMTimezones$countryCode)]
 #'  [1] "America/Nuuk"  "Asia/Qostanay"
 #' }
 #'
@@ -98,7 +98,7 @@ convertOSMTimezones <- function(
   # Get additional data from Wikipedia
   wikipediaTimezoneTable <- convertWikipediaTimezoneTable()
 
-  # Merge the additional data onto the @data slot of the SFDF
+  # Merge the additional data onto the SFDF
   SFDF <- dplyr::left_join(SFDF, wikipediaTimezoneTable, by = c('tzid' = 'timezone'))
 
   # > dplyr::glimpse(SFDF, width = 75)
@@ -123,19 +123,18 @@ convertOSMTimezones <- function(
 
   # ----- Clean SFDF -----------------------------------------------------------
 
-  # # Group polygons with the same identifier (timezone)
-  # SFDF <- organizePolygons(
-  #   SFDF,
-  #   uniqueID = 'timezone',
-  #   sumColumns = NULL
-  # )
+  uniqueIdentifier <- "timezone"
+
+  # Guarantee that all polygons are unique
+  if ( any(duplicated(SFDF[[uniqueIdentifier]])) )
+    stop(sprintf("Column '%s' has multiple records. An organizePolygons() step is needed.", uniqueIdentifier))
+
+  # All polygons are unique so we just add polygonID manually
+  SFDF$polygonID <- as.character(seq_len(nrow(SFDF)))
 
   # Guarantee that all geometries are valid
   if ( any(!sf::st_is_valid(SFDF)) )
     SFDF <- sf::st_make_valid(SFDF)
-
-  # NOTE:  All polygons are unique so we just add polygonID manually
-  SFDF$polygonID <- as.character(seq_len(nrow(SFDF)))
 
   # ----- Name and save the data -----------------------------------------------
 

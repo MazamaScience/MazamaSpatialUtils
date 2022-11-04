@@ -95,39 +95,41 @@ US_52 <- c(
   "DC","PR"
 )
 
-#' # ===== Data in the data/ directory ============================================
+# ===== Data in the data/ directory ============================================
+
+#' @title Dataframe of US county codes
+#' @format A dataframe with 3197 rows and 4 columns of data.
+#' @description US_countyCodes The following columns for US states and territories:
+#' \itemize{
+#' \item{\code{stateCode} -- ISO 3166-2 alpha-2}
+#' \item{\code{stateFIPS} -- 2-digit FIPS code}
+#' \item{\code{countyName} -- English language county name}
+#' \item{\code{countyFIPS} -- five-digit FIPS code (2-digit state and 3-digit
+#' county combined to create a unique identifier)}
+#' }
 #'
-#' #' @title Dataframe of US county codes
-#' #' @format A dataframe with 3196 rows and 4 columns of data.
-#' #' @description US_countyCodes The following columns for US states and territories:
-#' #' \itemize{
-#' #' \item{\code{stateCode} -- ISO 3166-2 alpha-2}
-#' #' \item{\code{stateFIPS} -- 2-digit FIPS code}
-#' #' \item{\code{countyName} -- English language county name}
-#' #' \item{\code{countyFIPS} -- five-digit FIPS code (2-digit state and 3-digit
-#' #' county combined to create a unique identifier)}
-#' #' }
-#' #'
-#' #' This dataset was generated on 2020-10-26 by running:
-#' #'
-#' #' \preformatted{
-#' #' library(MazamaSpatialUtils)
-#' #' setSpatialDataDir("~/Data/Spatial")
-#' #' loadSpatialData("USCensusCounties_02")
-#' #'
-#' #' US_countyCodes <-
-#' #'   USCensusCounties_02@data %>%
-#' #'   dplyr::select(stateCode, stateFIPS, countyName, countyFIPS)
-#' #'
-#' #' save(US_countyCodes, file = "data/US_countyCodes.rda")
-#' #' }
-#' "US_countyCodes"
+#' This dataset was generated on 2022-11-04 by running:
+#'
+#' \preformatted{
+#' library(MazamaSpatialUtils)
+#' setSpatialDataDir("~/Data/Spatial_0.8")
+#' loadSpatialData("USCensusCounties_02")
+#'
+#' US_countyCodes <-
+#'   USCensusCounties_02 %>%
+#'   dplyr::select(stateCode, stateFIPS, countyName, countyFIPS)
+#'
+#' US_countyCodes$geometry <- NULL
+#'
+#' save(US_countyCodes, file = "data/US_countyCodes.rda")
+#' }
+"US_countyCodes"
 
 
 #' @title Simplified spatial dataset of world timezones.
 #' @format A simple features data frame with 423 records and 9 columns of data.
 #' @description This dataset is used by default in the \code{getTimezones()}
-#' function and contains the following columns of data in the \code{@data} slot:
+#' function and contains the following columns of data:
 #' \itemize{
 #' \item{\code{timezone} -- Olson timezone}
 #' \item{\code{UTC_offset} -- offset from UTC (hours)}
@@ -182,32 +184,32 @@ US_52 <- c(
 #' }
 "SimpleCountriesEEZ"
 
-#' #' @title Simplified spatial dataset of country boundaries.
-#' #' @format A simple features data frame with 319 records and 4 columns of data.
-#' #'
-#' #' @description SimpleCountries is a simplified world borders dataset suitable
-#' #' for global maps and quick spatial searches. This dataset is distributed with
-#' #' the package and is can be used with \code{getCountry()},
-#' #' \code{getCountryCode()} and \code{getCountryName()} when restricting searches
-#' #' to land-based locations.
-#' #'
-#' #' @details This dataset is equivalent to TMWorldBordersSimple but with fewer columns of data.
-#' #' @seealso convertTMWorldBordersSimple
-#' #'
-#' #' This dataset was generated on 2020-11-19 by running:
-#' #'
-#' #' \preformatted{
-#' #' library(MazamaSpatialUtils)
-#' #' setSpatialDataDir("~/Data/Spatial")
-#' #'
-#' #' convertTMWorldBordersSimple()
-#' #'
-#' #' loadSpatialData("TMWorldBordersSimple")
-#' #'
-#' # columnNames <- c("countryCode", "countryName", "ISO3", "FIPS",
-#' #                  "UN_region", "polygonID")
-#' # SimpleCountries <- TMWorldBordersSimple[, columnNames]
-#' # save(SimpleCountries, file = "data/SimpleCountries.rda")
-#' #' }
-#' "SimpleCountries"
+#' @title Simplified spatial dataset of country boundaries.
+#' @format A simple features data frame with 246 records and 7 columns of data.
 #'
+#' @description SimpleCountries is a simplified world borders dataset suitable
+#' for global maps and quick spatial searches. This dataset is distributed with
+#' the package and is can be used with \code{getCountry()},
+#' \code{getCountryCode()} and \code{getCountryName()} when restricting searches
+#' to land-based locations.
+#'
+#' @details This dataset is equivalent to TMWorldBordersSimple but with fewer columns of data.
+#' @seealso convertTMWorldBordersSimple
+#'
+#' This dataset was generated on 2022-11-04 by running:
+#'
+#' \preformatted{
+#' library(MazamaSpatialUtils)
+#' setSpatialDataDir("~/Data/Spatial")
+#'
+#' convertTMWorldBorders()
+#'
+#' loadSpatialData("TMWorldBorders_05")
+#'
+#' columnNames <- c("countryCode", "countryName", "ISO3", "FIPS",
+#'                  "UN_region", "polygonID")
+#' SimpleCountries <- TMWorldBorders_05[, columnNames]
+#' save(SimpleCountries, file = "data/SimpleCountries.rda")
+#' }
+"SimpleCountries"
+

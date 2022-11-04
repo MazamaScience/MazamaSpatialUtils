@@ -24,7 +24,7 @@
 #' @examples
 #' \dontrun{
 #' library(MazamaSpatialUtils)
-#' setSpatialDataDir("~/Data/Spatial")
+#' setSpatialDataDir("~/Data/Spatial_0.8")
 #'
 #' loadSpatialData("USCensusCounties")
 #'
@@ -59,15 +59,7 @@ getUSCounty <- function(
          call. = FALSE)
   }
 
-  # Check longitude, latitude ranges
-  if ( min(longitude, na.rm = TRUE) < -180 ||
-       max(longitude, na.rm = TRUE) > 180) {
-    stop("'longitude' must be specified in the range -180:180.")
-  }
-  if ( min(latitude, na.rm = TRUE) < -90 ||
-       max(latitude, na.rm = TRUE) > 90 ) {
-    stop("'latitude' must be specified in the range -90:90.")
-  }
+  MazamaCoreUtils::validateLonsLats(longitude, latitude, na.rm = TRUE)
 
   # ----- Get the data ---------------------------------------------------------
 
