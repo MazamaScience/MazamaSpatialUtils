@@ -9,7 +9,7 @@ Absolute path string.
 }
 \description{
 This package maintains an internal directory location which users can set
-using \code{setSpatialDataDir()}. All package functions use this directory whenever datasets
+using \code{\link{setSpatialDataDir}}. All package functions use this directory whenever datasets
 are created or loaded.
 
 The default setting when the package is loaded is \code{getwd()}.

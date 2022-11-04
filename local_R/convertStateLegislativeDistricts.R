@@ -11,11 +11,11 @@
 #' @param simplify Logical specifying whether to create "_05", _02" and "_01"
 #' versions of the file that are simplified to 5\%, 2\% and 1\%.
 #'
-#' @description Create a SpatialPolygonsDataFrame for US State Legislative Districts
+#' @description Create a simple features data frame for US State Legislative Districts
 #' of a specified state
 #'
 #' @details A US State Legislative District shapefile is downloaded and converted
-#' to a SpatialPolygonsDataFrame with additional columns of data. The resulting
+#' to a simple features data frame with additional columns of data. The resulting
 #' file will be created in the spatial data directory which is set with
 #' \code{setSpatialDataDir()}.
 #'
@@ -63,7 +63,7 @@
 #' are required, please use the TIGER/Line Shapefiles instead of the generalized
 #' cartographic boundary files
 #'
-#' @return Name of the dataset being created.
+#' @return Name of the datasetName being created.
 #'
 #' @references \url{https://www.census.gov/geographies/mapping-files/time-series/geo/cartographic-boundary.html}
 #'
@@ -102,7 +102,7 @@ convertStateLegislativeDistricts <- function(
   # Use package internal data directory
   dataDir <- getSpatialDataDir()
 
-  # Create dataset name
+  # Create datasetName name
   datasetName <- paste0(stateCode, "_", house, "HouseLegislativeDistricts")
 
   # Get FIPS code for state
@@ -132,14 +132,14 @@ convertStateLegislativeDistricts <- function(
   utils::unzip(filePath, exdir = file.path(dataDir, datasetName))
 
 
-  # ----- Convert to SPDF ------------------------------------------------------
+  # ----- Convert to SFDF ------------------------------------------------------
 
   # Convert shapefile to SpatialPolygonsDataframe
   dsnPath <- file.path(dataDir, datasetName)
   shpName <- stringr::str_replace(basename(url), ".zip", "")
-  SPDF <- convertLayer(
+  SFDF <- .convertLayer(
     dsn = dsnPath,
-    layerName = shpName,
+    layer = shpName,
     encoding = 'UTF-8'
   )
 
@@ -147,7 +147,7 @@ convertStateLegislativeDistricts <- function(
 
   message("Harmonizing @data...\n")
 
-  #   > dplyr::glimpse(SPDF@data)
+  #   > dplyr::glimpse(SFDF)
   #   Rows: 35
   #   Columns: 9
   #   $ STATEFP  <chr> "23", "23", "23", "23", "23", "23", "23", "23", "23", "2…
@@ -172,19 +172,19 @@ convertStateLegislativeDistricts <- function(
   #   AWATER   -----> waterArea
 
   # Add stateCode field
-  SPDF@data$stateCode <- stateCode
+  SFDF$stateCode <- stateCode
 
   # Add countryCode field
-  SPDF@data$countryCode <- "US"
+  SFDF$countryCode <- "US"
 
   # Ensure that ALAND and ALAND are numeric
-  SPDF@data$ALAND <- as.numeric(SPDF@data$ALAND)
-  SPDF@data$AWATER <- as.numeric(SPDF@data$AWATER)
+  SFDF$ALAND <- as.numeric(SFDF$ALAND)
+  SFDF$AWATER <- as.numeric(SFDF$AWATER)
 
   # Create the new dataframe in a specific column order
-  SPDF@data <-
+  SFDF <-
     dplyr::select(
-      .data = SPDF@data,
+      .data = SFDF,
       countryCode = .data$countryCode,
       stateCode = .data$stateCode,
       stateFIPS = .data$STATEFP,
@@ -195,28 +195,28 @@ convertStateLegislativeDistricts <- function(
       waterArea = .data$AWATER
     )
 
-  # ----- Clean SPDF -----------------------------------------------------------
+  # ----- Clean SFDF -----------------------------------------------------------
 
   # Group polygons with the same identifier (legislativeDistrict)
   message("Organizing polygons...\n")
-  SPDF <- organizePolygons(
-    SPDF,
+  SFDF <- organizePolygons(
+    SFDF,
     uniqueID = 'legislativeDistrict',
     sumColumns = c('areaLand', 'areaWater')
   )
 
   # Clean topology errors
   message("Checking for topology errors...\n")
-  if ( !cleangeo::clgeo_IsValid(SPDF) ) {
+  if ( !cleangeo::clgeo_IsValid(SFDF) ) {
     message("Cleaning topology errors...\n")
-    SPDF <- cleangeo::clgeo_Clean(SPDF)
+    SFDF <- cleangeo::clgeo_Clean(SFDF)
   }
 
   # ----- Name and save the data -----------------------------------------------
 
   # Assign a name and save the data
   message("Saving full resolution version...\n")
-  assign(datasetName, SPDF)
+  assign(datasetName, SFDF)
   save(list = c(datasetName), file = paste0(dataDir, '/', datasetName, '.rda'))
   rm(list = datasetName)
 
@@ -226,43 +226,43 @@ convertStateLegislativeDistricts <- function(
     # Create new, simplified datsets: one with 5%, 2%, and one with 1% of the vertices of the original
     # NOTE:  This may take several minutes.
     message("Simplifying to 5%...\n")
-    SPDF_05 <- rmapshaper::ms_simplify(SPDF, 0.05)
-    SPDF_05@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+    SFDF_05 <- rmapshaper::ms_simplify(SFDF, 0.05)
+    SFDF_05@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
     # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SPDF_05) ) {
-      SPDF_05 <- cleangeo::clgeo_Clean(SPDF_05)
+    if ( !cleangeo::clgeo_IsValid(SFDF_05) ) {
+      SFDF_05 <- cleangeo::clgeo_Clean(SFDF_05)
     }
     datasetName_05 <- paste0(datasetName, "_05")
     message("Saving 5% version...\n")
-    assign(datasetName_05, SPDF_05)
+    assign(datasetName_05, SFDF_05)
     save(list = datasetName_05, file = paste0(dataDir,"/", datasetName_05, '.rda'))
-    rm(list = c("SPDF_05",datasetName_05))
+    rm(list = c("SFDF_05",datasetName_05))
 
     message("Simplifying to 2%...\n")
-    SPDF_02 <- rmapshaper::ms_simplify(SPDF, 0.02)
-    SPDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+    SFDF_02 <- rmapshaper::ms_simplify(SFDF, 0.02)
+    SFDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
     # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SPDF_02) ) {
-      SPDF_02 <- cleangeo::clgeo_Clean(SPDF_02)
+    if ( !cleangeo::clgeo_IsValid(SFDF_02) ) {
+      SFDF_02 <- cleangeo::clgeo_Clean(SFDF_02)
     }
     datasetName_02 <- paste0(datasetName, "_02")
     message("Saving 2% version...\n")
-    assign(datasetName_02, SPDF_02)
+    assign(datasetName_02, SFDF_02)
     save(list = datasetName_02, file = paste0(dataDir,"/", datasetName_02, '.rda'))
-    rm(list = c("SPDF_02",datasetName_02))
+    rm(list = c("SFDF_02",datasetName_02))
 
     message("Simplifying to 1%...\n")
-    SPDF_01 <- rmapshaper::ms_simplify(SPDF, 0.01)
-    SPDF_01@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+    SFDF_01 <- rmapshaper::ms_simplify(SFDF, 0.01)
+    SFDF_01@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
     # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SPDF_01) ) {
-      SPDF_01 <- cleangeo::clgeo_Clean(SPDF_01)
+    if ( !cleangeo::clgeo_IsValid(SFDF_01) ) {
+      SFDF_01 <- cleangeo::clgeo_Clean(SFDF_01)
     }
     datasetName_01 <- paste0(datasetName, "_01")
     message("Saving 1% version...\n")
-    assign(datasetName_01, SPDF_01)
+    assign(datasetName_01, SFDF_01)
     save(list = datasetName_01, file = paste0(dataDir,"/", datasetName_01, '.rda'))
-    rm(list = c("SPDF_01",datasetName_01))
+    rm(list = c("SFDF_01",datasetName_01))
   }
 
   # ----- Clean up and return --------------------------------------------------

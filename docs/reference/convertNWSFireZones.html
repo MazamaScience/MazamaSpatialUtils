@@ -47,7 +47,7 @@
 
 
 <meta property="og:title" content="Convert NWS Public Forecast Zones Shapefile — convertNWSFireZones" />
-<meta property="og:description" content="Create a SpatialPolygonsDataFrame for NWS weather forecast zones" />
+<meta property="og:description" content="Create a simple features data frame for NWS weather forecast zones" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -152,7 +152,7 @@
     </div>
 
     <div class="ref-description">
-    <p>Create a SpatialPolygonsDataFrame for NWS weather forecast zones</p>
+    <p>Create a simple features data frame for NWS weather forecast zones</p>
     </div>
 
     <pre class="usage"><span class='fu'>convertNWSFireZones</span><span class='op'>(</span>nameOnly <span class='op'>=</span> <span class='cn'>FALSE</span>, simplify <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
@@ -178,7 +178,7 @@ versions of the file that are simplified to 5%, 2% and 1%.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>A NWS forecast zone shapefile is downloaded and converted to a
-SpatialPolygonsDataFrame with additional columns of data. The resulting file
+simple features data frame with additional columns of data. The resulting file
 will be created in the spatial data directory which is set with
 <code><a href='setSpatialDataDir.html'>setSpatialDataDir()</a></code>.</p>
 <p>The source data is from 2020.</p>

@@ -9,10 +9,10 @@
 #' @param simplify Logical specifying whether to create "_05", _02" and "_01"
 #' versions of the file that are simplified to 5\%, 2\% and 1\%.
 #'
-#' @description Create a SpatialPolygonsDataFrame for US states
+#' @description Create a simple features data frame for US states
 #'
 #' @details A US county borders shapefile is downloaded and converted to a
-#' SpatialPolygonsDataFrame with additional columns of data. The resulting file
+#' simple features data frame with additional columns of data. The resulting file
 #' will be created in the spatial data directory which is set with
 #' \code{setSpatialDataDir()}.
 #'
@@ -31,7 +31,7 @@
 #' populations greater than 50,000).  Each urban area is identified by a 5-character
 #' numeric census code that may contain leading zeroes.
 #'
-#' @return Name of the dataset being created.
+#' @return Name of the datasetName being created.
 #'
 #' @references \url{https://www2.census.gov/geo/tiger/TIGER2019/UAC/}
 
@@ -61,14 +61,14 @@ convertUSCensusUrbanAreas <- function(
   # NOTE:  This zip file has no directory so extra subdirectory needs to be created
   utils::unzip(filePath, exdir = file.path(dataDir, 'us_census_urban_areas'))
 
-  # ----- Convert to SPDF ------------------------------------------------------
+  # ----- Convert to SFDF ------------------------------------------------------
 
-  # Convert shapefile into SpatialPolygonsDataFrame
+  # Convert shapefile into simple features data frame
   dsnPath <- file.path(dataDir, 'us_census_urban_areas')
   shpName <- 'tl_2019_us_uac10'
-  SPDF <- convertLayer(
+  SFDF <- .convertLayer(
     dsn = dsnPath,
-    layerName = shpName,
+    layer = shpName,
     encoding = 'UTF-8'
   )
 
@@ -76,7 +76,7 @@ convertUSCensusUrbanAreas <- function(
 
   message("Harmonizing @data...\n")
 
-  #   > dplyr::glimpse(SPDF@data)
+  #   > dplyr::glimpse(SFDF)
   #   Observations: 3,601
   #   Variables: 12
   #   $ UACE10     <chr> "24310", "27847", "18100", "06166", "75270...
@@ -107,34 +107,34 @@ convertUSCensusUrbanAreas <- function(
   #   INTPTLON10 -> longitude
 
   # Convert character fields to numeric and double as needed
-  SPDF@data$ALAND10 <- as.numeric(SPDF@data$ALAND10)
-  SPDF@data$AWATER10 <- as.numeric(SPDF@data$AWATER10)
+  SFDF$ALAND10 <- as.numeric(SFDF$ALAND10)
+  SFDF$AWATER10 <- as.numeric(SFDF$AWATER10)
 
-  SPDF@data$INTPTLAT10 <- as.numeric(SPDF@data$INTPTLAT10)
-  SPDF@data$INTPTLON10 <- as.numeric(SPDF@data$INTPTLON10)
+  SFDF$INTPTLAT10 <- as.numeric(SFDF$INTPTLAT10)
+  SFDF$INTPTLON10 <- as.numeric(SFDF$INTPTLON10)
 
   # Convert UATYP10 values into human-readable forms
-  is_urban <- SPDF@data$UATYP10 == "U"
-  is_cluster <-  SPDF@data$UATYP10 == "C"
+  is_urban <- SFDF$UATYP10 == "U"
+  is_cluster <-  SFDF$UATYP10 == "C"
 
-  SPDF@data$UATYP10[is_urban] <- "Urbanized Area"
-  SPDF@data$UATYP10[is_cluster] <- "Urban Cluster"
+  SFDF$UATYP10[is_urban] <- "Urbanized Area"
+  SFDF$UATYP10[is_cluster] <- "Urban Cluster"
 
   # Get allStateCodes from the NAME10 column
-  nameMatrix <- stringr::str_split_fixed(SPDF@data$NAME10, ',', 2)
-  SPDF@data$allStateCodes <- stringr::str_trim(stringr::str_replace_all(nameMatrix[,2], '--', ','))
+  nameMatrix <- stringr::str_split_fixed(SFDF$NAME10, ',', 2)
+  SFDF$allStateCodes <- stringr::str_trim(stringr::str_replace_all(nameMatrix[,2], '--', ','))
 
   # We can use longitude and latitude to get one state code for each polygon.
   loadSpatialData("USCensusStates")
-  SPDF@data$stateCode <- getStateCode(SPDF$INTPTLON10, SPDF$INTPTLAT10, dataset = 'USCensusStates', useBuffering = TRUE)
-  SPDF@data$countryCode <- "US"
+  SFDF$stateCode <- getStateCode(SFDF$INTPTLON10, SFDF$INTPTLAT10, datasetName = 'USCensusStates', useBuffering = TRUE)
+  SFDF$countryCode <- "US"
 
   # Remove outlying territories
-  SPDF <- subset(SPDF, SPDF@data$stateCode %in% US_52)
+  SFDF <- subset(SFDF, SFDF$stateCode %in% US_52)
 
   # Create the new dataframe in a specific column order
-  SPDF@data <- dplyr::select(
-    SPDF@data,
+  SFDF <- dplyr::select(
+    SFDF,
     countryCode = .data$countryCode,
     stateCode = .data$stateCode,
     allStateCodes = .data$allStateCodes,
@@ -151,24 +151,24 @@ convertUSCensusUrbanAreas <- function(
 
   # Group polygons with the same identifier (GEOID)
   message("Organizing polygons...\n")
-  SPDF <- organizePolygons(
-    SPDF,
+  SFDF <- organizePolygons(
+    SFDF,
     uniqueID = "GEOID",
     sumColumns = c('landArea', 'waterArea')
   )
 
   # Clean topology errors
   message("Checking for topology errors...\n")
-  if ( !cleangeo::clgeo_IsValid(SPDF) ) {
+  if ( !cleangeo::clgeo_IsValid(SFDF) ) {
     message("Cleaning topology errors...\n")
-    SPDF <- cleangeo::clgeo_Clean(SPDF)
+    SFDF <- cleangeo::clgeo_Clean(SFDF)
   }
 
   # ----- Name and save the data -----------------------------------------------
 
   # Assign a name and save the data
   message("Saving full resolution version...\n")
-  assign(datasetName, SPDF)
+  assign(datasetName, SFDF)
   save(list = c(datasetName), file = paste0(dataDir, '/', datasetName, '.rda'))
   rm(list = datasetName)
 
@@ -178,43 +178,43 @@ convertUSCensusUrbanAreas <- function(
     # Create new, simplified datsets: one with 5%, 2%, and one with 1% of the vertices of the original
     # NOTE:  This may take several minutes.
     message("Simplifying to 5%...\n")
-    SPDF_05 <- rmapshaper::ms_simplify(SPDF, 0.05)
-    SPDF_05@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+    SFDF_05 <- rmapshaper::ms_simplify(SFDF, 0.05)
+    SFDF_05@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
     # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SPDF_05) ) {
-      SPDF_05 <- cleangeo::clgeo_Clean(SPDF_05)
+    if ( !cleangeo::clgeo_IsValid(SFDF_05) ) {
+      SFDF_05 <- cleangeo::clgeo_Clean(SFDF_05)
     }
     datasetName_05 <- paste0(datasetName, "_05")
     message("Saving 5% version...\n")
-    assign(datasetName_05, SPDF_05)
+    assign(datasetName_05, SFDF_05)
     save(list = datasetName_05, file = paste0(dataDir,"/", datasetName_05, '.rda'))
-    rm(list = c("SPDF_05",datasetName_05))
+    rm(list = c("SFDF_05",datasetName_05))
 
     message("Simplifying to 2%...\n")
-    SPDF_02 <- rmapshaper::ms_simplify(SPDF, 0.02)
-    SPDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+    SFDF_02 <- rmapshaper::ms_simplify(SFDF, 0.02)
+    SFDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
     # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SPDF_02) ) {
-      SPDF_02 <- cleangeo::clgeo_Clean(SPDF_02)
+    if ( !cleangeo::clgeo_IsValid(SFDF_02) ) {
+      SFDF_02 <- cleangeo::clgeo_Clean(SFDF_02)
     }
     datasetName_02 <- paste0(datasetName, "_02")
     message("Saving 2% version...\n")
-    assign(datasetName_02, SPDF_02)
+    assign(datasetName_02, SFDF_02)
     save(list = datasetName_02, file = paste0(dataDir,"/", datasetName_02, '.rda'))
-    rm(list = c("SPDF_02",datasetName_02))
+    rm(list = c("SFDF_02",datasetName_02))
 
     message("Simplifying to 1%...\n")
-    SPDF_01 <- rmapshaper::ms_simplify(SPDF, 0.01)
-    SPDF_01@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+    SFDF_01 <- rmapshaper::ms_simplify(SFDF, 0.01)
+    SFDF_01@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
     # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SPDF_01) ) {
-      SPDF_01 <- cleangeo::clgeo_Clean(SPDF_01)
+    if ( !cleangeo::clgeo_IsValid(SFDF_01) ) {
+      SFDF_01 <- cleangeo::clgeo_Clean(SFDF_01)
     }
     datasetName_01 <- paste0(datasetName, "_01")
     message("Saving 1% version...\n")
-    assign(datasetName_01, SPDF_01)
+    assign(datasetName_01, SFDF_01)
     save(list = datasetName_01, file = paste0(dataDir,"/", datasetName_01, '.rda'))
-    rm(list = c("SPDF_01",datasetName_01))
+    rm(list = c("SFDF_01",datasetName_01))
   }
 
   # ----- Clean up and return --------------------------------------------------

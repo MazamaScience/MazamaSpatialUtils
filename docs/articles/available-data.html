@@ -260,7 +260,7 @@
 <h4 class="hasAnchor">
 <a href="#ca_airbasins" class="anchor"></a>CA_AirBasins:</h4>
 <p>Use <code><a href="../reference/convertCARBAirBasins.html">convertCARBAirBasins()</a></code> to download and convert this dataset.</p>
-<p>The California Air Basins dataset is a <code>SpatialPolygonsDataFrame</code> representing the 15 California air basins. Air Basins are designated pursuant to California statute and regulation and identify regions of similar meteorological and geographic conditions. Political boundaries are also considered in determining the air basin boundaries.</p>
+<p>The California Air Basins dataset is a <code>simple features data frame</code> representing the 15 California air basins. Air Basins are designated pursuant to California statute and regulation and identify regions of similar meteorological and geographic conditions. Political boundaries are also considered in determining the air basin boundaries.</p>
 <p><em>See the California Health and Safety Code, Section 39606 et seq. and California Code of Regulations, Title 17, Section 60100 et seq.</em></p>
 <p>March, 2004 version.</p>
 </div>
@@ -268,14 +268,14 @@
 <h4 class="hasAnchor">
 <a href="#eparegions" class="anchor"></a>EPARegions</h4>
 <p>Use <code><a href="../reference/convertEPARegions.html">convertEPARegions()</a></code> to download and convert this dataset.</p>
-<p>The EPARegions dataset is a <code>SpatialPolygonsDataFrame</code> representing the boundaries of the ten Regional Offices of the United States Environmental Protection Agency in the United States. Each regional office monitors the environmental regulations within a group of states.</p>
+<p>The EPARegions dataset is a <code>simple features data frame</code> representing the boundaries of the ten Regional Offices of the United States Environmental Protection Agency in the United States. Each regional office monitors the environmental regulations within a group of states.</p>
 <p>7/26/2019 Version</p>
 </div>
 <div id="gacc" class="section level4">
 <h4 class="hasAnchor">
 <a href="#gacc" class="anchor"></a>GACC</h4>
 <p>Use <code><a href="../reference/convertGACC.html">convertGACC()</a></code> to download and convert this dataset.</p>
-<p>The GACC dataset is a <code>SpatialPolygonsDataFrame</code> representing the Geographic Area Coordination Center (GACC) boundaries. GACCs are defined as, “The physical location of an interagency, regional operation center for the effective coordination, mobilization and demobilization of emergency management resources.”<br>
+<p>The GACC dataset is a <code>simple features data frame</code> representing the Geographic Area Coordination Center (GACC) boundaries. GACCs are defined as, “The physical location of an interagency, regional operation center for the effective coordination, mobilization and demobilization of emergency management resources.”<br>
 A coordination center serves federal, state and local wildland fire agencies through logistical coordination of resources throughout the geographic area, and with other geographic areas, as well.</p>
 <p>The United States and Alaska are divided into 11 Geographic Areas for the purpose of incident management and mobilization of resources (people, aircraft, ground equipment). Within each Area, an interagency Geographic Area Coordinating Group (GACG), made up of Fire Directors from each of the Federal and State land management agencies from within the Area, is established.</p>
 <p>(NOTE: the current geojson download link seems to be dead. A new, shapefile based, link to the data is <a href="https://opendata.arcgis.com/datasets/7dc5f4a286bd47e0aaafa0ab05302fe9_0.zip" class="uri">https://opendata.arcgis.com/datasets/7dc5f4a286bd47e0aaafa0ab05302fe9_0.zip</a>)</p>
@@ -284,7 +284,7 @@ A coordination center serves federal, state and local wildland fire agencies thr
 <h4 class="hasAnchor">
 <a href="#gadm" class="anchor"></a>GADM</h4>
 <p>Use <code><a href="../reference/convertGADM.html">convertGADM()</a></code> to download and convert this dataset.</p>
-<p>The GADM dataset is a <code>SpatialPolygonsDataFrame</code> representing the administrative divisions of a specific country at a specific administrative level. GADM, the <em>Database of Global Administrative Areas</em>, is a high-resolution database of country administrative areas.</p>
+<p>The GADM dataset is a <code>simple features data frame</code> representing the administrative divisions of a specific country at a specific administrative level. GADM, the <em>Database of Global Administrative Areas</em>, is a high-resolution database of country administrative areas.</p>
 <p><strong>NOTE:</strong> This script will generate .rda files named <code>GADM_&lt;countryCode&gt;_&lt;admLevel&gt;.rda</code> and requires user input to specify the country and admin level desired. For example, to generate Admin 1 level boundaries for Belgium, run <code>convertGADM(countryCode = "BE", admLevel = 1</code>.<br>
 This will create <code>GADM_BE_1.rda</code>. Not all countries have the same number of levels. Many just have two levels while France has five.</p>
 </div>
@@ -292,59 +292,59 @@ This will create <code>GADM_BE_1.rda</code>. Not all countries have the same num
 <h4 class="hasAnchor">
 <a href="#hifldfederallands" class="anchor"></a>HIFLDFederalLands</h4>
 <p>Use <code>convertHIFLDFederalLands()</code> to download and convert this dataset.</p>
-<p>The HIFLDFederalLands dataset is a <code>SpatialPolygonsDataFrame</code> representing the federally owned or administered lands and Indian Reservations of the United States, Puerto Rico, and the US Virgin Islands. Only areas of 640 acres or more are included in this dataset.</p>
+<p>The HIFLDFederalLands dataset is a <code>simple features data frame</code> representing the federally owned or administered lands and Indian Reservations of the United States, Puerto Rico, and the US Virgin Islands. Only areas of 640 acres or more are included in this dataset.</p>
 </div>
 <div id="hmssmoke" class="section level4">
 <h4 class="hasAnchor">
 <a href="#hmssmoke" class="anchor"></a>HMSSmoke</h4>
 <p>Use <code>convertHMSSmoke()</code> to download and convert this dataset.</p>
-<p>The HMSSmoke dataset is a <code>SpatialPolygonsDataFrame</code> representing the areas of smoke identified for a specific day. This data is derived from analysis of visible satellite imagery obtained during daylight hours.</p>
+<p>The HMSSmoke dataset is a <code>simple features data frame</code> representing the areas of smoke identified for a specific day. This data is derived from analysis of visible satellite imagery obtained during daylight hours.</p>
 <p><strong>NOTE:</strong> This script will generate .rda files named <code>HMSSmoke_&lt;datestamp&gt;</code> and requires user input to specify the date of interest using the <code>datestamp</code> parameter in the format of <code>datestamp = "YYYYmmdd"</code>.</p>
 </div>
 <div id="mtbsburnareas" class="section level4">
 <h4 class="hasAnchor">
 <a href="#mtbsburnareas" class="anchor"></a>MTBSBurnAreas</h4>
 <p>Use <code>convertMTBSBurnArea()</code> to download and convert this dataset.</p>
-<p>The MTBSBurnAreas dataset is a <code>SpatialPolygonsDataFrame</code> representing all large wildland fires (includes wildfire, wildland fire use, and prescribed fire) in the conterminous United States (CONUS), Alaska, Hawaii, and Puerto Rico for the period of 1984 through 2017. All fires reported as greater than 1,000 acres in the western US and greater than 500 acres in the eastern US are mapped across all ownerships.</p>
+<p>The MTBSBurnAreas dataset is a <code>simple features data frame</code> representing all large wildland fires (includes wildfire, wildland fire use, and prescribed fire) in the conterminous United States (CONUS), Alaska, Hawaii, and Puerto Rico for the period of 1984 through 2017. All fires reported as greater than 1,000 acres in the western US and greater than 500 acres in the eastern US are mapped across all ownerships.</p>
 <p>August 22, 2019 Version</p>
 </div>
 <div id="nwsfirezones" class="section level4">
 <h4 class="hasAnchor">
 <a href="#nwsfirezones" class="anchor"></a>NWSFireZones</h4>
 <p>Use <code><a href="../reference/convertNWSFireZones.html">convertNWSFireZones()</a></code> to download and convert this data set.</p>
-<p>The NWSFireZones dataset is a <code>SpatialPolygonsDataFrame</code> representing weather forecast zones. These areas are used to delineate the Fire Weather Zones that are used by National Weather Service (NWS) in the fire weather forecast program.</p>
+<p>The NWSFireZones dataset is a <code>simple features data frame</code> representing weather forecast zones. These areas are used to delineate the Fire Weather Zones that are used by National Weather Service (NWS) in the fire weather forecast program.</p>
 </div>
 <div id="phds" class="section level4">
 <h4 class="hasAnchor">
 <a href="#phds" class="anchor"></a>PHDs</h4>
 <p>Use <code>convertPHDs()</code> to download and convert this data set.</p>
-<p>The PHDs dataset is a <code>SpatialPolygonsDataFrame</code> representing Public Health Districts for Washington, Oregon, Idaho, and California. This is Mazama internal data obtained from USFS AirFire.</p>
+<p>The PHDs dataset is a <code>simple features data frame</code> representing Public Health Districts for Washington, Oregon, Idaho, and California. This is Mazama internal data obtained from USFS AirFire.</p>
 </div>
 <div id="simplecountries" class="section level4">
 <h4 class="hasAnchor">
 <a href="#simplecountries" class="anchor"></a>SimpleCountries</h4>
 <p>Use <code>convertSimpleCountries()</code> to download and convert this data set.</p>
-<p>The SimpleCountries dataset is a <code>SpatialPolygonsDataFrame</code> representing country borders. It is a greatly simplified version of the TMWorldBorders shapefile and is especially suited for spatial searches. Users may wish to use a higher resolution dataset when plotting.</p>
+<p>The SimpleCountries dataset is a <code>simple features data frame</code> representing country borders. It is a greatly simplified version of the TMWorldBorders shapefile and is especially suited for spatial searches. Users may wish to use a higher resolution dataset when plotting.</p>
 <p>30 July 2008 Version</p>
 </div>
 <div id="simplecountrieseez" class="section level4">
 <h4 class="hasAnchor">
 <a href="#simplecountrieseez" class="anchor"></a>SimpleCountriesEEZ</h4>
 <p>Use <code>convertSimpleCountriesEEZ()</code> to download and convert this data set.</p>
-<p>The SimpleCountriesEEZ dataset is a <code>SpatialPolygonsDataFrame</code> representing simple world divisions which match those in the EEZCountries layer. Polygons for coastal countries include a 200 mile buffer, corresponding to their Exclusive Economic Zones, so this layer is especially suited for spatial searches. This is the default dataset used in <code><a href="../reference/getCountry.html">getCountry()</a></code> and <code><a href="../reference/getCountryCode.html">getCountryCode()</a></code>.</p>
+<p>The SimpleCountriesEEZ dataset is a <code>simple features data frame</code> representing simple world divisions which match those in the EEZCountries layer. Polygons for coastal countries include a 200 mile buffer, corresponding to their Exclusive Economic Zones, so this layer is especially suited for spatial searches. This is the default dataset used in <code><a href="../reference/getCountry.html">getCountry()</a></code> and <code><a href="../reference/getCountryCode.html">getCountryCode()</a></code>.</p>
 </div>
 <div id="simpletimezones" class="section level4">
 <h4 class="hasAnchor">
 <a href="#simpletimezones" class="anchor"></a>SimpleTimeZones</h4>
 <p>Use <code>convertSimpleTimezones()</code> to download and convert this data set.</p>
-<p>The SimpleTimeZones dataset is a <code>SpatialPolygonsDataFrame</code> representing timezones of the world.</p>
+<p>The SimpleTimeZones dataset is a <code>simple features data frame</code> representing timezones of the world.</p>
 <p>May 28, 2016 Version</p>
 </div>
 <div id="houselegislativedistricts" class="section level4">
 <h4 class="hasAnchor">
 <a href="#houselegislativedistricts" class="anchor"></a>HouseLegislativeDistricts</h4>
 <p>Use <code><a href="../reference/convertStateLegislativeDistricts.html">convertStateLegislativeDistricts()</a></code> to download and convert this data set.</p>
-<p>This creates a <code>SpatialPolygonsDataFrame</code> for US State Legislative Districts.<br>
+<p>This creates a <code>simple features data frame</code> for US State Legislative Districts.<br>
 User input is required to specify the <code>stateCode</code> (2-digit ISO 3166) and which <code>house</code> (Upper or Lower chamber) the data should represent. For example, to obtain data on the Washington State Senate Legislative Districts, run <code><a href="../reference/convertStateLegislativeDistricts.html">convertStateLegislativeDistricts(stateCode = "WA", house = "Upper")</a></code>. This will generate a file named <code>WA_upperHouseLegislativeDistricts.rda</code></p>
 </div>
 <div id="tmworldborderssimple" class="section level4">
@@ -357,41 +357,41 @@ User input is required to specify the <code>stateCode</code> (2-digit ISO 3166) 
 <h4 class="hasAnchor">
 <a href="#uscensuscbsa" class="anchor"></a>USCensusCBSA</h4>
 <p>Use <code><a href="../reference/convertUSCensusCBSA.html">convertUSCensusCBSA()</a></code> to download and convert this data set.</p>
-<p>The USCensusCBSA dataset is a <code>SpatialPolygonsDataFrame</code> which represents Core Based Statistical Areas (CBSAs) as defined by the Office of Management and Budget (OMB). CBSAs consist of the county or counties or equivalent entities associated with at least one core (urbanized area or urban cluster) of at least 10,000 population, plus adjacent counties having a high degree of social and economic integration with the core as measured through commuting ties with the counties associated with the core.</p>
+<p>The USCensusCBSA dataset is a <code>simple features data frame</code> which represents Core Based Statistical Areas (CBSAs) as defined by the Office of Management and Budget (OMB). CBSAs consist of the county or counties or equivalent entities associated with at least one core (urbanized area or urban cluster) of at least 10,000 population, plus adjacent counties having a high degree of social and economic integration with the core as measured through commuting ties with the counties associated with the core.</p>
 <p>2017 Version</p>
 </div>
 <div id="uscensusurbanareas" class="section level4">
 <h4 class="hasAnchor">
 <a href="#uscensusurbanareas" class="anchor"></a>USCensusUrbanAreas</h4>
 <p>Use <code><a href="../reference/convertUSCensusUrbanAreas.html">convertUSCensusUrbanAreas()</a></code> to download and convert this data set.</p>
-<p>The USCensusUrbanAreas dataset is a SpatialPolygonsDataFrame which represent the urban areas delineated by the US Census that represent densely developed territory. There are two types of urban areas: urbanized areas (UAs) that contain 50,000 or more people and urban clusters (UCs) that contain at least 2,500 people, but fewer than 50,000 people.</p>
+<p>The USCensusUrbanAreas dataset is a simple features data frame which represent the urban areas delineated by the US Census that represent densely developed territory. There are two types of urban areas: urbanized areas (UAs) that contain 50,000 or more people and urban clusters (UCs) that contain at least 2,500 people, but fewer than 50,000 people.</p>
 <p>2018 Version</p>
 </div>
 <div id="usfsrangerdistricts" class="section level4">
 <h4 class="hasAnchor">
 <a href="#usfsrangerdistricts" class="anchor"></a>USFSRangerDistricts</h4>
 <p>Use <code>convertUSFSRangerDistricts()</code> to download and convert this data set.</p>
-<p>The USFSRangerDistricts dataset is a SpatialPolygonsDataFrame representing US Forest Service ranger district administrative boundaries. Ranger districts are sub units of National Forests intended to identify the specific organizational units that administer areas.</p>
+<p>The USFSRangerDistricts dataset is a simple features data frame representing US Forest Service ranger district administrative boundaries. Ranger districts are sub units of National Forests intended to identify the specific organizational units that administer areas.</p>
 <p>Feb 3, 2020 Version</p>
 </div>
 <div id="wbdhu" class="section level4">
 <h4 class="hasAnchor">
 <a href="#wbdhu" class="anchor"></a>WBDHU</h4>
 <p>Use <code><a href="../reference/convertWBDHUC.html">convertWBDHUC()</a></code> to download and convert this data set.</p>
-<p>This creates a <code>SpatialPolygonsDataFrame</code> that represents a specific level of hydrologic unit from national Watershed Boundary Dataset (WBD). This is a seamless, national dataset which represents the area of the landscape that drains to a portion of the stream network.</p>
+<p>This creates a <code>simple features data frame</code> that represents a specific level of hydrologic unit from national Watershed Boundary Dataset (WBD). This is a seamless, national dataset which represents the area of the landscape that drains to a portion of the stream network.</p>
 <p>User input is required to specify the <code>level</code> of data to generate. The <code>level</code> must be one of the following: [2, 4, 6, 8, 10, 12 or 14]. To generate a Level 8 data set, run <code><a href="../reference/convertWBDHUC.html">convertWBDHUC(level = 8)</a></code> which will generate a file named <code>WBDHU8.rda</code>.</p>
 </div>
 <div id="weatherzones" class="section level4">
 <h4 class="hasAnchor">
 <a href="#weatherzones" class="anchor"></a>WeatherZones</h4>
 <p>Use <code><a href="../reference/convertWeatherZones.html">convertWeatherZones()</a></code> to download and convert this data set.</p>
-<p>This creates a <code>SpatialPolygonsDataFrame</code> that represents public zone weather forecast areas. The NWS issues forecasts, and some watches and warnings, for public zones which are usually the same as counties but in many cases are subsets of counties. Counties are subset into smaller zones to allow for more accurate forecasts because of differences in weather within a county due to such things as elevation, or proximity to large bodies of water.</p>
+<p>This creates a <code>simple features data frame</code> that represents public zone weather forecast areas. The NWS issues forecasts, and some watches and warnings, for public zones which are usually the same as counties but in many cases are subsets of counties. Counties are subset into smaller zones to allow for more accurate forecasts because of differences in weather within a county due to such things as elevation, or proximity to large bodies of water.</p>
 </div>
 <div id="worldeez" class="section level4">
 <h4 class="hasAnchor">
 <a href="#worldeez" class="anchor"></a>WorldEEZ</h4>
 <p>Use <code>convertWorldEEZ()</code> to download and convert this data set.</p>
-<p>This creates a <code>SpatialPolygonsDataFrame</code> that represents World Exclusive Economic Zones Boundaries. An exclusive economic zone is a sea zone prescribed by the 1982 United Nations Convention on the Law of the Sea over which a state has special rights regarding the exploration and use of marine resources, including energy production from water and wind.</p>
+<p>This creates a <code>simple features data frame</code> that represents World Exclusive Economic Zones Boundaries. An exclusive economic zone is a sea zone prescribed by the 1982 United Nations Convention on the Law of the Sea over which a state has special rights regarding the exploration and use of marine resources, including energy production from water and wind.</p>
 <p>Version 8</p>
 <hr>
 </div>

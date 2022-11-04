@@ -2,22 +2,22 @@
 % Please edit documentation in R/utils-convert.R
 \name{.convertLayer}
 \alias{.convertLayer}
-\title{Convert Shapefile Layer to Spatial Polygon Dataframe}
+\title{Convert shapefile layer to simple features dataframe}
 \usage{
 .convertLayer(dsn = NULL, layer)
 }
 \arguments{
-\item{dsn}{dsn argument to code{sf::st_read()}.}
+\item{dsn}{dsn argument to \code{sf::st_read()}.}
 
-\item{layerName}{layer argument to code{sf::st_read()}.}
+\item{layer}{layer argument to \code{sf::st_read()}.}
 }
 \value{
 An object of class \code{sf}.
 }
 \description{
-Raw shapefiles are read in using \code{sf::st_read()}.
-Spatial data are reprojected onto a standard projection with CRS
-\code{"+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs"} before being returned.
+Raw shapefiles are read in using \code{\link[sf]{st_read}}.
+Spatial data are reprojected onto a standard projection
+(\url{https://epsg.io/4269}) before being returned.
 
 If shapefiles have no projection information they are assumed to 'geographic'
 coordinates

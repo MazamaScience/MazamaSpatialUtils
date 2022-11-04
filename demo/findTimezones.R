@@ -16,7 +16,7 @@ print(timezones)
 timezoneDF <- getTimezone(lons, lats, allData=TRUE)
 print(timezoneDF)
 
-# Subset the SpatialPolygonsDataFrame to only include our timezones
+# Subset the simple features data frame to only include our timezones
 timezoneMask <- SimpleTimezones@data$timezone %in% timezones
 
 # Plot the timezone polygons

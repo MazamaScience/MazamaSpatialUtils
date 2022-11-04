@@ -1,31 +1,41 @@
 #' @importFrom rlang .data
 #' @export
 #'
-#' @title Convert US Census State Shapefile
+#' @title Convert US Census state shapefile
 #'
 #' @param nameOnly Logical specifying whether to only return the name without
 #' creating the file.
 #' @param simplify Logical specifying whether to create "_05", _02" and "_01"
 #' versions of the file that are simplified to 5\%, 2\% and 1\%.
 #'
-#' @description Create a SpatialPolygonsDataFrame for US states
+#' @description Create a simple features dataframe for US states
 #'
 #' @details A US state borders shapefile is downloaded and converted to a
-#' SpatialPolygonsDataFrame with additional columns of data. The resulting file
+#' simple features dataframe with additional columns of data. The resulting file
 #' will be created in the spatial data directory which is set with
-#' \code{setSpatialDataDir()}.
+#' \link{setSpatialDataDir}.
 #'
-#' The source data is from 2019.
+#' The source data is from 2021.
 #'
 #' @note From the source documentation:
 #'
-#' The 2019 cartographic boundary shapefiles are simplified representations of
+#' \strong{Cartographic Boundary Files}
+#'
+#' The cartographic boundary files are simplified representations of
 #' selected geographic areas from the U.S. Census Bureau's Master Address File /
 #' Topologically Integrated Geographic Encoding and Referencing (MAF/TIGER)
 #' Database (MTDB). These boundary files are specifically designed for
 #' small-scale thematic mapping. When possible, generalization is performed with
 #' the intent to maintain the hierarchical relationships among geographies and
 #' to maintain the alignment of geographies within a file set for a given year.
+#' To improve the appearance of shapes, areas are represented with fewer vertices
+#' than detailed TIGER/Line equivalents. Some small holes or discontiguous parts
+#' of areas are not included in generalized files. Generalized boundary files
+#' are clipped to a simplified version of the U.S. outline. As a result, some
+#' offshore areas may be excluded from the generalized files.
+#'
+#' \strong{Limitations}
+#'
 #' Geographic areas may not align with the same areas from another year. Some
 #' geographies are available as nation-based files while others are available
 #' only as state-based files.
@@ -49,14 +59,10 @@
 #' detailed boundaries are required, please use the TIGER/Line Shapefiles instead
 #' of the generalized cartographic boundary files.
 #'
-#' @return Name of the dataset being created.
+#' @return Name of the datasetName being created.
 #'
 #' @references \url{https://www2.census.gov/geo/tiger/GENZ2021/}
 #'
-#' @seealso setSpatialDataDir
-#' @seealso getState
-#' @seealso getCode
-#' @seealso getName
 
 convertUSCensusStates <- function(
   nameOnly = FALSE,
@@ -87,8 +93,7 @@ convertUSCensusStates <- function(
 
   # ----- Convert to SFDF ------------------------------------------------------
 
-  # Convert shapefile into SpatialPolygonsDataFrame
-  # NOTE:  The 'states' directory has been created
+  # Convert shapefile into simple features data frame
   dsnPath <- file.path(dataDir, 'states')
   shpName <- 'cb_2021_us_state_500k'
   SFDF <- .convertLayer(
@@ -146,13 +151,20 @@ convertUSCensusStates <- function(
     )
 
   # # ----- Clean SFDF -----------------------------------------------------------
-  #
+
   # # Group polygons with the same identifier (stateFIPS)
   # SFDF <- organizePolygons(
   #   SFDF,
   #   uniqueID = 'stateFIPS',
   #   sumColumns = c('landArea', 'waterArea')
   # )
+
+  # Guarantee that all geometries are valid
+  if ( any(!sf::st_is_valid(SFDF)) )
+    SFDF <- sf::st_make_valid(SFDF)
+
+  # NOTE:  All polygons are unique so we just add polygonID manually
+  SFDF$polygonID <- as.character(seq_len(nrow(SFDF)))
 
   # ----- Name and save the data -----------------------------------------------
 
@@ -162,35 +174,10 @@ convertUSCensusStates <- function(
   save(list = c(datasetName), file = paste0(dataDir, '/', datasetName, '.rda'))
   rm(list = datasetName)
 
-  # ----- Simplify -------------------------------------------------------------
+  # * Simplify -----
 
-  if ( simplify ) {
-    # Create new, simplified datsets: one with 5%, 2%, and one with 1% of the vertices of the original
-    # NOTE:  This may take several minutes.
-    message("Simplifying to 5%...\n")
-    SFDF_05 <- rmapshaper::ms_simplify(SFDF, 0.05)
-    datasetName_05 <- paste0(datasetName, "_05")
-    message("Saving 5% version...\n")
-    assign(datasetName_05, SFDF_05)
-    save(list = datasetName_05, file = paste0(dataDir,"/", datasetName_05, '.rda'))
-    rm(list = c("SFDF_05",datasetName_05))
-
-    message("Simplifying to 2%...\n")
-    SFDF_02 <- rmapshaper::ms_simplify(SFDF, 0.02)
-    datasetName_02 <- paste0(datasetName, "_02")
-    message("Saving 2% version...\n")
-    assign(datasetName_02, SFDF_02)
-    save(list = datasetName_02, file = paste0(dataDir,"/", datasetName_02, '.rda'))
-    rm(list = c("SFDF_02",datasetName_02))
-
-    message("Simplifying to 1%...\n")
-    SFDF_01 <- rmapshaper::ms_simplify(SFDF, 0.01)
-    datasetName_01 <- paste0(datasetName, "_01")
-    message("Saving 1% version...\n")
-    assign(datasetName_01, SFDF_01)
-    save(list = datasetName_01, file = paste0(dataDir,"/", datasetName_01, '.rda'))
-    rm(list = c("SFDF_01",datasetName_01))
-  }
+  if ( simplify )
+    .simplifyAndSave(SFDF, datasetName, dataDir)
 
   # ----- Clean up and return --------------------------------------------------
 

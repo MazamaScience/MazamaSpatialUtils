@@ -16,12 +16,12 @@ wa <- subset(USCensusCounties, stateCode == 'WA')
 plot(wa)
 points(nbi_wa$longitude, nbi_wa$latitude, pch=0)
 
-# Summarize and add this data column to the SPDF dataframe
+# Summarize and add this data column to the SFDF dataframe
 bop <- summarizeByPolygon(nbi_wa$longitude, nbi_wa$latitude, nbi_wa$yearBuilt, wa, FUN=mean)
 wa@data$yearBuilt <- dplyr::left_join(wa@data, bop, by="polygonID")
 wa@data$yearBuilt
 
-# TODO:  Should summarizeByPolygon return an SPDF with a new column of data?
+# TODO:  Should summarizeByPolygon return an SFDF with a new column of data?
 
 # Example for a talk
 nbi <- nbi_wa

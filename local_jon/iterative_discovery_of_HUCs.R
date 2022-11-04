@@ -39,14 +39,14 @@ if (FALSE) {
   
   # How fast is this?
   HU10Codes_B <- brute_force_HU10_codes()
-  SPDF_B <- subsetHUC(WA10, parentHUCs = HU10Codes_B)
-  plot(SPDF_B)
-  plot(SPDF_B, border='cyan', add=T)
+  SFDF_B <- subsetHUC(WA10, parentHUCs = HU10Codes_B)
+  plot(SFDF_B)
+  plot(SFDF_B, border='cyan', add=T)
   
   # Is this faster? (NO)
   HU10Codes_A <- iterative_HU10_codes()
-  SPDF_A <- subsetHUC(WA10, parentHUCs = HU10Codes_A)
-  plot(SPDF_A)
+  SFDF_A <- subsetHUC(WA10, parentHUCs = HU10Codes_A)
+  plot(SFDF_A)
   points(lon, lat, col='red', pch=16, cex=0.5, xpd=NA)
   
 }

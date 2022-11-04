@@ -3,7 +3,7 @@
 #'
 #' @title Load spatial datasets
 #'
-#' @param pattern Regular expression used to match filenames.
+#' @param pattern Regular expression used to match file names.
 #'
 #' @description Load datasets found in the directory previously set with
 #' \code{setSpatialDataDir()}.
@@ -56,7 +56,7 @@ loadSpatialData <- function(
       load(filePath, envir = .GlobalEnv)
     }
 
-    # Return names of all SPDF loaded into the global environment
+    # Return names of all SFDF loaded into the global environment
     names <-
       base::basename(filePaths) %>%
       stringr::str_replace("\\.rda", "") %>%

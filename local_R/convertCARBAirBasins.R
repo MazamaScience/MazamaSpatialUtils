@@ -9,10 +9,10 @@
 #' @param simplify Logical specifying whether to create "_05", _02" and "_01"
 #' versions of the file that are simplified to 5\%, 2\% and 1\%.
 #'
-#' @description Returns a SpatialPolygonsDataFrame for CARB air basins,
+#' @description Returns a simple features data frame for CARB air basins,
 #'
 #' @details A California air basin shapefile is downloaded and converted to a
-#' SpatialPolygonsDataFrame with additional columns of data. The resulting file
+#' simple features data frame with additional columns of data. The resulting file
 #' will be created in the spatial data directory which is set with
 #' \code{setSpatialDataDir()}.
 #'
@@ -31,7 +31,7 @@
 #' conditions and consideration for political boundary lines, and are related
 #' to air pollution and its transport.
 #'
-#' @return Name of the dataset being created.
+#' @return Name of the datasetName being created.
 #'
 #' @references \url{https://ww2.arb.ca.gov//ei/gislib/gislib.htm}
 #'
@@ -64,21 +64,21 @@ convertCARBAirBasins <- function(
   # NOTE:  This zip file has no directory so extra subdirectory needs to be created
   utils::unzip(filePath, exdir = file.path(dataDir, 'ca_air_basins'))
 
-  # ----- Convert to SPDF ------------------------------------------------------
+  # ----- Convert to SFDF ------------------------------------------------------
 
-  # Convert shapefile into SpatialPolygonsDataFrame
+  # Convert shapefile into simple features data frame
   # NOTE:  The 'ca_air_basins' directory has been created
   dsnPath <- file.path(dataDir, 'ca_air_basins')
   shpName <- 'CaAirBasin'
-  SPDF <- convertLayer(
+  SFDF <- .convertLayer(
     dsn = dsnPath,
-    layerName = shpName,
+    layer = shpName,
     encoding = 'UTF-8'
   )
 
   # ----- Select useful columns and rename -------------------------------------
 
-  # > dplyr::glimpse(SPDF@data)
+  # > dplyr::glimpse(SFDF)
   # Observations: 15
   # Variables: 5
   # $ AREA      <dbl> 31839198681, 39557878115, 39178615821, 32161425221, 3446577486, …
@@ -95,13 +95,13 @@ convertCARBAirBasins <- function(
   #   NAME --------> name: name of the air basin
 
   # Add core metadata
-  SPDF@data$countryCode <- "US"
-  SPDF@data$stateCode <- "CA"
+  SFDF$countryCode <- "US"
+  SFDF$stateCode <- "CA"
 
   # Create the new dataframe in a specific column order
-  SPDF@data <-
+  SFDF <-
     dplyr::select(
-      .data = SPDF@data,
+      .data = SFDF,
       countryCode = .data$countryCode,
       stateCode = .data$stateCode,
       name = .data$NAME,
@@ -109,25 +109,25 @@ convertCARBAirBasins <- function(
       CAABA_ID = .data$CAABA_ID
     )
 
-  # ----- Clean SPDF -----------------------------------------------------------
+  # ----- Clean SFDF -----------------------------------------------------------
 
   # Group polygons with the same identifier (CAABA_ID)
-  SPDF <- organizePolygons(
-    SPDF,
+  SFDF <- organizePolygons(
+    SFDF,
     uniqueID = "CAABA_ID",
     sumColumns = NULL
   )
 
   # Clean topology errors
-  if ( !cleangeo::clgeo_IsValid(SPDF) ) {
-    SPDF <- cleangeo::clgeo_Clean(SPDF)
+  if ( !cleangeo::clgeo_IsValid(SFDF) ) {
+    SFDF <- cleangeo::clgeo_Clean(SFDF)
   }
 
   # ----- Name and save the data -----------------------------------------------
 
   # Assign a name and save the data
   message("Saving full resolution version...\n")
-  assign(datasetName, SPDF)
+  assign(datasetName, SFDF)
   save(list = c(datasetName), file = paste0(dataDir, '/', datasetName, '.rda'))
   rm(list = datasetName)
 
@@ -137,43 +137,43 @@ convertCARBAirBasins <- function(
     # Create new, simplified datsets: one with 5%, 2%, and one with 1% of the vertices of the original
     # NOTE:  This may take several minutes.
     message("Simplifying to 5%...\n")
-    SPDF_05 <- rmapshaper::ms_simplify(SPDF, 0.05)
-    SPDF_05@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+    SFDF_05 <- rmapshaper::ms_simplify(SFDF, 0.05)
+    SFDF_05@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
     # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SPDF_05) ) {
-      SPDF_05 <- cleangeo::clgeo_Clean(SPDF_05)
+    if ( !cleangeo::clgeo_IsValid(SFDF_05) ) {
+      SFDF_05 <- cleangeo::clgeo_Clean(SFDF_05)
     }
     datasetName_05 <- paste0(datasetName, "_05")
     message("Saving 5% version...\n")
-    assign(datasetName_05, SPDF_05)
+    assign(datasetName_05, SFDF_05)
     save(list = datasetName_05, file = paste0(dataDir,"/", datasetName_05, '.rda'))
-    rm(list = c("SPDF_05",datasetName_05))
+    rm(list = c("SFDF_05",datasetName_05))
 
     message("Simplifying to 2%...\n")
-    SPDF_02 <- rmapshaper::ms_simplify(SPDF, 0.02)
-    SPDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+    SFDF_02 <- rmapshaper::ms_simplify(SFDF, 0.02)
+    SFDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
     # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SPDF_02) ) {
-      SPDF_02 <- cleangeo::clgeo_Clean(SPDF_02)
+    if ( !cleangeo::clgeo_IsValid(SFDF_02) ) {
+      SFDF_02 <- cleangeo::clgeo_Clean(SFDF_02)
     }
     datasetName_02 <- paste0(datasetName, "_02")
     message("Saving 2% version...\n")
-    assign(datasetName_02, SPDF_02)
+    assign(datasetName_02, SFDF_02)
     save(list = datasetName_02, file = paste0(dataDir,"/", datasetName_02, '.rda'))
-    rm(list = c("SPDF_02",datasetName_02))
+    rm(list = c("SFDF_02",datasetName_02))
 
     message("Simplifying to 1%...\n")
-    SPDF_01 <- rmapshaper::ms_simplify(SPDF, 0.01)
-    SPDF_01@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+    SFDF_01 <- rmapshaper::ms_simplify(SFDF, 0.01)
+    SFDF_01@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
     # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SPDF_01) ) {
-      SPDF_01 <- cleangeo::clgeo_Clean(SPDF_01)
+    if ( !cleangeo::clgeo_IsValid(SFDF_01) ) {
+      SFDF_01 <- cleangeo::clgeo_Clean(SFDF_01)
     }
     datasetName_01 <- paste0(datasetName, "_01")
     message("Saving 1% version...\n")
-    assign(datasetName_01, SPDF_01)
+    assign(datasetName_01, SFDF_01)
     save(list = datasetName_01, file = paste0(dataDir,"/", datasetName_01, '.rda'))
-    rm(list = c("SPDF_01",datasetName_01))
+    rm(list = c("SFDF_01",datasetName_01))
   }
 
   # ----- Clean up and return --------------------------------------------------

@@ -10,9 +10,9 @@
 #' @param simplify Logical specifying whether to create "_05", _02" and "_01"
 #' versions of the file that are simplified to 5\%, 2\% and 1\%.
 #'
-#' @description  Returns a SpatialPolygonsDataFrame for Exclusive Economic Zones.
+#' @description  Returns a simple features data frame for Exclusive Economic Zones.
 #'
-#' @details A world EEZ shapefile is converted to a SpatialPolygonsDataFrame
+#' @details A world EEZ shapefile is converted to a simple features data frame
 #' with additional columns of data. To use this function, the file
 #' "World_EEZ_v11_20191118.zip" must be downloaded into the users spatial
 #' directory and unzipped. The location of the unzipped directory is then set
@@ -25,13 +25,13 @@
 #'
 #' 1) Maritime Boundaries Geodatabase: Exclusive Economic Zones (200NM), version 11
 #'
-#' This dataset builds on previous versions of the world's EEZ. In version 9,
+#' This datasetName builds on previous versions of the world's EEZ. In version 9,
 #' the 200 nautical miles outer limit was completely recalculated using a higher
 #' resolution coastline as a normal baseline (ESRI Countries 2014) and straight
-#' baselines, where available. This dataset consists of two shapefiles:
+#' baselines, where available. This datasetName consists of two shapefiles:
 #' polylines that represent the maritime boundaries of the world's countries,
 #' the other one is a polygon layer representing the Exclusive Economic Zone of
-#' countries. This dataset also contains digital information about treaties,
+#' countries. This datasetName also contains digital information about treaties,
 #' joint regime, and disputed boundaries.
 #'
 #' Preferred citation:
@@ -39,7 +39,7 @@
 #'   Boundaries and Exclusive Economic Zones (200NM), version 11. Available
 #'   online at https://www.marineregions.org/ https://doi.org/10.14284/386.
 #'
-#' @return Name of the dataset being created.
+#' @return Name of the datasetName being created.
 #'
 #' @references \url{http://www.marineregions.org/downloads.php}
 #'
@@ -77,20 +77,20 @@ convertWorldEEZ <- function(
     )
   }
 
-  # ----- Convert to SPDF ------------------------------------------------------
+  # ----- Convert to SFDF ------------------------------------------------------
 
-  # Convert shapefile into SpatialPolygonsDataFrame
+  # Convert shapefile into simple features data frame
   dsnPath <- EEZDir
   shpName <- "eez_v11"
-  SPDF <- convertLayer(
+  SFDF <- .convertLayer(
     dsn = dsnPath,
-    layerName = shpName,
+    layer = shpName,
     encoding = 'UTF-8'
   )
 
   # ----- Select useful columns and rename -------------------------------------
 
-  # > names(SPDF)
+  # > names(SFDF)
   #  [1] "MRGID"      "GEONAME"    "MRGID_TER1" "POL_TYPE"   "MRGID_SOV1" "TERRITORY1"
   #  [7] "ISO_TER1"   "SOVEREIGN1" "MRGID_TER2" "MRGID_SOV2" "TERRITORY2" "ISO_TER2"
   # [13] "SOVEREIGN2" "MRGID_TER3" "MRGID_SOV3" "TERRITORY3" "ISO_TER3"   "SOVEREIGN3"
@@ -107,7 +107,7 @@ convertWorldEEZ <- function(
 
 
   #   NOTE: These column names from a previous version :
-  #   > names(SPDF)
+  #   > names(SFDF)
   #   [1] "OBJECTID"    "EEZ"        "Country"    "ID"        "Sovereign"  "Remarks"    "Sov_ID"     "EEZ_ID"     "ISO_3digit"  "MRGID"
   #   [11] "Date_chang" "Area_m2"    "Longitude"  "Latitude"  "MRGID_EEZ"
 
@@ -133,7 +133,7 @@ convertWorldEEZ <- function(
   #   AREA_KM2 -----> area (converted to sq meters by multiplying by 1e6)
 
   # Create single territory, sovereign, and ISO3 columns and convert area to m
-  SPDF@data <- SPDF@data %>%
+  SFDF <- SFDF %>%
     # concatenate the three TERRITORY, SOVEREIGN and ISO_TER columns
     tidyr::unite("concatTerritory", .data$TERRITORY1, .data$TERRITORY2, .data$TERRITORY3,
                  sep = '; ', na.rm = TRUE) %>%
@@ -156,16 +156,16 @@ convertWorldEEZ <- function(
      )
 
   # Change missing or multiple ISO3 to NA
-  SPDF@data$ISO3[nchar(SPDF$ISO3) != 3 ] <- NA
+  SFDF$ISO3[nchar(SFDF$ISO3) != 3 ] <- NA
 
   # Add standard columns
-  SPDF@data$countryCode <- iso3ToIso2(SPDF$ISO3)
-  SPDF@data$countryName <- codeToCountry(SPDF$countryCode)
+  SFDF$countryCode <- iso3ToIso2(SFDF$ISO3)
+  SFDF$countryName <- codeToCountry(SFDF$countryCode)
 
   # Create the new dataframe in a specific column order
-  SPDF@data <-
+  SFDF <-
     dplyr::select(
-      .data = SPDF@data,
+      .data = SFDF,
       MRGID = .data$MRGID,
       EEZ = .data$GEONAME,
       countryCode = .data$countryCode,
@@ -179,25 +179,25 @@ convertWorldEEZ <- function(
       area = .data$area,
     )
 
-  # ----- Clean SPDF ----------------------------------------------------
+  # ----- Clean SFDF ----------------------------------------------------
 
   # Group polygons with the same identifier
-  SPDF <- organizePolygons(
-    SPDF,
+  SFDF <- organizePolygons(
+    SFDF,
     uniqueID = 'MRGID',
     sumColumns = c('area')
     )
 
   # Clean topology errors
-  if ( !cleangeo::clgeo_IsValid(SPDF) ) {
-    SPDF <- cleangeo::clgeo_Clean(SPDF)
+  if ( !cleangeo::clgeo_IsValid(SFDF) ) {
+    SFDF <- cleangeo::clgeo_Clean(SFDF)
   }
 
   # ----- Name and save the data -----------------------------------------------
 
   # Assign a name and save the data
   message("Saving full resolution version...\n")
-  assign(datasetName, SPDF)
+  assign(datasetName, SFDF)
   save(list = c(datasetName), file = paste0(dataDir,'/', datasetName, '.rda'))
   rm(list = datasetName)
 
@@ -208,43 +208,43 @@ convertWorldEEZ <- function(
     # Create new, simplified datsets: one with 5%, 2%, and one with 1% of the vertices of the original
     # NOTE:  This may take several minutes.
     message("Simplifying to 5%...\n")
-    SPDF_05 <- rmapshaper::ms_simplify(SPDF, 0.05)
-    SPDF_05@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+    SFDF_05 <- rmapshaper::ms_simplify(SFDF, 0.05)
+    SFDF_05@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
     # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SPDF_05) ) {
-      SPDF_05 <- cleangeo::clgeo_Clean(SPDF_05)
+    if ( !cleangeo::clgeo_IsValid(SFDF_05) ) {
+      SFDF_05 <- cleangeo::clgeo_Clean(SFDF_05)
     }
     datasetName_05 <- paste0(datasetName, "_05")
     message("Saving 5% version...\n")
-    assign(datasetName_05, SPDF_05)
+    assign(datasetName_05, SFDF_05)
     save(list = datasetName_05, file = paste0(dataDir,"/", datasetName_05, '.rda'))
-    rm(list = c("SPDF_05",datasetName_05))
+    rm(list = c("SFDF_05",datasetName_05))
 
     message("Simplifying to 2%...\n")
-    SPDF_02 <- rmapshaper::ms_simplify(SPDF, 0.02)
-    SPDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+    SFDF_02 <- rmapshaper::ms_simplify(SFDF, 0.02)
+    SFDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
     # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SPDF_02) ) {
-      SPDF_02 <- cleangeo::clgeo_Clean(SPDF_02)
+    if ( !cleangeo::clgeo_IsValid(SFDF_02) ) {
+      SFDF_02 <- cleangeo::clgeo_Clean(SFDF_02)
     }
     datasetName_02 <- paste0(datasetName, "_02")
     message("Saving 2% version...\n")
-    assign(datasetName_02, SPDF_02)
+    assign(datasetName_02, SFDF_02)
     save(list = datasetName_02, file = paste0(dataDir,"/", datasetName_02, '.rda'))
-    rm(list = c("SPDF_02",datasetName_02))
+    rm(list = c("SFDF_02",datasetName_02))
 
     message("Simplifying to 1%...\n")
-    SPDF_01 <- rmapshaper::ms_simplify(SPDF, 0.01)
-    SPDF_01@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+    SFDF_01 <- rmapshaper::ms_simplify(SFDF, 0.01)
+    SFDF_01@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
     # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SPDF_01) ) {
-      SPDF_01 <- cleangeo::clgeo_Clean(SPDF_01)
+    if ( !cleangeo::clgeo_IsValid(SFDF_01) ) {
+      SFDF_01 <- cleangeo::clgeo_Clean(SFDF_01)
     }
     datasetName_01 <- paste0(datasetName, "_01")
     message("Saving 1% version...\n")
-    assign(datasetName_01, SPDF_01)
+    assign(datasetName_01, SFDF_01)
     save(list = datasetName_01, file = paste0(dataDir,"/", datasetName_01, '.rda'))
-    rm(list = c("SPDF_01",datasetName_01))
+    rm(list = c("SFDF_01",datasetName_01))
   }
 
   # ----- Clean up and return --------------------------------------------------

@@ -3,7 +3,7 @@
 library(MazamaSpatialUtils)
 setSpatialDataDir("~/Data/Spatial")
 
-# Create MA house SPDF
+# Create MA house SFDF
 spdfName <- convertStateLegislativeDistricts("MA", "Lower", simplify = FALSE)
 loadSpatialData(spdfName)
 

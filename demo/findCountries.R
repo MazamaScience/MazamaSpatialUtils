@@ -16,7 +16,7 @@ print(countryNames)
 countryDF <- getCountryName(lons, lats, dataset = 'SimpleCountries', allData = TRUE)
 print(countryDF)
 
-# Subset the SpatialPolygonsDataFrame to only include our countries
+# Subset the simple features data frame to only include our countries
 countryMask <- SimpleCountries@data$countryName %in% countryNames
 
 # Plot the country polygons

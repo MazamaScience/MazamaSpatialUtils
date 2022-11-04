@@ -122,68 +122,68 @@ US_52 <- c(
 #' #' save(US_countyCodes, file = "data/US_countyCodes.rda")
 #' #' }
 #' "US_countyCodes"
+
+
+#' @title Simplified spatial dataset of world timezones.
+#' @format A simple features data frame with 423 records and 9 columns of data.
+#' @description This dataset is used by default in the \code{getTimezones()}
+#' function and contains the following columns of data in the \code{@data} slot:
+#' \itemize{
+#' \item{\code{timezone} -- Olson timezone}
+#' \item{\code{UTC_offset} -- offset from UTC (hours)}
+#' \item{\code{UTC_DST_offset} -- offset from UTC during daylight savings (hours)}
+#' \item{\code{countryCode} -- ISO 3166-1 alpha-2 country code}
+#' \item{\code{longitude} -- longitude of the timezone polygon centroid}
+#' \item{\code{latitude} -- longitude of the timezone polygon centroid}
+#' \item{\code{status} -- one of 'Canonical', 'Alias' or 'Deprecated'}
+#' \item{\code{notes} -- typically specifying the target of an 'Alias'}
+#' \item{\code{polygonID} -- unique identifier (= \code{timezone})}
+#' }
 #'
+#' This dataset was generated on 2022-11-03 by running:
 #'
-#' #' @title Simplified spatial dataset of world timezones.
-#' #' @format A SpatialPolygonsDataFrame with 423 records and 9 columns of data.
-#' #' @description This dataset is used by default in the \code{getTimezones()}
-#' #' function and contains the following columns of data in the \code{@data} slot:
-#' #' \itemize{
-#' #' \item{\code{timezone} -- Olson timezone}
-#' #' \item{\code{UTC_offset} -- offset from UTC (hours)}
-#' #' \item{\code{UTC_DST_offset} -- offset from UTC during daylight savings (hours)}
-#' #' \item{\code{countryCode} -- ISO 3166-1 alpha-2 country code}
-#' #' \item{\code{longitude} -- longitude of the timezone polygon centroid}
-#' #' \item{\code{latitude} -- longitude of the timezone polygon centroid}
-#' #' \item{\code{status} -- one of 'Canonical', 'Alias' or 'Deprecated'}
-#' #' \item{\code{notes} -- typically specifying the target of an 'Alias'}
-#' #' \item{\code{polygonID} -- unique identifier (= \code{timezone})}
-#' #' }
-#' #'
-#' #' This dataset was generated on 2020-11-12 by running:
-#' #'
-#' #' \preformatted{
-#' #' library(MazamaSpatialUtils)
-#' #' setSpatialDataDir("~/Data/Spatial")
-#' #'
-#' #' convertWorldTimezones()
-#' #'
-#' #' loadSpatialData("WorldTimezones_02")
-#' #'
-#' #' SimpleTimezones <- WorldTimezones_02
-#' #' save(SimpleTimezones, file = "data/SimpleTimezones.rda")
-#' #' }
-#' "SimpleTimezones"
+#' \preformatted{
+#' library(MazamaSpatialUtils)
+#' setSpatialDataDir("~/Data/Spatial")
 #'
-#' #' @title Simplified spatial dataset of EEZ/country combined boundaries.
-#' #' @format A SpatialPolygonsDataFrame with 319 records and 5 columns of data.
-#' #'
-#' #' @description SimpleCountriesEEZ is a simplified world borders dataset with a
-#' #' 200 mile coastal buffer corresponding to Exclusive Economic Zones, suitable for
-#' #' quick spatial searches. This dataset is distributed with the package and is
-#' #' used by default in \code{getCountry()}, \code{getCountryCode()} and
-#' #' \code{getCountryName()}.
-#' #'
-#' #' @details This dataset is equivalent to EEZCountries but with fewer columns of data.
-#' #' @seealso convertEEZCountries
-#' #'
-#' #' This dataset was generated on 2020-11-18 by running:
-#' #'
-#' #' \preformatted{
-#' #' library(MazamaSpatialUtils)
-#' #' setSpatialDataDir("~/Data/Spatial")
-#' #'
-#' #' convertEEZCountries()
-#' #'
-#' #' loadSpatialData("EEZCountries_05")
-#' #'
-#' #' SimpleCountriesEEZ <- EEZCountries_05[,c("countryCode", "countryName", "polygonID")]
-#' #' save(SimpleCountriesEEZ, file = "data/SimpleCountriesEEZ.rda")
-#' #' }
-#' "SimpleCountriesEEZ"
+#' convertOSMTimezones()
 #'
+#' loadSpatialData("OSMTimezones_02")
+#'
+#' SimpleTimezones <- OSMTimezones_02
+#' save(SimpleTimezones, file = "data/SimpleTimezones.rda")
+#' }
+"SimpleTimezones"
+
+#' @title Simplified spatial dataset of EEZ/country combined boundaries.
+#' @format A simple features data frame with 319 records and 5 columns of data.
+#'
+#' @description SimpleCountriesEEZ is a simplified world borders dataset with a
+#' 200 mile coastal buffer corresponding to Exclusive Economic Zones, suitable for
+#' quick spatial searches. This dataset is distributed with the package and is
+#' used by default in \code{getCountry()}, \code{getCountryCode()} and
+#' \code{getCountryName()}.
+#'
+#' @details This dataset is equivalent to EEZCountries but with fewer columns of data.
+#' @seealso convertEEZCountries
+#'
+#' This dataset was generated on 2022-11-03 by running:
+#'
+#' \preformatted{
+#' library(MazamaSpatialUtils)
+#' setSpatialDataDir("~/Data/Spatial")
+#'
+#' convertEEZCountries()
+#'
+#' loadSpatialData("EEZCountries_05")
+#'
+#' SimpleCountriesEEZ <- EEZCountries_05[,c("countryCode", "countryName", "polygonID")]
+#' save(SimpleCountriesEEZ, file = "data/SimpleCountriesEEZ.rda")
+#' }
+"SimpleCountriesEEZ"
+
 #' #' @title Simplified spatial dataset of country boundaries.
-#' #' @format A SpatialPolygonsDataFrame with 246 records and 6 columns of data.
+#' #' @format A simple features data frame with 319 records and 4 columns of data.
 #' #'
 #' #' @description SimpleCountries is a simplified world borders dataset suitable
 #' #' for global maps and quick spatial searches. This dataset is distributed with

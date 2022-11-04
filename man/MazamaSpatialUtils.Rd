@@ -21,7 +21,7 @@ to exist in every dataset is \code{countryCode}.
 
 The following additional standards are applied during the data conversion process:
 \itemize{
-\item{ all spatial data are converted to a purely geographic projection (\code{CRS("+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs"}) }
+\item{ all spatial data are converted to a purely geographic North American projection (\url{https://epsg.io/4269}) }
 \item{ no duplicated rows in the dataframe (conversion to \strong{multi-}polygons) }
 \item{ lowerCamelCase, human readable names replace original parameter names }
 \item{ redundant, software-internal or otherwise unuseful data columns may be dropped }

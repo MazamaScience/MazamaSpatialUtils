@@ -4,7 +4,7 @@
 #' @param longitude vector of longitudes
 #' @param latitude vector of latitudes
 #' @param value vector of values at the locations of interest
-#' @param SPDF SpatialPolygonsDataFrame with polygons used for aggregating
+#' @param SFDF simple features data frame with polygons used for aggregating
 #' @param useBuffering passed to MazamaSpatialUtils::getSpatialData()
 #' @param FUN function to be applied while summarizing (e.g. mean, max, etc.)
 #' @param varName variable name assigned to the summary variable
@@ -13,14 +13,14 @@
 #' a dataframe with polygon IDs and summary values.
 #' @note This function has not been thoroughly tested and is included
 #' in the package for experimental use only.
-#' @return A dataframe with the same rows as `SPDF@data` but containing only two 
+#' @return A dataframe with the same rows as `SFDF` but containing only two 
 #' columns: `polygonID` and the summary value.
 
 summarizeByPolygon <- function(
   longitude, 
   latitude, 
   value,
-  SPDF, 
+  SFDF, 
   useBuffering = FALSE, 
   FUN, 
   varName = "summaryValue"
@@ -35,8 +35,8 @@ summarizeByPolygon <- function(
     stop("longitude, latitude and value should have the same length")
   }
   
-  if ( !"polygonID" %in% names(SPDF) ) {
-    stop("polygonID not present in SPDF")
+  if ( !"polygonID" %in% names(SFDF) ) {
+    stop("polygonID not present in SFDF")
   }
   
   # ----- Summarize ------------------------------------------------------------
@@ -54,7 +54,7 @@ summarizeByPolygon <- function(
   # # Find polygonIDs associated with locations
   # df_unique$polygonID <- getSpatialData(lon = df_unique$longitude, 
   #                                       lat = df_unique$latitude,
-  #                                       SPDF = SPDF, 
+  #                                       SFDF = SFDF, 
   #                                       useBuffering = useBuffering)$polygonID
   # 
   # # NOTE:  We drop locations that do not fall into any polygon
@@ -97,7 +97,7 @@ summarizeByPolygon <- function(
   df_unique$polygonID <- 
     getSpatialData(lon = df_unique$longitude, 
                    lat = df_unique$latitude,
-                   SPDF = SPDF, 
+                   SFDF = SFDF, 
                    useBuffering = useBuffering) %>%
     dplyr::pull(polygonID)
   
@@ -134,7 +134,7 @@ summarizeByPolygon <- function(
   #####
   
   
-  returnDF <- dplyr::left_join(SPDF@data, df, by = "polygonID")
+  returnDF <- dplyr::left_join(SFDF, df, by = "polygonID")
   rownames(returnDF) <- returnDF$polygonID
   
   # ----- Return ---------------------------------------------------------------

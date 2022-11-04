@@ -47,11 +47,11 @@
 
 
 <meta property="og:title" content="Organize ungrouped polygons — organizePolygons" />
-<meta property="og:description" content="Determines if the SpatialPolygonsDataFrame is grouped. If ungrouped,
+<meta property="og:description" content="Determines if the simple features data frame is grouped. If ungrouped,
 function will group duplicated values based on the provided unique identifier.
 If sumColumns is NULL and there are multiple rows that aren't
 duplicated but have the same uniqueID, the original
-SpatialPolygonsDataFrame will be returned." />
+simple features data frame will be returned." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -156,21 +156,21 @@ SpatialPolygonsDataFrame will be returned." />
     </div>
 
     <div class="ref-description">
-    <p>Determines if the SpatialPolygonsDataFrame is grouped. If ungrouped,
+    <p>Determines if the simple features data frame is grouped. If ungrouped,
 function will group duplicated values based on the provided unique identifier.</p>
 <p>If <code>sumColumns</code> is NULL and there are multiple rows that aren't
 duplicated but have the same <code>uniqueID</code>, the original
-SpatialPolygonsDataFrame will be returned.</p>
+simple features data frame will be returned.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>organizePolygons</span><span class='op'>(</span><span class='va'>SPDF</span>, <span class='va'>uniqueID</span>, sumColumns <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>organizePolygons</span><span class='op'>(</span><span class='va'>SFDF</span>, <span class='va'>uniqueID</span>, sumColumns <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>SPDF</th>
-      <td><p>Object of class SpatialPolygonsDataFrame.</p></td>
+      <th>SFDF</th>
+      <td><p>Object of class simple features data frame.</p></td>
     </tr>
     <tr>
       <th>uniqueID</th>
@@ -184,7 +184,7 @@ SpatialPolygonsDataFrame will be returned.</p>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>SpatialPolygonsDataFrame composed of grouped polygons.</p>
+    <p>simple features data frame composed of grouped polygons.</p>
 
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

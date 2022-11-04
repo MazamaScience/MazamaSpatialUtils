@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Get polygonID from SPDF of interest — getPolygonID • MazamaSpatialUtils</title>
+<title>Get polygonID from SFDF of interest — getPolygonID • MazamaSpatialUtils</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,11 +46,11 @@
 
 
 
-<meta property="og:title" content="Get polygonID from SPDF of interest — getPolygonID" />
+<meta property="og:title" content="Get polygonID from SFDF of interest — getPolygonID" />
 <meta property="og:description" content="Extracts the the vector of unique polygon identifiers from
-SPDF.
+SFDF.
 This function is useful when writing code to aggregate data by polygon and
-calculate per-polygon statistics. Each unique SpatialPolygonsDataFrame will
+calculate per-polygon statistics. Each unique simple features data frame will
 have a different set of data columns but each is guaranteed to have a column
 named polygonID that uniquely identifies each polygon.
 This allows us to write code that aggregates by polygon without having to
@@ -153,29 +153,29 @@ know whether the polygons represent, countries, timezones or HUCs, etc." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Get polygonID from SPDF of interest</h1>
+    <h1>Get polygonID from SFDF of interest</h1>
     <small class="dont-index">Source: <a href='https://github.com/MazamaScience/MazamaSpatialUtils/blob/master/R/getPolygonID.R'><code>R/getPolygonID.R</code></a></small>
     <div class="hidden name"><code>getPolygonID.Rd</code></div>
     </div>
 
     <div class="ref-description">
     <p>Extracts the the vector of unique polygon identifiers from
-<code>SPDF</code>.</p>
+<code>SFDF</code>.</p>
 <p>This function is useful when writing code to aggregate data by polygon and
-calculate per-polygon statistics. Each unique SpatialPolygonsDataFrame will
+calculate per-polygon statistics. Each unique simple features data frame will
 have a different set of data columns but each is guaranteed to have a column
 named <code>polygonID</code> that uniquely identifies each polygon.</p>
 <p>This allows us to write code that aggregates by polygon without having to
 know whether the polygons represent, countries, timezones or HUCs, etc.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>getPolygonID</span><span class='op'>(</span><span class='va'>SPDF</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>getPolygonID</span><span class='op'>(</span><span class='va'>SFDF</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>SPDF</th>
+      <th>SFDF</th>
       <td><p>Spatial polygons dataset of interest.</p></td>
     </tr>
     </table>

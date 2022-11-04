@@ -163,7 +163,7 @@ a dataframe with polygon IDs and summary values.</p>
   <span class='va'>longitude</span>,
   <span class='va'>latitude</span>,
   <span class='va'>value</span>,
-  <span class='va'>SPDF</span>,
+  <span class='va'>SFDF</span>,
   useBuffering <span class='op'>=</span> <span class='cn'>FALSE</span>,
   <span class='va'>FUN</span>,
   varName <span class='op'>=</span> <span class='st'>"summaryValue"</span>
@@ -185,8 +185,8 @@ a dataframe with polygon IDs and summary values.</p>
       <td><p>vector of values at the locations of interest</p></td>
     </tr>
     <tr>
-      <th>SPDF</th>
-      <td><p>SpatialPolygonsDataFrame with polygons used for aggregating</p></td>
+      <th>SFDF</th>
+      <td><p>simple features data frame with polygons used for aggregating</p></td>
     </tr>
     <tr>
       <th>useBuffering</th>
@@ -204,7 +204,7 @@ a dataframe with polygon IDs and summary values.</p>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A dataframe with the same rows as `SPDF@data` but containing only two
+    <p>A dataframe with the same rows as `SFDF` but containing only two
 columns: `polygonID` and the summary value.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 

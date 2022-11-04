@@ -67,7 +67,7 @@ summaryByCounty <- summarizeByPolygon(
   longitude = ca_sensorData$longitude,
   latitude = ca_sensorData$latitude,
   value = ca_sensorData$pm25_1day,
-  SPDF = CA,
+  SFDF = CA,
   useBuffering = FALSE,
   FUN = median,
   varName = "pm25_mean"
@@ -106,5 +106,5 @@ legend(
 title(sprintf("County Mean PA sensor value on %s", DATE))
 
 
-# ===== California AirSensor <other SPDF> ====================================
+# ===== California AirSensor <other SFDF> ====================================
 

@@ -3,7 +3,7 @@
 #' @importFrom cleangeo clgeo_IsValid
 #' @export
 #'
-#' @title Convert Global Administrative Areas (GADM) SPDF
+#' @title Convert Global Administrative Areas (GADM) SFDF
 #'
 #' @param countryCode ISO-3166-1 alpha-2 country code
 #' @param admLevel administrative level to be downloaded
@@ -11,14 +11,14 @@
 #' creating the file.
 #' @param baseUrl Base URL for data queries.
 #'
-#' @description Create a SpatialPolygonsDataFrame for Global Administrative Areas.
+#' @description Create a simple features data frame for Global Administrative Areas.
 #'
-#' @details A pre-generated Global Administrative Areas SpatialPolygonsDataFrame
+#' @details A pre-generated Global Administrative Areas simple features data frame
 #' is downloaded and amended with additional columns of data. The resulting file
 #' will be created in the spatial data directory which is set with
 #' \code{setSpatialDataDir()}.
 #'
-#' The \code{@data} slot of each SpatialPolygonsDataFrame is both simplified and
+#' The \code{@data} slot of each simple features data frame is both simplified and
 #' modified to adhere to the \pkg{MazamaSpatialUtils} internal standards.
 #'
 #' @note Unlike other \code{convert~()} functions, no checks, cleanup or
@@ -45,7 +45,7 @@
 #' is a major overhaul of the divisions in a country, for example when a whole
 #' new set of subdivsions is introduced.
 #'
-#' @return Name of the dataset being created.
+#' @return Name of the datasetName being created.
 #' @references \url{https://gadm.org/data.html}
 #' @references \url{https://gadm.org/metadata.html}
 
@@ -95,10 +95,10 @@ convertGADM <- function(
   tempfile <- base::tempfile("spatial_data", fileext = ".rds")
   utils::download.file(url, tempfile)
 
-  # ----- Convert to SPDF ------------------------------------------------------
+  # ----- Convert to SFDF ------------------------------------------------------
 
-  # Convert shapefile into SpatialPolygonsDataFrame
-  SPDF <- readRDS(tempfile)
+  # Convert shapefile into simple features data frame
+  SFDF <- readRDS(tempfile)
   base::file.remove(tempfile)
 
   # ----- Select useful columns and rename -------------------------------------
@@ -110,7 +110,7 @@ convertGADM <- function(
 
     # * Country level ----------------------------------------------------------
 
-    # > dplyr::glimpse(SPDF@data, width = 80)
+    # > dplyr::glimpse(SFDF, width = 80)
     # Rows: 1
     # Columns: 2
     # $ GID_0  <chr> "AGO"
@@ -118,14 +118,14 @@ convertGADM <- function(
 
     keepNames <- c("GID_0", "NAME_0")
 
-    data <- SPDF@data[, keepNames]
+    data <- SFDF[, keepNames]
 
     names(data) <- c("ISO3", "countryName")
     data$countryCode <- iso3ToIso2(data$ISO3)
     data$HASC <- data$countryCode
     data <- data[, c("countryCode", "countryName", "HASC")]
 
-    SPDF@data <- data
+    SFDF <- data
 
     uniqueIdentifier <- "ISO3"
 
@@ -133,7 +133,7 @@ convertGADM <- function(
 
     # * State level ------------------------------------------------------------
 
-    # > dplyr::glimpse(SPDF@data, width = 80)
+    # > dplyr::glimpse(SFDF, width = 80)
     # Rows: 18
     # Columns: 10
     # $ GID_0     <chr> "AGO", "AGO", "AGO", "AGO", "AGO", "AGO", "AGO", "AGO", "AG…
@@ -162,20 +162,20 @@ convertGADM <- function(
     keepNames <- c("GID_0", "NAME_0", "NAME_1", "HASC_1")
 
     # NOTE:  Using dplyr recipe style gets a little awkward so we resort to base
-    data <- SPDF@data[, keepNames]
+    data <- SFDF[, keepNames]
 
     names(data) <- c("ISO3", "countryName", "stateName", "HASC")
     data$countryCode <- iso3ToIso2(data$ISO3)
     data$stateCode <- stringr::str_split_fixed(data$HASC, '\\.', 8)[ , 2]
     data <- data[, c("countryCode", "countryName", "stateCode", "stateName", "HASC")]
 
-    SPDF@data <- data
+    SFDF <- data
 
   } else if ( admLevel == 2 ) {
 
     # * County level -----------------------------------------------------------
 
-    # > dplyr::glimpse(SPDF@data, width = 80)
+    # > dplyr::glimpse(SFDF, width = 80)
     # Rows: 163
     # Columns: 13
     # $ GID_0     <chr> "AGO", "AGO", "AGO", "AGO", "AGO", "AGO", "AGO", "AGO", "AG…
@@ -195,20 +195,20 @@ convertGADM <- function(
     keepNames <- c("GID_0", "NAME_0", "NAME_1", "NAME_2", "HASC_2")
 
     # NOTE:  Using dplyr recipe style gets a little awkward so we resort to base
-    data <- SPDF@data[, keepNames]
+    data <- SFDF[, keepNames]
 
     names(data) <- c("ISO3", "countryName", "stateName", "countyName", "HASC")
     data$countryCode <- iso3ToIso2(data$ISO3)
     data$stateCode <- stringr::str_split_fixed(data$HASC, '\\.', n = 8)[ , 2]
     data <- data[, c("countryCode", "countryName", "stateCode", "stateName", "countyName", "HASC")]
 
-    SPDF@data <- data
+    SFDF <- data
 
   } else {
 
     # * Lower level ------------------------------------------------------------
 
-    # > dplyr::glimpse(SPDF@data, width = 80)
+    # > dplyr::glimpse(SFDF, width = 80)
     # Rows: 527
     # Columns: 16
     # $ GID_0     <chr> "AGO", "AGO", "AGO", "AGO", "AGO", "AGO", "AGO", "AGO", "AG…
@@ -235,35 +235,35 @@ convertGADM <- function(
     extraNames <- paste0("NAME_", 3:admLevel)
 
     # NOTE:  Using dplyr recipe style gets a little awkward so we resort to base
-    data <- SPDF@data[, keepNames]
+    data <- SFDF[, keepNames]
 
     names(data) <- c("ISO3", "countryName", "stateName", "countyName", extraNames)
     data$countryCode <- iso3ToIso2(data$ISO3)
     data <- data[, c("countryCode", "countryName", "stateName", "countyName", extraNames)]
 
-    SPDF@data <- data
+    SFDF <- data
 
   }
 
-  # ----- Clean SPDF -----------------------------------------------------------
+  # ----- Clean SFDF -----------------------------------------------------------
 
   # # Group polygons with the same identifier (ISO3)
-  # SPDF <- organizePolygons(
-  #   SPDF,
+  # SFDF <- organizePolygons(
+  #   SFDF,
   #   uniqueID = 'ISO3',
   #   sumColumns = NULL
   # )
   #
   # # Clean topology errors
-  # if ( !cleangeo::clgeo_IsValid(SPDF) ) {
-  #   SPDF <- cleangeo::clgeo_Clean(SPDF, verbose = TRUE)
+  # if ( !cleangeo::clgeo_IsValid(SFDF) ) {
+  #   SFDF <- cleangeo::clgeo_Clean(SFDF, verbose = TRUE)
   # }
 
   # ----- Name and save the data -----------------------------------------------
 
   # Assign a name and save the data
   message("Saving full resolution version...\n")
-  assign(datasetName, SPDF)
+  assign(datasetName, SFDF)
   save(list = c(datasetName), file = paste0(dataDir, '/', datasetName, '.rda'))
   rm(list = datasetName)
 
@@ -273,43 +273,43 @@ convertGADM <- function(
   #   # Create new, simplified datsets: one with 5%, 2%, and one with 1% of the vertices of the original
   #   # NOTE:  This may take several minutes.
   #   message("Simplifying to 5%...\n")
-  #   SPDF_05 <- rmapshaper::ms_simplify(SPDF, 0.05)
-  #   SPDF_05@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+  #   SFDF_05 <- rmapshaper::ms_simplify(SFDF, 0.05)
+  #   SFDF_05@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
   #   # Clean topology errors
-  #   if ( !cleangeo::clgeo_IsValid(SPDF_05) ) {
-  #     SPDF_05 <- cleangeo::clgeo_Clean(SPDF_05)
+  #   if ( !cleangeo::clgeo_IsValid(SFDF_05) ) {
+  #     SFDF_05 <- cleangeo::clgeo_Clean(SFDF_05)
   #   }
   #   datasetName_05 <- paste0(datasetName, "_05")
   #   message("Saving 5% version...\n")
-  #   assign(datasetName_05, SPDF_05)
+  #   assign(datasetName_05, SFDF_05)
   #   save(list = datasetName_05, file = paste0(dataDir,"/", datasetName_05, '.rda'))
-  #   rm(list = c("SPDF_05",datasetName_05))
+  #   rm(list = c("SFDF_05",datasetName_05))
   #
   #   message("Simplifying to 2%...\n")
-  #   SPDF_02 <- rmapshaper::ms_simplify(SPDF, 0.02)
-  #   SPDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+  #   SFDF_02 <- rmapshaper::ms_simplify(SFDF, 0.02)
+  #   SFDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
   #   # Clean topology errors
-  #   if ( !cleangeo::clgeo_IsValid(SPDF_02) ) {
-  #     SPDF_02 <- cleangeo::clgeo_Clean(SPDF_02)
+  #   if ( !cleangeo::clgeo_IsValid(SFDF_02) ) {
+  #     SFDF_02 <- cleangeo::clgeo_Clean(SFDF_02)
   #   }
   #   datasetName_02 <- paste0(datasetName, "_02")
   #   message("Saving 2% version...\n")
-  #   assign(datasetName_02, SPDF_02)
+  #   assign(datasetName_02, SFDF_02)
   #   save(list = datasetName_02, file = paste0(dataDir,"/", datasetName_02, '.rda'))
-  #   rm(list = c("SPDF_02",datasetName_02))
+  #   rm(list = c("SFDF_02",datasetName_02))
   #
   #   message("Simplifying to 1%...\n")
-  #   SPDF_01 <- rmapshaper::ms_simplify(SPDF, 0.01)
-  #   SPDF_01@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+  #   SFDF_01 <- rmapshaper::ms_simplify(SFDF, 0.01)
+  #   SFDF_01@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
   #   # Clean topology errors
-  #   if ( !cleangeo::clgeo_IsValid(SPDF_01) ) {
-  #     SPDF_01 <- cleangeo::clgeo_Clean(SPDF_01)
+  #   if ( !cleangeo::clgeo_IsValid(SFDF_01) ) {
+  #     SFDF_01 <- cleangeo::clgeo_Clean(SFDF_01)
   #   }
   #   datasetName_01 <- paste0(datasetName, "_01")
   #   message("Saving 1% version...\n")
-  #   assign(datasetName_01, SPDF_01)
+  #   assign(datasetName_01, SFDF_01)
   #   save(list = datasetName_01, file = paste0(dataDir,"/", datasetName_01, '.rda'))
-  #   rm(list = c("SPDF_01",datasetName_01))
+  #   rm(list = c("SFDF_01",datasetName_01))
   # }
 
   # ----- Clean up and return --------------------------------------------------

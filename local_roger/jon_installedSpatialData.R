@@ -17,14 +17,14 @@ datasetInfoList <- list(
   USCensusCBSA = list(
     summary = "U.S. Census Core Based Statistical Areas",
     details = "\
-  The USCensusUrbanAreas layer is a SpatialPolygonsDataFrame which represent the \
+  The USCensusUrbanAreas layer is a simple features data frame which represent the \
   urban areas delineated by the US Census that represent densely developed \
   territory."
   ),
   USFSRangerDistricts = list(
     summary = "U.S. Forest Service Ranger districts ",
     details = "\
-  The USFSRangerDistricts layer is a SpatialPolygonsDataFrame representing U.S. \
+  The USFSRangerDistricts layer is a simple features data frame representing U.S. \
   Forest Service ranger district administrative boundaries. Ranger districts are \
   sub units of National Forests intended to identify the specific organizational \
   units that administer areas."

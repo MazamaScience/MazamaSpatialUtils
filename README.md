@@ -43,7 +43,7 @@ datasets, this package provides `convert~()` functions for other spatial dataset
 that we currently use. These convert functions all follow the same recipe:
 
  * download spatial data in shapefile format into a standard directory
- * convert shapefile data into a sp SpatialPolygonsDataFrame
+ * convert shapefile data into a sp simple features data frame
  * modify the dataframe in the `@data` slot so that it adheres to package internal standards
 
 Other datasets can be added following the same procedure.

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Aggregate shapes in a SpatialPolygonsDataFrame — dissolve • MazamaSpatialUtils</title>
+<title>Aggregate shapes in a simple features data frame — dissolve • MazamaSpatialUtils</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,7 +46,7 @@
 
 
 
-<meta property="og:title" content="Aggregate shapes in a SpatialPolygonsDataFrame — dissolve" />
+<meta property="og:title" content="Aggregate shapes in a simple features data frame — dissolve" />
 <meta property="og:description" content="Aggregate shapes in a spatial polygons dataframe. This is a
 convenience wrapper for rmapshaper::ms_dissolve()" />
 <meta property="og:image" content="/logo.png" />
@@ -147,7 +147,7 @@ convenience wrapper for rmapshaper::ms_dissolve()" />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Aggregate shapes in a SpatialPolygonsDataFrame</h1>
+    <h1>Aggregate shapes in a simple features data frame</h1>
     <small class="dont-index">Source: <a href='https://github.com/MazamaScience/MazamaSpatialUtils/blob/master/R/MazamaSpatialUtils.R'><code>R/MazamaSpatialUtils.R</code></a></small>
     <div class="hidden name"><code>dissolve.Rd</code></div>
     </div>
@@ -157,14 +157,14 @@ convenience wrapper for rmapshaper::ms_dissolve()" />
 convenience wrapper for <code><a href='https://rdrr.io/pkg/rmapshaper/man/ms_dissolve.html'>rmapshaper::ms_dissolve()</a></code></p>
     </div>
 
-    <pre class="usage"><span class='fu'>dissolve</span><span class='op'>(</span><span class='va'>SPDF</span>, field <span class='op'>=</span> <span class='cn'>NULL</span>, sum_fields <span class='op'>=</span> <span class='cn'>NULL</span>, copy_fields <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>dissolve</span><span class='op'>(</span><span class='va'>SFDF</span>, field <span class='op'>=</span> <span class='cn'>NULL</span>, sum_fields <span class='op'>=</span> <span class='cn'>NULL</span>, copy_fields <span class='op'>=</span> <span class='cn'>NULL</span>, <span class='va'>...</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>SPDF</th>
-      <td><p>Object of class SpatialPolygonsDataFrame.</p></td>
+      <th>SFDF</th>
+      <td><p>Object of class simple features data frame.</p></td>
     </tr>
     <tr>
       <th>field</th>

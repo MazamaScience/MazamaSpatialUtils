@@ -47,7 +47,7 @@
 
 
 <meta property="og:title" content="Convert USGS hydrologic unit shapefiles — convertWBDHUC" />
-<meta property="og:description" content="Create a SpatialPolygonsDataFrame for USGS watershed boundaries" />
+<meta property="og:description" content="Create a simple features data frame for USGS watershed boundaries" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -152,7 +152,7 @@
     </div>
 
     <div class="ref-description">
-    <p>Create a SpatialPolygonsDataFrame for USGS watershed boundaries</p>
+    <p>Create a simple features data frame for USGS watershed boundaries</p>
     </div>
 
     <pre class="usage"><span class='fu'>convertWBDHUC</span><span class='op'>(</span>
@@ -197,7 +197,7 @@ clean topological errors in the shapefiles.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>A USGS Watershed Boundary Dataset geodatabase is converted to a
-SpatialPolygonsDataFrame with additional columns of data. To use this
+simple features data frame with additional columns of data. To use this
 function, the WBD geodatabase must be downloaded into a directory which is
 identified with <code>gdbDir</code>. The resulting file will be created in the
 spatial data directory which is set with <code><a href='setSpatialDataDir.html'>setSpatialDataDir()</a></code>.</p>

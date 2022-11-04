@@ -9,12 +9,12 @@
 #' @param simplify Logical specifying whether to create "_05", _02" and "_01"
 #' versions of the file that are simplified to 5\%, 2\% and 1\%.
 #'
-#' @description Create a SpatialPolygonsDataFrame for Geographic Area
+#' @description Create a simple features data frame for Geographic Area
 #' Coordination Centers (GACCs). These are regions defined by the National
 #' Interagency Fire Center (NIFC).
 #'
 #' @details A GACC shapefile is downloaded and converted to a
-#' SpatialPolygonsDataFrame with additional columns of data. The resulting
+#' simple features data frame with additional columns of data. The resulting
 #' file will be created in the spatial data directory which is set with
 #' \code{setSpatialDataDir()}.
 #'
@@ -82,9 +82,9 @@
 #' expressly disclaims liability for errors and omissions. No warranty of any
 #' kind, implied, expressed or statutory is given with respect to the contents.
 #'
-#' @return Name of the dataset being created.
+#' @return Name of the datasetName being created.
 #'
-#' @references https://hub.arcgis.com/datasets/7dc5f4a286bd47e0aaafa0ab05302fe9_0
+#' @references https://hub.arcgis.com/datasetNames/7dc5f4a286bd47e0aaafa0ab05302fe9_0
 #'
 #' @seealso setSpatialDataDir
 #'
@@ -108,25 +108,25 @@ convertGACC <- function(
 
   # Build appropriate request URL
   # NOTE:  The .zip extension returns a shapefile.
-  url <- "https://opendata.arcgis.com/datasets/7dc5f4a286bd47e0aaafa0ab05302fe9_0.zip"
+  url <- "https://opendata.arcgis.com/datasetNames/7dc5f4a286bd47e0aaafa0ab05302fe9_0.zip"
 
   filePath <- file.path(dataDir,basename(url))
   utils::download.file(url,filePath)
   # NOTE:  This zip file has no directory so extra subdirectory needs to be created
   utils::unzip(filePath,exdir = file.path(dataDir, 'gacc'))
 
-  # ----- Convert to SPDF ------------------------------------------------------
+  # ----- Convert to SFDF ------------------------------------------------------
 
-  # Convert shapefile into SpatialPolygonsDataFrame
+  # Convert shapefile into simple features data frame
   # NOTE: Prior to update, it read in as geojson file
 
   dsnPath <- file.path(dataDir,'gacc')
   shpName <- 'National_GACC_Current_20200226'
-  SPDF <- convertLayer(dsn = dsnPath, layerName = shpName)
+  SFDF <- .convertLayer(dsn = dsnPath, layer = shpName)
 
   # ----- Select useful columns and rename -------------------------------------
 
-  # > dplyr::glimpse(SPDF@data)
+  # > dplyr::glimpse(SFDF)
   # Observations: 10
   # Variables: 15
   # $ FID        <int> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
@@ -150,7 +150,7 @@ convertGACC <- function(
   #   GeometryID -> (drop)
   #   GACCName ---> GACCName: human readable name
   #   GACCUnitID -> unitID: identifier
-  #   GACCAbbrev -> abbreviation, GACC_NWCG_Code (to match 2017 GACC dataset)
+  #   GACCAbbrev -> abbreviation, GACC_NWCG_Code (to match 2017 GACC datasetName)
   #   GACCLocati -> location: city, state
   #   ContactPho -> contactPhone: contact phone number
   #   Comments ---> comments: update information
@@ -166,8 +166,8 @@ convertGACC <- function(
   # NOTE:  * create "label"
   # NOTE:  * create GACC_NWCG_Code
 
-  SPDF@data$countryCode <- 'US'
-  SPDF@data$stateCode <- stringr::str_extract(SPDF$GACCLocati, "[[:upper:]]{2}$")
+  SFDF$countryCode <- 'US'
+  SFDF$stateCode <- stringr::str_extract(SFDF$GACCLocati, "[[:upper:]]{2}$")
 
   # Recreate 2017 labels
   labels_2017 <- c(
@@ -178,10 +178,10 @@ convertGACC <- function(
     "EACC", "ONCC", "NWCC", "RMCC", "SACC",
     "SWCC", "OSCC", "GBCC", "NRCC", "AICC"
   )
-  SPDF@data$label <- labels_2017[SPDF@data$GACCAbbrev]
+  SFDF$label <- labels_2017[SFDF$GACCAbbrev]
 
-  SPDF@data <- dplyr::select(
-    .data = SPDF@data,
+  SFDF <- dplyr::select(
+    .data = SFDF,
     countryCode = .data$countryCode,
     stateCode = .data$stateCode,
     unitID = .data$GACCUnitID,
@@ -200,8 +200,8 @@ convertGACC <- function(
   # ----- Organize polygons ----------------------------------------------------
 
   # Group polygons with the same identifier (unitID)
-  SPDF <- organizePolygons(
-    SPDF,
+  SFDF <- organizePolygons(
+    SFDF,
     uniqueID = 'unitID',
     sumColumns = NULL
   )
@@ -210,7 +210,7 @@ convertGACC <- function(
 
   # Assign a name and save the data
   message("Saving full resolution version...\n")
-  assign(datasetName, SPDF)
+  assign(datasetName, SFDF)
   save(list = c(datasetName), file = paste0(dataDir,'/', datasetName, '.rda'))
   rm(list = datasetName)
 
@@ -221,31 +221,31 @@ convertGACC <- function(
     # Create new, simplified datsets: one with 5%, 2%, and one with 1% of the vertices of the original
     # NOTE:  This may take several minutes.
     message("Simplifying to 5%...\n")
-    SPDF_05 <- rmapshaper::ms_simplify(SPDF, 0.05)
-    SPDF_05@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+    SFDF_05 <- rmapshaper::ms_simplify(SFDF, 0.05)
+    SFDF_05@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
     datasetName_05 <- paste0(datasetName, "_05")
     message("Saving 5% version...\n")
-    assign(datasetName_05, SPDF_05)
+    assign(datasetName_05, SFDF_05)
     save(list = datasetName_05, file = paste0(dataDir,"/",datasetName_05, '.rda'))
-    rm(list = c("SPDF_05",datasetName_05))
+    rm(list = c("SFDF_05",datasetName_05))
 
     message("Simplifying to 2%...\n")
-    SPDF_02 <- rmapshaper::ms_simplify(SPDF, 0.02)
-    SPDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+    SFDF_02 <- rmapshaper::ms_simplify(SFDF, 0.02)
+    SFDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
     datasetName_02 <- paste0(datasetName, "_02")
     message("Saving 2% version...\n")
-    assign(datasetName_02, SPDF_02)
+    assign(datasetName_02, SFDF_02)
     save(list = datasetName_02, file = paste0(dataDir,"/",datasetName_02, '.rda'))
-    rm(list = c("SPDF_02",datasetName_02))
+    rm(list = c("SFDF_02",datasetName_02))
 
     message("Simplifying to 1%...\n")
-    SPDF_01 <- rmapshaper::ms_simplify(SPDF, 0.01)
-    SPDF_01@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+    SFDF_01 <- rmapshaper::ms_simplify(SFDF, 0.01)
+    SFDF_01@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
     datasetName_01 <- paste0(datasetName, "_01")
     message("Saving 1% version...\n")
-    assign(datasetName_01, SPDF_01)
+    assign(datasetName_01, SFDF_01)
     save(list = datasetName_01, file = paste0(dataDir,"/",datasetName_01, '.rda'))
-    rm(list = c("SPDF_01",datasetName_01))
+    rm(list = c("SFDF_01",datasetName_01))
   }
 
   # ----- Clean up and return --------------------------------------------------

@@ -12,7 +12,7 @@
 #' @description Create a SpacialPolygonsDataFrame for Terrestrial Ecoregions.
 #'
 #' @details A Terrestrial Ecoregions shapefile is downloaded and converted to a
-#' SpatialPolygonsDataFrame with additional columns of data. The resulting file
+#' simple features data frame with additional columns of data. The resulting file
 #' will be created in the spatial data directory which is set with
 #' \code{setSpatialDataDir()}.
 #'
@@ -29,12 +29,12 @@
 #' of natural communities on earth. We have based ecoregion delineations on
 #' hundreds of previous biogeographical studies, and refined and synthesized
 #' existing information in regional workshops over 10 years to assemble the
-#' global dataset. Ecoregions are nested within two higher-order
+#' global datasetName. Ecoregions are nested within two higher-order
 #' classifications: biomes (14) and biogeographic realms (8). Together, these
 #' nested classification levels provide a framework for comparison among units
 #' and the identification of representative habitats and species assemblages.
 #'
-#' @return Name of the dataset being created.
+#' @return Name of the datasetName being created.
 #'
 #' @references \url{https://www.worldwildlife.org/publications/terrestrial-ecoregions-of-the-world}
 #'
@@ -67,15 +67,15 @@ convertTerrestrialEcoregions <- function(
   # NOTE: This zip file has no directory so extra subdirectory needs to be created
   utils::unzip(filePath, exdir = file.path(dataDir, 'terrestrialEcors'))
 
-  # ----- Convert to SPDF ------------------------------------------------------
+  # ----- Convert to SFDF ------------------------------------------------------
 
-  # Convert shapefile into SpatialPolygonsDataFrame
+  # Convert shapefile into simple features data frame
   # NOTE: The 'terrestrialEcors' directory has been created
   dsnPath <- file.path(dataDir, 'terrestrialEcors/official')
   shpName <- 'wwf_terr_ecos'
-  SPDF <- convertLayer(
+  SFDF <- .convertLayer(
     dsn = dsnPath,
-    layerName = shpName,
+    layer = shpName,
     encoding = 'UTF-8'
   )
 
@@ -83,7 +83,7 @@ convertTerrestrialEcoregions <- function(
 
   message("Harmonizing @data...\n")
 
-  # > dplyr::glimpse(SPDF@data)
+  # > dplyr::glimpse(SFDF)
   # Observations: 14,458
   # Variables: 21
   # $ OBJECTID   <int> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
@@ -132,26 +132,26 @@ convertTerrestrialEcoregions <- function(
   #   PER_area_2 ---> (drop)
 
   # convert area to m^2
-  SPDF@data$AREA <- as.numeric(SPDF$AREA)
-  SPDF@data$AREA <- SPDF$AREA*1000000
+  SFDF$AREA <- as.numeric(SFDF$AREA)
+  SFDF$AREA <- SFDF$AREA*1000000
 
   # Get latitude and longitude from polygon centroids
-  centroids <- rgeos::gCentroid(SPDF, byid = TRUE)
+  centroids <- rgeos::gCentroid(SFDF, byid = TRUE)
   lon <- sp::coordinates(centroids)[,1]
   lat <- sp::coordinates(centroids)[,2]
 
-  SPDF@data$longitude <- lon
-  SPDF@data$latitude <- lat
+  SFDF$longitude <- lon
+  SFDF$latitude <- lat
 
   # Get countryCode from latitude and longitude
   # NOTE: Some records may have countryCode with value NA
-  SPDF@data$countryCode <- getCountryCode(SPDF$longitude, SPDF$latitude, useBuffering = FALSE)
+  SFDF$countryCode <- getCountryCode(SFDF$longitude, SFDF$latitude, useBuffering = FALSE)
 
   # Create the new dataframe in a specific column order
   # NOTE: ecoregionName, ecoregionID, and ecoregionCode are all equivalent identifiers for each ecoregion
-  SPDF@data <-
+  SFDF <-
     dplyr::select(
-      .data = SPDF@data,
+      .data = SFDF,
       ecoregionName = .data$ECO_NAME,
       ecoregionID = .data$ECO_ID,
       ecoregionNumber = .data$ECO_NUM,
@@ -170,28 +170,28 @@ convertTerrestrialEcoregions <- function(
       G200STAT = .data$G200_STAT
     )
 
-  # ----- Clean SPDF -----------------------------------------------------------
+  # ----- Clean SFDF -----------------------------------------------------------
 
   # Group polygons with the same identifier (stateFIPS)
   message("Organizing polygons...\n")
-  SPDF <- organizePolygons(
-    SPDF,
+  SFDF <- organizePolygons(
+    SFDF,
     uniqueID = 'ecoregionCode',
     sumColumns = 'area'
   )
 
   # Clean topology errors
   message("Checking for topology errors...\n")
-  if ( !cleangeo::clgeo_IsValid(SPDF) ) {
+  if ( !cleangeo::clgeo_IsValid(SFDF) ) {
     message("Cleaning topology errors...\n")
-    SPDF <- cleangeo::clgeo_Clean(SPDF)
+    SFDF <- cleangeo::clgeo_Clean(SFDF)
   }
 
   # ----- Name and save the data -----------------------------------------------
 
   # Assign a name and save the data
   message("Saving full resolution version...\n")
-  assign(datasetName, SPDF)
+  assign(datasetName, SFDF)
   save(list = c(datasetName), file = paste0(dataDir, '/', datasetName, '.rda'))
   rm(list = datasetName)
 
@@ -201,43 +201,43 @@ convertTerrestrialEcoregions <- function(
     # Create new, simplified datsets: one with 5%, 2%, and one with 1% of the vertices of the original
     # NOTE: This may take several minutes.
     message("Simplifying to 5%...\n")
-    SPDF_05 <- rmapshaper::ms_simplify(SPDF, 0.05)
-    SPDF_05@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+    SFDF_05 <- rmapshaper::ms_simplify(SFDF, 0.05)
+    SFDF_05@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
     # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SPDF_05) ) {
-      SPDF_05 <- cleangeo::clgeo_Clean(SPDF_05)
+    if ( !cleangeo::clgeo_IsValid(SFDF_05) ) {
+      SFDF_05 <- cleangeo::clgeo_Clean(SFDF_05)
     }
     datasetName_05 <- paste0(datasetName, "_05")
     message("Saving 5% version...\n")
-    assign(datasetName_05, SPDF_05)
+    assign(datasetName_05, SFDF_05)
     save(list = datasetName_05, file = paste0(dataDir,"/", datasetName_05, '.rda'))
-    rm(list = c("SPDF_05",datasetName_05))
+    rm(list = c("SFDF_05",datasetName_05))
 
     message("Simplifying to 2%...\n")
-    SPDF_02 <- rmapshaper::ms_simplify(SPDF, 0.02)
-    SPDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+    SFDF_02 <- rmapshaper::ms_simplify(SFDF, 0.02)
+    SFDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
     # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SPDF_02) ) {
-      SPDF_02 <- cleangeo::clgeo_Clean(SPDF_02)
+    if ( !cleangeo::clgeo_IsValid(SFDF_02) ) {
+      SFDF_02 <- cleangeo::clgeo_Clean(SFDF_02)
     }
     datasetName_02 <- paste0(datasetName, "_02")
     message("Saving 2% version...\n")
-    assign(datasetName_02, SPDF_02)
+    assign(datasetName_02, SFDF_02)
     save(list = datasetName_02, file = paste0(dataDir,"/", datasetName_02, '.rda'))
-    rm(list = c("SPDF_02",datasetName_02))
+    rm(list = c("SFDF_02",datasetName_02))
 
     message("Simplifying to 1%...\n")
-    SPDF_01 <- rmapshaper::ms_simplify(SPDF, 0.01)
-    SPDF_01@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+    SFDF_01 <- rmapshaper::ms_simplify(SFDF, 0.01)
+    SFDF_01@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
     # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SPDF_01) ) {
-      SPDF_01 <- cleangeo::clgeo_Clean(SPDF_01)
+    if ( !cleangeo::clgeo_IsValid(SFDF_01) ) {
+      SFDF_01 <- cleangeo::clgeo_Clean(SFDF_01)
     }
     datasetName_01 <- paste0(datasetName, "_01")
     message("Saving 1% version...\n")
-    assign(datasetName_01, SPDF_01)
+    assign(datasetName_01, SFDF_01)
     save(list = datasetName_01, file = paste0(dataDir,"/", datasetName_01, '.rda'))
-    rm(list = c("SPDF_01",datasetName_01))
+    rm(list = c("SFDF_01",datasetName_01))
   }
 
   # ----- Clean up and return --------------------------------------------------

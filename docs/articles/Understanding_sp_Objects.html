@@ -119,7 +119,7 @@
 <div id="understanding-sp-objectss" class="section level1">
 <h1 class="hasAnchor">
 <a href="#understanding-sp-objectss" class="anchor"></a>Understanding ‘sp’ Objectss</h1>
-<p>To work efficiently with the <code>SpatialPolygonsDataFrame</code> (SPDF) objects used in the <strong>MazamaSpatialUtils</strong> package, it is important to understand the <strong>S4</strong> object classes that make up the <strong>sp</strong> package. This vignette introduces simple concepts associated with R’s object classes so that newcomers to this style of coding can work efficiently with SPDFs.</p>
+<p>To work efficiently with the <code>simple features data frame</code> (SFDF) objects used in the <strong>MazamaSpatialUtils</strong> package, it is important to understand the <strong>S4</strong> object classes that make up the <strong>sp</strong> package. This vignette introduces simple concepts associated with R’s object classes so that newcomers to this style of coding can work efficiently with SFDFs.</p>
 <div id="objects-in-r" class="section level2">
 <h2 class="hasAnchor">
 <a href="#objects-in-r" class="anchor"></a>Objects in R</h2>
@@ -244,7 +244,7 @@
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"SimpleCountries"</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/class.html">class</a></span><span class="op">(</span><span class="va">SimpleCountries</span><span class="op">)</span></code></pre></div>
-<pre><code>## [1] "SpatialPolygonsDataFrame"
+<pre><code>## [1] "simple features data frame"
 ## attr(,"package")
 ## [1] "sp"</code></pre>
 <div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
@@ -278,8 +278,8 @@
 </div>
 <div id="spdf-objects" class="section level2">
 <h2 class="hasAnchor">
-<a href="#spdf-objects" class="anchor"></a>SPDF Objects</h2>
-<p>Each <code>SpatialPolygonsDataFrame</code> is an <strong>S4</strong> object with a 1:1 relationship between records (rows) in the <code>@data</code> dataframe and <code>Polygons</code> <strong>S4</strong> objects in the <code>@polygons</code> list. This makes it possible to use <em>some</em> functions like <code><a href="https://rdrr.io/r/base/subset.html">subset()</a></code> that work on dataframes. The following code shows how to work with them.</p>
+<a href="#spdf-objects" class="anchor"></a>SFDF Objects</h2>
+<p>Each <code>simple features data frame</code> is an <strong>S4</strong> object with a 1:1 relationship between records (rows) in the <code>@data</code> dataframe and <code>Polygons</code> <strong>S4</strong> objects in the <code>@polygons</code> list. This makes it possible to use <em>some</em> functions like <code><a href="https://rdrr.io/r/base/subset.html">subset()</a></code> that work on dataframes. The following code shows how to work with them.</p>
 <div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Compare 'data' and 'polygons' slots</span>
 <span class="fu"><a href="https://rdrr.io/r/base/nrow.html">nrow</a></span><span class="op">(</span><span class="va">SimpleCountries</span><span class="op">@</span><span class="va">data</span><span class="op">)</span></code></pre></div>
@@ -304,7 +304,7 @@
 <div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Magic happens when we plot using normal dataframe syntax</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span><span class="va">SimpleCountries</span><span class="op">[</span><span class="fl">1</span>,<span class="op">]</span><span class="op">)</span></code></pre></div>
-<p><img src="Understanding_sp_Objects_files/figure-html/SPDF-1.png" width="672"></p>
+<p><img src="Understanding_sp_Objects_files/figure-html/SFDF-1.png" width="672"></p>
 <div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Here is a more advanced example using pipes</span>
 <span class="va">SimpleCountries</span> <span class="op">%&gt;%</span> 
@@ -317,7 +317,7 @@
   <span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html">plot</a></span><span class="op">(</span>col <span class="op">=</span> <span class="st">'red'</span>, add <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 
 <span class="fu"><a href="https://rdrr.io/r/graphics/title.html">title</a></span><span class="op">(</span><span class="st">"German Speakers in Europe"</span><span class="op">)</span></code></pre></div>
-<p><img src="Understanding_sp_Objects_files/figure-html/SPDF-2.png" width="672"></p>
+<p><img src="Understanding_sp_Objects_files/figure-html/SFDF-2.png" width="672"></p>
 <hr>
 <p>Best of luck making interesting maps!</p>
 <p><strong><em>Mazama Science</em></strong></p>

@@ -47,16 +47,16 @@ what type of object it is so they will know how to work with it. We often use
 variable names like:
 
 * `locationsDF`  -- a `dataframe` of location info
-* `SPDF`  -- a `SpatialPolygonsDataFrame`
+* `SFDF`  -- a `simple features data frame`
 * `SpatialPolygonsList`  -- a `list` of `SpatialPolygons` objects
 
 We occasionally use '_' to create classes of similar variables that are 
 otherwise hard to name, e.g.:
 
 ```
-SPDF_01
-SPDF_02
-SPDF_05
+SFDF_01
+SFDF_02
+SFDF_05
 ```
 
 ## Naming Functions

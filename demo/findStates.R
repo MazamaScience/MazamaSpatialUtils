@@ -26,7 +26,7 @@ print(stateNames)
 stateDF <- getStateName(lons, lats, allData=TRUE)
 print(stateDF)
 
-# Subset the SpatialPolygonsDataFrame to only include our states
+# Subset the simple features data frame to only include our states
 # NOTE:  Need to be careful to remove polygons with stateName == NA
 stateMask <- NaturalEarthAdm1@data$stateName %in% stateNames & !is.na(NaturalEarthAdm1@data$stateName)
 
@@ -51,7 +51,7 @@ lats <- seq(20,80,5)
 # Get state names
 stateCodes <- getStateCode(lons, lats)
 
-# Subset the SpatialPolygonsDataFrame to only include our states
+# Subset the simple features data frame to only include our states
 # NOTE:  Need to be careful to remove polygons with stateCode == NA
 stateMask <- NaturalEarthAdm1@data$stateCode %in% stateCodes & !is.na(NaturalEarthAdm1@data$stateCode)
 

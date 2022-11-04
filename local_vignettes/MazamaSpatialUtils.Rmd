@@ -40,7 +40,7 @@ datasets, this package provides `convert~()` functions for other spatial
 datasets that we currently use. These convert functions all follow the same recipe:
 
 * download spatial data in shapefile format into a standard directory
-* convert shapefile data into a *sp* SpatialPolygonsDataFrame
+* convert shapefile data into a *sp* simple features data frame
 * clean up any topological errors
 * modify the dataframe in the `@data` slot so that it adheres to package internal standards
 
@@ -82,7 +82,7 @@ Current functionality includes the following:
 
 A generic `getSpatialData(longitude, latitude, ...)` returns a dataframe whose 
 rows are associated with specified locations. This function can be used with 
-newly converted SpatialPolygonsDataFrames.
+newly converted simple features data frames.
 
 For those working with geo-located data, the ability to enhance location 
 metadata with this information can be extremely helpful.

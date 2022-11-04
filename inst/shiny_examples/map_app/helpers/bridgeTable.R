@@ -1,6 +1,6 @@
 # This function creates a table with bridge data
 
-bridgeTable <- function(data, outputData, SPDF, FUN, style, variable) {
+bridgeTable <- function(data, outputData, SFDF, FUN, style, variable) {
   logger.trace("bridgeTable()")
   logger.trace(str(list(FUN = FUN, 
                         style = style)))

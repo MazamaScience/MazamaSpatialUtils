@@ -47,7 +47,7 @@
 
 
 <meta property="og:title" content="Convert (Simple) World Borders Shapefile — convertTMWorldBordersSimple" />
-<meta property="og:description" content="Returns a SpatialPolygonsDataFrame for simple world divisions" />
+<meta property="og:description" content="Returns a simple features data frame for simple world divisions" />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -152,7 +152,7 @@
     </div>
 
     <div class="ref-description">
-    <p>Returns a SpatialPolygonsDataFrame for simple world divisions</p>
+    <p>Returns a simple features data frame for simple world divisions</p>
     </div>
 
     <pre class="usage"><span class='fu'>convertTMWorldBordersSimple</span><span class='op'>(</span>nameOnly <span class='op'>=</span> <span class='cn'>FALSE</span>, simplify <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
@@ -178,7 +178,7 @@ versions of the file that are simplified to 5%, 2% and 1%.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>A world borders shapefile is downloaded and converted to a
-SpatialPolygonsDataFrame with additional columns of data. The resulting file will be created
+simple features data frame with additional columns of data. The resulting file will be created
 in the package <code>SpatialDataDir</code> which is set with <code><a href='setSpatialDataDir.html'>setSpatialDataDir()</a></code>.</p>
 <p>This shapefile is a simplified version of the TMWorldBorders shapefile.
 Users may wish to use a higher resolution dataset when plotting.</p>

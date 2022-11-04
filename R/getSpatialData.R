@@ -4,38 +4,38 @@
 #'
 #' @param longitude Vector of longitudes in decimal degrees East.
 #' @param latitude Vector of latitudes in decimal degrees North.
-#' @param SFDF Object of class SpatialPolygonsDataFrame.
+#' @param SFDF sf dataframe with MULTIPOLYGON geometry.
 #' @param useBuffering Logical flag specifying the use of location buffering to
 #' find the nearest polygon if no target polygon is found.
 #' @param verbose Logical flag controlling detailed progress statements.
 #'
-#' @return Vector or dataframe of data.
+#' @return Dataframe of data.
 #'
 #' @description All locations are first converted to \code{SpatialPoints}
-#' objects. The \pkg{sf::st_contains()} function is then used to determine which
+#' objects. The \code{\link[sf]{st_intersects}} function is then used to determine which
 #' polygon from \code{SFDF} each location falls in. The dataframe row associated
 #' with each polygon is then associated with each location.
 #'
-#' @details Occasionally for coastal locations the precise coordinates
-#' lie outside the boundaries of a low resolution SpatialPolygonsDataFrame.
+#' @details For coastal locations, locations may lie just outside the boundaries
+#' of an individual polygon, especially if it is of low resolution.
 #' To account for this any location that remains unassociated after the first
-#' pass is then buffered to create a small circle around the original location.
-#' All polygons are then checked to see if there is any intersection with the
-#' now larger buffered locations. Each point is then checked for an intersecting
-#' polygon at the following radii: 1km, 2km, 5km, 10km, 20km, 50km, 100km, 200km.
-#' If a buffered location is more than 200km away from any polygon, a value of
-#' \code{NA} (or data frame row with all \code{NA}s) is returned for that
+#' pass is checked to seee if it is with a specific distance of any polygon.
+#' The set of distances is gradually increased until a polygon is reached or the
+#' maximum distances is encountered. Distances include: 1km, 2km, 5km, 10km,
+#' 20km, 50km, 100km, 200km. If a location is more than 200km away from any
+#' polygon, a data frame record with all \code{NA}s is returned for that
 #' location.
 #'
-#' Missing or invalid values in the incoming \code{longitude} or \code{latitude} vectors
-#' result in \code{NA}s at those positions in the returned vector or data frame.
+#' Missing or invalid values in the incoming \code{longitude} or \code{latitude}
+#' vectors result in records with all \code{NA}s at those positions in the
+#' returned data frame.
 
 getSpatialData <- function(
-  longitude = NULL,
-  latitude = NULL,
-  SFDF = NULL,
-  useBuffering = FALSE,
-  verbose = FALSE
+    longitude = NULL,
+    latitude = NULL,
+    SFDF = NULL,
+    useBuffering = FALSE,
+    verbose = FALSE
 ) {
 
   # ----- Validate parameters --------------------------------------------------
@@ -55,115 +55,123 @@ getSpatialData <- function(
   # ----- Get the data ---------------------------------------------------------
 
   # Determine which longitude/latitude pairs are non-missing
-  validIndices <- intersect(which(!is.na(longitude)), which(!is.na(latitude)))
-  validPairs <- list(longitude[validIndices], latitude[validIndices])
+  validLocationIndices <- intersect(which(!is.na(longitude)), which(!is.na(latitude)))
 
-  # Create the array of locations and use the same projection as SFDF
-  locations <- sf::st_point(validPairs)
+  # Create an sf object
+  location <-
+    dplyr::tibble(
+      lon = longitude[validLocationIndices],
+      lat = latitude[validLocationIndices]
+    ) %>%
+    sf::st_as_sf(coords = c("lon", "lat")) %>%
+    # Assign lon-lat North America projection: https://epsg.io/4269
+    sf::st_set_crs(4269)
 
-  # Use the 'over' function to do point-in-polygon searches and extract data
-  validDF <- sf::st_contains(SFDF, locations)
+  # Intersect to retrieve SFDF records
+  polygonIndex <- sf::st_intersects(location, SFDF) %>% as.numeric()
+  validDF <- SFDF[polygonIndex,]
 
-  # Find the index of the points where the 'over' function failed to place a
-  # coordinate location in a polygon
-  badPointsIndex <- which(is.na(validDF$countryCode))
+  # Find the locationIndex of the locations where no intersection was found
+  badLocationsIndex <- which(is.na(validDF$countryCode))
 
-  # TODO:  Enable useBuffering
-  locationsDF <- validDF
+  # ----- Use buffering --------------------------------------------------------
 
-  # # If NA points are found, increment radius until limit is reached or a country
-  # # is found.
-  # # If there are no NA points, this block is skipped
-  # if ( (length(badPointsIndex) != 0) && useBuffering ) {
-  #
-  #   if (verbose)
-  #     print(paste0(length(badPointsIndex),
-  #                  ' points were outside of all polygons -- begin buffering ...'))
-  #
-  #   # Sets radius values (in meters) in roughly logarithmic increases
-  #   searchRadii <- c(1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000)
-  #
-  #   # Restructures the given SFDF from a SpatialPolygonsDataFrame to a list of
-  #   # SpatialPolygons.
-  #   # NOTE: We do this restructuring for ease of use later when using the
-  #   # 'gIntersects' function
-  #   # TODO:  implicit list embedding of S4 objects is depreciated, so we should
-  #   # TODO:  find an alternative.
-  #   SpatialPolygonsList <- list()
-  #   for (i in seq_along(SFDF) ) {
-  #     SFDF_Polygons <- SFDF@polygons[[i]]
-  #     suppressWarnings({
-  #       SpatialPolygonsList[i] <- sp::SpatialPolygons(list(SFDF_Polygons),
-  #                                                     proj4string = SFDF@proj4string)
-  #     })
-  #   }
-  #
-  #   # Loop over points of interest, trying to find an intersecting polygon
-  #   for ( pointIndex in badPointsIndex ) {
-  #
-  #     if (verbose)
-  #       print(paste0('pointIndex = ', pointIndex))
-  #
-  #     # Select the individual point we are analyzing
-  #     pointOfInterest <- location[pointIndex]
-  #
-  #     for ( radius in searchRadii ) {
-  #
-  #       if (verbose)
-  #         print(paste0('Using radius = ', radius,
-  #                      ' to search through ', length(SpatialPolygonsList),
-  #                      ' polygons ...'))
-  #
-  #       # TODO:  Deal with warning messages like:
-  #       # TODO:    NULL target CRS comment, falling back to PROJ string
-  #       suppressWarnings({
-  #
-  #         # Switch to a planar projection in order to use 'gBuffer' function
-  #         pointOfInterest <- sp::spTransform(
-  #           pointOfInterest,
-  #           sp::CRS("+proj=robin +lon_0=0 +x_0=0 +y_0=0 +ellps=WGS84 +datum=WGS84 +units=m +no_defs")
-  #         )
-  #
-  #         # Buffer the point
-  #         buffer <- rgeos::gBuffer(pointOfInterest, width = radius)
-  #
-  #         # Transform back to geographical coordinates, exiting the loop if
-  #         # -180:180, -90:90 domain boundaries are reached
-  #         buffer <- try(sp::spTransform(buffer, SFDF@proj4string), silent = FALSE)
-  #
-  #       })
-  #
-  #       if ( class(buffer) == "try-error" )
-  #         break
-  #
-  #       radiusIntersectsPolygon <- FALSE
-  #
-  #       # Use gIntersects() to determine whether each buffered point is contained
-  #       # within each polygon
-  #       for ( k in seq_along(SpatialPolygonsList) ) {
-  #         if ( rgeos::gIntersects(buffer, SpatialPolygonsList[[k]]) ) {
-  #           validDF[pointIndex,] <- SFDF@data[k,]
-  #           radiusIntersectsPolygon <- TRUE
-  #           break
-  #         }
-  #       }
-  #       # Bail out of searchRadii loop
-  #       if (radiusIntersectsPolygon) break
-  #
-  #     } # END of ( radius in searchRadii )
-  #
-  #   } # END of ( pointIndex in badPointsIndex )
-  #
-  # }
-  #
-  # # Create a data frame for all locations, valid and not valid
-  # locationsDF <- data.frame(matrix(NA, ncol = ncol(validDF), nrow = length(longitude)))
-  # colnames(locationsDF) <- colnames(validDF)
-  # # Place the valid points in their correct position in the locations data frame
-  # for (i in seq_along(validIndices)) {
-  #   locationsDF[validIndices[i],] <- validDF[i,]
-  # }
+  # If there are no bad locations, this block is skipped
+
+  # If locations are found which do not intersect with any polygon, increment
+  # search for polygons with an increasing radius until the limit is reached or
+  # a country is found.
+
+  if ( (length(badLocationsIndex) != 0) && useBuffering ) {
+
+    if (verbose)
+      print(paste0(length(badLocationsIndex),
+                   ' locations were outside of all polygons -- begin buffering ...'))
+
+    # Sets radius values (in meters) in roughly logarithmic increases
+    searchRadii <- c(1000, 2000, 5000, 10000, 20000, 50000, 100000, 200000)
+
+    # Loop over locations of interest, trying to find an intersecting polygon
+    for ( locationIndex in badLocationsIndex ) {
+
+      if (verbose)
+        print(paste0('locationIndex = ', locationIndex))
+
+      # Select the individual location we are analyzing
+      locationOfInterest <- location[locationIndex,]
+
+      for ( radius in searchRadii ) {
+
+        if (verbose)
+          print(paste0('Using radius = ', radius,
+                       ' to search through ', nrow(SFDF),
+                       ' polygons ...'))
+
+        polygonIndex <-
+          sf::st_is_within_distance(locationOfInterest, SFDF, radius) %>%
+          as.numeric()
+
+        if ( is.na(polygonIndex) ) {
+
+          # Keep searching
+          next
+
+        } else {
+
+          # Done searching
+          validDF[locationIndex,] <- SFDF[polygonIndex,]
+          break
+
+        }
+
+      } # END of ( radius in searchRadii )
+
+    } # END of ( locationIndex in badLocationsIndex )
+
+  } # END of ( use buffering )
+
+  # ----- Assemble return dataframe --------------------------------------------
+
+  # Create a data frame for all locations, valid and not valid
+  locationsDF <- data.frame(matrix(NA, ncol = ncol(validDF), nrow = length(longitude)))
+  colnames(locationsDF) <- colnames(SFDF)
+
+  # Place the valid locations in their correct position in locationsDF
+  for (i in seq_along(validLocationIndices)) {
+    locationsDF[validLocationIndices[i],] <- validDF[i,]
+  }
+
+  # Drop the geometry column to return a non-spatial dataframe
+  locationsDF <- locationsDF %>% sf::st_drop_geometry()
+  # TODO: Figure out why st_drop_geometry() isn't working or post an issue
+  if ( "geometry" %in% names(locationsDF) )
+    locationsDF$geometry <- NULL
+
+  # ----- Return ---------------------------------------------------------------
 
   return(locationsDF)
+
+}
+
+# ===== DEBUGGING ==============================================================
+
+if ( FALSE ) {
+
+  library(MazamaSpatialUtils)
+  setSpatialDataDir("~/Data/Spatial_0.8")
+  loadSpatialData("USCensusStates_02")
+
+  SFDF <- USCensusStates_02
+  useBuffering <- TRUE
+  verbose <- TRUE
+
+  longitude <- -120:-105
+  latitude <- 40:55
+
+
+
+  bop <- getSpatialData(longitude, latitude, SFDF)
+
+
 
 }

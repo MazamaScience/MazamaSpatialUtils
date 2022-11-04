@@ -3,7 +3,7 @@
 #'
 #' @title Subset pre-formatted HUC files into smaller groupings.
 #'
-#' @param SPDF a spatial polygons dataframe created using the convertUSGSHUC
+#' @param SFDF a spatial polygons dataframe created using the convertUSGSHUC
 #' function
 #' @param parentHUCs Character vector specifying one or more containing HUCs.
 #' @param stateCodes Character vector specifying one or more containing states.
@@ -23,7 +23,7 @@
 #'
 
 subsetHUC <- function(
-  SPDF = NULL,
+  SFDF = NULL,
   parentHUCs = NULL,
   stateCodes = NULL,
   allStateCodes = NULL
@@ -31,52 +31,52 @@ subsetHUC <- function(
 
   # ----- Validate parameters --------------------------------------------------
 
-  MazamaCoreUtils::stopIfNull(SPDF)
+  MazamaCoreUtils::stopIfNull(SFDF)
 
-  # Check that names of SPDF have required fields
+  # Check that names of SFDF have required fields
   requiredFields <- c('stateCode', 'HUC', 'allStateCodes')
-  missingFields <- setdiff(requiredFields, names(SPDF))
+  missingFields <- setdiff(requiredFields, names(SFDF))
   if ( length(missingFields) > 0 ) {
-    stop(paste0('Missing fields in SPDF: ', missingFields))
+    stop(paste0('Missing fields in SFDF: ', missingFields))
   }
 
   # ----- Subset ---------------------------------------------------------------
 
   # Identify HUC string partial matches to use as a mask
   if ( !is.null(parentHUCs) ) {
-    HUCMask <- rep(FALSE, nrow(SPDF))
+    HUCMask <- rep(FALSE, nrow(SFDF))
     for (HUC in parentHUCs){
       regex <- paste0('^', HUC)
-      mask <- stringr::str_detect(SPDF@data$HUC, regex)
+      mask <- stringr::str_detect(SFDF$HUC, regex)
       HUCMask <- HUCMask | mask
     }
-    SPDF <- SPDF[HUCMask,]
+    SFDF <- SFDF[HUCMask,]
   }
 
   # Subset HUC by stateCode
   if ( !is.null(stateCodes) ) {
-    stateMask <- rep(FALSE, nrow(SPDF))
+    stateMask <- rep(FALSE, nrow(SFDF))
     for (stateCode in stateCodes) {
-      stateMask <- stateMask | (SPDF@data$stateCode == stateCode)
+      stateMask <- stateMask | (SFDF$stateCode == stateCode)
     }
     stateMask <- stateMask & !is.na(stateMask)
-    SPDF <- SPDF[stateMask,]
+    SFDF <- SFDF[stateMask,]
   }
 
   # SubsetHUC by allstateCodes
   if ( !is.null(allStateCodes) ) {
-    allStateCodesMask <- rep(FALSE, nrow(SPDF))
+    allStateCodesMask <- rep(FALSE, nrow(SFDF))
     for (stateCode in allStateCodes) {
-      allStateCodesMask <- allStateCodesMask | stringr::str_detect(SPDF@data$allStateCodes, stateCode)
+      allStateCodesMask <- allStateCodesMask | stringr::str_detect(SFDF$allStateCodes, stateCode)
       # Handle NAs in allStateCodes (e.g. Northerm Mariana Islands in HUC4)
       allStateCodesMask[is.na(allStateCodesMask)] <- FALSE
     }
-    SPDF <- SPDF[allStateCodesMask,]
+    SFDF <- SFDF[allStateCodesMask,]
   }
 
   # ----- Return ---------------------------------------------------------------
 
-  return(SPDF)
+  return(SFDF)
 
 }
 

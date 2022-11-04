@@ -3,7 +3,7 @@
 
 bridgePlot <- function(data, 
                        outputData, 
-                       SPDF, 
+                       SFDF, 
                        FUN, 
                        style, 
                        title = "", 
@@ -22,7 +22,7 @@ bridgePlot <- function(data,
   if (style == "base_spdf_plus_points") {
     
     logger.trace("plotting...")
-    plot(SPDF, col = colors)
+    plot(SFDF, col = colors)
     plot(stateOutline, add=TRUE)
     points(data$longitude, data$latitude, pch = 2)
     legend("topright", 
@@ -40,7 +40,7 @@ bridgePlot <- function(data,
   } else if (style == "base_spdf") {
     
     logger.trace("plotting...")
-    plot(SPDF, col = colors)
+    plot(SFDF, col = colors)
     plot(stateOutline, add=TRUE)
     legend("topright", 
            legend = names(breaks)[1:4], 

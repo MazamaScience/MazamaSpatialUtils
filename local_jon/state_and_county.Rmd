@@ -92,7 +92,7 @@ covid19data <- dplyr::select(
 
 # Note: Line graphs would be great, especially for the total count confirmed and total count deaths! 
 
-# Use dplyr left_join to merge data onto SPDF@data. Create a choropleth plot. Update: When using that, it turned it into a data frame. Let's try merge.
+# Use dplyr left_join to merge data onto SFDF. Create a choropleth plot. Update: When using that, it turned it into a data frame. Let's try merge.
 
 data_projected <- sp::merge(california, covid19data, by = "countyName")
 
@@ -104,7 +104,7 @@ data_projected <- sp::merge(california, covid19data, by = "countyName")
 
 lacities_highlight <- c("Los Angeles", "San Diego", "San Francisco", "Sacramento")
 
-# Subset the SPDF
+# Subset the SFDF
 data_projected %>% 
   subset(countyName %in% lacities_highlight) %>%  
   plot()
@@ -208,14 +208,14 @@ utils::unzip(filePath3,exdir=file.path(dataDir, 'lacities'))
 dsnPath <- file.path(dataDir, 'lacities')
 shpName <- 'LA%20County%20City%20Boundaries'
   
-la_SPDF <- convertLayer(
+la_SFDF <- .convertLayer(
     dsn = dsnPath, 
-    layerName = shpName, 
+    layer = shpName, 
     encoding = 'UTF-8'
   )
 
-la_SPDF@data <- dplyr::select(
-      .data = la_SPDF@data,
+la_SFDF <- dplyr::select(
+      .data = la_SFDF,
       city = .data$CITY_LABEL,
       city_number = .data$CITY_NO,
       shapearea = .data$ShapeSTAre,
@@ -223,12 +223,12 @@ la_SPDF@data <- dplyr::select(
   )
 
 # What does it look like? 
-la_SPDF %>% 
+la_SFDF %>% 
   plot()  #niiiiice
 
-#unique(la_SPDF@data$city) 
+#unique(la_SFDF$city) 
 
-la_SPDF@data<- la_SPDF@data %>% 
+la_SFDF<- la_SFDF %>% 
   #filter(city_number !="0") %>% 
   distinct(city_number, .keep_all = TRUE) %>% 
   mutate(city = gsub(pattern = "City of ", replacement = "", city)) %>% 
@@ -239,15 +239,15 @@ la_SPDF@data<- la_SPDF@data %>%
 ```{r}
 
 #require(sp)
-#la_cities_map <- sp::merge(la_SPDF, cities) 
+#la_cities_map <- sp::merge(la_SFDF, cities) 
 
-la_SPDF@data <- full_join(la_SPDF@data, cities, by = c('city'))
+la_SFDF <- full_join(la_SFDF, cities, by = c('city'))
 
 # Where is Pasadena? Long Beach? I see, they were not included in the url.
 
-la_SPDF %>% plot()
+la_SFDF %>% plot()
 
-tm_shape(la_SPDF) +
+tm_shape(la_SFDF) +
   tm_polygons("city") 
 
 
@@ -262,7 +262,7 @@ tm_shape(la_SPDF) +
 
 
 
-# Note: Going to have to stop now. When I used sp:merge, I am left with the specific cities in the LA County (la_SPDF, cities). When printed, you don't see the "LA County" shape. Messed around a little bit with the la_SPDF filter and when I plotted, it looked like what I want. Full_joined with the cities df but dimensions were not matching. Maybe I need to fill the NA's? Will come back to this. 
+# Note: Going to have to stop now. When I used sp:merge, I am left with the specific cities in the LA County (la_SFDF, cities). When printed, you don't see the "LA County" shape. Messed around a little bit with the la_SFDF filter and when I plotted, it looked like what I want. Full_joined with the cities df but dimensions were not matching. Maybe I need to fill the NA's? Will come back to this. 
 
 ```
 

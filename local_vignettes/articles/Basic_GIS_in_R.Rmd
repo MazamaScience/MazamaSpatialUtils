@@ -26,7 +26,7 @@ encountered when using the MazamaSpatialUtils.
 An easy way to create a rectangular Spatial Polygon Data Frame is to use the 
 Bounding Box, or extent, of another spatial feature to define the geometry of 
 the feature you want to create.  A separate data frame with feature attributes 
-can then be attached to this geometry  to form a SpatialPolygonsDataFrame.
+can then be attached to this geometry  to form a simple features data frame.
 
 ```{r polygon_a_creation, message=FALSE}
 library(raster)
@@ -35,29 +35,29 @@ library(raster)
 poly_a <- as(raster::extent(2.0, 11.0, 9.0, 15.0), "SpatialPolygons")
 df_a <- data.frame(name = "A", id = "1", county = "1", type = "tract", zone = "1")
 
-spdf_a <- SpatialPolygonsDataFrame(poly_a,df_a)
+spdf_a <- simple features data frame(poly_a,df_a)
 ```
 
 ```{r polygon_bcde_creation, include=FALSE, message=FALSE}
 # polygon B
 poly_b <- as(raster::extent(11.0, 20.0, 9.0, 15.0), "SpatialPolygons")
 df_b <- data.frame(name = "B", id = "2", county = "1", type = "tract", zone = "1")
-spdf_b <- SpatialPolygonsDataFrame(poly_b,df_b)
+spdf_b <- simple features data frame(poly_b,df_b)
 
 # polygon C
 poly_c <- as(raster::extent(11.0, 20.0, 2.0, 9.0), "SpatialPolygons")
 df_c <- data.frame(name = "C", id = "3", county = "1", type = "tract", zone = "2")
-spdf_c <- SpatialPolygonsDataFrame(poly_c,df_c)
+spdf_c <- simple features data frame(poly_c,df_c)
 
 # polygon D
 poly_d <- as(raster::extent(2.0, 11.0, 2.0, 9.0), "SpatialPolygons")
 df_d <- data.frame(name = "D", id = "4", county = "1", type = "tract", zone = "2")
-spdf_d <- SpatialPolygonsDataFrame(poly_d,df_d)
+spdf_d <- simple features data frame(poly_d,df_d)
 
 # polygon E
 poly_e <- as(raster::extent(8.0, 25.0, 6.0, 25.0), "SpatialPolygons")
 df_e <- data.frame(name = "E", id = "1", county = "2", type = "forest")
-spdf_e <- SpatialPolygonsDataFrame(poly_e,df_e)
+spdf_e <- simple features data frame(poly_e,df_e)
 ```
 
 If multiple features are present, it's possible to bind them all into a single 
@@ -68,7 +68,7 @@ _"spdf_d"_ are combined into a single new feature named _"spdf_abcd"_.
 # Define a coordinate reference system to use on all features
 grs80 <- CRS("+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs +towgs84=0,0,0 +units=m")
 
-# "Bind" Polys A,B,C & D into one multipolygon SPDF
+# "Bind" Polys A,B,C & D into one multipolygon SFDF
 spdf_abcd <- raster::bind(spdf_a, spdf_b, spdf_c, spdf_d, keepnames = TRUE)
 proj4string(spdf_abcd) <- grs80
 proj4string(spdf_e) <- grs80
@@ -272,7 +272,7 @@ plot(bbox, add=TRUE)
 
 It is very important to note that the new "_clip" features contain all of the 
 attributes which were contained in the "spdf_abcd" and "spdf_e" 
-SpatialPolygonsDataFrames.  In other words, the feature that was clipped 
+simple features data frames.  In other words, the feature that was clipped 
 retained all of its original attribute information.
 
 ```
@@ -287,7 +287,7 @@ head(e_clip@data)
 ```
 
 This is ONLY because the "buffer_zone" (clipping) feature lacked a data frame of 
-its own and was simply a SpatialPolygon object, and not a SpatialPolygonsDataFrame.  
+its own and was simply a SpatialPolygon object, and not a simple features data frame.  
 
 ```
 summary(buffer_zone)
@@ -302,7 +302,7 @@ proj4string :
 [+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs +towgs84=0,0,0 +units=m]
 ```
 The behavior of the `raster::intersect()` function is very different when both 
-features are SpatialPolygonsDataFrames.  When 2 SpatialPolygonsDataFrames are 
+features are simple features data frames.  When 2 simple features data frames are 
 intersected, the default behavior of the `raster::intersect()` function is to 
 combine the attributes from both data sets.  Which brings us to the next type of 
 operation.
@@ -347,7 +347,7 @@ and in fact, here is a description of the difference between the "clip" and
 
 > What's the **difference between** the **clip** tool and the **intersect** tool? The main **difference is** the resulting attributes. When you run the **clip** tool, only the input features attributes will be **in the** output. When you use the **intersect** tool, the attributes from all features will be **in the** output.
 
-When performing clipping operations with 2 SpatialPolygonsDataFrame features, it 
+When performing clipping operations with 2 simple features data frame features, it 
 may be useful to create your own function which modifies the contents of the 
 returned data frame to match the definition listed above.
 

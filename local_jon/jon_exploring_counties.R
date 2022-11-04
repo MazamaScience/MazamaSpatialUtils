@@ -126,7 +126,7 @@ US_stateCodeToName( bop[which(!bop %in% US_52)] )
 
 # Nice.
 
-# Do all columns in this SPDF have data?
+# Do all columns in this SFDF have data?
 
 # NOTE:  For this we create a function to be applied to every column in the 
 # NOTE:  dataframe. Note that dataframe can be interpreted as a List of vectors.

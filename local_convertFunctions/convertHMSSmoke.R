@@ -7,17 +7,17 @@
 #' @param datestamp UTC datestamp in the format "YYYYMMDD"
 #' @param nameOnly logical specifying whether to only return the name without creating the file
 #'
-#' @description Create a SpatialPolygonsDataFrame for US states
+#' @description Create a simple features data frame for US states
 #'
 #' @details A NOAA smoke shapefile from the is downloaded and converted to a
-#' SpatialPolygonsDataFrame with additional columns of data. The resulting file
+#' simple features data frame with additional columns of data. The resulting file
 #' will be created in the spatial data directory which is set with
 #' \code{setSpatialDataDir()}.
 #'
 #' @note Data files prior to August 13, 2007 do not contain the vital 'Density'
 #' column. For these files, \code{NA} will be used in the converted dataframes.
 #'
-#' @return Name of the dataset being created.
+#' @return Name of the datasetName being created.
 #'
 #' @references \url{http://www.ospo.noaa.gov/Products/land/hms.html}
 #'
@@ -38,7 +38,7 @@ convertHMSSmoke <- function(
   # RC NOTE:
   # RC NOTE: In the future we could allow datestamp to be a vector and enhance the
   # RC NOTE: function to loop through all days specified. This could either create multiple
-  # RC NOTE: SPDFs or merge them all together. We could also bring back dsnPath parameter
+  # RC NOTE: SFDFs or merge them all together. We could also bring back dsnPath parameter
   # RC NOTE: and download if its NULL and use previously downloaded files if specified
 
   # ----- Validate parameters --------------------------------------------------
@@ -100,21 +100,21 @@ convertHMSSmoke <- function(
   # NOTE:  This zip file has no directory so extra subdirectory needs to be created
   utils::unzip(filePath, exdir = file.path(dataDir))
 
-  # ----- Convert to SPDF ------------------------------------------------------
+  # ----- Convert to SFDF ------------------------------------------------------
 
-  # Convert shapefile into SpatialPolygonsDataFrame
+  # Convert shapefile into simple features data frame
 
   dsnPath <- file.path(dataDir, 'data/oper/newhms/output')
   shpName <- paste0('hms_smoke', datestamp)
-  SPDF <- convertLayer(
+  SFDF <- .convertLayer(
     dsn = dsnPath,
-    layerName = shpName,
+    layer = shpName,
     encoding = 'UTF-8'
   )
 
   # ----- Select useful columns and rename -------------------------------------
 
-  #   > dplyr::glimpse(SPDF@data)
+  #   > dplyr::glimpse(SFDF)
   #   Rows: 7
   #   Columns: 4
   #   $ Satellite <chr> "GOES-EAST", "GOES-EAST", "GOES-EAST", "GOES-EAST", "G ...
@@ -131,7 +131,7 @@ convertHMSSmoke <- function(
   # Calculate latitude and longitude
   # use centroids
   result <- try( {
-    centroids <- rgeos::gCentroid(SPDF, byid=TRUE)
+    centroids <- rgeos::gCentroid(SFDF, byid=TRUE)
     lon <- sp::coordinates(centroids)[,1]
     lat <- sp::coordinates(centroids)[,2]
   }, silent=TRUE)
@@ -139,53 +139,53 @@ convertHMSSmoke <- function(
   if ( class(result)[1] == "try-error" ) {
     warning('NOTE: rgeos::gCentroid() failed with the following message. Using bbox() to calculate lon and lat.\n')
     warning(geterrmessage(),'\n')
-    lon <- rep(as.numeric(NA), nrow(SPDF))
-    lat <- rep(as.numeric(NA), nrow(SPDF))
-    for (i in seq_len(nrow(SPDF)) ) {
-      bbox <- sp::bbox(SPDF[i,])
+    lon <- rep(as.numeric(NA), nrow(SFDF))
+    lat <- rep(as.numeric(NA), nrow(SFDF))
+    for (i in seq_len(nrow(SFDF)) ) {
+      bbox <- sp::bbox(SFDF[i,])
       lon[i] <- mean(bbox[1,])
       lat[i] <- mean(bbox[2,])
     }
   }
 
   # Add countryCode
-  SPDF@data$countryCode <- getCountryCode(lon, lat, useBuffering = TRUE)
+  SFDF$countryCode <- getCountryCode(lon, lat, useBuffering = TRUE)
 
   # Add stateCode using latitude and longitude
   if ( !exists('NaturalEarthAdm1') ) {
     loadSpatialData('NaturalEarthAdm1')
   }
-  SPDF$stateCode <- getStateCode(lon, lat, countryCodes=unique(SPDF$countryCode), useBuffering = TRUE)
+  SFDF$stateCode <- getStateCode(lon, lat, countryCodes=unique(SFDF$countryCode), useBuffering = TRUE)
 
   # Add timezone
-  SPDF$timezone <- getTimezone(lon, lat, useBuffering =TRUE)
+  SFDF$timezone <- getTimezone(lon, lat, useBuffering =TRUE)
 
   # Add POSIXct times
-  SPDF$startTime <- MazamaCoreUtils::parseDatetime(
-    paste0(datestamp, stringr::str_split_fixed(SPDF$Start, " ", 2)[, 2] ),
+  SFDF$startTime <- MazamaCoreUtils::parseDatetime(
+    paste0(datestamp, stringr::str_split_fixed(SFDF$Start, " ", 2)[, 2] ),
     timezone = "UTC"
   )
-  SPDF$endTime <- MazamaCoreUtils::parseDatetime(
-    paste0(datestamp, stringr::str_split_fixed(SPDF$End, " ", 2)[, 2] ),
+  SFDF$endTime <- MazamaCoreUtils::parseDatetime(
+    paste0(datestamp, stringr::str_split_fixed(SFDF$End, " ", 2)[, 2] ),
     timezone = "UTC"
   )
 
   # Add numeric density
   # NOTE:  data files prior to August 13, 2007 are missing the 'Density' column
-  if ('Density' %in% names(SPDF)) {
-    SPDF$density <- as.numeric(SPDF@data$Density)
+  if ('Density' %in% names(SFDF)) {
+    SFDF$density <- as.numeric(SFDF$Density)
   } else {
-    SPDF$density <- as.numeric(NA)
+    SFDF$density <- as.numeric(NA)
   }
 
   # Retain useful columns
-  SPDF <- SPDF[,c('starttime','endtime','density','longitude',
+  SFDF <- SFDF[,c('starttime','endtime','density','longitude',
                   'latitude','countryCode','stateCode','timezone')]
 
   # Create the new dataframe in a specific column order
-  SPDF@data <-
+  SFDF <-
     dplyr::select(
-      .data = SPDF@data,
+      .data = SFDF,
       countryCode = .data$countryCode,
       stateCode = .data$stateCode,
       density = .data$density,
@@ -196,26 +196,26 @@ convertHMSSmoke <- function(
       timezone = .data$timezone,
     )
 
-  # ----- Clean SPDF -----------------------------------------------------------
+  # ----- Clean SFDF -----------------------------------------------------------
 
   # RC NOTE: should we add a rownum column so we can do this section with a unique identifier?
   # # Group polygons with the same identifier (stateFIPS)
-  # SPDF <- organizePolygons(
-  #   SPDF,
+  # SFDF <- organizePolygons(
+  #   SFDF,
   #   uniqueID = 'stateFIPS',
   #   sumColumns = c('landArea', 'waterArea')
   # )
   #
   # # Clean topology errors
-  # if ( !cleangeo::clgeo_IsValid(SPDF) ) {
-  #   SPDF <- cleangeo::clgeo_Clean(SPDF)
+  # if ( !cleangeo::clgeo_IsValid(SFDF) ) {
+  #   SFDF <- cleangeo::clgeo_Clean(SFDF)
   # }
 
   # ----- Name and save the data -----------------------------------------------
 
   # Assign a name and save the data
   message("Saving full resolution version...\n")
-  assign(datasetName, SPDF)
+  assign(datasetName, SFDF)
   save(list = c(datasetName), file = paste0(dataDir, '/', datasetName, '.rda'))
   rm(list = datasetName)
 

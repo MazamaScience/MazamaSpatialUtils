@@ -33,7 +33,7 @@ ui <- fluidPage(
       h2("Plot Settings"),
       
       # Plot settings
-      selectInput('SPDF', 'Spatial Polygons DataFrame',
+      selectInput('SFDF', 'Spatial Polygons DataFrame',
                   c(HUC4 = 'WBDHU4',
                     HUC6 = 'WBDHU6',
                     HUC8 = 'WBDHU8',
@@ -51,8 +51,8 @@ ui <- fluidPage(
                     MAX = 'max'),
                   selected = 'mean'),
       selectInput('style', 'Desired output figure style',
-                  c(`Colored SPDF only` = 'base_spdf',
-                    `Colored SPDF with points` = 'base_spdf_plus_points',
+                  c(`Colored SFDF only` = 'base_spdf',
+                    `Colored SFDF with points` = 'base_spdf_plus_points',
                     `Points only` = 'points_plus_state')),
       
       # Download data settings
@@ -79,31 +79,31 @@ server <- function(input, output, session){
   # Define reactive variables
   inputData <- get(load("data/wa_bridges.RData"))
   
-  reactiveSPDF <- reactive({
+  reactiveSFDF <- reactive({
     
-    logger.trace("reactiveSPDF")
+    logger.trace("reactiveSFDF")
     
-    if (!exists(input$SPDF)) {
-      logger.trace("loading %s", input$SPDF)
-      loadSpatialData(input$SPDF)
+    if (!exists(input$SFDF)) {
+      logger.trace("loading %s", input$SFDF)
+      loadSpatialData(input$SFDF)
     }
-    SPDF <- subset(eval(parse(text = input$SPDF)), stateCode == 'WA')
-    return(SPDF)
+    SFDF <- subset(eval(parse(text = input$SFDF)), stateCode == 'WA')
+    return(SFDF)
   })
   
   reactiveOutputData <- reactive({
     # Do data manipulation once and cache it
     
     logger.trace("reactiveOutputData()")
-    uniqueCode <- digest::digest(c("outputData", input$inputDatafile$name, input$SPDF, input$FUN, input$variable))
+    uniqueCode <- digest::digest(c("outputData", input$inputDatafile$name, input$SFDF, input$FUN, input$variable))
     filePath <- paste0(cacheDir, "/", uniqueCode, ".RData")
     
     if (!file.exists(filePath)) {
       # Get data
       data <- inputData
-      SPDF <- reactiveSPDF()
-      if (!"polygonID" %in% names(SPDF)) {
-        SPDF$polygonID <- SPDF$HUC
+      SFDF <- reactiveSFDF()
+      if (!"polygonID" %in% names(SFDF)) {
+        SFDF$polygonID <- SFDF$HUC
       }
       
       # Aggregate data based on FUN
@@ -111,13 +111,13 @@ server <- function(input, output, session){
       df <- summarizeByPolygon(data$longitude, 
                                data$latitude,
                                value = data[[input$variable]],
-                               SPDF = SPDF, 
+                               SFDF = SFDF, 
                                FUN = eval(parse(text = input$FUN)))
       logger.trace("Successfully aggregated data")
       df[is.na(df)] <- 0
       
       # Get the correct plot order
-      plotOrder <- SPDF$HUC[SPDF$polygonID %in% df$polygonID]
+      plotOrder <- SFDF$HUC[SFDF$polygonID %in% df$polygonID]
       plotOrder <- data.frame(polygonID = plotOrder, stringsAsFactors = FALSE)
       df <- dplyr::left_join(plotOrder, df, by='polygonID')
       
@@ -137,17 +137,17 @@ server <- function(input, output, session){
   # https://shiny.rstudio.com/articles/plot-caching.html
   output$bridgeMap <- renderCachedPlot(
     expr = {
-      title <- paste(parse(text=input$SPDF), "with", parse(text=input$FUN), "function")
+      title <- paste(parse(text=input$SFDF), "with", parse(text=input$FUN), "function")
       bridgePlot(inputData, 
                  reactiveOutputData(), 
-                 reactiveSPDF(), 
+                 reactiveSFDF(), 
                  input$FUN, 
                  input$style, 
                  title,
                  wa_outline)
     },
     cacheKeyExpr = {
-      list(input$inputDataFile$name, input$SPDF, input$FUN, input$style, input$variable)
+      list(input$inputDataFile$name, input$SFDF, input$FUN, input$style, input$variable)
     },
     sizePolicy = function(dims){return(c(750,750))}
   )
@@ -156,7 +156,7 @@ server <- function(input, output, session){
     
     bridgeTable(inputData, 
                 reactiveOutputData(), 
-                reactiveSPDF(), 
+                reactiveSFDF(), 
                 input$FUN, 
                 input$output_file,
                 input$variable)

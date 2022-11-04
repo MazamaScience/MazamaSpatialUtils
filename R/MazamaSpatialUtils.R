@@ -17,7 +17,7 @@
 #'
 #' The following additional standards are applied during the data conversion process:
 #' \itemize{
-#' \item{ all spatial data are converted to a purely geographic projection (\code{CRS("+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs"}) }
+#' \item{ all spatial data are converted to a purely geographic North American projection (\url{https://epsg.io/4269}) }
 #' \item{ no duplicated rows in the dataframe (conversion to \strong{multi-}polygons) }
 #' \item{ lowerCamelCase, human readable names replace original parameter names }
 #' \item{ redundant, software-internal or otherwise unuseful data columns may be dropped }
@@ -42,7 +42,7 @@ spatialEnv$dataDir <- NULL
 #' @title Directory for spatial data
 #' @format Absolute path string.
 #' @description This package maintains an internal directory location which users can set
-#' using \code{setSpatialDataDir()}. All package functions use this directory whenever datasets
+#' using \code{\link{setSpatialDataDir}}. All package functions use this directory whenever datasets
 #' are created or loaded.
 #'
 #' The default setting when the package is loaded is \code{getwd()}.
@@ -95,9 +95,10 @@ setSpatialDataDir <- function(dataDir) {
 #' @seealso SpatialDataDir
 #' @seealso getSpatialDataDir
 #' @seealso setSpatialDataDir
-removeSpatialDataDir <- function() {
+.removeSpatialDataDir <- function() {
   old <- spatialEnv$dataDir
   spatialEnv$dataDir <- NULL
+  return(invisible(old))
 }
 
 
@@ -171,171 +172,169 @@ countryToCode <- function(countryNames) {
   return(countryCodes)
 }
 
-#' #' @export
-#' #' @title Convert state codes to state nnames
-#' #' @param stateCodes Vector of state codes.
-#' #' @param countryCodes Vector of ISO-3166-1 alpha-2 country codes the state might be found in.
-#' #' @param dataset Name of dataset containing state-level identifiers.
-#' #' @description Converts a vector of ISO 3166-2 alpha-2 state codes to the
-#' #' corresponding English names.
-#' #' @details For this function to work, you must first run
-#' #' \code{initializeSpatialData()} to
-#' #' download, convert and install the necessary spatial data.
-#' #' @return A vector of English state names or NA.
-#' #' @seealso convertNaturalEarthAdm1
-#' codeToState <- function(
-#'   stateCodes,
-#'   countryCodes = NULL,
-#'   dataset = "NaturalEarthAdm1"
-#' ) {
-#'
-#'   # Sanity check
-#'   if ( !exists(dataset) ) {
-#'     stop('Missing database. Please loadSpatialData("', dataset, '")',
-#'          call. = FALSE)
-#'   }
-#'
-#'   SPDF <- get(dataset)
-#'
-#'   # Remove NA state codes
-#'   stateTable <- SPDF@data[!is.na(SPDF@data$stateCode),]
-#'
-#'   # Filter by countryCodes to make searching faster
-#'   if (!is.null(countryCodes))
-#'     stateTable <- stateTable[stateTable$countryCode %in% countryCodes,]
-#'
-#'   # Test to see if any state codes have duplicate names
-#'   for ( stateCode in stateCodes ) {
-#'
-#'     repeatCount <- sum(stateTable$stateCode == stateCode)
-#'     if ( repeatCount > 1 ) {
-#'       warning(
-#'         paste0(repeatCount, " states with code '", stateCode, "'. ",
-#'                "Returning the first instance. ",
-#'                "Please specify countryCode to return the state name from the desired country."))
-#'     }
-#'   }
-#'
-#'   # Create a vector of state names identified by state code
-#'   allStates <- stateTable$stateName
-#'   names(allStates) <- stateTable$stateCode
-#'
-#'   return(as.character(allStates[stateCodes]))
-#'
+#' @export
+#' @title Convert state codes to state nnames
+#' @param stateCodes Vector of state codes.
+#' @param countryCodes Vector of ISO-3166-1 alpha-2 country codes the state might be found in.
+#' @param dataset Name of dataset containing state-level identifiers.
+#' @description Converts a vector of ISO 3166-2 alpha-2 state codes to the
+#' corresponding English names.
+#' @details For this function to work, you must install and load the
+#' "NaturalEarthAdm1" dataset.
+#' @return A vector of English state names or NA.
+#' @seealso convertNaturalEarthAdm1
+codeToState <- function(
+  stateCodes,
+  countryCodes = NULL,
+  dataset = "NaturalEarthAdm1"
+) {
+
+  # Sanity check
+  if ( !exists(dataset) ) {
+    stop('Missing database. Please loadSpatialData("', dataset, '")',
+         call. = FALSE)
+  }
+
+  SFDF <- get(dataset)
+
+  # Remove NA state codes
+  stateTable <- SFDF[!is.na(SFDF$stateCode),]
+
+  # Filter by countryCodes to make searching faster
+  if (!is.null(countryCodes))
+    stateTable <- stateTable[stateTable$countryCode %in% countryCodes,]
+
+  # Test to see if any state codes have duplicate names
+  for ( stateCode in stateCodes ) {
+
+    repeatCount <- sum(stateTable$stateCode == stateCode)
+    if ( repeatCount > 1 ) {
+      warning(
+        paste0(repeatCount, " states with code '", stateCode, "'. ",
+               "Returning the first instance. ",
+               "Please specify countryCode to return the state name from the desired country."))
+    }
+  }
+
+  # Create a vector of state names identified by state code
+  allStates <- stateTable$stateName
+  names(allStates) <- stateTable$stateCode
+
+  return(as.character(allStates[stateCodes]))
+
+}
+
+#' @export
+#' @title Convert state names to state codes
+#' @param stateNames Vector of state names to be converted.
+#' @param countryCodes Vector of ISO 3166-2 alpha-2 country codes the state might be found in.
+#' @param dataset Name of dataset containing state-level identifiers.
+#' @description Converts a vector of state names to an ISO 3166-2 two character
+#' state codes.
+#' @details For this function to work, you must install and load the
+#' "NaturalEarthAdm1" dataset.
+#' @examples
+#' \dontrun{
+#' stateToCode("Washington")
+#' stateToCode("Barcelona")
+#' stateToCode("Shandong")
 #' }
-#'
-#' #' @export
-#' #' @title Convert state names to state codes
-#' #' @param stateNames Vector of state names to be converted.
-#' #' @param countryCodes Vector of ISO 3166-2 alpha-2 country codes the state might be found in.
-#' #' @param dataset Name of dataset containing state-level identifiers.
-#' #' @description Converts a vector of state names to an ISO 3166-2 two character
-#' #' state codes.
-#' #' @details For this function to work, you must first run
-#' #' \code{initializeSpatialData()} to
-#' #' download, convert and install the necessary spatial data.
-#' #' @examples
-#' #' \dontrun{
-#' #' stateToCode("Washington")
-#' #' stateToCode("Barcelona")
-#' #' stateToCode("Shandong")
-#' #' }
-#' #' @return A vector of ISO 3166-2 codes or NA.
-#' #' @seealso convertNaturalEarthAdm1
-#' stateToCode <- function(
-#'   stateNames,
-#'   countryCodes = NULL,
-#'   dataset = "NaturalEarthAdm1"
-#' ) {
-#'
-#'   # Sanity check
-#'   if ( !exists(dataset) ) {
-#'     stop('Missing database. Please loadSpatialData("', dataset, '")',
-#'          call. = FALSE)
-#'   }
-#'
-#'   SPDF <- get(dataset)
-#'
-#'   # Remove NA state codes
-#'   stateTable <- SPDF@data[!is.na(SPDF@data$stateCode),]
-#'
-#'   # Filter by countryCodes to make searching faster
-#'   if ( !is.null(countryCodes) )
-#'     stateTable <- stateTable[stateTable$countryCode %in% countryCodes,]
-#'
-#'   # Create a vector of state codes identified by name
-#'   allCodes <- stateTable$stateCode
-#'   names(allCodes) <- stateTable$stateName
-#'
-#'   return(as.character(allCodes[stateNames]))
-#'
-#' }
+#' @return A vector of ISO 3166-2 codes or NA.
+#' @seealso convertNaturalEarthAdm1
+stateToCode <- function(
+  stateNames,
+  countryCodes = NULL,
+  dataset = "NaturalEarthAdm1"
+) {
+
+  # Sanity check
+  if ( !exists(dataset) ) {
+    stop('Missing database. Please loadSpatialData("', dataset, '")',
+         call. = FALSE)
+  }
+
+  SFDF <- get(dataset)
+
+  # Remove NA state codes
+  stateTable <- SFDF[!is.na(SFDF$stateCode),]
+
+  # Filter by countryCodes to make searching faster
+  if ( !is.null(countryCodes) )
+    stateTable <- stateTable[stateTable$countryCode %in% countryCodes,]
+
+  # Create a vector of state codes identified by name
+  allCodes <- stateTable$stateCode
+  names(allCodes) <- stateTable$stateName
+
+  return(as.character(allCodes[stateNames]))
+
+}
 
 
-#' # ===== Mapshaper ==============================================================
-#'
-#' #' @export
-#' #' @title Simplify SpatialPolygonsDataFrame
-#' #' @param SPDF Object of class SpatialPolygonsDataFrame.
-#' #' @param keep Proportion of points to retain (0-1; default 0.05)
-#' #' @param ... Arguments passed to \code{rmapshaper::ms_simplify()}
-#' #' @description Simplify a spatial polygons dataframe. This is a convenience
-#' #' wrapper for \code{rmapshaper::ms_simplify()}
-#' #' @return A simplified spatial polygons dataframe.
-#' #' @examples
-#' #' \dontrun{
-#' #' FR <- subset(SimpleCountries, countryCode == 'FR')
-#' #' par(mfrow = c(3, 3), mar = c(1, 1, 3, 1))
-#' #' for (i in 9:1) {
-#' #'   keep <- 0.1 * i
-#' #'   plot(simplify(FR, keep), main=paste0("keep = ", keep))
-#' #' }
-#' #' layout(1)
-#' #' par(mar = c(5,4,4,2)+.1)
-#' #' }
-#'
-#' simplify <- function(
-#'   SPDF,
-#'   keep = 0.05,
-#'   ...
-#' ) {
-#'   SPDF_simple <- rmapshaper::ms_simplify(SPDF, keep, ...)
-#'   return(SPDF_simple)
-#' }
-#'
-#'
-#' #' @title Aggregate shapes in a SpatialPolygonsDataFrame
-#' #' @param SPDF Object of class SpatialPolygonsDataFrame.
-#' #' @param field Name of the field to dissolve on.
-#' #' @param sum_fields Names of fields to sum.
-#' #' @param copy_fields Names of fields to copy. The first instance of each field will be
-#' #' copied to the aggregated feature
-#' #' @param ... arguments passed to \code{rmapshaper::ms_dissolve()}
-#' #' @description Aggregate shapes in a spatial polygons dataframe. This is a
-#' #' convenience wrapper for \code{rmapshaper::ms_dissolve()}
-#' #' @return A spatial polygons dataframe with aggregated shapes.
-#' #' @examples
-#' #' \donttest{
-#' #' regions <- dissolve(SimpleCountries, field = "UN_region", sum_fields = "area")
-#' #' plot(regions)
-#' #' regions@data
-#' #' }
-#'
-#' dissolve <- function(
-#'   SPDF,
-#'   field = NULL,
-#'   sum_fields = NULL,
-#'   copy_fields = NULL,
-#'   ...
-#' ) {
-#'
-#'   if (!field %in% names(SPDF)) {
-#'     stop(paste0("Field '", field, "' not found."))
-#'   }
-#'   SPDF_dissolved <- rmapshaper::ms_dissolve(SPDF, field, sum_fields, copy_fields, ...)
-#'
-#'   return(SPDF_dissolved)
-#'
-#' }
+# ===== Mapshaper ==============================================================
+
+#' @export
+#' @title Simplify simple features data frame
+#' @param SFDF Object of class simple features data frame.
+#' @param keep Proportion of points to retain (0-1; default 0.05)
+#' @param ... Arguments passed to \code{rmapshaper::ms_simplify()}
+#' @description Simplify a spatial polygons dataframe. This is a convenience
+#' wrapper for \code{\link[rmapshaper]{ms_simplify}}
+#' @return A simplified spatial polygons dataframe.
+# @examples
+# \dontrun{
+# FR <- subset(SimpleCountries, countryCode == 'FR')
+# par(mfrow = c(3, 3), mar = c(1, 1, 3, 1))
+# for (i in 9:1) {
+#   keep <- 0.1 * i
+#   plot(simplify(FR, keep), main=paste0("keep = ", keep))
+# }
+# layout(1)
+# par(mar = c(5,4,4,2)+.1)
+# }
+
+simplify <- function(
+  SFDF,
+  keep = 0.05,
+  ...
+) {
+  SFDF_simple <- rmapshaper::ms_simplify(SFDF, keep, ...)
+  return(SFDF_simple)
+}
+
+
+#' @title Aggregate shapes in a simple features data frame
+#' @param SFDF Object of class simple features data frame.
+#' @param field Name of the field to dissolve on.
+#' @param sum_fields Names of fields to sum.
+#' @param copy_fields Names of fields to copy. The first instance of each field will be
+#' copied to the aggregated feature
+#' @param ... arguments passed to \code{rmapshaper::ms_dissolve()}
+#' @description Aggregate shapes in a spatial polygons dataframe. This is a
+#' convenience wrapper for \code{\link[rmapshaper]{ms_dissolve}}.
+#' @return A spatial polygons dataframe with aggregated shapes.
+# @examples
+# \donttest{
+# regions <- dissolve(SimpleCountries, field = "UN_region", sum_fields = "area")
+# plot(regions)
+# regions@data
+# }
+
+dissolve <- function(
+  SFDF,
+  field = NULL,
+  sum_fields = NULL,
+  copy_fields = NULL,
+  ...
+) {
+
+  if (!field %in% names(SFDF)) {
+    stop(paste0("Field '", field, "' not found."))
+  }
+  SFDF_dissolved <- rmapshaper::ms_dissolve(SFDF, field, sum_fields, copy_fields, ...)
+
+  return(SFDF_dissolved)
+
+}
 
 

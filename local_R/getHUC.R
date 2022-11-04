@@ -54,21 +54,21 @@ getHUC <- function(
   # ----- Get the data ---------------------------------------------------------
 
   # Use standard internal name (assumes pre-loaded dataset)
-  SPDF <- get(dataset)
+  SFDF <- get(dataset)
 
   # Identify HUC string partial matches to use as a mask
   if ( !is.null(HUCs) ) {
-    HUCMask <- rep(FALSE, nrow(SPDF))
+    HUCMask <- rep(FALSE, nrow(SFDF))
     for ( HUC in HUCs ) {
       regex <- paste0('^', HUC)
-      mask <- stringr::str_detect(SPDF@data$HUC, regex)
+      mask <- stringr::str_detect(SFDF$HUC, regex)
       HUCMask <- HUCMask | mask
     }
-    SPDF <- SPDF[HUCMask,]
+    SFDF <- SFDF[HUCMask,]
   }
 
-  # Pull out rows from SPDF@data based on point-in-polygon search
-  locationsDF <- getSpatialData(longitude, latitude, SPDF, useBuffering = useBuffering)
+  # Pull out rows from SFDF based on point-in-polygon search
+  locationsDF <- getSpatialData(longitude, latitude, SFDF, useBuffering = useBuffering)
 
   # ----- Return results ---------------------------------------------------------
 

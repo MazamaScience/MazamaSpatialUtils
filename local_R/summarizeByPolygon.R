@@ -6,7 +6,7 @@
 #' @param longitude vector of longitudes
 #' @param latitude vector of latitudes
 #' @param value vector of values at the locations of interest
-#' @param SPDF SpatialPolygonsDataFrame with polygons used for aggregating
+#' @param SFDF simple features data frame with polygons used for aggregating
 #' @param useBuffering passed to MazamaSpatialUtils::getSpatialData()
 #' @param FUN function to be applied while summarizing (e.g. mean, max, etc.)
 #' @param varName variable name assigned to the summary variable
@@ -18,14 +18,14 @@
 #' @note This function has not been thoroughly tested and should only be included
 #' in the package for experimental use only.
 #'
-#' @return A dataframe with the same rows as `SPDF@data` but containing only two
+#' @return A dataframe with the same rows as `SFDF` but containing only two
 #' columns: `polygonID` and the summary value.
 
 summarizeByPolygon <- function(
   longitude,
   latitude,
   value,
-  SPDF,
+  SFDF,
   useBuffering = FALSE,
   FUN,
   varName = "summaryValue"
@@ -40,8 +40,8 @@ summarizeByPolygon <- function(
     stop("longitude, latitude and value should have the same length")
   }
 
-  if ( !"polygonID" %in% names(SPDF) ) {
-    stop("polygonID not present in SPDF")
+  if ( !"polygonID" %in% names(SFDF) ) {
+    stop("polygonID not present in SFDF")
   }
 
   # ----- Get the data ---------------------------------------------------------
@@ -61,7 +61,7 @@ summarizeByPolygon <- function(
     getSpatialData(
       longitude = df_unique$longitude,
       latitude = df_unique$latitude,
-      SPDF = SPDF,
+      SFDF = SFDF,
       useBuffering = useBuffering
     ) %>%
     dplyr::pull(.data$polygonID)
@@ -84,7 +84,7 @@ summarizeByPolygon <- function(
   # names(df)[2] <- varName
   # rownames(df) <- df$polygonID
   #
-  # returnDF <- dplyr::left_join(SPDF@data, df, by="polygonID")
+  # returnDF <- dplyr::left_join(SFDF, df, by="polygonID")
   # rownames(returnDF) <- returnDF$polygonID
 
   summary <-
@@ -95,8 +95,8 @@ summarizeByPolygon <- function(
   DUMMY <- summary$DUMMY
   names(DUMMY) <- summary$polygonID
 
-  returnDF <- SPDF@data
-  returnDF[[varName]] <- DUMMY[SPDF@data$polygonID]
+  returnDF <- SFDF
+  returnDF[[varName]] <- DUMMY[SFDF$polygonID]
 
   # ----- Return results -------------------------------------------------------
 
@@ -111,7 +111,7 @@ if ( FALSE ) {
   longitude = c(20.383333, -110, 25.433333, 11.330556, 101.766667, -110, -110)
   latitude = c(36.066667, 71, 36.416667, 43.318611, 36.633333, 71, 71)
   value = c(80, 43, 29, 55, 12, 32, 23)
-  SPDF = SimpleCountries
+  SFDF = SimpleCountries
   useBuffering = FALSE
   FUN = mean
   varName = "valueMean"

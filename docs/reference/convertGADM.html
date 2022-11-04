@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Convert Global Administrative Areas (GADM) SPDF — convertGADM • MazamaSpatialUtils</title>
+<title>Convert Global Administrative Areas (GADM) SFDF — convertGADM • MazamaSpatialUtils</title>
 
 <!-- favicons -->
 <link rel="icon" type="image/png" sizes="16x16" href="../favicon-16x16.png">
@@ -46,8 +46,8 @@
 
 
 
-<meta property="og:title" content="Convert Global Administrative Areas (GADM) SPDF — convertGADM" />
-<meta property="og:description" content="Create a SpatialPolygonsDataFrame for Global Administrative Areas." />
+<meta property="og:title" content="Convert Global Administrative Areas (GADM) SFDF — convertGADM" />
+<meta property="og:description" content="Create a simple features data frame for Global Administrative Areas." />
 <meta property="og:image" content="/logo.png" />
 
 
@@ -146,13 +146,13 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Convert Global Administrative Areas (GADM) SPDF</h1>
+    <h1>Convert Global Administrative Areas (GADM) SFDF</h1>
     <small class="dont-index">Source: <a href='https://github.com/MazamaScience/MazamaSpatialUtils/blob/master/R/convertGADM.R'><code>R/convertGADM.R</code></a></small>
     <div class="hidden name"><code>convertGADM.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Create a SpatialPolygonsDataFrame for Global Administrative Areas.</p>
+    <p>Create a simple features data frame for Global Administrative Areas.</p>
     </div>
 
     <pre class="usage"><span class='fu'>convertGADM</span><span class='op'>(</span>
@@ -189,11 +189,11 @@ creating the file.</p></td>
     <p>Name of the dataset being created.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>A pre-generated Global Administrative Areas SpatialPolygonsDataFrame
+    <p>A pre-generated Global Administrative Areas simple features data frame
 is downloaded and amended with additional columns of data. The resulting file
 will be created in the spatial data directory which is set with
 <code><a href='setSpatialDataDir.html'>setSpatialDataDir()</a></code>.</p>
-<p>The <code>@data</code> slot of each SpatialPolygonsDataFrame is both simplified and
+<p>The <code>@data</code> slot of each simple features data frame is both simplified and
 modified to adhere to the <span class="pkg">MazamaSpatialUtils</span> internal standards.</p>
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 

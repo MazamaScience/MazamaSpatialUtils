@@ -102,7 +102,7 @@
 <p>The main goal of this package is to create an internally standardized set of spatial data that we can use in various projects. Along with three built-in datasets, this package provides <code>convert~()</code> functions for other spatial datasets that we currently use. These convert functions all follow the same recipe:</p>
 <ul>
 <li>download spatial data in shapefile format into a standard directory</li>
-<li>convert shapefile data into a <em>sp</em> SpatialPolygonsDataFrame</li>
+<li>convert shapefile data into a <em>sp</em> simple features data frame</li>
 <li>modify the dataframe in the <span class="citation">@data</span> slot so that it adheres to package internal standards</li>
 </ul>
 <p>Other datasets can be added following the same procedure.</p>
@@ -145,7 +145,7 @@
 <li>
 <code>getHUC~(lon,lat,...)</code> – returns USGS Hydrologic Unit Codes and other data at specified locations</li>
 </ul>
-<p>A generic <code><a href="../reference/getSpatialData.html">getSpatialData(lon,lat,...)</a></code> returns a dataframe whose rows are associated with specified locations. This function can be used with newly converted SpatialPolygonsDataFrames.</p>
+<p>A generic <code><a href="../reference/getSpatialData.html">getSpatialData(lon,lat,...)</a></code> returns a dataframe whose rows are associated with specified locations. This function can be used with newly converted simple features data frames.</p>
 <p>For those working with geo-located data, the ability to enhance location metadata with this information can be extremely helpful.</p>
 </div>
 <div id="standard-datasets-and-setup" class="section level2">

@@ -30,9 +30,9 @@ testHarmonization <- function(
   MazamaCoreUtils::stopIfNull(dataset_name)
   
   # Open the dataset and return just the base name
-  SPDF_name <- loadSpatialData(dataset_name)[1]
-  SPDF_name <- stringr::str_split(SPDF_name, "_", simplify = TRUE)[,1]
-  SPDF <- get(SPDF_name)
+  SFDF_name <- loadSpatialData(dataset_name)[1]
+  SFDF_name <- stringr::str_split(SFDF_name, "_", simplify = TRUE)[,1]
+  SFDF <- get(SFDF_name)
   
   # Create a lits to store messages
   messages <- list()
@@ -41,23 +41,23 @@ testHarmonization <- function(
   mandatory_columns <- c("polygonID", "stateCode", "countryCode")
   
   for (col_name in mandatory_columns) {
-    if ( col_name %in% colnames(SPDF@data) == FALSE) {
+    if ( col_name %in% colnames(SFDF) == FALSE) {
       messages[length(messages) + 1] <- sprintf("- %s is missing the '%s' column\n", 
                                                 dataset_name, col_name)
     }
   }
   
   # ---- Check that polygonID is unique ----------------------------------------
-  if ( any(duplicated(SPDF@data$polygonID)) == TRUE) {
+  if ( any(duplicated(SFDF$polygonID)) == TRUE) {
     messages[length(messages) + 1] <- sprintf("- '%s.%s' column contains duplicate values\n", 
                     dataset_name, "polygonID")
   }
   
   # ---- Test that the projection is correct -----------------------------------
   master_proj <-sp::CRS("+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs")
-  if (raster::compareCRS(SPDF@proj4string, master_proj) == FALSE) {
+  if (raster::compareCRS(SFDF@proj4string, master_proj) == FALSE) {
     messages[length(messages) + 1] <- sprintf("- '%s' spatial CRS is incorrect: \n%s\n",
-                                              dataset_name, SPDF@proj4string)
+                                              dataset_name, SFDF@proj4string)
   }
   
   

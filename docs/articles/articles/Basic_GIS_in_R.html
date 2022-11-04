@@ -124,7 +124,7 @@
 <div id="creating-spatial-polygon-data-frames" class="section level2">
 <h2 class="hasAnchor">
 <a href="#creating-spatial-polygon-data-frames" class="anchor"></a>Creating Spatial Polygon Data Frames</h2>
-<p>An easy way to create a rectangular Spatial Polygon Data Frame is to use the Bounding Box, or extent, of another spatial feature to define the geometry of the feature you want to create. A separate data frame with feature attributes can then be attached to this geometry to form a SpatialPolygonsDataFrame.</p>
+<p>An easy way to create a rectangular Spatial Polygon Data Frame is to use the Bounding Box, or extent, of another spatial feature to define the geometry of the feature you want to create. A separate data frame with feature attributes can then be attached to this geometry to form a simple features data frame.</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://rspatial.org/raster">raster</a></span><span class="op">)</span>
 
@@ -132,19 +132,19 @@
 <span class="va">poly_a</span> <span class="op">&lt;-</span> <span class="fu">as</span><span class="op">(</span><span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/extent.html">extent</a></span><span class="op">(</span><span class="fl">2.0</span>, <span class="fl">11.0</span>, <span class="fl">9.0</span>, <span class="fl">15.0</span><span class="op">)</span>, <span class="st">"SpatialPolygons"</span><span class="op">)</span>
 <span class="va">df_a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"A"</span>, id <span class="op">=</span> <span class="st">"1"</span>, county <span class="op">=</span> <span class="st">"1"</span>, type <span class="op">=</span> <span class="st">"tract"</span>, zone <span class="op">=</span> <span class="st">"1"</span><span class="op">)</span>
 
-<span class="va">spdf_a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialPolygons.html">SpatialPolygonsDataFrame</a></span><span class="op">(</span><span class="va">poly_a</span>,<span class="va">df_a</span><span class="op">)</span></code></pre></div>
+<span class="va">spdf_a</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sp/man/SpatialPolygons.html">simple features data frame</a></span><span class="op">(</span><span class="va">poly_a</span>,<span class="va">df_a</span><span class="op">)</span></code></pre></div>
 <p>If multiple features are present, it’s possible to bind them all into a single multiploygon feature. Here 4 separate polygons; <em>“spdf_a”, “spdf_b”, “spdf_c”</em> and <em>“spdf_d”</em> are combined into a single new feature named <em>“spdf_abcd”</em>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Define a coordinate reference system to use on all features</span>
 <span class="va">grs80</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sp/man/CRS-class.html">CRS</a></span><span class="op">(</span><span class="st">"+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs +towgs84=0,0,0 +units=m"</span><span class="op">)</span>
 
-<span class="co"># "Bind" Polys A,B,C &amp; D into one multipolygon SPDF</span>
+<span class="co"># "Bind" Polys A,B,C &amp; D into one multipolygon SFDF</span>
 <span class="va">spdf_abcd</span> <span class="op">&lt;-</span> <span class="fu">raster</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/raster/man/bind.html">bind</a></span><span class="op">(</span><span class="va">spdf_a</span>, <span class="va">spdf_b</span>, <span class="va">spdf_c</span>, <span class="va">spdf_d</span>, keepnames <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/pkg/raster/man/projection.html">proj4string</a></span><span class="op">(</span><span class="va">spdf_abcd</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">grs80</span>
 <span class="fu"><a href="https://rdrr.io/pkg/raster/man/projection.html">proj4string</a></span><span class="op">(</span><span class="va">spdf_e</span><span class="op">)</span> <span class="op">&lt;-</span> <span class="va">grs80</span>
 
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">spdf_abcd</span><span class="op">)</span></code></pre></div>
-<pre><code>## Object of class SpatialPolygonsDataFrame
+<pre><code>## Object of class simple features data frame
 ## Coordinates:
 ##   min max
 ## x   2  20
@@ -319,7 +319,7 @@ plot(abcd_clip, col = "pink", add = TRUE)
 plot(point_4, add = TRUE, col = "black", pch = 16)
 text(point_4, labels = point_4$id, pos = 3)</code></pre>
 <p><img src="Basic_GIS_in_R_files/figure-html/clip_region-1.png" width="672" style="display: block; margin: auto;"></p>
-<p>It is very important to note that the new "_clip" features contain all of the attributes which were contained in the “spdf_abcd” and “spdf_e” SpatialPolygonsDataFrames. In other words, the feature that was clipped retained all of its original attribute information.</p>
+<p>It is very important to note that the new "_clip" features contain all of the attributes which were contained in the “spdf_abcd” and “spdf_e” simple features data frames. In other words, the feature that was clipped retained all of its original attribute information.</p>
 <pre><code><a href="https://rdrr.io/pkg/raster/man/headtail.html">head(abcd_clip@data)
 ##   name id county  type zone
 ## 1    B  2      1 tract    1
@@ -328,7 +328,7 @@ text(point_4, labels = point_4$id, pos = 3)</code></pre>
 head(e_clip@data)
 ##   name id county   type
 ## 1    E  1      2 forest</a></code></pre>
-<p>This is ONLY because the “buffer_zone” (clipping) feature lacked a data frame of its own and was simply a SpatialPolygon object, and not a SpatialPolygonsDataFrame.</p>
+<p>This is ONLY because the “buffer_zone” (clipping) feature lacked a data frame of its own and was simply a SpatialPolygon object, and not a simple features data frame.</p>
 <pre><code>summary(buffer_zone)
 
 Object of class SpatialPolygons
@@ -339,7 +339,7 @@ y  8.479751 17.51868
 Is projected: FALSE 
 proj4string :
 [+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs +towgs84=0,0,0 +units=m]</code></pre>
-<p>The behavior of the <code><a href="https://rdrr.io/pkg/raster/man/intersect.html">raster::intersect()</a></code> function is very different when both features are SpatialPolygonsDataFrames. When 2 SpatialPolygonsDataFrames are intersected, the default behavior of the <code><a href="https://rdrr.io/pkg/raster/man/intersect.html">raster::intersect()</a></code> function is to combine the attributes from both data sets. Which brings us to the next type of operation.</p>
+<p>The behavior of the <code><a href="https://rdrr.io/pkg/raster/man/intersect.html">raster::intersect()</a></code> function is very different when both features are simple features data frames. When 2 simple features data frames are intersected, the default behavior of the <code><a href="https://rdrr.io/pkg/raster/man/intersect.html">raster::intersect()</a></code> function is to combine the attributes from both data sets. Which brings us to the next type of operation.</p>
 </div>
 <div id="intersection" class="section level2">
 <h2 class="hasAnchor">
@@ -357,7 +357,7 @@ head(combined_clips@data)
 <blockquote>
 <p>What’s the <strong>difference between</strong> the <strong>clip</strong> tool and the <strong>intersect</strong> tool? The main <strong>difference is</strong> the resulting attributes. When you run the <strong>clip</strong> tool, only the input features attributes will be <strong>in the</strong> output. When you use the <strong>intersect</strong> tool, the attributes from all features will be <strong>in the</strong> output.</p>
 </blockquote>
-<p>When performing clipping operations with 2 SpatialPolygonsDataFrame features, it may be useful to create your own function which modifies the contents of the returned data frame to match the definition listed above.</p>
+<p>When performing clipping operations with 2 simple features data frame features, it may be useful to create your own function which modifies the contents of the returned data frame to match the definition listed above.</p>
 <div id="intersection-1" class="section level3">
 <h3 class="hasAnchor">
 <a href="#intersection-1" class="anchor"></a>!Intersection</h3>

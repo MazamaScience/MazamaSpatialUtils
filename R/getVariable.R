@@ -18,13 +18,13 @@
 #'
 #' @return Vector or dataframe.
 #'
-#' @examples
-#' library(MazamaSpatialUtils)
-#'
-#' longitude <- seq(0, 50)
-#' latitude <- seq(0, 50)
-#'
-#' getVariable(longitude, latitude, "SimpleCountries", "UN_region")
+# @examples
+# library(MazamaSpatialUtils)
+#
+# longitude <- seq(0, 50)
+# latitude <- seq(0, 50)
+#
+# getVariable(longitude, latitude, "SimpleCountries", "UN_region")
 #'
 #' @seealso getSpatialData
 #'
@@ -73,7 +73,7 @@ getVariable <- function(
   if ( !is.null(countryCodes) )
     SFDF <- SFDF[SFDF$countryCode %in% countryCodes,]
 
-  # Pull out rows from SFDF@data based on point-in-polygon search
+  # Pull out rows from SFDF based on point-in-polygon search
   locationsDF <- getSpatialData(longitude, latitude, SFDF, useBuffering = useBuffering)
 
   # ----- Return results ---------------------------------------------------------

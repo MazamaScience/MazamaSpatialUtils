@@ -49,7 +49,7 @@
 <meta property="og:title" content="Return spatial data associated with a set of locations — getSpatialData" />
 <meta property="og:description" content="All locations are first converted to SpatialPoints
 objects. The sp::over() function is then used to determine which
-polygon from SPDF each location falls in. The dataframe row associated
+polygon from SFDF each location falls in. The dataframe row associated
 with each polygon is then associated with each location." />
 <meta property="og:image" content="/logo.png" />
 
@@ -157,14 +157,14 @@ with each polygon is then associated with each location." />
     <div class="ref-description">
     <p>All locations are first converted to <code>SpatialPoints</code>
 objects. The <span class="pkg">sp::over()</span> function is then used to determine which
-polygon from <code>SPDF</code> each location falls in. The dataframe row associated
+polygon from <code>SFDF</code> each location falls in. The dataframe row associated
 with each polygon is then associated with each location.</p>
     </div>
 
     <pre class="usage"><span class='fu'>getSpatialData</span><span class='op'>(</span>
   <span class='va'>longitude</span>,
   <span class='va'>latitude</span>,
-  <span class='va'>SPDF</span>,
+  <span class='va'>SFDF</span>,
   useBuffering <span class='op'>=</span> <span class='cn'>FALSE</span>,
   verbose <span class='op'>=</span> <span class='cn'>FALSE</span>
 <span class='op'>)</span></pre>
@@ -181,8 +181,8 @@ with each polygon is then associated with each location.</p>
       <td><p>Vector of latitudes in decimal degrees North.</p></td>
     </tr>
     <tr>
-      <th>SPDF</th>
-      <td><p>Object of class SpatialPolygonsDataFrame.</p></td>
+      <th>SFDF</th>
+      <td><p>Object of class simple features data frame.</p></td>
     </tr>
     <tr>
       <th>useBuffering</th>
@@ -201,7 +201,7 @@ find the nearest polygon if no target polygon is found.</p></td>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
     <p>Occasionally for coastal locations the precise coordinates
-lie outside the boundaries of a low resolution SpatialPolygonsDataFrame.
+lie outside the boundaries of a low resolution simple features data frame.
 To account for this any location that remains unassociated after the first
 pass is then buffered to create a small circle around the original location.
 All polygons are then checked to see if there is any intersection with the

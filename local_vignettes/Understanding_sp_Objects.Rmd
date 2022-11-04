@@ -11,11 +11,11 @@ vignette: >
 
 # Understanding 'sp' Objectss
 
-To work efficiently with the `SpatialPolygonsDataFrame` (SPDF) objects used in
+To work efficiently with the `simple features data frame` (SFDF) objects used in
 the **MazamaSpatialUtils** package, it is important to understand the **S4**
 object classes that make up the **sp** package. This vignette introduces simple 
 concepts associated with R's object classes so that newcomers to this style of
-coding can work efficiently with SPDFs.
+coding can work efficiently with SFDFs.
 
 ## Objects in R
 
@@ -141,15 +141,15 @@ class(slot(SimpleCountries, "data"))
 class(SimpleCountries@data)
 ```
 
-## SPDF Objects
+## SFDF Objects
 
-Each `SpatialPolygonsDataFrame` is an **S4** object with a 1:1 relationship 
+Each `simple features data frame` is an **S4** object with a 1:1 relationship 
 between records (rows) in the `@data` dataframe and `Polygons` **S4** objects in 
 the `@polygons` list. This makes it possible to use _some_ functions like
 `subset()` that work on dataframes. The following code shows how to work with
 them.
 
-```{r SPDF, fig.width = 7, fig.height = 7}
+```{r SFDF, fig.width = 7, fig.height = 7}
 # Compare 'data' and 'polygons' slots
 nrow(SimpleCountries@data)
 length(SimpleCountries@polygons)

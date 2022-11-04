@@ -13,15 +13,15 @@
 #' @param cleanTopology Logical specifying to use the \pkg{cleangeo} package to
 #' clean topological errors in the shapefiles.
 #'
-#' @description Create a SpatialPolygonsDataFrame for USGS watershed boundaries
+#' @description Create a simple features data frame for USGS watershed boundaries
 #'
 #' @details A USGS Watershed Boundary Dataset geodatabase is converted to a
-#' SpatialPolygonsDataFrame with additional columns of data. To use this
+#' simple features data frame with additional columns of data. To use this
 #' function, the WBD geodatabase must be downloaded into a directory which is
 #' identified with \code{gdbDir}. The resulting file will be created in the
 #' spatial data directory which is set with \code{setSpatialDataDir()}.
 #'
-#' The full WBD dataset can be downloaded from the USGS with the
+#' The full WBD datasetName can be downloaded from the USGS with the
 #' following command:
 #' \preformatted{
 #' curl https://prd-tnm.s3.amazonaws.com/StagedProducts/Hydrography/WBD/National/GDB/WBD_National_GDB.zip -O
@@ -35,7 +35,7 @@
 #' @note From the source documentation:
 #'
 #' The Watershed Boundary Dataset (WBD) is a seamless, national hydrologic unit
-#' dataset. Simply put, hydrologic units represent the area of the landscape that
+#' datasetName. Simply put, hydrologic units represent the area of the landscape that
 #' drains to a portion of the stream network. More specifically, a hydrologic
 #' unit defines the areal extent of surface water drainage to an outlet point on
 #' a dendritic stream network or to multiple outlet points where the stream
@@ -54,7 +54,7 @@
 #' developed using a progressive two-digit system where each successively smaller
 #' areal unit is identified by adding two digits to the identifying code the
 #' smaller unit is nested within. WBD contains eight levels of progressive
-#' hydrologic units identified by unique 2- to 16-digit codes. The dataset is
+#' hydrologic units identified by unique 2- to 16-digit codes. The datasetName is
 #' complete for the United States to the 12-digit hydrologic unit. The 14- and
 #' 16-digit hydrologic units are optional and are not complete for the nation.
 #' Efforts are ongoing to complete 10- and 12-digit unit delineations within
@@ -63,9 +63,9 @@
 #' section on this page. A similar effort is complete for the 10- and 12-digit
 #' units extending across the U.S. – Mexico border.
 #'
-#' @return Name of the dataset being created.
+#' @return Name of the datasetName being created.
 #'
-#' @references \url{https://www.usgs.gov/core-science-systems/ngp/national-hydrography/watershed-boundary-dataset}
+#' @references \url{https://www.usgs.gov/core-science-systems/ngp/national-hydrography/watershed-boundary-datasetName}
 #'
 #' @seealso setSpatialDataDir
 
@@ -97,7 +97,7 @@ convertWBDHUC <- function(
 
   # Check existence of NaturalEarthAdm1 needed for assignment of stateCode
   if ( !exists("NaturalEarthAdm1") ) {
-    stop("Missing dataset. Please loadSpatialData(\"NaturalEarthAdm1\")",
+    stop("Missing datasetName. Please loadSpatialData(\"NaturalEarthAdm1\")",
          call. = FALSE)
   }
 
@@ -116,7 +116,7 @@ convertWBDHUC <- function(
     )
   }
 
-  # ----- Convert to SPDF ------------------------------------------------------
+  # ----- Convert to SFDF ------------------------------------------------------
 
   # > ogrListLayers(gdbDir)
   #  [1] "WBDHU12"                     "NWISDrainageLine"
@@ -134,12 +134,12 @@ convertWBDHUC <- function(
   # attr(,"nlayers")
   # [1] 20
 
-  # Convert gdb layer into SpatialPolygonsDataFrame
+  # Convert gdb layer into simple features data frame
   dsnPath <- gdbDir
   shpName <- datasetName
-  SPDF <- convertLayer(
+  SFDF <- .convertLayer(
     dsn = dsnPath,
-    layerName = shpName,
+    layer = shpName,
     encoding = 'UTF-8'
   )
 
@@ -150,77 +150,77 @@ convertWBDHUC <- function(
   # NOTE:  Comments are relevant to the WBD as downloaded on 2020-11-20
 
   if ( level == '2' ) {
-    # > pryr::object_size(SPDF)
+    # > pryr::object_size(SFDF)
     # 53.1 MB
-    # > dim(SPDF@data)
+    # > dim(SFDF)
     # [1] 22 15
-    # > names(SPDF@data)
+    # > names(SFDF)
     #  [1] "tnmid"             "metasourceid"      "sourcedatadesc"    "sourceoriginator"
     #  [5] "sourcefeatureid"   "loaddate"          "referencegnis_ids" "areaacres"
     #  [9] "areasqkm"          "states"            "huc2"              "name"
     # [13] "globalid"          "shape_Length"      "shape_Area"
     usefulColumns <- c('loaddate','areasqkm', 'states', 'huc2', 'name')
   } else if ( level == '4' ) {
-    # > pryr::object_size(SPDF)
+    # > pryr::object_size(SFDF)
     # 171 MB
-    # > dim(SPDF@data)
+    # > dim(SFDF)
     # [1] 244  15
-    # > names(SPDF@data)
+    # > names(SFDF)
     #  [1] "tnmid"             "metasourceid"      "sourcedatadesc"    "sourceoriginator"
     #  [5] "sourcefeatureid"   "loaddate"          "referencegnis_ids" "areaacres"
     #  [9] "areasqkm"          "states"            "huc4"              "name"
     # [13] "globalid"          "shape_Length"      "shape_Area"
     usefulColumns <- c('loaddate','areasqkm', 'states', 'huc4', 'name')
   } else if ( level == '6' ) {
-    # > pryr::object_size(SPDF)
+    # > pryr::object_size(SFDF)
     # 213 MB
-    # > dim(SPDF@data)
+    # > dim(SFDF)
     # [1] 404  15
-    # > names(SPDF@data)
+    # > names(SFDF)
     #  [1] "tnmid"             "metasourceid"      "sourcedatadesc"    "sourceoriginator"
     #  [5] "sourcefeatureid"   "loaddate"          "referencegnis_ids" "areaacres"
     #  [9] "areasqkm"          "states"            "huc6"              "name"
     # [13] "globalid"          "shape_Length"      "shape_Area"
     usefulColumns <- c('loaddate','areasqkm', 'states', 'huc6', 'name')
   } else if (level == '8' ) {
-    # > pryr::object_size(SPDF)
+    # > pryr::object_size(SFDF)
     # 459 MB
-    # > dim(SPDF@data)
+    # > dim(SFDF)
     # [1] 2399   15
-    # > names(SPDF@data)
+    # > names(SFDF)
     #  [1] "tnmid"             "metasourceid"      "sourcedatadesc"    "sourceoriginator"
     #  [5] "sourcefeatureid"   "loaddate"          "referencegnis_ids" "areaacres"
     #  [9] "areasqkm"          "states"            "huc8"              "name"
     # [13] "globalid"          "shape_Length"      "shape_Area"
     usefulColumns <- c('loaddate','areasqkm', 'states', 'huc8', 'name')
   } else if (level == '10' ) {
-    # > pryr::object_size(SPDF)
+    # > pryr::object_size(SFDF)
     # ???
-    # > dim(SPDF@data)
+    # > dim(SFDF)
     # ???
-    # > names(SPDF@data)
+    # > names(SFDF)
     #  [1] "tnmid"             "metasourceid"      "sourcedatadesc"    "sourceoriginator"
     #  [5] "sourcefeatureid"   "loaddate"          "referencegnis_ids" "areaacres"
     #  [9] "areasqkm"          "states"            "huc10"              "name"
     # [13] "globalid"          "shape_Length"      "shape_Area"
     usefulColumns <- c('loaddate','areasqkm', 'states', 'huc10', 'name')
   } else if (level == '12' ) {
-    # > pryr::object_size(SPDF)
+    # > pryr::object_size(SFDF)
     # ???
-    # > dim(SPDF@data)
+    # > dim(SFDF)
     # ???
-    # > names(SPDF@data)
+    # > names(SFDF)
     #  [1] "tnmid"             "metasourceid"      "sourcedatadesc"    "sourceoriginator"
     #  [5] "sourcefeatureid"   "loaddate"          "referencegnis_ids" "areaacres"
     #  [9] "areasqkm"          "states"            "huc12"              "name"
     # [13] "globalid"          "shape_Length"      "shape_Area"
     usefulColumns <- c('loaddate','areasqkm', 'states', 'huc12', 'name')
   } else if (level == '14' ) {
-    # > pryr::object_size(SPDF)
+    # > pryr::object_size(SFDF)
     # ???
-    # > dim(SPDF@data)
+    # > dim(SFDF)
     # ???
-    # > names(SPDF@data)
+    # > names(SFDF)
     #  [1] "tnmid"             "metasourceid"      "sourcedatadesc"    "sourceoriginator"
     #  [5] "sourcefeatureid"   "loaddate"          "referencegnis_ids" "areaacres"
     #  [9] "areasqkm"          "states"            "huc14"              "name"
@@ -229,33 +229,33 @@ convertWBDHUC <- function(
   }
 
   # Harmonize names ('huc#' ==> 'HUC')
-  SPDF <- SPDF[,usefulColumns]
-  names(SPDF) <- c('loadDate', 'area', 'allStateCodes', 'HUC', 'HUCName')
+  SFDF <- SFDF[,usefulColumns]
+  names(SFDF) <- c('loadDate', 'area', 'allStateCodes', 'HUC', 'HUCName')
 
   # Change are from km^2 to m^2
-  SPDF@data$area <- as.numeric(SPDF@data$area) * 1e6
+  SFDF$area <- as.numeric(SFDF$area) * 1e6
 
-  # ----- Clean SPDF -----------------------------------------------------------
+  # ----- Clean SFDF -----------------------------------------------------------
 
   # NOTE:  All polygons are unique so we just add polygonID manually
 
   # # Group polygons with the same identifier (HUC)
   # message("Organizing polygons...\n")
-  # SPDF <- organizePolygons(
-  #   SPDF,
+  # SFDF <- organizePolygons(
+  #   SFDF,
   #   uniqueID = 'HUC',
   #   sumColumns = c('area')
   # )
 
-  SPDF@data$polygonID <- SPDF@data$HUC
+  SFDF$polygonID <- SFDF$HUC
 
   if ( cleanTopology ) {
 
     message("Checking for topology errors...\n")
     # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SPDF) ) {
+    if ( !cleangeo::clgeo_IsValid(SFDF) ) {
       message("Cleaning topology errors...\n")
-      SPDF <- cleangeo::clgeo_Clean(SPDF, verbose = TRUE)
+      SFDF <- cleangeo::clgeo_Clean(SFDF, verbose = TRUE)
     }
 
   }
@@ -269,7 +269,7 @@ convertWBDHUC <- function(
   # Calculate centroids to help add more metadata
   result <- try( {
     message("Calculating centroids...\n")
-    centroids <- rgeos::gCentroid(SPDF, byid = TRUE)
+    centroids <- rgeos::gCentroid(SFDF, byid = TRUE)
     lon <- sp::coordinates(centroids)[,1]
     lat <- sp::coordinates(centroids)[,2]
   }, silent = TRUE)
@@ -284,34 +284,34 @@ convertWBDHUC <- function(
   if ( "try-error" %in% class(result) ) {
     warning('NOTE: rgeos::gCentroid() failed with the following message. Using bbox() to calculate lon and lat.\n')
     warning(geterrmessage(),'\n')
-    lon <- rep(as.numeric(NA), nrow(SPDF))
-    lat <- rep(as.numeric(NA), nrow(SPDF))
-    for (i in seq_len(nrow(SPDF)) ) {
-      bbox <- sp::bbox(SPDF[i,])
+    lon <- rep(as.numeric(NA), nrow(SFDF))
+    lat <- rep(as.numeric(NA), nrow(SFDF))
+    for (i in seq_len(nrow(SFDF)) ) {
+      bbox <- sp::bbox(SFDF[i,])
       lon[i] <- mean(bbox[1,])
       lat[i] <- mean(bbox[2,])
     }
   }
 
   # Add more standard columns
-  SPDF$longitude <- lon
-  SPDF$latitude <- lat
-  SPDF$countryCode <- 'US'
+  SFDF$longitude <- lon
+  SFDF$latitude <- lat
+  SFDF$countryCode <- 'US'
 
   # NOTE:  This takes quite a long time.
   message("Getting stateCode...\n")
-  suppressWarnings(SPDF$stateCode <- getStateCode(lon, lat, countryCodes = c('US')))
+  suppressWarnings(SFDF$stateCode <- getStateCode(lon, lat, countryCodes = c('US')))
 
   # Hack to change missing stateCodes to the value from allStateCodes
 
-  for ( i in seq_len(nrow(SPDF)) ) {
-    if ( is.na(SPDF@data$stateCode[i]) ) {
-      SPDF@data$stateCode[i] <- SPDF@data$allStateCodes[i]
+  for ( i in seq_len(nrow(SFDF)) ) {
+    if ( is.na(SFDF$stateCode[i]) ) {
+      SFDF$stateCode[i] <- SFDF$allStateCodes[i]
     }
     # NOTE:  Still NA in the case of level 2 HUC named "United States Minor Outlying Islands"
-    if ( !is.na(SPDF@data$stateCode[i]) ) {
-      if ( stringr::str_length(SPDF@data$stateCode[i]) > 2 ) {
-        SPDF@data$stateCode[i] <- substr(SPDF@data$stateCode[i], start = 1, stop = 2)
+    if ( !is.na(SFDF$stateCode[i]) ) {
+      if ( stringr::str_length(SFDF$stateCode[i]) > 2 ) {
+        SFDF$stateCode[i] <- substr(SFDF$stateCode[i], start = 1, stop = 2)
       }
     }
   }
@@ -320,7 +320,7 @@ convertWBDHUC <- function(
 
   # Assign a name and save the data
   message("Saving full resolution version...\n")
-  assign(datasetName, SPDF)
+  assign(datasetName, SFDF)
   save(list = c(datasetName), file = paste0(dataDir, '/', datasetName, '.rda'))
   rm(list = datasetName)
 
@@ -330,43 +330,43 @@ convertWBDHUC <- function(
     # Create new, simplified datsets: one with 5%, 2%, and one with 1% of the vertices of the original
     # NOTE:  This may take several minutes.
     message("Simplifying to 5%...\n")
-    SPDF_05 <- rmapshaper::ms_simplify(SPDF, 0.05)
-    SPDF_05@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+    SFDF_05 <- rmapshaper::ms_simplify(SFDF, 0.05)
+    SFDF_05@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
     # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SPDF_05) ) {
-      SPDF_05 <- cleangeo::clgeo_Clean(SPDF_05)
+    if ( !cleangeo::clgeo_IsValid(SFDF_05) ) {
+      SFDF_05 <- cleangeo::clgeo_Clean(SFDF_05)
     }
     datasetName_05 <- paste0(datasetName, "_05")
     message("Saving 5% version...\n")
-    assign(datasetName_05, SPDF_05)
+    assign(datasetName_05, SFDF_05)
     save(list = datasetName_05, file = paste0(dataDir,"/", datasetName_05, '.rda'))
-    rm(list = c("SPDF_05",datasetName_05))
+    rm(list = c("SFDF_05",datasetName_05))
 
     message("Simplifying to 2%...\n")
-    SPDF_02 <- rmapshaper::ms_simplify(SPDF, 0.02)
-    SPDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+    SFDF_02 <- rmapshaper::ms_simplify(SFDF, 0.02)
+    SFDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
     # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SPDF_02) ) {
-      SPDF_02 <- cleangeo::clgeo_Clean(SPDF_02)
+    if ( !cleangeo::clgeo_IsValid(SFDF_02) ) {
+      SFDF_02 <- cleangeo::clgeo_Clean(SFDF_02)
     }
     datasetName_02 <- paste0(datasetName, "_02")
     message("Saving 2% version...\n")
-    assign(datasetName_02, SPDF_02)
+    assign(datasetName_02, SFDF_02)
     save(list = datasetName_02, file = paste0(dataDir,"/", datasetName_02, '.rda'))
-    rm(list = c("SPDF_02",datasetName_02))
+    rm(list = c("SFDF_02",datasetName_02))
 
     message("Simplifying to 1%...\n")
-    SPDF_01 <- rmapshaper::ms_simplify(SPDF, 0.01)
-    SPDF_01@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
+    SFDF_01 <- rmapshaper::ms_simplify(SFDF, 0.01)
+    SFDF_01@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
     # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SPDF_01) ) {
-      SPDF_01 <- cleangeo::clgeo_Clean(SPDF_01)
+    if ( !cleangeo::clgeo_IsValid(SFDF_01) ) {
+      SFDF_01 <- cleangeo::clgeo_Clean(SFDF_01)
     }
     datasetName_01 <- paste0(datasetName, "_01")
     message("Saving 1% version...\n")
-    assign(datasetName_01, SPDF_01)
+    assign(datasetName_01, SFDF_01)
     save(list = datasetName_01, file = paste0(dataDir,"/", datasetName_01, '.rda'))
-    rm(list = c("SPDF_01",datasetName_01))
+    rm(list = c("SFDF_01",datasetName_01))
   }
 
   # ----- Clean up and return --------------------------------------------------
