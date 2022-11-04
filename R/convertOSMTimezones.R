@@ -77,7 +77,7 @@ convertOSMTimezones <- function(
 
   # Convert shapefile into simple features data frame
   # NOTE:  The 'OSMTimezones' directory has been created
-  dsnPath <- file.path(dataDir, 'OSMTimezones/dist')
+  dsnPath <- file.path(dataDir, 'OSMTimezones')
   shpName <- 'combined-shapefile'
   SFDF <- .convertLayer(
     dsn = dsnPath,
@@ -136,6 +136,11 @@ convertOSMTimezones <- function(
   if ( any(!sf::st_is_valid(SFDF)) )
     SFDF <- sf::st_make_valid(SFDF)
 
+  # NOTE:  All geometries are valid so don't makeValid when simplifying
+
+  # > which(!sf::st_is_valid(SFDF))
+  # integer(0)
+
   # ----- Name and save the data -----------------------------------------------
 
   # Assign a name and save the data
@@ -147,7 +152,7 @@ convertOSMTimezones <- function(
   # * Simplify -----
 
   if ( simplify )
-    .simplifyAndSave(SFDF, datasetName, dataDir)
+    .simplifyAndSave(SFDF, datasetName, dataDir, makeValid = FALSE) # SEE ABOVE
 
   # ----- Clean up and return --------------------------------------------------
 
