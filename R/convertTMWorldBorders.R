@@ -125,9 +125,20 @@ convertTMWorldBorders <- function(
   # All polygons are unique so we just add polygonID manually
   SFDF$polygonID <- as.character(seq_len(nrow(SFDF)))
 
-  # Guarantee that all geometries are valid
-  if ( any(!sf::st_is_valid(SFDF)) )
-    SFDF <- sf::st_make_valid(SFDF)
+  # # Guarantee that all geometries are valid
+  # if ( any(!sf::st_is_valid(SFDF)) )
+  #   SFDF <- sf::st_make_valid(SFDF)
+
+  # NOTE:  If we run the entire thing through sf::st_make_valid(), polygons that
+  # NOTE:  cross the dateline get corrupted with big horizontal lines.
+
+  # NOTE: Only 4 polygons are invalid:
+  # NOTE:   24 = Canada
+  # NOTE:   33 = Chile
+  # NOTE:  155 = Norway
+  # NOTE:  175 = Russia (obviously stretches across the date line)
+
+  # BOTTOM LINE:  Don't fix these geometries
 
   # ----- Name and save the data -----------------------------------------------
 
@@ -140,7 +151,7 @@ convertTMWorldBorders <- function(
   # * Simplify -----
 
   if ( simplify )
-    .simplifyAndSave(SFDF, datasetName, dataDir)
+    .simplifyAndSave(SFDF, datasetName, dataDir, makeValid = FALSE) # SEE ABOVE
 
   # ----- Clean up and return --------------------------------------------------
 

@@ -76,11 +76,14 @@
 .simplifyAndSave <- function(
     SFDF = NULL,
     datasetName = NULL,
-    dataDir = getSpatialDataDir()
+    dataDir = getSpatialDataDir(),
+    makeValid = TRUE
 ) {
 
   message("Simplifying to 5%...\n")
-  SFDF_05 <- rmapshaper::ms_simplify(SFDF, 0.05) %>% sf::st_make_valid()
+  SFDF_05 <- rmapshaper::ms_simplify(SFDF, 0.05)
+  if ( makeValid )
+    SFDF_05 <- sf::st_make_valid(SFDF_05)
   datasetName_05 <- paste0(datasetName, "_05")
   message("Saving 5% version...\n")
   assign(datasetName_05, SFDF_05)
@@ -88,7 +91,9 @@
   rm(list = c("SFDF_05", datasetName_05))
 
   message("Simplifying to 2%...\n")
-  SFDF_02 <- rmapshaper::ms_simplify(SFDF, 0.02) %>% sf::st_make_valid()
+  SFDF_02 <- rmapshaper::ms_simplify(SFDF, 0.02)
+  if ( makeValid )
+    SFDF_02 <- sf::st_make_valid(SFDF_02)
   datasetName_02 <- paste0(datasetName, "_02")
   message("Saving 2% version...\n")
   assign(datasetName_02, SFDF_02)
@@ -96,7 +101,9 @@
   rm(list = c("SFDF_02", datasetName_02))
 
   message("Simplifying to 1%...\n")
-  SFDF_01 <- rmapshaper::ms_simplify(SFDF, 0.01) %>% sf::st_make_valid()
+  SFDF_01 <- rmapshaper::ms_simplify(SFDF, 0.01)
+  if ( makeValid )
+    SFDF_01 <- sf::st_make_valid(SFDF_01)
   datasetName_01 <- paste0(datasetName, "_01")
   message("Saving 1% version...\n")
   assign(datasetName_01, SFDF_01)

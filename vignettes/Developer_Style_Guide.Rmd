@@ -114,7 +114,7 @@ to a function:
 getStateCode <- function(
   longitude = NULL, 
   latitude = NULL, 
-  dataset = "NaturalEarthAdm1", 
+  datasetName = "NaturalEarthAdm1", 
   countryCodes = NULL, 
   allData = FALSE, 
   useBuffering = FALSE

@@ -1,7 +1,7 @@
 ---
 title: "Introduction to MazamaSpatialUtils"
 author: "Mazama Science"
-date: "Dec 01, 2020"
+date: "Nov 04, 2022"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Introduction to MazamaSpatialUtils}
@@ -16,7 +16,7 @@ knitr::opts_chunk$set(fig.width = 7, fig.height = 5)
 ## Background
 
 The **MazamaSpatialUtils package** was created by [MazamaScience](http://mazamascience.com) 
-to regularize our work with spatial data. The **sp**, **rgdal** and **maptools** 
+to regularize our work with spatial data. The **sp** and **sf** 
 packages have made it much easier to work with spatial data found in shapefiles. 
 Many sources of shapefile data are available and can be used to make beautiful 
 maps in R. Unfortunately, the data attached to these datasets, even when fairly
@@ -40,9 +40,9 @@ datasets, this package provides `convert~()` functions for other spatial
 datasets that we currently use. These convert functions all follow the same recipe:
 
 * download spatial data in shapefile format into a standard directory
-* convert shapefile data into a *sp* simple features data frame
+* convert shapefile data into a *sf* simple features data frame
 * clean up any topological errors
-* modify the dataframe in the `@data` slot so that it adheres to package internal standards
+* modify the dataframe so that it adheres to package internal standards
 
 Other datasets can be added following the same procedure.
 
@@ -95,34 +95,34 @@ where spatial data will be installed and loaded from. This can be a directory
 on a user's personal computer or perhaps a remotely mounted disk if huge spatial 
 datasets are going to be used.
 
-**MazamaSpatialUtils** has three built-in datasets:
+**MazamaSpatialUtils** has three built-in spatial datasets:
 
 * `SimpleCountries` -- country outlines
 * `SimpleCountriesEEZ` -- country outlines including Exclusive Economic Zones over water
 * `SimpleTimezones` -- time zones
 
-Version 0.7 of the package is built around the three built-in datasets and several other core 
+Version 0.8 of the package is built around the three built-in datasets and several other core 
 datasets that may be installed including: 
 
- * ` 21 Mb EEZCountries` -- country boundaries including Exclusive Economic Zones
- * `  5 Mb EEZCountries` -- US EPA region boundaries
- * `  6 Mb GACC` -- Geographic Area Coordination Center (GACC) boundaries
- * ` 14 Mb NaturalEarthAdm1` -- state/province/oblast level boundaries	 
- * `  8 Mb NWSFireZones` -- "NWS weather forecast zones
- * ` 53 Mb TerrestrialEcoregions` -- terrestrial eco-regions
- * `  4 Mb TMWorldBorders` -- high resolution country level boundaries
- * `  7 Mb USCensus116thCongress` -- US congressional districts
- * ` 34 Mb USCensusCBSA` -- US Core Based Statistical Areas
- * ` 12 Mb USCensusCounties` -- US county level boundaries
- * `  3 Mb USCensusStates` -- US state level boundaries
- * `  1 Mb USIndianLands` -- US tribal boundaries
- * `  9 Mb WeatherZones` -- NWS public weather forecast zones
- * ` 16 Mb WorldTimezones` -- time zones
+ * ` 20 MB EEZCountries` -- country boundaries including Exclusive Economic Zones
+ * X `  5 MB EEZCountries` -- US EPA region boundaries
+ * X `  6 MB GACC` -- Geographic Area Coordination Center (GACC) boundaries
+ * ` 14 MB NaturalEarthAdm1` -- state/province/oblast level boundaries	 
+ * X `  8 MB NWSFireZones` -- "NWS weather forecast zones
+ * X ` 53 MB TerrestrialEcoregions` -- terrestrial eco-regions
+ * `  3 MB TMWorldBorders` -- high resolution country level boundaries
+ * X `  7 MB USCensus116thCongress` -- US congressional districts
+ * X ` 34 MB USCensusCBSA` -- US Core Based Statistical Areas
+ * ` 12 MB USCensusCounties` -- US county level boundaries
+ * X `  3 MB USCensusStates` -- US state level boundaries
+ * X `  1 MB USIndianLands` -- US tribal boundaries
+ * X `  9 MB WeatherZones` -- NWS public weather forecast zones
+ * X ` 16 MB WorldTimezones` -- time zones
  
 Install these one at a time with:
 
 ```{r setSpatialData, eval = FALSE}
-setSpatialDataDir('~/Data/Spatial')
+setSpatialDataDir('~/Data/Spatial_0.8')
 installSpatialData("<datasetName>")
 ```
 
@@ -138,12 +138,12 @@ Additional watershed data from the
 [Watershed Boundary Dataset](https://www.usgs.gov/core-science-systems/ngp/national-hydrography) are quite large and 
 may be installed in the same way:
 
- * ` 40 Mb WBDHU2.rda` -- USGS level 2 watersheds
- * `127 Mb WBDHU4.rda` -- USGS level 4 watersheds
- * `157 Mb WBDHU6.rda` -- USGS level 6 watersheds
- * `337 Mb WBDHU8.rda` -- USGS level 8 watersheds
- * `??? Mb WBDHU10.rda` -- USGS level 10 watersheds	(_not yet available_)
- * `??? Gb WBDHU12.rda` -- USGS level 12 watersheds (_not yet available_)
+ * X ` 40 MB WBDHU2.rda` -- USGS level 2 watersheds
+ * X `127 MB WBDHU4.rda` -- USGS level 4 watersheds
+ * X `157 MB WBDHU6.rda` -- USGS level 6 watersheds
+ * X `337 MB WBDHU8.rda` -- USGS level 8 watersheds
+ * X `??? MB WBDHU10.rda` -- USGS level 10 watersheds	(_not yet available_)
+ * X `??? Gb WBDHU12.rda` -- USGS level 12 watersheds (_not yet available_)
 
 ## `getCountry()` and `getCountryCode()`
 
@@ -252,13 +252,12 @@ locations is important, we can also generate some quick eye candy with these
 datasets. Let's color the time zones by the data variable 'UTC_offset'
 
 ```{r timezoneMap}
-library(sp)         # For spatial plotting
-
 # Assign time zones polygons an index based on UTC_offset
-colorIndices <- .bincode(SimpleTimezones@data$UTC_offset, breaks = seq(-12.5,12.5,1))
+colorIndices <- .bincode(SimpleTimezones$UTC_STD_offset, breaks = seq(-12.5,12.5,1))
 
 # Color our time zones by UTC_offset
-plot(SimpleTimezones, col = rainbow(25)[colorIndices])
+
+plot(SimpleTimezones$geometry, col = rainbow(25)[colorIndices])
 title(line = 0, 'Timezone Offsets from UTC')
 ```
 
@@ -298,23 +297,23 @@ exportOnlyCodes <- setdiff(prodCountryCodes,consCountryCodes)
 importOnlyCodes <- setdiff(consCountryCodes,prodCountryCodes)
 
 # Create a logical 'mask' associated with each category
-netExportMask <- SimpleCountries@data$countryCode %in% netExportCodes
-netImportMask <- SimpleCountries@data$countryCode %in% netImportCodes
-onlyExportMask <- SimpleCountries@data$countryCode %in% exportOnlyCodes
-onlyImportMask <- SimpleCountries@data$countryCode %in% importOnlyCodes
+netExportMask <- SimpleCountries$countryCode %in% netExportCodes
+netImportMask <- SimpleCountries$countryCode %in% netImportCodes
+onlyExportMask <- SimpleCountries$countryCode %in% exportOnlyCodes
+onlyImportMask <- SimpleCountries$countryCode %in% importOnlyCodes
 
 color_export = '#40CC90'
 color_import = '#EE5555'
 color_missing = 'gray90'
 
 # Base plot (without Antarctica)
-notAQ <- SimpleCountries@data$countryCode != 'AQ'
-plot(SimpleCountries[notAQ,], col = color_missing)
+notAQ <- SimpleCountries$countryCode != 'AQ'
+plot(SimpleCountries[notAQ,]$geometry, col = color_missing)
 
-plot(SimpleCountries[netExportMask,], col = color_export, add = TRUE)
-plot(SimpleCountries[onlyExportMask,], col = color_export, add = TRUE)
-plot(SimpleCountries[netImportMask,], col = color_import, add = TRUE)
-plot(SimpleCountries[onlyImportMask,], col = color_import, add = TRUE)
+plot(SimpleCountries[netExportMask,]$geometry, col = color_export, add = TRUE)
+plot(SimpleCountries[onlyExportMask,]$geometry, col = color_export, add = TRUE)
+plot(SimpleCountries[netImportMask,]$geometry, col = color_import, add = TRUE)
+plot(SimpleCountries[onlyImportMask,]$geometry, col = color_import, add = TRUE)
 
 legend(
   'bottomleft',
