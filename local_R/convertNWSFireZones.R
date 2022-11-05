@@ -16,7 +16,7 @@
 #' will be created in the spatial data directory which is set with
 #' \code{setSpatialDataDir()}.
 #'
-#' The source data is from 2020.
+#' The source data is from 2022-09-13.
 #'
 #' @note From the source documentation:
 #'
@@ -49,7 +49,7 @@ convertNWSFireZones <- function(
   # ----- Get the data ---------------------------------------------------------
 
   # Build appropriate request URL
-  url <- "https://www.weather.gov/source/gis/Shapefiles/WSOM/fz03mr20.zip"
+  url <- "https://www.weather.gov/source/gis/Shapefiles/WSOM/fz13se22.zip"
 
   filePath <- file.path(dataDir, basename(url))
   utils::download.file(url, filePath)
@@ -61,32 +61,27 @@ convertNWSFireZones <- function(
   # Convert shapefile into simple features data frame
   # NOTE:  The 'NWSFireZones' directory has been created
   dsnPath <- file.path(dataDir, 'NWSFireZones')
-  shpName <- 'fz03mr20'
+  shpName <- 'fz13se22'
   SFDF <- .convertLayer(
     dsn = dsnPath,
-    layer = shpName,
-    encoding = 'UTF-8'
+    layer = shpName
   )
 
   # ----- Select useful columns and rename -------------------------------------
 
-  # > dplyr::glimpse(SFDF)
-  # Observations: 3,507
-  # Variables: 13
-  # $ STATE      <chr> "GU", "GU", "GU", "GU", "GU", "GU", "GU", "GU", "GU", "GU"…
-  # $ ZONE       <chr> "013", "011", "041", "021", "024", "022", "033", "023", "0…
-  # $ CWA        <chr> "GUM", "GUM", "GUM", "GUM", "GUM", "GUM", "GUM", "GUM", "G…
-  # $ NAME       <chr> "Kayangel", "Koror", "Pohnpei", "Yap", "Sorol", "Ngulu", "…
-  # $ STATE_ZONE <chr> "GU013", "GU011", "GU041", "GU021", "GU024", "GU022", "GU0…
-  # $ TIME_ZONE  <chr> "J", "J", "F", "G", "G", "G", "F", "G", "G", "F", "F", "K"…
-  # $ FE_AREA    <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA…
-  # $ LON        <dbl> 134.7129, 134.5351, 158.2252, 138.1244, 140.6973, 137.5079…
-  # $ LAT        <dbl> 8.0736, 7.4442, 6.8807, 9.5366, 8.2143, 8.3022, 5.4999, 10…
-  # $ InPoly_FID <chr> "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "…
-  # $ SimPgnFlag <int> 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0…
-  # $ MaxSimpTol <dbl> 1e-04, 1e-04, 1e-04, 1e-04, 1e-04, 1e-04, 1e-04, 1e-04, 1e…
-  # $ MinSimpTol <dbl> 1e-04, 1e-04, 1e-04, 1e-04, 1e-04, 1e-04, 1e-04, 1e-04, 1e…
-
+  # > dplyr::glimpse(SFDF, width = 75)
+  # Rows: 3,630
+  # Columns: 10
+  # $ STATE      <chr> "OR", "OR", "OR", "OR", "OR", "OR", "OR", "OR", "OR", …
+  # $ ZONE       <chr> "639", "611", "637", "646", "644", "641", "610", "640"…
+  # $ CWA        <chr> "PDT", "PDT", "BOI", "BOI", "PDT", "PDT", "PDT", "PDT"…
+  # $ NAME       <chr> "East Slopes of the Northern Oregon Cascades", "Deschu…
+  # $ STATE_ZONE <chr> "OR639", "OR611", "OR637", "OR646", "OR644", "OR641", …
+  # $ TIME_ZONE  <chr> "P", "P", "P", "P", "P", "P", "P", "P", "P", "P", "P",…
+  # $ FE_AREA    <chr> "nc", "sw", "se", "ne", "ne", "nc", "nc", "sw", "ne", …
+  # $ LON        <dbl> -121.4000, -121.5055, -117.6212, -117.5817, -118.9154,…
+  # $ LAT        <dbl> 45.3804, 43.6707, 43.1807, 44.6684, 44.9152, 45.4969, …
+  # $ geometry   <MULTIPOLYGON [°]> MULTIPOLYGON (((-121.4827 4..., MULTIPOLY…
 
   # Data Dictionary:
   #   STATE -------> stateCode: 2-digit postal code
@@ -98,10 +93,6 @@ convertNWSFireZones <- function(
   #   FE_AREA -----> (drop)
   #   LON ---------> longitude: longitude of zone centroid
   #   LAT ---------> latitude: latitude of zone centroid
-  #   InPoly_FID --> (drop)
-  #   SimPgnFlag --> (drop)
-  #   MaxSimpTol --> (drop)
-  #   MinSimpTol --> (drop)
 
   # NOTE:  The values in the TIME_ZONE field do not correspond to timezones from the
   # NOTE:  WorldTimezones file so that field will be dropped to avoid confusion.
@@ -124,20 +115,20 @@ convertNWSFireZones <- function(
       latitude = .data$LAT
     )
 
-
   # ----- Clean SFDF -----------------------------------------------------------
 
-  # Group polygons with the same identifier (zoneID)
-  SFDF <- organizePolygons(
-    SFDF,
-    uniqueID = 'zoneID',
-    sumColumns = c('longitude', 'latitude')
-  )
+  uniqueIdentifier <- "zoneID"
 
-  # Clean topology errors
-  if ( !cleangeo::clgeo_IsValid(SFDF) ) {
-    SFDF <- cleangeo::clgeo_Clean(SFDF, verbose = TRUE)
-  }
+  # Guarantee that all polygons are unique
+  if ( any(duplicated(SFDF[[uniqueIdentifier]])) )
+    stop(sprintf("Column '%s' has multiple records. An organizePolygons() step is needed.", uniqueIdentifier))
+
+  # All polygons are unique so we just add polygonID manually
+  SFDF$polygonID <- as.character(seq_len(nrow(SFDF)))
+
+  # Guarantee that all geometries are valid
+  if ( any(!sf::st_is_valid(SFDF)) )
+    SFDF <- sf::st_make_valid(SFDF)
 
   # ----- Name and save the data -----------------------------------------------
 
@@ -147,50 +138,10 @@ convertNWSFireZones <- function(
   save(list = c(datasetName), file = paste0(dataDir, '/', datasetName, '.rda'))
   rm(list = datasetName)
 
-  # ----- Simplify -------------------------------------------------------------
+  # * Simplify -----
 
-  if ( simplify ) {
-    # Create new, simplified datsets: one with 5%, 2%, and one with 1% of the vertices of the original
-    # NOTE:  This may take several minutes.
-    message("Simplifying to 5%...\n")
-    SFDF_05 <- rmapshaper::ms_simplify(SFDF, 0.05)
-    SFDF_05@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
-    # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SFDF_05) ) {
-      SFDF_05 <- cleangeo::clgeo_Clean(SFDF_05)
-    }
-    datasetName_05 <- paste0(datasetName, "_05")
-    message("Saving 5% version...\n")
-    assign(datasetName_05, SFDF_05)
-    save(list = datasetName_05, file = paste0(dataDir,"/", datasetName_05, '.rda'))
-    rm(list = c("SFDF_05",datasetName_05))
-
-    message("Simplifying to 2%...\n")
-    SFDF_02 <- rmapshaper::ms_simplify(SFDF, 0.02)
-    SFDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
-    # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SFDF_02) ) {
-      SFDF_02 <- cleangeo::clgeo_Clean(SFDF_02)
-    }
-    datasetName_02 <- paste0(datasetName, "_02")
-    message("Saving 2% version...\n")
-    assign(datasetName_02, SFDF_02)
-    save(list = datasetName_02, file = paste0(dataDir,"/", datasetName_02, '.rda'))
-    rm(list = c("SFDF_02",datasetName_02))
-
-    message("Simplifying to 1%...\n")
-    SFDF_01 <- rmapshaper::ms_simplify(SFDF, 0.01)
-    SFDF_01@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
-    # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SFDF_01) ) {
-      SFDF_01 <- cleangeo::clgeo_Clean(SFDF_01)
-    }
-    datasetName_01 <- paste0(datasetName, "_01")
-    message("Saving 1% version...\n")
-    assign(datasetName_01, SFDF_01)
-    save(list = datasetName_01, file = paste0(dataDir,"/", datasetName_01, '.rda'))
-    rm(list = c("SFDF_01",datasetName_01))
-  }
+  if ( simplify )
+    .simplifyAndSave(SFDF, datasetName, dataDir)
 
   # ----- Clean up and return --------------------------------------------------
 

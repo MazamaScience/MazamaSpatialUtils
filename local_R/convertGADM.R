@@ -3,10 +3,10 @@
 #' @importFrom cleangeo clgeo_IsValid
 #' @export
 #'
-#' @title Convert Global Administrative Areas (GADM) SFDF
+#' @title Convert Global Administrative Areas (GADM) shape file
 #'
-#' @param countryCode ISO-3166-1 alpha-2 country code
-#' @param admLevel administrative level to be downloaded
+#' @param countryCode ISO-3166-1 alpha-2 country code.
+#' @param admLevel Administrative level to be downloaded.
 #' @param nameOnly Logical specifying whether to only return the name without
 #' creating the file.
 #' @param baseUrl Base URL for data queries.
@@ -17,6 +17,8 @@
 #' is downloaded and amended with additional columns of data. The resulting file
 #' will be created in the spatial data directory which is set with
 #' \code{setSpatialDataDir()}.
+#'
+#' Version 4.1 was released on 16 July 2022
 #'
 #' The \code{@data} slot of each simple features data frame is both simplified and
 #' modified to adhere to the \pkg{MazamaSpatialUtils} internal standards.

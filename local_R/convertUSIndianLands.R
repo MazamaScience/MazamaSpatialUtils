@@ -2,7 +2,7 @@
 #' @importFrom rlang .data
 #' @export
 #'
-#' @title Convert Indian Lands Shapefile
+#' @title Convert Indian lands shapefile
 #'
 #' @param nameOnly Logical specifying whether to only return the name without
 #' creating the file.
@@ -80,38 +80,38 @@ convertUSIndianLands <- function(
   shpName <- 'indlanp010g'
   SFDF <- .convertLayer(
     dsn = dsnPath,
-    layer = shpName,
-    encoding = 'UTF-8'
+    layer = shpName
   )
 
   # ----- Select useful columns and rename -------------------------------------
 
-  # > dplyr::glimpse(SFDF)
-  # Observations: 558
-  # Variables: 23
-  # $ OBJECTID   <int> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
-  # $ AREA       <dbl> 391.0876336, 2.0070783, 66.4574107, 50.9686454, 1.0109839,…
-  # $ PERIMETER  <dbl> 133.717749, 9.271149, 205.966316, 37.774333, 4.022588, 19.…
-  # $ Indlanp010 <int> 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162, 163…
-  # $ FEATURE1   <chr> "Indian Reservation", "Indian Reservation", "Indian Reserv…
-  # $ GNIS_Name1 <chr> "Acoma Pueblo", "Acoma Pueblo", "Agua Caliente Indian Rese…
-  # $ GNIS_ID1   <chr> "1934337", "1934337", "1934324", "912566", "238830", "2559…
-  # $ ADMIN1     <chr> "BIA", "BIA", "BIA", "BIA", "BIA", "BIA", "BIA", "BIA", "B…
-  # $ FEATURE2   <chr> "N/A", "Public Domain Land", "N/A", "National Forest", "Na…
-  # $ GNIS_Name2 <chr> "N/A", "N/A", "N/A", "Cibola National Forest", "N/A", "N/A…
-  # $ GNIS_ID2   <chr> "N/A", "N/A", "N/A", "1851853", "N/A", "N/A", "N/A", "N/A"…
-  # $ ADMIN2     <chr> "N/A", "BLM", "N/A", "FS", "BLM", "N/A", "N/A", "BLM", "N/…
-  # $ FEATURE3   <chr> "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N…
-  # $ GNIS_Name3 <chr> "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N…
-  # $ GNIS_ID3   <chr> "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N…
-  # $ ADMIN3     <chr> "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N…
-  # $ URL        <chr> "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N…
-  # $ STATE      <chr> "NM", "NM", "CA", "NM", "CA", "CA", "CA", "CA", "CA", "CA"…
-  # $ STATE_FIPS <chr> "35", "35", "06", "35", "06", "06", "06", "06", "06", "06"…
-  # $ ORIG_NAME  <chr> "ACOMA PUEBLO", "ACOMA PUEBLO", "AGUA CALIENTE INDIAN RESE…
-  # $ GIS_ACRES  <dbl> 250296.0855, 1284.5301, 42532.7428, 32619.9330, 647.0297, …
-  # $ SHAPE_Leng <dbl> 2.15188890, 0.15164941, 3.28540939, 0.61393712, 0.06411717…
-  # $ SHAPE_Area <dbl> 0.0998716951, 0.0005123971, 0.0167604554, 0.0129362866, 0.…
+  # > dplyr::glimpse(SFDF, width = 75)
+  # Rows: 558
+  # Columns: 24
+  # $ OBJECTID   <int> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16,…
+  # $ AREA       <dbl> 391.0876336, 2.0070783, 66.4574107, 50.9686454, 1.0109…
+  # $ PERIMETER  <dbl> 133.717749, 9.271149, 205.966316, 37.774333, 4.022588,…
+  # $ Indlanp010 <int> 152, 153, 154, 155, 156, 157, 158, 159, 160, 161, 162,…
+  # $ FEATURE1   <chr> "Indian Reservation", "Indian Reservation", "Indian Re…
+  # $ GNIS_Name1 <chr> "Acoma Pueblo", "Acoma Pueblo", "Agua Caliente Indian …
+  # $ GNIS_ID1   <chr> "1934337", "1934337", "1934324", "912566", "238830", "…
+  # $ ADMIN1     <chr> "BIA", "BIA", "BIA", "BIA", "BIA", "BIA", "BIA", "BIA"…
+  # $ FEATURE2   <chr> "N/A", "Public Domain Land", "N/A", "National Forest",…
+  # $ GNIS_Name2 <chr> "N/A", "N/A", "N/A", "Cibola National Forest", "N/A", …
+  # $ GNIS_ID2   <chr> "N/A", "N/A", "N/A", "1851853", "N/A", "N/A", "N/A", "…
+  # $ ADMIN2     <chr> "N/A", "BLM", "N/A", "FS", "BLM", "N/A", "N/A", "BLM",…
+  # $ FEATURE3   <chr> "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A"…
+  # $ GNIS_Name3 <chr> "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A"…
+  # $ GNIS_ID3   <chr> "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A"…
+  # $ ADMIN3     <chr> "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A"…
+  # $ URL        <chr> "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A", "N/A"…
+  # $ STATE      <chr> "NM", "NM", "CA", "NM", "CA", "CA", "CA", "CA", "CA", …
+  # $ STATE_FIPS <chr> "35", "35", "06", "35", "06", "06", "06", "06", "06", …
+  # $ ORIG_NAME  <chr> "ACOMA PUEBLO", "ACOMA PUEBLO", "AGUA CALIENTE INDIAN …
+  # $ GIS_ACRES  <dbl> 250296.0855, 1284.5301, 42532.7428, 32619.9330, 647.02…
+  # $ SHAPE_Leng <dbl> 2.15188890, 0.15164941, 3.28540939, 0.61393712, 0.0641…
+  # $ SHAPE_Area <dbl> 0.0998716951, 0.0005123971, 0.0167604554, 0.0129362866…
+  # $ geometry   <MULTIPOLYGON [°]> MULTIPOLYGON (((-107.5451 3..., MULTIPOLY…
 
   # Data Dictionary:
   #   OBJECTID ----> (drop)
@@ -142,19 +142,29 @@ convertUSIndianLands <- function(
   nafun <- function(x) {
     ifelse(x == "N/A", NA, x)
   }
-  SFDF <- as.data.frame(apply(SFDF, 2, nafun), stringsAsFactors = FALSE)
+  # Force removal of 'geometry' column
+  dataBrick <- SFDF
+  dataBrick$geometry <- NULL
+  colCount <- ncol(dataBrick)
+  SFDF[1:colCount] <- as.data.frame(apply(dataBrick, 2, nafun), stringsAsFactors = FALSE)
 
-  # Remove rows that are not indian reservations
+  # Only keep records that are Indian reservations
   SFDF <- SFDF[which(SFDF$FEATURE1 == "Indian Reservation"),]
 
   # Convert area from square miles to m^2
   SFDF$AREA <- as.numeric(SFDF$AREA)
   SFDF$AREA <- SFDF$AREA*1609.344^2
 
+  # NOTE:  sf::st_centroid complains of an invalid geometry so we fix that here
+
+  # Guarantee that all geometries are valid
+  if ( any(!sf::st_is_valid(SFDF)) )
+    SFDF <- sf::st_make_valid(SFDF)
+
   # Get latitude and longitude from polygon centroids
-  centroids <- rgeos::gCentroid(SFDF, byid = TRUE)
-  lon <- sp::coordinates(centroids)[,1]
-  lat <- sp::coordinates(centroids)[,2]
+  centroids <- sf::st_centroid(SFDF)
+  lon <- sf::st_coordinates(centroids)[,1]
+  lat <- sf::st_coordinates(centroids)[,2]
 
   SFDF$longitude <- lon
   SFDF$latitude <- lat
@@ -189,17 +199,21 @@ convertUSIndianLands <- function(
 
   # ----- Clean SFDF -----------------------------------------------------------
 
-  # Group polygons with the same identifier (GNISCode)
-  SFDF <- organizePolygons(
-    SFDF,
-    uniqueID = "GNISCode",
-    sumColumns = "area"
-  )
+  uniqueIdentifier <- "GNISCode"
 
-  # Clean topology errors
-  if ( !cleangeo::clgeo_IsValid(SFDF) ) {
-    SFDF <- cleangeo::clgeo_Clean(SFDF)
-  }
+  # Guarantee that all polygons are unique
+  if ( any(duplicated(SFDF[[uniqueIdentifier]])) )
+    stop(sprintf("Column '%s' has multiple records. An organizePolygons() step is needed.", uniqueIdentifier))
+
+  # TODO:  Need to organize polygons
+
+  # All polygons are unique so we just add polygonID manually
+  SFDF$polygonID <- as.character(seq_len(nrow(SFDF)))
+
+  # NOTE:  Already did this above
+  # # Guarantee that all geometries are valid
+  # if ( any(!sf::st_is_valid(SFDF)) )
+  #   SFDF <- sf::st_make_valid(SFDF)
 
   # ----- Name and save the data -----------------------------------------------
 
@@ -209,50 +223,10 @@ convertUSIndianLands <- function(
   save(list = c(datasetName), file = paste0(dataDir, '/', datasetName, '.rda'))
   rm(list = datasetName)
 
-  # ----- Simplify -------------------------------------------------------------
+  # * Simplify -----
 
-  if ( simplify ) {
-    # Create new, simplified datsets: one with 5%, 2%, and one with 1% of the vertices of the original
-    # NOTE:  This may take several minutes.
-    message("Simplifying to 5%...\n")
-    SFDF_05 <- rmapshaper::ms_simplify(SFDF, 0.05)
-    SFDF_05@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
-    # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SFDF_05) ) {
-      SFDF_05 <- cleangeo::clgeo_Clean(SFDF_05)
-    }
-    datasetName_05 <- paste0(datasetName, "_05")
-    message("Saving 5% version...\n")
-    assign(datasetName_05, SFDF_05)
-    save(list = datasetName_05, file = paste0(dataDir,"/", datasetName_05, '.rda'))
-    rm(list = c("SFDF_05",datasetName_05))
-
-    message("Simplifying to 2%...\n")
-    SFDF_02 <- rmapshaper::ms_simplify(SFDF, 0.02)
-    SFDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
-    # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SFDF_02) ) {
-      SFDF_02 <- cleangeo::clgeo_Clean(SFDF_02)
-    }
-    datasetName_02 <- paste0(datasetName, "_02")
-    message("Saving 2% version...\n")
-    assign(datasetName_02, SFDF_02)
-    save(list = datasetName_02, file = paste0(dataDir,"/", datasetName_02, '.rda'))
-    rm(list = c("SFDF_02",datasetName_02))
-
-    message("Simplifying to 1%...\n")
-    SFDF_01 <- rmapshaper::ms_simplify(SFDF, 0.01)
-    SFDF_01@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
-    # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SFDF_01) ) {
-      SFDF_01 <- cleangeo::clgeo_Clean(SFDF_01)
-    }
-    datasetName_01 <- paste0(datasetName, "_01")
-    message("Saving 1% version...\n")
-    assign(datasetName_01, SFDF_01)
-    save(list = datasetName_01, file = paste0(dataDir,"/", datasetName_01, '.rda'))
-    rm(list = c("SFDF_01",datasetName_01))
-  }
+  if ( simplify )
+    .simplifyAndSave(SFDF, datasetName, dataDir)
 
   # ----- Clean up and return --------------------------------------------------
 

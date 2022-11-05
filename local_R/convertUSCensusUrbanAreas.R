@@ -16,7 +16,7 @@
 #' will be created in the spatial data directory which is set with
 #' \code{setSpatialDataDir()}.
 #'
-#' The source data is from 2019.
+#' The source data is from 2021.
 #'
 #' @note From the source documentation:
 #'
@@ -33,7 +33,7 @@
 #'
 #' @return Name of the datasetName being created.
 #'
-#' @references \url{https://www2.census.gov/geo/tiger/TIGER2019/UAC/}
+#' @references \url{https://www2.census.gov/geo/tiger/TIGER2021/UAC/}
 
 convertUSCensusUrbanAreas <- function(
   nameOnly = FALSE,
@@ -54,7 +54,7 @@ convertUSCensusUrbanAreas <- function(
   # ----- Get the data ---------------------------------------------------------
 
   # Build appropriate request URL
-  url <- 'https://www2.census.gov/geo/tiger/TIGER2019/UAC/tl_2019_us_uac10.zip'
+  url <- 'https://www2.census.gov/geo/tiger/TIGER2021/UAC/tl_2021_us_uac10.zip'
 
   filePath <- file.path(dataDir, basename(url))
   utils::download.file(url, filePath)
@@ -65,11 +65,10 @@ convertUSCensusUrbanAreas <- function(
 
   # Convert shapefile into simple features data frame
   dsnPath <- file.path(dataDir, 'us_census_urban_areas')
-  shpName <- 'tl_2019_us_uac10'
+  shpName <- 'tl_2021_us_uac10'
   SFDF <- .convertLayer(
     dsn = dsnPath,
-    layer = shpName,
-    encoding = 'UTF-8'
+    layer = shpName
   )
 
   # ----- Select useful columns and rename -------------------------------------
@@ -147,22 +146,20 @@ convertUSCensusUrbanAreas <- function(
     GEOID = .data$GEOID10
   )
 
-  # ----- Organize polygons ----------------------------------------------------
+  # ----- Clean SFDF -----------------------------------------------------------
 
-  # Group polygons with the same identifier (GEOID)
-  message("Organizing polygons...\n")
-  SFDF <- organizePolygons(
-    SFDF,
-    uniqueID = "GEOID",
-    sumColumns = c('landArea', 'waterArea')
-  )
+  uniqueIdentifier <- "GEOID"
 
-  # Clean topology errors
-  message("Checking for topology errors...\n")
-  if ( !cleangeo::clgeo_IsValid(SFDF) ) {
-    message("Cleaning topology errors...\n")
-    SFDF <- cleangeo::clgeo_Clean(SFDF)
-  }
+  # Guarantee that all polygons are unique
+  if ( any(duplicated(SFDF[[uniqueIdentifier]])) )
+    stop(sprintf("Column '%s' has multiple records. An organizePolygons() step is needed.", uniqueIdentifier))
+
+  # All polygons are unique so we just add polygonID manually
+  SFDF$polygonID <- as.character(seq_len(nrow(SFDF)))
+
+  # Guarantee that all geometries are valid
+  if ( any(!sf::st_is_valid(SFDF)) )
+    SFDF <- sf::st_make_valid(SFDF)
 
   # ----- Name and save the data -----------------------------------------------
 
@@ -172,50 +169,10 @@ convertUSCensusUrbanAreas <- function(
   save(list = c(datasetName), file = paste0(dataDir, '/', datasetName, '.rda'))
   rm(list = datasetName)
 
-  # ----- Simplify -------------------------------------------------------------
+  # * Simplify -----
 
-  if ( simplify ) {
-    # Create new, simplified datsets: one with 5%, 2%, and one with 1% of the vertices of the original
-    # NOTE:  This may take several minutes.
-    message("Simplifying to 5%...\n")
-    SFDF_05 <- rmapshaper::ms_simplify(SFDF, 0.05)
-    SFDF_05@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
-    # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SFDF_05) ) {
-      SFDF_05 <- cleangeo::clgeo_Clean(SFDF_05)
-    }
-    datasetName_05 <- paste0(datasetName, "_05")
-    message("Saving 5% version...\n")
-    assign(datasetName_05, SFDF_05)
-    save(list = datasetName_05, file = paste0(dataDir,"/", datasetName_05, '.rda'))
-    rm(list = c("SFDF_05",datasetName_05))
-
-    message("Simplifying to 2%...\n")
-    SFDF_02 <- rmapshaper::ms_simplify(SFDF, 0.02)
-    SFDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
-    # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SFDF_02) ) {
-      SFDF_02 <- cleangeo::clgeo_Clean(SFDF_02)
-    }
-    datasetName_02 <- paste0(datasetName, "_02")
-    message("Saving 2% version...\n")
-    assign(datasetName_02, SFDF_02)
-    save(list = datasetName_02, file = paste0(dataDir,"/", datasetName_02, '.rda'))
-    rm(list = c("SFDF_02",datasetName_02))
-
-    message("Simplifying to 1%...\n")
-    SFDF_01 <- rmapshaper::ms_simplify(SFDF, 0.01)
-    SFDF_01@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
-    # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SFDF_01) ) {
-      SFDF_01 <- cleangeo::clgeo_Clean(SFDF_01)
-    }
-    datasetName_01 <- paste0(datasetName, "_01")
-    message("Saving 1% version...\n")
-    assign(datasetName_01, SFDF_01)
-    save(list = datasetName_01, file = paste0(dataDir,"/", datasetName_01, '.rda'))
-    rm(list = c("SFDF_01",datasetName_01))
-  }
+  if ( simplify )
+    .simplifyAndSave(SFDF, datasetName, dataDir)
 
   # ----- Clean up and return --------------------------------------------------
 

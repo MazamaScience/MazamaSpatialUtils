@@ -7,7 +7,8 @@
 .simplifyAndSave(
   SFDF = NULL,
   datasetName = NULL,
-  dataDir = getSpatialDataDir()
+  dataDir = getSpatialDataDir(),
+  makeValid = TRUE
 )
 }
 \arguments{

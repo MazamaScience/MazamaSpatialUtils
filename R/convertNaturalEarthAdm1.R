@@ -303,9 +303,19 @@ convertNaturalEarthAdm1 <- function(
   # All polygons are unique so we just add polygonID manually
   SFDF$polygonID <- as.character(seq_len(nrow(SFDF)))
 
-  # Guarantee that all geometries are valid
-  if ( any(!sf::st_is_valid(SFDF)) )
-    SFDF <- sf::st_make_valid(SFDF)
+  # # Guarantee that all geometries are valid
+  # if ( any(!sf::st_is_valid(SFDF)) )
+  #   SFDF <- sf::st_make_valid(SFDF)
+
+  # NOTE:  If we run the entire thing through sf::st_make_valid(), polygons that
+  # NOTE:  cross the dateline get corrupted with big horizontal lines.
+
+  # NOTE: Only 1 polygon is invalid:
+  # NOTE:   3724 = Goias, Brazil
+
+  # Fix a single polygon
+  badPolygonIndex <- which(!sf::st_is_valid(SFDF))
+  SFDF[badPolygonIndex,]<- sf::st_make_valid(SFDF[badPolygonIndex,])
 
   # ----- Name and save the data -----------------------------------------------
 
@@ -318,7 +328,7 @@ convertNaturalEarthAdm1 <- function(
   # * Simplify -----
 
   if ( simplify )
-    .simplifyAndSave(SFDF, datasetName, dataDir)
+    .simplifyAndSave(SFDF, datasetName, dataDir, makeValid = FALSE) # SEE ABOVE
 
   # ----- Clean up and return --------------------------------------------------
 

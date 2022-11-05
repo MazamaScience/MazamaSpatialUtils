@@ -1,4 +1,3 @@
-#' @keywords datagen
 #' @importFrom rlang .data
 #' @export
 #'
@@ -11,12 +10,12 @@
 #'
 #' @description Returns a simple features data frame for EPA Regions
 #'
-#' @details An EPA region boundary shapefile is downloaded and converted to a
+#' @details An EPA region boundary shapefile is converted to a
 #' simple features data frame with additional columns of data. The resulting file
 #' will be created in the spatial data directory which is set with
 #' \code{setSpatialDataDir()}.
 #'
-#' The source data is from 2017.
+#' The source data is from 2022.
 #'
 #' @note From the source documentation:
 #'
@@ -33,10 +32,8 @@
 #'
 #' @return Name of the datasetName being created.
 #'
-#' @references \url{https://www.arcgis.com/home/item.html?id=c670540796584c72b4f59b676ccabe6a}
+#' @references \url{https://hub.arcgis.com/datasets/geoplatform::epa-regions}
 #'
-#' @seealso setSpatialDataDir
-#' @seealso getVariable
 
 convertEPARegions <- function(
   nameOnly = FALSE,
@@ -58,49 +55,55 @@ convertEPARegions <- function(
 
   # ----- Get the data ---------------------------------------------------------
 
-  # Build appropriate request URL
-  url <- 'https://opendata.arcgis.com/datasetNames/c670540796584c72b4f59b676ccabe6a_3.zip'
+  # # Build appropriate request URL
+  # url <- 'https://opendata.arcgis.com/datasetNames/c670540796584c72b4f59b676ccabe6a_3.zip'
+  #
+  # filePath <- file.path(dataDir, basename(url))
+  # utils::download.file(url, filePath)
+  # # NOTE:  This zip file has no directory so extra subdirectory needs to be created
+  # utils::unzip(filePath, exdir = file.path(dataDir, 'epa_regions'))
 
-  filePath <- file.path(dataDir, basename(url))
-  utils::download.file(url, filePath)
-  # NOTE:  This zip file has no directory so extra subdirectory needs to be created
-  utils::unzip(filePath, exdir = file.path(dataDir, 'epa_regions'))
+  # NOTE:  This shape file must now be downloaded and unzipped by hand from:
+  # NOTE:    https://hub.arcgis.com/maps/geoplatform::epa-regions/about
 
   # ----- Convert to SFDF ------------------------------------------------------
 
   # Convert shapefile into simple features data frame
   # NOTE:  The 'epa_regions' directory has been created
-  dsnPath <- file.path(dataDir, 'epa_regions')
-  shpName <- 'Environmental_Protection_Agency__EPA__Regions'
+  dsnPath <- file.path(dataDir, 'EPA_Regions')
+  shpName <- 'EPA_Regions'
   SFDF <- .convertLayer(
     dsn = dsnPath,
-    layer = shpName,
-    encoding = 'UTF-8'
+    layer = shpName
   )
 
   # ----- Select useful columns and rename -------------------------------------
 
-  # dplyr::glimpse(SFDF)
-  #   Observations: 10
-  #   Variables: 4
-  #   $ OBJECTID   <chr> "1", "2", "3", "4", "5", "6", ...
-  #   $ EPAREGION  <chr> "Region 1", "Region 10", "Regi...
-  #   $ Shape_Leng <dbl> 33.10624, 298.86497, 40.51849,...
-  #   $ Shape_Area <dbl> 20.97047, 389.03109, 19.30733,...
+  # > dplyr::glimpse(SFDF, width = 75)
+  # Rows: 10
+  # Columns: 5
+  # $ OBJECTID   <int> 1, 2, 3, 4, 5, 6, 7, 8, 9, 10
+  # $ EPAREGION  <chr> "Region 1", "Region 10", "Region 2", "Region 3", "Regi…
+  # $ Shape__Are <dbl> 3.623687e+11, 1.033551e+13, 3.199246e+11, 5.526602e+11…
+  # $ Shape__Len <dbl> 4318560, 41961155, 4949721, 4027496, 9424781, 9037567,…
+  # $ geometry   <MULTIPOLYGON [°]> MULTIPOLYGON (((-71.58409 4..., MULTIPOLYGON (((-122.2…
 
   # Data dictionary:
   #   $ OBJECTID ---> polygonID: unique identifier
   #   $ EPAREGION --> name: the name of the region
-  #   $ Shape_Leng --> (drop)
-  #   $ Shape_Area --> (drop)
+  #   $ Shape__Len --> (drop)
+  #   $ Shape__Are --> (drop)
 
   # Add core metadata
   SFDF$countryCode <- "US"
 
-  # Add longitude and latitude as polygon centroids
-  centroids <- rgeos::gPointOnSurface(SFDF, byid = TRUE)
-  SFDF$longitude <- centroids$x
-  SFDF$latitude <- centroids$y
+  # Get latitude and longitude from polygon centroids
+  centroids <- sf::st_centroid(SFDF)
+  lon <- sf::st_coordinates(centroids)[,1]
+  lat <- sf::st_coordinates(centroids)[,2]
+
+  SFDF$longitude <- lon
+  SFDF$latitude <- lat
 
   # Use longitude and latitude to get one state code for each polygon.
   # NOTE: EPA Regions can span multiple states and include overseas territories
@@ -145,17 +148,18 @@ convertEPARegions <- function(
 
   # ----- Clean SFDF -----------------------------------------------------------
 
-  # Group polygons with the same identifier (epaRegion)
-  SFDF <- organizePolygons(
-    SFDF,
-    uniqueID = 'epaRegion',
-    sumColumns = NULL
-  )
+  uniqueIdentifier <- "epaRegion"
 
-  # Clean topology errors
-  if ( !cleangeo::clgeo_IsValid(SFDF) ) {
-    SFDF <- cleangeo::clgeo_Clean(SFDF)
-  }
+  # Guarantee that all polygons are unique
+  if ( any(duplicated(SFDF[[uniqueIdentifier]])) )
+    stop(sprintf("Column '%s' has multiple records. An organizePolygons() step is needed.", uniqueIdentifier))
+
+  # All polygons are unique so we just add polygonID manually
+  SFDF$polygonID <- as.character(seq_len(nrow(SFDF)))
+
+  # Guarantee that all geometries are valid
+  if ( any(!sf::st_is_valid(SFDF)) )
+    SFDF <- sf::st_make_valid(SFDF)
 
   # ----- Name and save the data -----------------------------------------------
 
@@ -165,56 +169,19 @@ convertEPARegions <- function(
   save(list = c(datasetName), file = paste0(dataDir,'/', datasetName, '.rda'))
   rm(list = datasetName)
 
-  # ----- Simplify -------------------------------------------------------------
+  # * Simplify -----
 
-  if ( simplify ) {
-    # Create new, simplified datsets: one with 5%, 2%, and one with 1% of the vertices of the original
-    # NOTE:  This may take several minutes.
-    message("Simplifying to 5%...\n")
-    SFDF_05 <- rmapshaper::ms_simplify(SFDF, 0.05)
-    SFDF_05@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
-    # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SFDF_05) ) {
-      SFDF_05 <- cleangeo::clgeo_Clean(SFDF_05)
-    }
-    datasetName_05 <- paste0(datasetName, "_05")
-    message("Saving 5% version...\n")
-    assign(datasetName_05, SFDF_05)
-    save(list = datasetName_05, file = paste0(dataDir,"/", datasetName_05, '.rda'))
-    rm(list = c("SFDF_05",datasetName_05))
-
-    message("Simplifying to 2%...\n")
-    SFDF_02 <- rmapshaper::ms_simplify(SFDF, 0.02)
-    SFDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
-    # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SFDF_02) ) {
-      SFDF_02 <- cleangeo::clgeo_Clean(SFDF_02)
-    }
-    datasetName_02 <- paste0(datasetName, "_02")
-    message("Saving 2% version...\n")
-    assign(datasetName_02, SFDF_02)
-    save(list = datasetName_02, file = paste0(dataDir,"/", datasetName_02, '.rda'))
-    rm(list = c("SFDF_02",datasetName_02))
-
-    message("Simplifying to 1%...\n")
-    SFDF_01 <- rmapshaper::ms_simplify(SFDF, 0.01)
-    SFDF_01@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
-    # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SFDF_01) ) {
-      SFDF_01 <- cleangeo::clgeo_Clean(SFDF_01)
-    }
-    datasetName_01 <- paste0(datasetName, "_01")
-    message("Saving 1% version...\n")
-    assign(datasetName_01, SFDF_01)
-    save(list = datasetName_01, file = paste0(dataDir,"/", datasetName_01, '.rda'))
-    rm(list = c("SFDF_01",datasetName_01))
-  }
+  if ( simplify )
+    .simplifyAndSave(SFDF, datasetName, dataDir, makeValid = FALSE) # No invalid geometries
 
   # ----- Clean up and return --------------------------------------------------
 
-  # Clean up
-  unlink(filePath, force = TRUE)
-  unlink(dsnPath, recursive = TRUE, force = TRUE)
+  # NOTE:  The source file was manually downloaded
+
+  # # Clean up
+  # unlink(filePath, force = TRUE)
+  # unlink(dsnPath, recursive = TRUE, force = TRUE)
+  message("You may delete the manually downloaded source data.")
 
   return(invisible(datasetName))
 

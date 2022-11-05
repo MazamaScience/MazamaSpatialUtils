@@ -1,8 +1,7 @@
-#' @keywords datagen
 #' @importFrom rlang .data
 #' @export
 #'
-#' @title Convert US Core Based Statistical Areas Shapefile
+#' @title Convert US Core Based Statistical Areas shapefile
 #'
 #' @param nameOnly Logical specifying whether to only return the name without
 #' creating the file.
@@ -29,12 +28,12 @@
 #' Areas, based on urban clusters of at least 10,000 population but less than 50,000
 #' population.
 #'
-#' The CBSA boundaries are those defined by OMB based on the 2010 Census, published
-#' in 2013, and updated in 2018
+#' The CBSA boundaries are those defined by OMB based on the 2010 Census,
+#' published in 2013, and updated in 2020.
 #'
 #' @return Name of the datasetName being created.
 #'
-#' @references \url{https://www2.census.gov/geo/tiger/TIGER2019/CBSA/}
+#' @references \url{https://www2.census.gov/geo/tiger/TIGER2021/CBSA/}
 #'
 #' @seealso setSpatialDataDir
 #' @seealso getUSCounty
@@ -60,7 +59,7 @@ convertUSCensusCBSA <- function(
   # ----- Get the data ---------------------------------------------------------
 
   # Build appropriate request URL for US County Borders data
-  url <- 'https://www2.census.gov/geo/tiger/TIGER2019/CBSA/tl_2019_us_cbsa.zip'
+  url <- 'https://www2.census.gov/geo/tiger/TIGER2021/CBSA/tl_2021_us_cbsa.zip'
 
   filePath <- file.path(dataDir, basename(url))
   utils::download.file(url, filePath)
@@ -72,30 +71,31 @@ convertUSCensusCBSA <- function(
   # Convert shapefile into simple features data frame
   # NOTE:  The 'cbsa' directory has been created
   dsnPath <- file.path(dataDir,'cbsa')
-  shpName <- 'tl_2019_us_cbsa'
+  shpName <- 'tl_2021_us_cbsa'
   SFDF <- .convertLayer(
     dsn = dsnPath,
-    layer = shpName,
-    encoding = 'UTF-8'
+    layer = shpName
   )
 
   # ----- Select useful columns and rename -------------------------------------
 
-  #   > dplyr::glimpse(SFDF)
-  #   Rows: 938
-  #   Columns: 12
-  #   $ CSAFP    <chr> "122", "122", "428", "426", "258", "532", "194", NA, NA, "4 …
-  #   $ CBSAFP   <chr> "12020", "12060", "12100", "12120", "12140", "12180", "1222 …
-  #   $ GEOID    <chr> "12020", "12060", "12100", "12120", "12140", "12180", "1222 …
-  #   $ NAME     <chr> "Athens-Clarke County, GA", "Atlanta-Sandy Springs-Alpharet …
-  #   $ NAMELSAD <chr> "Athens-Clarke County, GA Metro Area", "Atlanta-Sandy Spring…
-  #   $ LSAD     <chr> "M1", "M1", "M1", "M2", "M2", "M2", "M1", "M1", "M2", "M2", …
-  #   $ MEMI     <chr> "1", "1", "1", "2", "2", "2", "1", "1", "2", "2", "1", "2", …
-  #   $ MTFCC    <chr> "G3110", "G3110", "G3110", "G3110", "G3110", "G3110", "G311 …
-  #   $ ALAND    <chr> "2654601832", "22494938651", "1438776649", "2448115116", "9 …
-  #   $ AWATER   <chr> "26140309", "387716575", "301268696", "20504948", "2657419" …
-  #   $ INTPTLAT <chr> "+33.9439840", "+33.6937280", "+39.4693555", "+31.1222867", …
-  #   $ INTPTLON <chr> "-083.2138965", "-084.3999113", "-074.6337591", "-087.16840 …
+  # > dplyr::glimpse(SFDF, width = 75)
+  # Rows: 939
+  # Columns: 13
+  # $ CSAFP    <chr> "122", "122", "428", "426", "258", "532", "194", NA, NA,…
+  # $ CBSAFP   <chr> "12020", "12060", "12100", "12120", "12140", "12180", "1…
+  # $ GEOID    <chr> "12020", "12060", "12100", "12120", "12140", "12180", "1…
+  # $ NAME     <chr> "Athens-Clarke County, GA", "Atlanta-Sandy Springs-Alpha…
+  # $ NAMELSAD <chr> "Athens-Clarke County, GA Metro Area", "Atlanta-Sandy Sp…
+  # $ LSAD     <chr> "M1", "M1", "M1", "M2", "M2", "M2", "M1", "M1", "M2", "M…
+  # $ MEMI     <chr> "1", "1", "1", "2", "2", "2", "1", "1", "2", "2", "1", "…
+  # $ MTFCC    <chr> "G3110", "G3110", "G3110", "G3110", "G3110", "G3110", "G…
+  # $ ALAND    <dbl> 2654607902, 22495873026, 1438775279, 2448595161, 9397319…
+  # $ AWATER   <dbl> 26109459, 386782308, 301270067, 20024887, 2657419, 44569…
+  # $ INTPTLAT <chr> "+33.9439840", "+33.6937280", "+39.4693555", "+31.122286…
+  # $ INTPTLON <chr> "-083.2138965", "-084.3999113", "-074.6337591", "-087.16…
+  # $ geometry <MULTIPOLYGON [°]> MULTIPOLYGON (((-83.36003 3..., MULTIPOLYGO…
+
   #
   # Data Dictionary:
   #   $ CSAFP  ----->  (drop)
@@ -155,17 +155,18 @@ convertUSCensusCBSA <- function(
 
   # ----- Clean SFDF -----------------------------------------------------------
 
-  # Group polygons with the same identifier (countyName)
-  SFDF <- organizePolygons(
-    SFDF,
-    uniqueID = 'CBSAFP',
-    sumColumns = c('landArea', 'waterArea')
-  )
+  uniqueIdentifier <- "CBSAFP"
 
-  # Clean topology errors
-  if ( !cleangeo::clgeo_IsValid(SFDF) ) {
-    SFDF <- cleangeo::clgeo_Clean(SFDF)
-  }
+  # Guarantee that all polygons are unique
+  if ( any(duplicated(SFDF[[uniqueIdentifier]])) )
+    stop(sprintf("Column '%s' has multiple records. An organizePolygons() step is needed.", uniqueIdentifier))
+
+  # All polygons are unique so we just add polygonID manually
+  SFDF$polygonID <- as.character(seq_len(nrow(SFDF)))
+
+  # Guarantee that all geometries are valid
+  if ( any(!sf::st_is_valid(SFDF)) )
+    SFDF <- sf::st_make_valid(SFDF)
 
   # ----- Name and save the data -----------------------------------------------
 
@@ -175,50 +176,10 @@ convertUSCensusCBSA <- function(
   save(list = c(datasetName), file = paste0(dataDir, '/', datasetName, '.rda'))
   rm(list = datasetName)
 
-  # ----- Simplify -------------------------------------------------------------
+  # * Simplify -----
 
-  if ( simplify ) {
-    # Create new, simplified datsets: one with 5%, 2%, and one with 1% of the vertices of the original
-    # NOTE:  This may take several minutes.
-    message("Simplifying to 5%...\n")
-    SFDF_05 <- rmapshaper::ms_simplify(SFDF, 0.05)
-    SFDF_05@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
-    # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SFDF_05) ) {
-      SFDF_05 <- cleangeo::clgeo_Clean(SFDF_05)
-    }
-    datasetName_05 <- paste0(datasetName, "_05")
-    message("Saving 5% version...\n")
-    assign(datasetName_05, SFDF_05)
-    save(list = datasetName_05, file = paste0(dataDir,"/", datasetName_05, '.rda'))
-    rm(list = c("SFDF_05",datasetName_05))
-
-    message("Simplifying to 2%...\n")
-    SFDF_02 <- rmapshaper::ms_simplify(SFDF, 0.02)
-    SFDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
-    # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SFDF_02) ) {
-      SFDF_02 <- cleangeo::clgeo_Clean(SFDF_02)
-    }
-    datasetName_02 <- paste0(datasetName, "_02")
-    message("Saving 2% version...\n")
-    assign(datasetName_02, SFDF_02)
-    save(list = datasetName_02, file = paste0(dataDir,"/", datasetName_02, '.rda'))
-    rm(list = c("SFDF_02",datasetName_02))
-
-    message("Simplifying to 1%...\n")
-    SFDF_01 <- rmapshaper::ms_simplify(SFDF, 0.01)
-    SFDF_01@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
-    # Clean topology errors
-    if ( !cleangeo::clgeo_IsValid(SFDF_01) ) {
-      SFDF_01 <- cleangeo::clgeo_Clean(SFDF_01)
-    }
-    datasetName_01 <- paste0(datasetName, "_01")
-    message("Saving 1% version...\n")
-    assign(datasetName_01, SFDF_01)
-    save(list = datasetName_01, file = paste0(dataDir,"/", datasetName_01, '.rda'))
-    rm(list = c("SFDF_01",datasetName_01))
-  }
+  if ( simplify )
+    .simplifyAndSave(SFDF, datasetName, dataDir, makeValid = FALSE) # NO invalid geometries found
 
   # ----- Clean up and return --------------------------------------------------
 

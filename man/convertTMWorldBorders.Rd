@@ -2,7 +2,7 @@
 % Please edit documentation in R/convertTMWorldBorders.R
 \name{convertTMWorldBorders}
 \alias{convertTMWorldBorders}
-\title{Convert World Borders Shapefile}
+\title{Convert world borders shapefile}
 \usage{
 convertTMWorldBorders(nameOnly = FALSE, simplify = TRUE)
 }

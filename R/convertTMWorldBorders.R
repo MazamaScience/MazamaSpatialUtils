@@ -1,7 +1,7 @@
 #' @importFrom rlang .data
 #' @export
 #'
-#' @title Convert World Borders Shapefile
+#' @title Convert world borders shapefile
 #'
 #' @param nameOnly Logical specifying whether to only return the name without
 #' creating the file.
@@ -138,7 +138,9 @@ convertTMWorldBorders <- function(
   # NOTE:  155 = Norway
   # NOTE:  175 = Russia (obviously stretches across the date line)
 
-  # BOTTOM LINE:  Don't fix these geometries
+  # BOTTOM LINE:  Fix everything but russion
+  indicesToFix <- c(24, 33, 155)
+  SFDF[indicesToFix,] <- sf::st_make_valid(SFDF[indicesToFix,])
 
   # ----- Name and save the data -----------------------------------------------
 
