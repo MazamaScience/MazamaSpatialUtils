@@ -66,7 +66,7 @@ convertCAPublicSchools <- function(
   # Convert shapefile into simple features data frame
   dsnPath <- file.path(dataDir, 'pubschls')
   shpName <- 'pubschls'
-  SFDF <- .convertLayer(dsn = dsnPath, layer = shpName)
+  SFDF <- convertLayer(dsn = dsnPath, layer = shpName)
   
   # Original Fields [from `names(SFDF)`] mapped to new names
   # "FID" --------> (drop)        

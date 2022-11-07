@@ -64,7 +64,7 @@ convertHIFLDFederalLands <- function(
   # Convert shapefile into simple features data frame
   dsnPath <- file.path(dataDir,'hifld_fed_lands')
   shpName <- 'Federal_Lands'
-  SFDF <- .convertLayer(dsn = dsnPath, layer = shpName)
+  SFDF <- convertLayer(dsn = dsnPath, layer = shpName)
 
   # Original Fields [from `names(SFDF)`] mapped to new names
   # "FID" --------> (drop)

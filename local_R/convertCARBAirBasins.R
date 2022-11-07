@@ -70,7 +70,7 @@ convertCARBAirBasins <- function(
   # NOTE:  The 'ca_air_basins' directory has been created
   dsnPath <- file.path(dataDir, 'ca_air_basins')
   shpName <- 'CaAirBasin'
-  SFDF <- .convertLayer(
+  SFDF <- convertLayer(
     dsn = dsnPath,
     layer = shpName,
     encoding = 'UTF-8'

@@ -93,7 +93,7 @@ convertUSFSRangerDistricts <- function(
   # NOTE:  The 'usfs_ranger_districts' directory has been created
   dsnPath <- file.path(dataDir, 'usfs_ranger_districts')
   shpName <- 'S_USA.RangerDistrict'
-  SFDF <- .convertLayer(
+  SFDF <- convertLayer(
     dsn = dsnPath,
     layer = shpName,
     encoding = 'UTF-8'

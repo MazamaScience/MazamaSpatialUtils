@@ -93,7 +93,7 @@ convertMTBSBurnArea <- function(
   # NOTE:  The 'mtbs_perims_DD' directory has been created
   dsnPath <- file.path(dataDir, 'mtbs_perims_DD')
   shpName <- 'mtbs_perims_DD'
-  SFDF <- .convertLayer(
+  SFDF <- convertLayer(
     dsn = dsnPath,
     layer = shpName,
     encoding = 'UTF-8'

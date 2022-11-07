@@ -208,7 +208,7 @@ utils::unzip(filePath3,exdir=file.path(dataDir, 'lacities'))
 dsnPath <- file.path(dataDir, 'lacities')
 shpName <- 'LA%20County%20City%20Boundaries'
   
-la_SFDF <- .convertLayer(
+la_SFDF <- convertLayer(
     dsn = dsnPath, 
     layer = shpName, 
     encoding = 'UTF-8'

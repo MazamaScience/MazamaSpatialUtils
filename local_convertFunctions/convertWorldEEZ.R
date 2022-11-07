@@ -82,7 +82,7 @@ convertWorldEEZ <- function(
   # Convert shapefile into simple features data frame
   dsnPath <- EEZDir
   shpName <- "eez_v11"
-  SFDF <- .convertLayer(
+  SFDF <- convertLayer(
     dsn = dsnPath,
     layer = shpName,
     encoding = 'UTF-8'

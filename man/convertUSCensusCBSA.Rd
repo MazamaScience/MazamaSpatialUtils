@@ -4,20 +4,18 @@
 \alias{convertUSCensusCBSA}
 \title{Convert US Core Based Statistical Areas shapefile}
 \usage{
-convertUSCensusCBSA(nameOnly = FALSE, simplify = TRUE)
-}
-\arguments{
-\item{nameOnly}{Logical specifying whether to only return the name without
-creating the file.}
-
-\item{simplify}{Logical specifying whether to create "_05", _02" and "_01"
-versions of the file that are simplified to 5\%, 2\% and 1\%.}
+convertUSCensusCBSA()
 }
 \value{
 Name of the datasetName being created.
 }
 \description{
 Returns a simple features data frame for US CBSAs
+
+The full resolution file will be named "USCensusCBSA.rda". In addition,
+"_05", _02" and "_01" versions of the file will be created that that are
+simplified to 5\%, 2\% and 1\%. Simplified versions will greatly improve the
+speed of both searching and plotting.
 }
 \details{
 A US Core Based Statistical Areas (CBSA) shapefile is downloaded and converted to a

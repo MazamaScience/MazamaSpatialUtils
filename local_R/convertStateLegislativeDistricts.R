@@ -137,7 +137,7 @@ convertStateLegislativeDistricts <- function(
   # Convert shapefile to SpatialPolygonsDataframe
   dsnPath <- file.path(dataDir, datasetName)
   shpName <- stringr::str_replace(basename(url), ".zip", "")
-  SFDF <- .convertLayer(
+  SFDF <- convertLayer(
     dsn = dsnPath,
     layer = shpName,
     encoding = 'UTF-8'

@@ -4,20 +4,18 @@
 \alias{convertOSMTimezones}
 \title{Convert OSM timezone shapefile}
 \usage{
-convertOSMTimezones(nameOnly = FALSE, simplify = TRUE)
-}
-\arguments{
-\item{nameOnly}{Logical specifying whether to only return the name without
-creating the file.}
-
-\item{simplify}{Logical specifying whether to create "_05", _02" and "_01"
-versions of the file that are simplified to 5\%, 2\% and 1\%.}
+convertOSMTimezones()
 }
 \value{
 Name of the datasetName being created.
 }
 \description{
 Create a simple features data frame for world timezones.
+
+The full resolution file will be named "OSMTimezones.rda". In addition,
+"_05", _02" and "_01" versions of the file will be created that that are
+simplified to 5\%, 2\% and 1\%. Simplified versions will greatly improve the
+speed of both searching and plotting.
 }
 \details{
 A world timezone shapefile is downloaded and converted to a

@@ -137,7 +137,7 @@ convertWBDHUC <- function(
   # Convert gdb layer into simple features data frame
   dsnPath <- gdbDir
   shpName <- datasetName
-  SFDF <- .convertLayer(
+  SFDF <- convertLayer(
     dsn = dsnPath,
     layer = shpName,
     encoding = 'UTF-8'

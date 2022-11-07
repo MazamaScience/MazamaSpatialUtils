@@ -78,7 +78,7 @@ convertUSIndianLands <- function(
   # NOTE:  The 'indlan' directory has been created
   dsnPath <- file.path(dataDir, 'indlan')
   shpName <- 'indlanp010g'
-  SFDF <- .convertLayer(
+  SFDF <- convertLayer(
     dsn = dsnPath,
     layer = shpName
   )
@@ -226,7 +226,7 @@ convertUSIndianLands <- function(
   # * Simplify -----
 
   if ( simplify )
-    .simplifyAndSave(SFDF, datasetName, dataDir)
+    simplifyAndSave(SFDF, datasetName, dataDir)
 
   # ----- Clean up and return --------------------------------------------------
 

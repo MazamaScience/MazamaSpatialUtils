@@ -4,20 +4,18 @@
 \alias{convertEEZCountries}
 \title{Convert Exclusive Economic Zones countries shapefile}
 \usage{
-convertEEZCountries(nameOnly = FALSE, simplify = TRUE)
-}
-\arguments{
-\item{nameOnly}{Logical specifying whether to only return the name without
-creating the file.}
-
-\item{simplify}{Logical specifying whether to create "_05", _02" and "_01"
-versions of the file that are simplified to 5\%, 2\% and 1\%.}
+convertEEZCountries()
 }
 \value{
 Name of the datasetName being created.
 }
 \description{
-Create a simple features dataframe for combined EEZ/country boundaries
+Create a simple features dataframe for combined EEZ/country boundaries.
+
+The full resolution file will be named "EEZCountries.rda". In addition,
+"_05", _02" and "_01" versions of the file will be created that that are
+simplified to 5\%, 2\% and 1\%. Simplified versions will greatly improve the
+speed of both searching and plotting.
 }
 \details{
 A world EEZ/countries shapefile is converted to a simple features dataframe

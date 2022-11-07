@@ -269,7 +269,7 @@ encoding. Here is a slightly more involved example using Energy data from the
 British Petroleum Statistical Review that has been ISO-encoded.
 
 ```{r netExport}
-library(sp)         # For spatial plotting
+library(sf)         # For spatial plotting
 
 # Read in ISO-encoded oil production and consumption data
 prod <- read.csv(url('http://mazamascience.com/OilExport/BP_2016_oil_production_bbl.csv'),

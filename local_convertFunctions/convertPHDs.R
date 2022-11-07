@@ -32,7 +32,7 @@ convertPHDs <- function(nameOnly=FALSE) {
   # NOTE:  The 'counties' directory has been created
   dsnPath <- file.path(dataDir,'PHDs')
   shpName <- 'LocalPHDs'
-  SFDF <- .convertLayer(dsn=dsnPath, layer=shpName, encoding='latin1')
+  SFDF <- convertLayer(dsn=dsnPath, layer=shpName, encoding='latin1')
   
   # Rationalize naming:
   # * human readable full nouns with descriptive prefixes

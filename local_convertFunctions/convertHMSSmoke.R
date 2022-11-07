@@ -106,7 +106,7 @@ convertHMSSmoke <- function(
 
   dsnPath <- file.path(dataDir, 'data/oper/newhms/output')
   shpName <- paste0('hms_smoke', datestamp)
-  SFDF <- .convertLayer(
+  SFDF <- convertLayer(
     dsn = dsnPath,
     layer = shpName,
     encoding = 'UTF-8'

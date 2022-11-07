@@ -1,16 +1,16 @@
 #' @keywords datagen
 #' @export
-
+#'
 #' @title Convert US congressional districts shapefile
-
-#' @param nameOnly Logical specifying whether to only return the name without
-#' creating the file.
-#' @param simplify Logical specifying whether to create "_05", _02" and "_01"
-#' versions of the file that are simplified to 5\%, 2\% and 1\%.
-
+#'
 #' @description Returns a simple features data frame for US Congressional Districts
 #' for the 116th US House of Representatives.
-
+#'
+#' The full resolution file will be named "USCensus116thCongress.rda". In addition,
+#' "_05", _02" and "_01" versions of the file will be created that that are
+#' simplified to 5\%, 2\% and 1\%. Simplified versions will greatly improve the
+#' speed of both searching and plotting.
+#'
 #' @details A US congressional district shapefile is downloaded and converted to
 #' a simple features data frame with additional columns of data. The resulting
 #' file will be created in the spatial data directory which is set with
@@ -42,10 +42,7 @@
 #'
 #' @seealso setSpatialDataDir
 
-convertUSCensusCongress <- function(
-  nameOnly = FALSE,
-  simplify = TRUE
-) {
+convertUSCensusCongress <- function() {
 
   # ----- Setup ----------------------------------------------------------------
 
@@ -54,9 +51,6 @@ convertUSCensusCongress <- function(
 
   # Specify the name of the dataset and file being created
   datasetName <- 'USCensus116thCongress'
-
-  if (nameOnly)
-    return(datasetName)
 
   # ----- Get the data ---------------------------------------------------------
 
@@ -76,7 +70,7 @@ convertUSCensusCongress <- function(
   # NOTE:  The 'congress' directory has been created
   dsnPath <- file.path(dataDir,'congress')
   shpName <- 'cb_2021_us_cd116_500k'
-  SFDF <- .convertLayer(
+  SFDF <- convertLayer(
     dsn = dsnPath,
     layer = shpName
   )
@@ -120,8 +114,8 @@ convertUSCensusCongress <- function(
 
   # Create the new dataframe in a specific column order
   SFDF <-
+    SFDF %>%
     dplyr::select(
-      .data = SFDF,
       countryCode = .data$countryCode,
       stateCode = .data$stateCode,
       stateFIPS = .data$STATEFP,
@@ -132,33 +126,16 @@ convertUSCensusCongress <- function(
       GeoID = .data$GEOID
     )
 
-  # ----- Clean SFDF -----------------------------------------------------------
+  # ----- Simplify and save ----------------------------------------------------
 
   uniqueIdentifier <- "GeoID"
 
-  # Guarantee that all polygons are unique
-  if ( any(duplicated(SFDF[[uniqueIdentifier]])) )
-    stop(sprintf("Column '%s' has multiple records. An organizePolygons() step is needed.", uniqueIdentifier))
-
-  # All polygons are unique so we just add polygonID manually
-  SFDF$polygonID <- as.character(seq_len(nrow(SFDF)))
-
-  # Guarantee that all geometries are valid
-  if ( any(!sf::st_is_valid(SFDF)) )
-    SFDF <- sf::st_make_valid(SFDF)
-
-  # ----- Name and save the data -----------------------------------------------
-
-  # Assign a name and save the data
-  message("Saving full resolution version...\n")
-  assign(datasetName, SFDF)
-  save(list = c(datasetName), file = paste0(dataDir, '/', datasetName, '.rda'))
-  rm(list = datasetName)
-
-  # * Simplify -----
-
-  if ( simplify )
-    .simplifyAndSave(SFDF, datasetName, dataDir, makeValid = FALSE) # NO invalid geometries found
+  simplifyAndSave(
+    SFDF = SFDF,
+    datasetName = datasetName,
+    uniqueIdentifier = uniqueIdentifier,
+    dataDir = dataDir
+  )
 
   # ----- Clean up and return --------------------------------------------------
 
@@ -170,6 +147,38 @@ convertUSCensusCongress <- function(
 
 }
 
+# ===== TEST ===================================================================
+
+if ( FALSE ) {
+
+  library(sf)
+
+  # Look or horizontal lines from polygons that cross the dateline.
+  # NOTE:  These are sometimes created by sf::st_make_valid()
+  loadSpatialData(datasetName)
+  SFDF <- get(paste0(datasetName, ""))
+  SFDF_05 <- get(paste0(datasetName, "_05"))
+  SFDF_02 <- get(paste0(datasetName, "_02"))
+  SFDF_01 <- get(paste0(datasetName, "_01"))
+
+  plot(SFDF_01$geometry)
+  dev.off(dev.list()["RStudioGD"])
+  plot(SFDF_02$geometry)
+  dev.off(dev.list()["RStudioGD"])
+  plot(SFDF_05$geometry)
+  dev.off(dev.list()["RStudioGD"])
+  #plot(SFDF$geometry)
+
+  # Try out getSpatialData()
+  lons <- c(-120:-110, 0:10)
+  lats <- c(30:40, 30:40)
+
+  df <- getSpatialData(lons, lats, SFDF_01)
+  df <- getSpatialData(lons, lats, SFDF_02)
+  df <- getSpatialData(lons, lats, SFDF_05)
+  df <- getSpatialData(lons, lats, SFDF)
+
+}
 
 
 

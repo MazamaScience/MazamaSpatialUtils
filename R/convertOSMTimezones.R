@@ -4,12 +4,12 @@
 #'
 #' @title Convert OSM timezone shapefile
 #'
-#' @param nameOnly Logical specifying whether to only return the name without
-#' creating the file.
-#' @param simplify Logical specifying whether to create "_05", _02" and "_01"
-#' versions of the file that are simplified to 5\%, 2\% and 1\%.
-#'
 #' @description Create a simple features data frame for world timezones.
+#'
+#' The full resolution file will be named "OSMTimezones.rda". In addition,
+#' "_05", _02" and "_01" versions of the file will be created that that are
+#' simplified to 5\%, 2\% and 1\%. Simplified versions will greatly improve the
+#' speed of both searching and plotting.
 #'
 #' @details A world timezone shapefile is downloaded and converted to a
 #' simple features data frame with additional columns of data. The resulting file
@@ -47,10 +47,7 @@
 #' @references \url{https://github.com/evansiroky/timezone-boundary-builder}
 #'
 
-convertOSMTimezones <- function(
-  nameOnly = FALSE,
-  simplify = TRUE
-) {
+convertOSMTimezones <- function() {
 
   # ----- Setup ----------------------------------------------------------------
 
@@ -59,9 +56,6 @@ convertOSMTimezones <- function(
 
   # Specify the name of the dataset and file being created
   datasetName <- 'OSMTimezones'
-
-  if (nameOnly)
-    return(datasetName)
 
   # ----- Get the data ---------------------------------------------------------
 
@@ -79,7 +73,7 @@ convertOSMTimezones <- function(
   # NOTE:  The 'OSMTimezones' directory has been created
   dsnPath <- file.path(dataDir, 'OSMTimezones')
   shpName <- 'combined-shapefile'
-  SFDF <- .convertLayer(
+  SFDF <- convertLayer(
     dsn = dsnPath,
     layer = shpName
   )
@@ -121,38 +115,16 @@ convertOSMTimezones <- function(
       timezone = .data$tzid
     )
 
-  # ----- Clean SFDF -----------------------------------------------------------
+  # ----- Simplify and save ----------------------------------------------------
 
-  uniqueIdentifier <- "timezone"
+  uniqueIdentifier <- "claimants"
 
-  # Guarantee that all polygons are unique
-  if ( any(duplicated(SFDF[[uniqueIdentifier]])) )
-    stop(sprintf("Column '%s' has multiple records. An organizePolygons() step is needed.", uniqueIdentifier))
-
-  # All polygons are unique so we just add polygonID manually
-  SFDF$polygonID <- as.character(seq_len(nrow(SFDF)))
-
-  # Guarantee that all geometries are valid
-  if ( any(!sf::st_is_valid(SFDF)) )
-    SFDF <- sf::st_make_valid(SFDF)
-
-  # NOTE:  All geometries are valid so don't makeValid when simplifying
-
-  # > which(!sf::st_is_valid(SFDF))
-  # integer(0)
-
-  # ----- Name and save the data -----------------------------------------------
-
-  # Assign a name and save the data
-  message("Saving full resolution version...\n")
-  assign(datasetName, SFDF)
-  save(list = c(datasetName), file = paste0(dataDir, '/', datasetName, '.rda'))
-  rm(list = datasetName)
-
-  # * Simplify -----
-
-  if ( simplify )
-    .simplifyAndSave(SFDF, datasetName, dataDir, makeValid = FALSE) # SEE ABOVE
+  simplifyAndSave(
+    SFDF = SFDF,
+    datasetName = datasetName,
+    uniqueIdentifier = uniqueIdentifier,
+    dataDir = dataDir
+  )
 
   # ----- Clean up and return --------------------------------------------------
 
@@ -161,5 +133,41 @@ convertOSMTimezones <- function(
   unlink(dsnPath, recursive = TRUE, force = TRUE)
 
   return(invisible(datasetName))
+
+}
+
+# ===== TEST ===================================================================
+
+if ( FALSE ) {
+
+  library(sf)
+
+  # Look or horizontal lines from polygons that cross the dateline.
+  # NOTE:  These are sometimes created by sf::st_make_valid()
+  loadSpatialData(datasetName)
+  SFDF <- get(paste0(datasetName, ""))
+  SFDF_05 <- get(paste0(datasetName, "_05"))
+  SFDF_02 <- get(paste0(datasetName, "_02"))
+  SFDF_01 <- get(paste0(datasetName, "_01"))
+
+  plot(SFDF_01$geometry)
+  dev.off(dev.list()["RStudioGD"])
+  plot(SFDF_02$geometry)
+  dev.off(dev.list()["RStudioGD"])
+  plot(SFDF_05$geometry)
+  dev.off(dev.list()["RStudioGD"])
+  #plot(SFDF$geometry)
+
+  # Try out getSpatialData()
+  lons <- c(-120:-110, 0:10)
+  lats <- c(30:40, 30:40)
+
+  df <- getSpatialData(lons, lats, SFDF_01)
+  df <- getSpatialData(lons, lats, SFDF_02)
+  df <- getSpatialData(lons, lats, SFDF_05)
+  df <- getSpatialData(lons, lats, SFDF)
+
+  # Special Case of Russian failing to plot properly
+  SFDF %>% dplyr::filter(countryCode == "RU") %>% sf::st_geometry() %>% plot()
 
 }

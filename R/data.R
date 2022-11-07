@@ -204,11 +204,11 @@ US_52 <- c(
 #'
 #' convertTMWorldBorders()
 #'
-#' loadSpatialData("TMWorldBorders_05")
+#' loadSpatialData("NaturalEarthAdm0_05")
 #'
 #' columnNames <- c("countryCode", "countryName", "ISO3", "FIPS",
 #'                  "UN_region", "polygonID")
-#' SimpleCountries <- TMWorldBorders_05[, columnNames]
+#' SimpleCountries <- NaturalEarthAdm0_05[, columnNames]
 #' save(SimpleCountries, file = "data/SimpleCountries.rda")
 #' }
 "SimpleCountries"

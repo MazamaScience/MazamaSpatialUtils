@@ -66,7 +66,7 @@ convertUSCensusUrbanAreas <- function(
   # Convert shapefile into simple features data frame
   dsnPath <- file.path(dataDir, 'us_census_urban_areas')
   shpName <- 'tl_2021_us_uac10'
-  SFDF <- .convertLayer(
+  SFDF <- convertLayer(
     dsn = dsnPath,
     layer = shpName
   )
@@ -172,7 +172,7 @@ convertUSCensusUrbanAreas <- function(
   # * Simplify -----
 
   if ( simplify )
-    .simplifyAndSave(SFDF, datasetName, dataDir)
+    simplifyAndSave(SFDF, datasetName, dataDir)
 
   # ----- Clean up and return --------------------------------------------------
 

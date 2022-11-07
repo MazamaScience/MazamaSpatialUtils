@@ -4,20 +4,18 @@
 \alias{convertUSCensusStates}
 \title{Convert US Census state shapefile}
 \usage{
-convertUSCensusStates(nameOnly = FALSE, simplify = TRUE)
-}
-\arguments{
-\item{nameOnly}{Logical specifying whether to only return the name without
-creating the file.}
-
-\item{simplify}{Logical specifying whether to create "_05", _02" and "_01"
-versions of the file that are simplified to 5\%, 2\% and 1\%.}
+convertUSCensusStates()
 }
 \value{
 Name of the datasetName being created.
 }
 \description{
 Create a simple features dataframe for US states
+
+The full resolution file will be named "USCensusStates". In addition,
+"_05", _02" and "_01" versions of the file will be created that that are
+simplified to 5\%, 2\% and 1\%. Simplified versions will greatly improve the
+speed of both searching and plotting.
 }
 \details{
 A US state borders shapefile is downloaded and converted to a

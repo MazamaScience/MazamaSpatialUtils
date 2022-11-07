@@ -62,7 +62,7 @@ convertNWSFireZones <- function(
   # NOTE:  The 'NWSFireZones' directory has been created
   dsnPath <- file.path(dataDir, 'NWSFireZones')
   shpName <- 'fz13se22'
-  SFDF <- .convertLayer(
+  SFDF <- convertLayer(
     dsn = dsnPath,
     layer = shpName
   )
@@ -141,7 +141,7 @@ convertNWSFireZones <- function(
   # * Simplify -----
 
   if ( simplify )
-    .simplifyAndSave(SFDF, datasetName, dataDir)
+    simplifyAndSave(SFDF, datasetName, dataDir)
 
   # ----- Clean up and return --------------------------------------------------
 

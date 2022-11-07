@@ -4,14 +4,7 @@
 \alias{convertUSCensusCongress}
 \title{Convert US congressional districts shapefile}
 \usage{
-convertUSCensusCongress(nameOnly = FALSE, simplify = TRUE)
-}
-\arguments{
-\item{nameOnly}{Logical specifying whether to only return the name without
-creating the file.}
-
-\item{simplify}{Logical specifying whether to create "_05", _02" and "_01"
-versions of the file that are simplified to 5\%, 2\% and 1\%.}
+convertUSCensusCongress()
 }
 \value{
 Name of the datasetName being created.
@@ -19,6 +12,11 @@ Name of the datasetName being created.
 \description{
 Returns a simple features data frame for US Congressional Districts
 for the 116th US House of Representatives.
+
+The full resolution file will be named "USCensus116thCongress.rda". In addition,
+"_05", _02" and "_01" versions of the file will be created that that are
+simplified to 5\%, 2\% and 1\%. Simplified versions will greatly improve the
+speed of both searching and plotting.
 }
 \details{
 A US congressional district shapefile is downloaded and converted to

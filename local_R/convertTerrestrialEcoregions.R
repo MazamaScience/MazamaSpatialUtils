@@ -73,7 +73,7 @@ convertTerrestrialEcoregions <- function(
   # NOTE: The 'terrestrialEcors' directory has been created
   dsnPath <- file.path(dataDir, 'terrestrialEcors/official')
   shpName <- 'wwf_terr_ecos'
-  SFDF <- .convertLayer(
+  SFDF <- convertLayer(
     dsn = dsnPath,
     layer = shpName,
     encoding = 'UTF-8'
