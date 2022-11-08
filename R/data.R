@@ -146,7 +146,7 @@ US_52 <- c(
 #'
 #' \preformatted{
 #' library(MazamaSpatialUtils)
-#' setSpatialDataDir("~/Data/Spatial")
+#' setSpatialDataDir("~/Data/Spatial_0.8")
 #'
 #' convertOSMTimezones()
 #'
@@ -173,7 +173,7 @@ US_52 <- c(
 #'
 #' \preformatted{
 #' library(MazamaSpatialUtils)
-#' setSpatialDataDir("~/Data/Spatial")
+#' setSpatialDataDir("~/Data/Spatial_0.8")
 #'
 #' convertEEZCountries()
 #'
@@ -200,7 +200,7 @@ US_52 <- c(
 #'
 #' \preformatted{
 #' library(MazamaSpatialUtils)
-#' setSpatialDataDir("~/Data/Spatial")
+#' setSpatialDataDir("~/Data/Spatial_0.8")
 #'
 #' convertTMWorldBorders()
 #'

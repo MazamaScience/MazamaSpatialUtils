@@ -1,0 +1,299 @@
+---
+title: "Available Data"
+author: "Mazama Science"
+date: "2022-11-08"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Available Data}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+## Available Data for MazamaSpatialUtils
+
+This document provides documentation for the most important of the available
+datasets that can be used with **MazamaSpatialUtils** version 0.8.x.
+
+Spatial datasets that have been converted to **sf** package objects of class
+\code{sf data.frame} and adhere to the **MazamaSpatialUtils**
+standards are considered to be "harmonized". 
+
+For reproducibility, the R code that ingests and harmonizes each spatial dataset
+is included in the package as a \code{convert<dataset>()} function.
+Most of the resulting datasets have been been pre-generated and can be downloaded from
+[http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8/](http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8/).
+
+### Built in data
+
+**MazamaSpatialUtils** has three built-in datasets which are included with the 
+package when it is installed. Each of these is a simplified dataset suitable for
+quick identification of \code{countryCode} or \code{timezone}.
+
+* `SimpleCountries` -- Country outlines
+* `SimpleCountriesEEZ` -- Country outlines including Exclusive Economic Zones over water
+* `SimpleTimezones` -- Time zones
+
+### Downloadable data
+
+Running `installSpatialData()` allows users to install the following 
+pre-generated datasets, which can then be loaded with `loadSpatialData(<dataset>)`
+
+ * _EEZCountries_ -- Country boundaries including Exclusive Economic Zones
+ * [EPARegions](#eparegions) -- US EPA region boundaries
+ * [GACC](#gacc) -- Geographic Area Coordination Center (GACC) boundaries
+ * _NaturalEarthAdm0_ -- Country level boundaries
+ * _NaturalEarthAdm1_ -- State/province/oblast level boundaries
+ * _OSMTimezones_ -- OpenStreetMap time zones
+ * [SimpleCountries](#simplecountries) -- Simplified version of NaturalEarthAdm0
+ * [SimpleCountriesEEZ](#simplecountrieseez) -- Simplified version of EEZCountries
+ * [SimpleTimezones](#simpletimezones) -- Simplified version of WorldTimezones
+ * [TMWorldBorders](#tmworldborders) -- Country level boundaries
+ * _USCensus116thCongress_ -- US congressional districts
+ * [USCensusCBSA](#uscensuscbsa) -- US Core Based Statistical Areas
+ * _USCensusCounties_ -- US county level boundaries
+ * _USCensusStates_ -- US state level boundaries
+ * [WeatherZones](#Weatherzones) -- NWS public weather forecast zones
+ 
+The following list of datasets were available in earlier versions of the 
+**MazamaSpatialUtils** package. Convert scripts for these datasets will
+be updated and added on an as-needed basis.
+
+ * [CA_AirBasins](#ca_airbasins) -- California regional air basin boundaries
+ * [GADM](#gadm) -- GADM administrative area boundaries
+ * [HIFLDFederalLands](#hifldfederallands) -- US federal lands
+ * [HMSSmoke](#hmssmoke) -- NOAA Hazard Mapping System Smoke (HMSS) areas
+ * [HouseLegislativeDistricts](#houselegislativedistricts) -- US state legislative districts, by chamber
+ * [MTBSBurnAreas](#mtbsburnareas) -- MTBS burn areas from 1984 - 2017
+ * [NWSFireZones](#nwsfirezones) -- NWS fire weather forecast zones
+ * [PHDs](#phds) -- Public Health Districts for Washington, Oregon, Idaho, and California
+ * _TerrestrialEcoregions_ -- Terrestrial eco-regions
+ * [USCensusUrbanAreas](#uscensusurbanareas) -- US urban areas
+ * [USFSRangerDistricts](usfsrangerdistricts) -- US Forest Service ranger districts
+ * _USIndianLands_ -- US tribal boundaries
+ * [WBDHU](#wbdhu) -- Watershed boundary units
+ * [WorldEEZ](#worldeez) -- Country boundaries including Exclusive Economic Zones over water
+ * _WorldTimezones_ -- Timezone
+
+
+#### CA_AirBasins:
+
+The California Air Basins dataset is a simple features data frame representing the 
+15 California air basins. Air Basins are designated pursuant to California 
+statute and regulation and identify regions of similar meteorological and 
+geographic conditions.  Political boundaries are also considered in determining 
+the air basin boundaries.  
+
+_See the California Health and Safety Code, Section 39606 et seq. and California 
+Code of Regulations, Title 17, Section 60100 et seq._
+
+Use `convertCARBAirBasins()` to download and convert this dataset.
+
+#### EPARegions
+
+https://hub.arcgis.com/datasets/geoplatform::epa-regions
+
+The EPARegions dataset is a simple features data frame representing the 
+boundaries of the ten Regional Offices of the United States Environmental 
+Protection Agency in the United States. Each regional office monitors the 
+environmental regulations within a group of states.
+
+Use `convertEPARegions()` to download and convert this dataset.
+
+#### GACC
+
+https://hub.arcgis.com/datasets/nifc::national-gacc-boundaries
+
+The GACC dataset is a  simple features data frame representing the Geographic 
+Area Coordination Center (GACC) boundaries.  GACCs are defined as, "The physical 
+location of an interagency, regional operation center for the effective 
+coordination, mobilization and demobilization of emergency management resources."  
+A coordination center serves federal, state and local wildland fire agencies 
+through logistical coordination of resources throughout the geographic area, and 
+with other geographic areas, as well.
+
+The United States and Alaska are divided into 11 Geographic Areas for the purpose 
+of incident management and mobilization of resources (people, aircraft, ground 
+equipment). Within each Area, an interagency Geographic Area Coordinating Group 
+(GACG), made up of Fire Directors from each of the Federal and State land 
+management agencies from within the Area, is established.
+
+Use `convertGACC()` to download and convert this dataset.
+
+#### GADM
+
+The GADM dataset is a  simple features data frame representing the administrative 
+divisions of a specific country at a specific administrative level.  GADM, the 
+_Database of Global Administrative Areas_, is a high-resolution database of 
+country administrative areas.
+
+**NOTE:** This script will generate .rda files named 
+`GADM_<countryCode>_<admLevel>.rda` and requires user input to specify the 
+country and admin level desired.  For example, to generate Admin 1 level 
+boundaries for Belgium, run `convertGADM(countryCode = "BE", admLevel = 1`).  
+This will create `GADM_BE_1.rda`. Not all countries have the same number of 
+levels. Many just have two levels while France has five.
+
+Use `convertGADM()` to download and convert this dataset.
+
+#### HIFLDFederalLands
+
+The HIFLDFederalLands dataset is a  simple features data frame representing the 
+federally owned or administered lands and Indian Reservations of the United 
+States, Puerto Rico, and the US Virgin Islands.  Only areas of 640 acres or more 
+are included in this dataset.
+
+Use `convertHIFLDFederalLands()` to download and convert this dataset.
+
+#### HMSSmoke
+
+The HMSSmoke dataset is a  simple features data frame representing the areas of 
+smoke identified for a specific day.  This data is derived from analysis of 
+visible satellite imagery obtained during daylight hours.
+
+**NOTE:** This script will generate .rda files named `HMSSmoke_<datestamp>` 
+and requires user input to specify the date of interest using the `datestamp` 
+parameter in the format of `datestamp = "YYYYmmdd"`.
+
+Use `convertHMSSmoke()` to download and convert this dataset.
+
+#### MTBSBurnAreas
+
+The MTBSBurnAreas dataset is a  simple features data frame representing all 
+large wildland fires (includes wildfire, wildland fire use, and prescribed fire) 
+in the conterminous United States (CONUS), Alaska, Hawaii, and Puerto Rico for 
+the period of 1984 through 2017.  All fires reported as greater than 1,000 acres 
+in the western US and greater than 500 acres in the eastern US are mapped across 
+all ownerships.
+
+Use `convertMTBSBurnArea()` to download and convert this dataset.
+
+#### NWSFireZones
+
+The NWSFireZones dataset is a  simple features data frame representing weather 
+forecast zones.  These areas are used to delineate the Fire Weather Zones that 
+are used by National Weather Service (NWS) in the fire weather forecast program.
+
+Use `convertNWSFireZones()` to download and convert this data set.
+
+#### PHDs
+
+The PHDs dataset is a  simple features data frame representing Public Health 
+Districts for Washington, Oregon, Idaho, and California.  This is Mazama internal 
+data obtained from USFS AirFire.
+
+Use `convertPHDs()` to download and convert this data set.
+
+#### SimpleCountries
+
+The SimpleCountries dataset is a simple features data frame representing 
+country borders.  It is a greatly simplified version of the NaturalEarthAdm0 
+shapefile and is especially suited for spatial searches. Users may wish to use a 
+higher resolution dataset when plotting.
+
+Use `convertSimpleCountries()` to download and convert this data set.
+
+#### SimpleCountriesEEZ
+
+The SimpleCountriesEEZ dataset is a  simple features data frame representing 
+simple world divisions which match those in the EEZCountries layer. Polygons 
+for coastal countries include a 200 mile buffer, corresponding to their Exclusive 
+Economic Zones, so this layer is especially suited for spatial searches.   This 
+is the default dataset used in `getCountry()` and `getCountryCode()`.
+
+Use `convertSimpleCountriesEEZ()` to download and convert this data set.
+
+#### SimpleTimeZones
+
+The SimpleTimeZones dataset is a  simple features data frame representing 
+timezones of the world.
+
+Use `convertSimpleTimezones()` to download and convert this data set.
+
+#### HouseLegislativeDistricts
+
+This creates a simple features data frame for US State Legislative Districts.  
+User input is required to specify the `stateCode` (2-digit ISO 3166) and which 
+`house` (Upper or Lower chamber) the data should represent.  For example, to 
+obtain data on the Washington State Senate Legislative Districts, run 
+`convertStateLegislativeDistricts(stateCode = "WA", house = "Upper")`.  This 
+will generate a file named `WA_upperHouseLegislativeDistricts.rda`
+
+Use `convertStateLegislativeDistricts()` to download and convert this data set.
+
+#### TMWorldBorders
+
+http://thematicmapping.org/downloads/world_borders.php
+
+Country level boundaries compatible with ISO 3166-1 country codes.
+
+Use `convertTMWorldBorders()` to download and convert this data set.
+
+#### USCensusCBSA
+
+https://www2.census.gov/geo/tiger/TIGER2021/CBSA/
+
+The USCensusCBSA dataset is a  simple features data frame which represents Core 
+Based Statistical Areas (CBSAs) as defined by the Office of Management and Budget 
+(OMB).  CBSAs consist of the county or counties or equivalent entities associated 
+with at least one core (urbanized area or urban cluster) of at least 10,000 
+population, plus adjacent counties having a high degree of social and economic 
+integration with the core as measured through commuting ties with the counties 
+associated with the core.
+
+Use `convertUSCensusCBSA()` to download and convert this data set.
+
+#### USCensusUrbanAreas
+
+The USCensusUrbanAreas dataset is a  simple features data frame which represent 
+the urban areas delineated by the US Census that represent densely developed 
+territory.  There are two types of urban areas: urbanized areas (UAs) that 
+contain 50,000 or more people and urban clusters (UCs) that contain at least 
+2,500 people, but fewer than 50,000 people.
+
+Use `convertUSCensusUrbanAreas()` to download and convert this data set.
+
+#### USFSRangerDistricts
+
+The USFSRangerDistricts dataset is a simple features data frame representing US 
+Forest Service ranger district administrative boundaries.  Ranger districts are 
+sub units of National Forests intended to identify the specific organizational 
+units that administer areas.
+
+Use `convertUSFSRangerDistricts()` to download and convert this data set.
+
+#### WBDHU
+
+This creates a simple features data frame that represents a specific level of 
+hydrologic unit  from national Watershed Boundary Dataset (WBD).  This is a 
+seamless, national dataset which represents the area of the landscape that 
+drains to a portion of the stream network.
+
+User input is required to specify the `level` of data to generate.   The `level` 
+must be one of the following: [2, 4, 6, 8, 10, 12 or 14].  To generate a Level 8 
+data set, run `convertWBDHUC(level = 8)` which will generate a file named 
+`WBDHU8.rda`.
+
+Use `convertWBDHUC()` to download and convert this data set.
+
+#### WeatherZones
+
+This creates a simple features data frame that represents public zone weather 
+forecast areas.  The NWS issues forecasts, and some watches and warnings, for 
+public zones which are usually the same as counties but in many cases are 
+subsets of counties. Counties are subset into smaller zones to allow for more 
+accurate forecasts because of differences in weather within a county due to such 
+things as elevation, or proximity to large bodies of water.
+
+Use `convertWeatherZones()` to download and convert this data set.
+
+#### WorldEEZ
+
+This creates a simple features data frame that represents World Exclusive 
+Economic Zones Boundaries.  An exclusive economic zone is a sea zone prescribed 
+by the 1982 United Nations Convention on the Law of the Sea over which a state 
+has special rights regarding the exploration and use of marine resources, 
+including energy production from water and wind.
+
+Use `convertWorldEEZ()` to download and convert this data set.
+
+----

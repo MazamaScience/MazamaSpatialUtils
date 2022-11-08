@@ -27,7 +27,7 @@ This dataset was generated on 2022-11-04 by running:
 
 \preformatted{
 library(MazamaSpatialUtils)
-setSpatialDataDir("~/Data/Spatial")
+setSpatialDataDir("~/Data/Spatial_0.8")
 
 convertTMWorldBorders()
 

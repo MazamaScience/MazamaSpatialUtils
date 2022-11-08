@@ -24,7 +24,7 @@
 #' @examples
 #' \dontrun{
 #' library(MazamaSpatialUtils)
-#' setSpatialData("~/Data/Spatial")
+#' setSpatialData("~/Data/Spatial_0.8")
 #'
 #' loadSpatialData("NaturalEarthAdm1")
 #'

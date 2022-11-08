@@ -1,8 +1,7 @@
 # findCountries demo
 
 library(MazamaSpatialUtils)
-library(sp)
-library(maps)
+library(sf)
 
 # Vector of lons and lats
 lons <- seq(5,25,2)
@@ -17,12 +16,12 @@ countryDF <- getCountryName(lons, lats, dataset = 'SimpleCountries', allData = T
 print(countryDF)
 
 # Subset the simple features data frame to only include our countries
-countryMask <- SimpleCountries@data$countryName %in% countryNames
+countryMask <- SimpleCountries$countryName %in% countryNames
 
 # Plot the country polygons
-plot(SimpleCountries[countryMask,], col = 'gray90', border = 'gray70')
+plot(SimpleCountries$geometry[countryMask], col = 'gray90', border = 'gray70')
 # Add all country boundaries
-plot(SimpleCountries, border = 'gray80', add = TRUE)
+plot(SimpleCountries$geometry, border = 'gray80', add = TRUE)
 # Add our points in red
 points(lons,lats, pch = 16, col = 'red')
 # Add text to the right
@@ -31,16 +30,15 @@ text(lons, lats, countryText, pos = 4)
 # Add a title
 title('Country Codes and Names')
 
-
 # Now use SimpleCountriesEEZ
 countryNames <- getCountryName(lons, lats, dataset = 'SimpleCountriesEEZ')
 countryDF <- getCountryName(lons, lats, dataset = 'SimpleCountriesEEZ', allData = TRUE)
-countryMask <- SimpleCountriesEEZ@data$countryName %in% countryNames
+countryMask <- SimpleCountriesEEZ$countryName %in% countryNames
 
 # Plot the country polygons
-plot(SimpleCountriesEEZ[countryMask,],col = 'gray90', border = 'gray70')
+plot(SimpleCountriesEEZ$geometry[countryMask],col = 'gray90', border = 'gray70')
 # Add all country boundaries
-plot(SimpleCountries, border = 'gray80', add = TRUE)
+plot(SimpleCountries$geometry, border = 'gray80', add = TRUE)
 # Add our points in red
 points(lons, lats, pch = 16, col = 'red')
 # Add text to the right

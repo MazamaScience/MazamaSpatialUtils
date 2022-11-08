@@ -12,7 +12,7 @@
 #'
 installSpatialData <- function(
   dataset = NULL,
-  urlBase = "http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7"
+  urlBase = "http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8"
 ) {
 
   # Use package internal data directory
@@ -49,11 +49,6 @@ installSpatialData <- function(
         result <- try({
           utils::download.file(paste0(urlBase, '/', fileName), filePath)
         }, silent = TRUE)
-
-        if ( "try-error" %in% class(result) ) {
-          # NOTE:  This is redundant when download.file(quiet = FALSE) by default
-          ###message(geterrmessage())
-        }
 
       }
 

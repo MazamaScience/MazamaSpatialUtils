@@ -1,8 +1,7 @@
 # findTimezones demo
 
 library(MazamaSpatialUtils)
-library(sp)
-library(maps)
+library(sf)
 
 # Vector of lons and lats
 lons <- seq(-120,-60,5)
@@ -17,12 +16,12 @@ timezoneDF <- getTimezone(lons, lats, allData=TRUE)
 print(timezoneDF)
 
 # Subset the simple features data frame to only include our timezones
-timezoneMask <- SimpleTimezones@data$timezone %in% timezones
+timezoneMask <- SimpleTimezones$timezone %in% timezones
 
 # Plot the timezone polygons
-plot(SimpleTimezones[timezoneMask,],col='gray90',border='gray70')
-# Add countries from the 'maps' package
-maps::map('world',add=TRUE,col='gray80')
+plot(SimpleTimezones$geometry[timezoneMask],col='gray90',border='gray70')
+# Add all country boundaries
+plot(SimpleCountries$geometry, border = 'gray80', add = TRUE)
 # Add our points in red
 points(lons,lats,pch=16,col='red')
 # Add text to the right
@@ -30,3 +29,4 @@ timezoneText <- ifelse(is.na(timezones),'water',timezones)
 text(lons,lats,timezoneText,pos=4)
 # Add a title
 title('Timezones in North America')
+
