@@ -1,0 +1,9 @@
+pandoc: '2.18'
+pkgdown: 2.0.6
+pkgdown_sha: ~
+articles:
+  Developer_Style_Guide: Developer_Style_Guide.html
+  MazamaSpatialUtils: MazamaSpatialUtils.html
+  available-data: available-data.html
+last_built: 2022-11-08T17:38Z
+
