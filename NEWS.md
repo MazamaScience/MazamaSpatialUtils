@@ -1,3 +1,7 @@
+# MazamaSpatialUtils 0.8.1
+
+* Tweaks to satisfy CRAN submission checks.
+
 # MazamaSpatialUtils 0.8.0
 
 Version 0.8.x is a complete refactoring of **MazamaSpatialUtils** to upgrade

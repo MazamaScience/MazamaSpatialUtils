@@ -135,7 +135,7 @@ loadSpatialData('USCensusCounties')
 ```
 
 Additional watershed data from the 
-[Watershed Boundary Dataset](https://www.usgs.gov/core-science-systems/ngp/national-hydrography) are quite large and 
+[Watershed Boundary Dataset](https://www.usgs.gov/national-hydrography) are quite large and 
 may be installed in the same way:
 
  * X ` 40 MB WBDHU2.rda` -- USGS level 2 watersheds
