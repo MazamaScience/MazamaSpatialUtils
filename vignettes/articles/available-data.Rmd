@@ -54,7 +54,7 @@ pre-generated datasets, which can then be loaded with `loadSpatialData(<dataset>
  * _USCensusStates_ -- US state level boundaries
  * [WeatherZones](#Weatherzones) -- NWS public weather forecast zones
  
-The following list of datasets were available in earlier versions of the 
+The following list describes datasets that were available in earlier versions of the 
 **MazamaSpatialUtils** package. Convert scripts for these datasets will
 be updated and added on an as-needed basis.
 

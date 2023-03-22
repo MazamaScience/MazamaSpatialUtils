@@ -71,7 +71,7 @@ getCountryCode()
 getCountryName()
 getPolygonID()
 loadSpatialData()
-organizePolygons()
+summarizeByPolygon()
 ...
 ```
 
@@ -130,6 +130,6 @@ be added or the order of arguments need to be changed.
 It is our belief that good code should be both readable and understandable and
 should inspire others to copy and innovate on their own.
 
-**_Mazama Science_**
+**Mazama Science**
 
 

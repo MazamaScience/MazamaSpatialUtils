@@ -15,34 +15,31 @@ knitr::opts_chunk$set(fig.width = 7, fig.height = 5)
 
 ## Background
 
-The **MazamaSpatialUtils package** was created by [MazamaScience](http://mazamascience.com) 
-to regularize our work with spatial data. The **sp** and **sf** 
-packages have made it much easier to work with spatial data found in shapefiles. 
-Many sources of shapefile data are available and can be used to make beautiful 
-maps in R. Unfortunately, the data attached to these datasets, even when fairly
-complete, often lacks standardized identifiers such as the ISO 3166-1 alpha-2 
-encodings for countries. Maddeningly, even when these ISO codes are used, the 
-dataframe column in which they are stored does not have a standardized name. It 
-may be called `ISO` or `ISO2` or `alpha` or `COUNTRY` or any of a dozen other 
-names we have seen.
+The **MazamaSpatialUtils** package was created to regularize 
+work with spatial data. Many sources of shapefile
+data are available and can be used to make beautiful maps in R. Unfortunately,
+the data attached to these datasets, even when fairly complete, often lacks
+standardized identifiers such as the ISO 3166-1 alpha-2 encodings for countries.
+Maddeningly, even when these ISO codes are used, the dataframe column in which
+they are stored does not have a standardized name. It may be called "ISO" or "ISO2"
+or "alpha" or "COUNTRY" or any of a dozen other names we have seen.
 
-While many mapping packages provide 'natural' naming of countries, those who 
-wish to develop operational, GIS-like systems need something that is both 
+While many mapping packages provide _"natural"_ naming of countries, those who
+wish to develop operational, GIS-like systems need something that is both
 standardized and language-independent. The ISO 3166-1 alpha-2 encodings have
-emerged as the *de facto* standard for this sort of work. In similar fashion, 
-ISO 3166-2 alpha-2 encodings are available for the next administrative level 
-down -- state/province/oblast, *etc*. For time zones, the *de facto* standard is 
-the set of Olson time zones used in all UNIX systems.
+emerged as the _de facto_ standard for this sort of work. In similar fashion, ISO
+3166-2 alpha-2 encodings are available for the next administrative level down --
+state/province/oblast, _etc._ For time zones, the _de facto_ standard is the set of
+Olson time zones used in all UNIX systems.
 
-The main goal of this package is to create an internally standardized set of 
-spatial data that we can use in various projects. Along with three built-in 
-datasets, this package provides `convert~()` functions for other spatial 
-datasets that we currently use. These convert functions all follow the same recipe:
+The main goal of this package is to create an internally standardized set of
+spatial data that can be used in various projects. Along with three built-in
+datasets, this package provides `convert~()` functions for other spatial datasets
+of interest. These convert functions all follow the same recipe:
 
-* download spatial data in shapefile format into a standard directory
-* convert shapefile data into a *sf* simple features data frame
-* clean up any topological errors
-* modify the dataframe so that it adheres to package internal standards
+ * download spatial data into a standard directory
+ * convert spatial data into a **sf** simple features data frame
+ * modify the dataframe so that it adheres to package internal standards
 
 Other datasets can be added following the same procedure.
 
@@ -55,17 +52,16 @@ The 'package internal standards' are very simple.
 
 2) Spatial datasets with time zone data **must** contain the following column:
 
-* timezone -- Olson time zone
+* timezone -- Olson timezone
 
 3) Spatial datasets at scales smaller than the nation-state **should** contain the following column:
 
 * stateCode -- 'state' at centroid of polygon (ISO 3166-2 alpha-2)
 
-If other columns contain these data, those columns must be renamed or duplicated 
-with the internally standardized name. This simple level of consistency makes it 
-possible to generate maps for any data that is ISO encoded. It also makes it 
-possible to create functions that return the country, state or time zone 
-associated with a set of locations.
+If other columns contain these data, those columns must be renamed or duplicated with the 
+internally standardized name. This simple level of consistency makes it possible to generate 
+maps for any data that is ISO encoded. It also makes it possible to create functions that 
+return the country, state or time zone associated with a set of locations.
 
 ## Functionality
 
@@ -76,9 +72,8 @@ Current functionality includes the following:
 
 * `getCountry~(longitude, latitude, ...)` -- returns names, ISO codes and other country-level data at specified locations
 * `getState~(longitude, latitude, ...)` -- returns names, ISO codes and other state-level at specified locations
-* `getUSCounty~(longitude, latitude, ...)` -- returns names and other county-level data at specified locations
-* `getTimezones(longitude, latitude, ...)` -- returns Olson time zones and other data at specified locations
-* `getHUC~(longitude, latitude, ...)` -- returns USGS Hydrologic Unit Codes and other data at specified locations
+* `getTimezone(longitude, latitude, ...)` -- returns Olson time zones and other data at specified locations
+* `getUSCounty(longitude, latitude, ...)` -- returns names and other county-level data at specified locations
 
 A generic `getSpatialData(longitude, latitude, ...)` returns a dataframe whose 
 rows are associated with specified locations. This function can be used with 
@@ -91,9 +86,9 @@ metadata with this information can be extremely helpful.
 
 When using **MazamaSpatialUtils**, always run 
 `setSpatialDataDir(<spatial_data_directory>)` first. This sets the directory 
-where spatial data will be installed and loaded from. This can be a directory
-on a user's personal computer or perhaps a remotely mounted disk if huge spatial 
-datasets are going to be used.
+where spatial data will be installed and from which it will be loaded. 
+This can be a directory on a user's personal computer or perhaps a remotely 
+mounted disk if huge spatial datasets are going to be used.
 
 **MazamaSpatialUtils** has three built-in spatial datasets:
 
@@ -105,19 +100,17 @@ Version 0.8 of the package is built around the three built-in datasets and sever
 datasets that may be installed including: 
 
  * ` 20 MB EEZCountries` -- country boundaries including Exclusive Economic Zones
- * X `  5 MB EEZCountries` -- US EPA region boundaries
- * X `  6 MB GACC` -- Geographic Area Coordination Center (GACC) boundaries
+ * `  5 MB EPARegions` -- US EPA region boundaries
+ * `  7 MB GACC` -- Geographic Area Coordination Center (GACC) boundaries
+ * `  5 MB NaturalEarthAdm0` -- country level boundaries	 
  * ` 14 MB NaturalEarthAdm1` -- state/province/oblast level boundaries	 
- * X `  8 MB NWSFireZones` -- "NWS weather forecast zones
- * X ` 53 MB TerrestrialEcoregions` -- terrestrial eco-regions
+ * ` 99 MB OSMTimezones` -- OpenStreetMap time zones
  * `  3 MB TMWorldBorders` -- high resolution country level boundaries
- * X `  7 MB USCensus116thCongress` -- US congressional districts
- * X ` 34 MB USCensusCBSA` -- US Core Based Statistical Areas
+ * `  7 MB USCensus116thCongress` -- 2019 US congressional districts
+ * ` 34 MB USCensusCBSA` -- US Core Based Statistical Areas
  * ` 12 MB USCensusCounties` -- US county level boundaries
- * X `  3 MB USCensusStates` -- US state level boundaries
- * X `  1 MB USIndianLands` -- US tribal boundaries
- * X `  9 MB WeatherZones` -- NWS public weather forecast zones
- * X ` 16 MB WorldTimezones` -- time zones
+ * `  3 MB USCensusStates` -- US state level boundaries
+ * ` 23 MB WeatherZones` -- US NWS public weather forecast zones
  
 Install these one at a time with:
 
@@ -133,17 +126,6 @@ found in the `SpatialDataDir` that match a particular pattern, *e.g*:
 loadSpatialData('USCensusStates')
 loadSpatialData('USCensusCounties')
 ```
-
-Additional watershed data from the 
-[Watershed Boundary Dataset](https://www.usgs.gov/national-hydrography) are quite large and 
-may be installed in the same way:
-
- * X ` 40 MB WBDHU2.rda` -- USGS level 2 watersheds
- * X `127 MB WBDHU4.rda` -- USGS level 4 watersheds
- * X `157 MB WBDHU6.rda` -- USGS level 6 watersheds
- * X `337 MB WBDHU8.rda` -- USGS level 8 watersheds
- * X `??? MB WBDHU10.rda` -- USGS level 10 watersheds	(_not yet available_)
- * X `??? Gb WBDHU12.rda` -- USGS level 12 watersheds (_not yet available_)
 
 ## `getCountry()` and `getCountryCode()`
 
@@ -178,8 +160,7 @@ getCountry(longitude, latitude, allData = TRUE)
 Similar to above, these functions return state names and ISO 3166 codes. They 
 also take the same arguments. Adding the `countryCodes` argument is more 
 important for `getState()` and `getStateCode()` because the `NaturalEarthAdm1` 
-dataset is fairly large. Lets use the same `latitude` and `longitude` variables 
-as above and assign states to those locations.
+dataset is fairly large.
 
 These functions require installation of the large `NaturalEarthAdm1` dataset 
 which is not distributed with the package.

@@ -19,32 +19,31 @@ with a set of longitude/latitude pairs. (They also make cool maps.)
 
 ## Background
 
-The MazamaSpatialUtils package was created by MazamaScience to regularize our
-work with spatial data. The sp, rgdal and maptools packages have made it much
-easier to work with spatial data found in shapefiles. Many sources of shapefile
+The **MazamaSpatialUtils** package was created to regularize 
+work with spatial data. Many sources of shapefile
 data are available and can be used to make beautiful maps in R. Unfortunately,
 the data attached to these datasets, even when fairly complete, often lacks
 standardized identifiers such as the ISO 3166-1 alpha-2 encodings for countries.
 Maddeningly, even when these ISO codes are used, the dataframe column in which
-they are stored does not have a standardized name. It may be called ISO or ISO2
-or alpha or COUNTRY or any of a dozen other names we have seen.
+they are stored does not have a standardized name. It may be called "ISO" or "ISO2"
+or "alpha" or "COUNTRY" or any of a dozen other names we have seen.
 
-While many mapping packages provide 'natural' naming of countries, those who
+While many mapping packages provide _"natural"_ naming of countries, those who
 wish to develop operational, GIS-like systems need something that is both
 standardized and language-independent. The ISO 3166-1 alpha-2 encodings have
-emerged as the defacto standard for this sort of work. In similar fashion, ISO
+emerged as the _de facto_ standard for this sort of work. In similar fashion, ISO
 3166-2 alpha-2 encodings are available for the next administrative level down --
-state/province/oblast, etc.. For time zones, the _defacto_ standard is the set of
+state/province/oblast, _etc._ For time zones, the _de facto_ standard is the set of
 Olson time zones used in all UNIX systems.
 
 The main goal of this package is to create an internally standardized set of
-spatial data that we can use in various projects. Along with three built-in
+spatial data that can be used in various projects. Along with three built-in
 datasets, this package provides `convert~()` functions for other spatial datasets
-that we currently use. These convert functions all follow the same recipe:
+of interest. These convert functions all follow the same recipe:
 
- * download spatial data in shapefile format into a standard directory
- * convert shapefile data into a sp simple features data frame
- * modify the dataframe in the `@data` slot so that it adheres to package internal standards
+ * download spatial data into a standard directory
+ * convert spatial data into a **sf** simple features data frame
+ * modify the dataframe so that it adheres to package internal standards
 
 Other datasets can be added following the same procedure.
 
@@ -70,11 +69,16 @@ return the country, state or time zone associated with a set of locations.
 
 ## Installation
 
-This package is designed to be used with [R](https://cran.r-project.org) (>= 3.1.0)
+This package is designed to be used with [R](https://cran.r-project.org) (>= 4.0)
 and [RStudio](https://posit.co/) so make sure you have those installed first.
 
-Users can use the **devtools** package to install the latest version of the 
-package which may have new features that are not yet available on CRAN:
+Installation from CRAN is standard:
+
+```
+install.packages("MazamaSpatialUtils")
+```
+
+Or you can use the **devtools** package to install the latest version from GitHub:
 
 ```
 devtools::install_github('mazamascience/MazamaSpatialUtils', build_vignettes=TRUE)
@@ -87,101 +91,44 @@ devtools::install_github('mazamascience/MazamaSpatialUtils', build_vignettes=TRU
 The package comes with the following simplified spatial spatial datasets:
 
 ```
- * 276K	data/SimpleCountries.RData
- * 2.1M	data/SimpleCountriesEEZ.RData
- * 1.1M	data/SimpleTimezones.RData
+ * 367K	data/SimpleCountries.rda
+ * 1.3M	data/SimpleCountriesEEZ.rda
+ * 1.4M	data/SimpleTimezones.rda
 ```
 
 These datasets allow you to work with low-resolution country outlines and
 time zones.
 
-### Core Datasets
+### Additional Datasets
 
 Additional datasets are available at 
-http://data.mazamascience.com/MazamaSpatialUtils/Spatial/
+http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8/
 and can be loaded with the following commands:
 
 ```
-# Create a location where large spatial datasets will be stored
-dir.create('~/Data/Spatial', recursive = TRUE)
+# Create a location where spatial datasets will be stored
+dir.create('~/Data/Spatial_0.8', recursive = TRUE)
 
 # Tell the package about this location
-setSpatialDataDir('~/Data/Spatial')
+setSpatialDataDir('~/Data/Spatial_0.8')
 
-# Install core spatial data
-installSpatialData()
+# Install spatial datasets by name
+installSpatialData("EPARegions")
 ```
 
-Datasets included in the core set include:
+You can review your currently install**ed** datasets by running:
 
 ```
- * 2.1M EEZCountries.RData
- *  15M NaturalEarthAdm1.RData
- *  61M OSMTimezones.RData
- * 3.0M	OSMTimezones_05.RData
- * 3.6M TMWorldBorders.RData
- *  48MTerrestrialEcoregions.RData
- * 3.5M TerrestrialEcoregions_05.RData
- * 7.5M USCensus115thCongress.RData
- *  17M USCensusCounties.RData
- * 4.6M USCensusStates.RData
- * 1.2M USIndianLands.RData
- *  17M WorldTimezones.RData
+installedSpatialData()
 ```
 
-Further details about each dataset are provided in the associated `convert~()` 
+Further details about each dataset are provided in the source code of
+the associated `convert~()` 
 function. Datasets appearing with, *e.g.*, `_05` are simplified datasets whose 
-polygons retain only 5% of the vertices of the original .
+polygons retain only 5% of the vertices in the full resolution dataset.
 
-### Additional Datasets
-
-Mazama Science regularly generates new datasets that adhere to package standards.
-These can be download manually from 
-http://data.mazamascience.com/MazamaSpatialUtils/Spatial/. As
-of Jan 10, 2019, the full list of available datasets includes:
-
-```
- * 24K	CA_AirBasins_01.RData
- * 44K	CA_AirBasins_02.RData
- * 100K	CA_AirBasins_05.RData
- * 2.1M	CA_AirBasins.RData
- * 2.2M	EEZCountries.RData
- * 404K	GACC_05.RData
- * 7.0M	GACC.RData
- * 15M	NaturalEarthAdm1.RData
- * 3.1M	OSMTimezones_05.RData
- * 62M	OSMTimezones.RData
- * 3.6M	TerrestrialEcoregions_05.RData
- * 49M	TerrestrialEcoregions.RData
- * 3.7M	TMWorldBorders.RData
- * 7.6M	USCensus115thCongress.RData
- * 564K	USCensusCBSA_01.RData
- * 944K	USCensusCBSA_02.RData
- * 2.0M	USCensusCBSA_05.RData
- * 34M	USCensusCBSA.RData
- * 2.3M	USCensusCounties.RData
- * 3.5M	USCensusStates.RData
- * 1.2M	USIndianLands.RData
- * 769M	WBDHU10.RData
- * 1.5G	WBDHU12.RData
- * 424K	WBDHU2_01.RData
- * 840K	WBDHU2_02.RData
- * 38M	WBDHU2.RData
- * 1.1M	WBDHU4_01.RData
- * 2.2M	WBDHU4_02.RData
- * 108M	WBDHU4.RData
- * 1.4M	WBDHU6_01.RData
- * 2.8M	WBDHU6_02.RData
- * 137M	WBDHU6.RData
- * 295M	WBDHU8.RData
- * 18M	WorldTimezones.RData
-```
 
 ## Examples
-
-### Vignettes
-
-The package vignette 'Introduction to MazamaSpatialUtils' has numerous examples.
 
 ### Demos
 
@@ -191,31 +138,14 @@ There are three demos associated with the package:
 demo(package = 'MazamaSpatialUtils')
 ```
 
-### Shiny App
-
-There is also an exampe R Shiny app which uses the `WBDHU#` datasets combines 
-two large datasets:
-
- * location data from the National Bridge Inventory
- * shapefiles from the Watershed Boundary Dataset
- 
-The app allows you to aggregate point location data by watershed to create
-summary values associated with each watershed. It also demonstrates the need
-to enable caching in a shiny app when plots take a long time to generate.
-
-```
-library(MazamaSpatialUtils)
-setSpatialDataDir('~/Data/Spatial')
-runExample()
-```
-
-### Mapshaper
-
-Instructions for installing the javascript `mapshaper` utility and using it to
-simplify large shapefiles are found in the `localMapshaper/` directory.
-
 ----
 
-This project is supported by Mazama Science.
+Development of this R package has been supported with funding from the 
+following institutions:
+
+* USFS [AirFire Research Team](https://www.airfire.org)
+
+Questions regarding further development of the package or inclusion of additional
+datasets should be directed to <jonathan.callahan@dri.edu>.
 
 

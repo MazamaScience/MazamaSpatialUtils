@@ -43,7 +43,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.8.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.8.2</span>
       </span>
     </div>
 
@@ -105,13 +105,13 @@ with a set of longitude/latitude pairs. (They also make cool maps.)</code></pre>
 <div class="section level2">
 <h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
 </h2>
-<p>The MazamaSpatialUtils package was created by MazamaScience to regularize our work with spatial data. The sp, rgdal and maptools packages have made it much easier to work with spatial data found in shapefiles. Many sources of shapefile data are available and can be used to make beautiful maps in R. Unfortunately, the data attached to these datasets, even when fairly complete, often lacks standardized identifiers such as the ISO 3166-1 alpha-2 encodings for countries. Maddeningly, even when these ISO codes are used, the dataframe column in which they are stored does not have a standardized name. It may be called ISO or ISO2 or alpha or COUNTRY or any of a dozen other names we have seen.</p>
-<p>While many mapping packages provide ‘natural’ naming of countries, those who wish to develop operational, GIS-like systems need something that is both standardized and language-independent. The ISO 3166-1 alpha-2 encodings have emerged as the defacto standard for this sort of work. In similar fashion, ISO 3166-2 alpha-2 encodings are available for the next administrative level down – state/province/oblast, etc.. For time zones, the <em>defacto</em> standard is the set of Olson time zones used in all UNIX systems.</p>
-<p>The main goal of this package is to create an internally standardized set of spatial data that we can use in various projects. Along with three built-in datasets, this package provides <code>convert~()</code> functions for other spatial datasets that we currently use. These convert functions all follow the same recipe:</p>
+<p>The <strong>MazamaSpatialUtils</strong> package was created to regularize work with spatial data. Many sources of shapefile data are available and can be used to make beautiful maps in R. Unfortunately, the data attached to these datasets, even when fairly complete, often lacks standardized identifiers such as the ISO 3166-1 alpha-2 encodings for countries. Maddeningly, even when these ISO codes are used, the dataframe column in which they are stored does not have a standardized name. It may be called “ISO” or “ISO2” or “alpha” or “COUNTRY” or any of a dozen other names we have seen.</p>
+<p>While many mapping packages provide <em>“natural”</em> naming of countries, those who wish to develop operational, GIS-like systems need something that is both standardized and language-independent. The ISO 3166-1 alpha-2 encodings have emerged as the <em>de facto</em> standard for this sort of work. In similar fashion, ISO 3166-2 alpha-2 encodings are available for the next administrative level down – state/province/oblast, <em>etc.</em> For time zones, the <em>de facto</em> standard is the set of Olson time zones used in all UNIX systems.</p>
+<p>The main goal of this package is to create an internally standardized set of spatial data that can be used in various projects. Along with three built-in datasets, this package provides <code>convert~()</code> functions for other spatial datasets of interest. These convert functions all follow the same recipe:</p>
 <ul>
-<li>download spatial data in shapefile format into a standard directory</li>
-<li>convert shapefile data into a sp simple features data frame</li>
-<li>modify the dataframe in the <code>@data</code> slot so that it adheres to package internal standards</li>
+<li>download spatial data into a standard directory</li>
+<li>convert spatial data into a <strong>sf</strong> simple features data frame</li>
+<li>modify the dataframe so that it adheres to package internal standards</li>
 </ul>
 <p>Other datasets can be added following the same procedure.</p>
 <p>The ‘package internal standards’ are very simple.</p>
@@ -139,8 +139,10 @@ with a set of longitude/latitude pairs. (They also make cool maps.)</code></pre>
 <div class="section level2">
 <h2 id="installation">Installation<a class="anchor" aria-label="anchor" href="#installation"></a>
 </h2>
-<p>This package is designed to be used with <a href="https://cran.r-project.org" class="external-link">R</a> (&gt;= 3.1.0) and <a href="https://posit.co/" class="external-link">RStudio</a> so make sure you have those installed first.</p>
-<p>Users can use the <strong>devtools</strong> package to install the latest version of the package which may have new features that are not yet available on CRAN:</p>
+<p>This package is designed to be used with <a href="https://cran.r-project.org" class="external-link">R</a> (&gt;= 4.0) and <a href="https://posit.co/" class="external-link">RStudio</a> so make sure you have those installed first.</p>
+<p>Installation from CRAN is standard:</p>
+<pre><code><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"MazamaSpatialUtils"</span><span class="op">)</span></span></code></pre>
+<p>Or you can use the <strong>devtools</strong> package to install the latest version from GitHub:</p>
 <pre><code><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">'mazamascience/MazamaSpatialUtils'</span>, build_vignettes<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span></span></code></pre>
 </div>
 <div class="section level2">
@@ -150,111 +152,43 @@ with a set of longitude/latitude pairs. (They also make cool maps.)</code></pre>
 <h3 id="package-datasets">Package Datasets<a class="anchor" aria-label="anchor" href="#package-datasets"></a>
 </h3>
 <p>The package comes with the following simplified spatial spatial datasets:</p>
-<pre><code> * 276K data/SimpleCountries.RData
- * 2.1M data/SimpleCountriesEEZ.RData
- * 1.1M data/SimpleTimezones.RData</code></pre>
+<pre><code> * 367K data/SimpleCountries.rda
+ * 1.3M data/SimpleCountriesEEZ.rda
+ * 1.4M data/SimpleTimezones.rda</code></pre>
 <p>These datasets allow you to work with low-resolution country outlines and time zones.</p>
-</div>
-<div class="section level3">
-<h3 id="core-datasets">Core Datasets<a class="anchor" aria-label="anchor" href="#core-datasets"></a>
-</h3>
-<p>Additional datasets are available at <a href="http://data.mazamascience.com/MazamaSpatialUtils/Spatial/" class="external-link uri">http://data.mazamascience.com/MazamaSpatialUtils/Spatial/</a> and can be loaded with the following commands:</p>
-<pre><code><span><span class="co"># Create a location where large spatial datasets will be stored</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="st">'~/Data/Spatial'</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Tell the package about this location</span></span>
-<span><span class="fu"><a href="reference/setSpatialDataDir.html">setSpatialDataDir</a></span><span class="op">(</span><span class="st">'~/Data/Spatial'</span><span class="op">)</span></span>
-<span></span>
-<span><span class="co"># Install core spatial data</span></span>
-<span><span class="fu"><a href="reference/installSpatialData.html">installSpatialData</a></span><span class="op">(</span><span class="op">)</span></span></code></pre>
-<p>Datasets included in the core set include:</p>
-<pre><code> * 2.1M EEZCountries.RData
- *  15M NaturalEarthAdm1.RData
- *  61M OSMTimezones.RData
- * 3.0M OSMTimezones_05.RData
- * 3.6M TMWorldBorders.RData
- *  48MTerrestrialEcoregions.RData
- * 3.5M TerrestrialEcoregions_05.RData
- * 7.5M USCensus115thCongress.RData
- *  17M USCensusCounties.RData
- * 4.6M USCensusStates.RData
- * 1.2M USIndianLands.RData
- *  17M WorldTimezones.RData</code></pre>
-<p>Further details about each dataset are provided in the associated <code>convert~()</code> function. Datasets appearing with, <em>e.g.</em>, <code>_05</code> are simplified datasets whose polygons retain only 5% of the vertices of the original .</p>
 </div>
 <div class="section level3">
 <h3 id="additional-datasets">Additional Datasets<a class="anchor" aria-label="anchor" href="#additional-datasets"></a>
 </h3>
-<p>Mazama Science regularly generates new datasets that adhere to package standards. These can be download manually from <a href="http://data.mazamascience.com/MazamaSpatialUtils/Spatial/" class="external-link uri">http://data.mazamascience.com/MazamaSpatialUtils/Spatial/</a>. As of Jan 10, 2019, the full list of available datasets includes:</p>
-<pre><code> * 24K  CA_AirBasins_01.RData
- * 44K  CA_AirBasins_02.RData
- * 100K CA_AirBasins_05.RData
- * 2.1M CA_AirBasins.RData
- * 2.2M EEZCountries.RData
- * 404K GACC_05.RData
- * 7.0M GACC.RData
- * 15M  NaturalEarthAdm1.RData
- * 3.1M OSMTimezones_05.RData
- * 62M  OSMTimezones.RData
- * 3.6M TerrestrialEcoregions_05.RData
- * 49M  TerrestrialEcoregions.RData
- * 3.7M TMWorldBorders.RData
- * 7.6M USCensus115thCongress.RData
- * 564K USCensusCBSA_01.RData
- * 944K USCensusCBSA_02.RData
- * 2.0M USCensusCBSA_05.RData
- * 34M  USCensusCBSA.RData
- * 2.3M USCensusCounties.RData
- * 3.5M USCensusStates.RData
- * 1.2M USIndianLands.RData
- * 769M WBDHU10.RData
- * 1.5G WBDHU12.RData
- * 424K WBDHU2_01.RData
- * 840K WBDHU2_02.RData
- * 38M  WBDHU2.RData
- * 1.1M WBDHU4_01.RData
- * 2.2M WBDHU4_02.RData
- * 108M WBDHU4.RData
- * 1.4M WBDHU6_01.RData
- * 2.8M WBDHU6_02.RData
- * 137M WBDHU6.RData
- * 295M WBDHU8.RData
- * 18M  WorldTimezones.RData</code></pre>
+<p>Additional datasets are available at <a href="http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8/" class="external-link uri">http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8/</a> and can be loaded with the following commands:</p>
+<pre><code><span><span class="co"># Create a location where spatial datasets will be stored</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/files2.html" class="external-link">dir.create</a></span><span class="op">(</span><span class="st">'~/Data/Spatial_0.8'</span>, recursive <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Tell the package about this location</span></span>
+<span><span class="fu"><a href="reference/setSpatialDataDir.html">setSpatialDataDir</a></span><span class="op">(</span><span class="st">'~/Data/Spatial_0.8'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co"># Install spatial datasets by name</span></span>
+<span><span class="fu"><a href="reference/installSpatialData.html">installSpatialData</a></span><span class="op">(</span><span class="st">"EPARegions"</span><span class="op">)</span></span></code></pre>
+<p>You can review your currently install<strong>ed</strong> datasets by running:</p>
+<pre><code><span><span class="fu"><a href="reference/installedSpatialData.html">installedSpatialData</a></span><span class="op">(</span><span class="op">)</span></span></code></pre>
+<p>Further details about each dataset are provided in the source code of the associated <code>convert~()</code> function. Datasets appearing with, <em>e.g.</em>, <code>_05</code> are simplified datasets whose polygons retain only 5% of the vertices in the full resolution dataset.</p>
 </div>
 </div>
 <div class="section level2">
 <h2 id="examples">Examples<a class="anchor" aria-label="anchor" href="#examples"></a>
 </h2>
 <div class="section level3">
-<h3 id="vignettes">Vignettes<a class="anchor" aria-label="anchor" href="#vignettes"></a>
-</h3>
-<p>The package vignette ‘Introduction to MazamaSpatialUtils’ has numerous examples.</p>
-</div>
-<div class="section level3">
 <h3 id="demos">Demos<a class="anchor" aria-label="anchor" href="#demos"></a>
 </h3>
 <p>There are three demos associated with the package:</p>
 <pre><code><span><span class="fu"><a href="https://rdrr.io/r/utils/demo.html" class="external-link">demo</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">'MazamaSpatialUtils'</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="section level3">
-<h3 id="shiny-app">Shiny App<a class="anchor" aria-label="anchor" href="#shiny-app"></a>
-</h3>
-<p>There is also an exampe R Shiny app which uses the <code>WBDHU#</code> datasets combines two large datasets:</p>
-<ul>
-<li>location data from the National Bridge Inventory</li>
-<li>shapefiles from the Watershed Boundary Dataset</li>
-</ul>
-<p>The app allows you to aggregate point location data by watershed to create summary values associated with each watershed. It also demonstrates the need to enable caching in a shiny app when plots take a long time to generate.</p>
-<pre><code><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/MazamaScience/MazamaSpatialUtils" class="external-link">MazamaSpatialUtils</a></span><span class="op">)</span></span>
-<span><span class="fu"><a href="reference/setSpatialDataDir.html">setSpatialDataDir</a></span><span class="op">(</span><span class="st">'~/Data/Spatial'</span><span class="op">)</span></span>
-<span><span class="fu">runExample</span><span class="op">(</span><span class="op">)</span></span></code></pre>
-</div>
-<div class="section level3">
-<h3 id="mapshaper">Mapshaper<a class="anchor" aria-label="anchor" href="#mapshaper"></a>
-</h3>
-<p>Instructions for installing the javascript <code>mapshaper</code> utility and using it to simplify large shapefiles are found in the <code>localMapshaper/</code> directory.</p>
 <hr>
-<p>This project is supported by Mazama Science.</p>
+<p>Development of this R package has been supported with funding from the following institutions:</p>
+<ul>
+<li>USFS <a href="https://www.airfire.org" class="external-link">AirFire Research Team</a>
+</li>
+</ul>
+<p>Questions regarding further development of the package or inclusion of additional datasets should be directed to <a href="mailto:jonathan.callahan@dri.edu" class="email">jonathan.callahan@dri.edu</a>.</p>
 </div>
 </div>
 </div>

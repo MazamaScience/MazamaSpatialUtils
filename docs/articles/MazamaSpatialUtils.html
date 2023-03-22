@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.8.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.8.2</span>
       </span>
     </div>
 
@@ -107,37 +107,33 @@ Science</h4>
 <div class="section level2">
 <h2 id="background">Background<a class="anchor" aria-label="anchor" href="#background"></a>
 </h2>
-<p>The <strong>MazamaSpatialUtils package</strong> was created by <a href="http://mazamascience.com" class="external-link">MazamaScience</a> to regularize our work
-with spatial data. The <strong>sp</strong> and <strong>sf</strong>
-packages have made it much easier to work with spatial data found in
-shapefiles. Many sources of shapefile data are available and can be used
-to make beautiful maps in R. Unfortunately, the data attached to these
-datasets, even when fairly complete, often lacks standardized
-identifiers such as the ISO 3166-1 alpha-2 encodings for countries.
-Maddeningly, even when these ISO codes are used, the dataframe column in
-which they are stored does not have a standardized name. It may be
-called <code>ISO</code> or <code>ISO2</code> or <code>alpha</code> or
-<code>COUNTRY</code> or any of a dozen other names we have seen.</p>
-<p>While many mapping packages provide ‘natural’ naming of countries,
-those who wish to develop operational, GIS-like systems need something
-that is both standardized and language-independent. The ISO 3166-1
-alpha-2 encodings have emerged as the <em>de facto</em> standard for
-this sort of work. In similar fashion, ISO 3166-2 alpha-2 encodings are
-available for the next administrative level down –
-state/province/oblast, <em>etc</em>. For time zones, the <em>de
+<p>The <strong>MazamaSpatialUtils</strong> package was created to
+regularize work with spatial data. Many sources of shapefile data are
+available and can be used to make beautiful maps in R. Unfortunately,
+the data attached to these datasets, even when fairly complete, often
+lacks standardized identifiers such as the ISO 3166-1 alpha-2 encodings
+for countries. Maddeningly, even when these ISO codes are used, the
+dataframe column in which they are stored does not have a standardized
+name. It may be called “ISO” or “ISO2” or “alpha” or “COUNTRY” or any of
+a dozen other names we have seen.</p>
+<p>While many mapping packages provide <em>“natural”</em> naming of
+countries, those who wish to develop operational, GIS-like systems need
+something that is both standardized and language-independent. The ISO
+3166-1 alpha-2 encodings have emerged as the <em>de facto</em> standard
+for this sort of work. In similar fashion, ISO 3166-2 alpha-2 encodings
+are available for the next administrative level down –
+state/province/oblast, <em>etc.</em> For time zones, the <em>de
 facto</em> standard is the set of Olson time zones used in all UNIX
 systems.</p>
 <p>The main goal of this package is to create an internally standardized
-set of spatial data that we can use in various projects. Along with
+set of spatial data that can be used in various projects. Along with
 three built-in datasets, this package provides <code>convert~()</code>
-functions for other spatial datasets that we currently use. These
-convert functions all follow the same recipe:</p>
+functions for other spatial datasets of interest. These convert
+functions all follow the same recipe:</p>
 <ul>
-<li>download spatial data in shapefile format into a standard
-directory</li>
-<li>convert shapefile data into a <em>sf</em> simple features data
+<li>download spatial data into a standard directory</li>
+<li>convert spatial data into a <strong>sf</strong> simple features data
 frame</li>
-<li>clean up any topological errors</li>
 <li>modify the dataframe so that it adheres to package internal
 standards</li>
 </ul>
@@ -157,7 +153,7 @@ alpha-2)</li>
 the following column:</li>
 </ol>
 <ul>
-<li>timezone – Olson time zone</li>
+<li>timezone – Olson timezone</li>
 </ul>
 <ol start="3" style="list-style-type: decimal">
 <li>Spatial datasets at scales smaller than the nation-state
@@ -186,14 +182,11 @@ ISO codes and other country-level data at specified locations</li>
 <code>getState~(longitude, latitude, ...)</code> – returns names,
 ISO codes and other state-level at specified locations</li>
 <li>
-<code>getUSCounty~(longitude, latitude, ...)</code> – returns names
-and other county-level data at specified locations</li>
-<li>
-<code>getTimezones(longitude, latitude, ...)</code> – returns Olson
+<code>getTimezone(longitude, latitude, ...)</code> – returns Olson
 time zones and other data at specified locations</li>
 <li>
-<code>getHUC~(longitude, latitude, ...)</code> – returns USGS
-Hydrologic Unit Codes and other data at specified locations</li>
+<code>getUSCounty(longitude, latitude, ...)</code> – returns names
+and other county-level data at specified locations</li>
 </ul>
 <p>A generic <code>getSpatialData(longitude, latitude, ...)</code>
 returns a dataframe whose rows are associated with specified locations.
@@ -207,9 +200,10 @@ location metadata with this information can be extremely helpful.</p>
 </h2>
 <p>When using <strong>MazamaSpatialUtils</strong>, always run
 <code>setSpatialDataDir(&lt;spatial_data_directory&gt;)</code> first.
-This sets the directory where spatial data will be installed and loaded
-from. This can be a directory on a user’s personal computer or perhaps a
-remotely mounted disk if huge spatial datasets are going to be used.</p>
+This sets the directory where spatial data will be installed and from
+which it will be loaded. This can be a directory on a user’s personal
+computer or perhaps a remotely mounted disk if huge spatial datasets are
+going to be used.</p>
 <p><strong>MazamaSpatialUtils</strong> has three built-in spatial
 datasets:</p>
 <ul>
@@ -228,31 +222,37 @@ including:</p>
 <li>
 <code>20 MB EEZCountries</code> – country boundaries including
 Exclusive Economic Zones</li>
-<li>X <code>5 MB EEZCountries</code> – US EPA region boundaries</li>
-<li>X <code>6 MB GACC</code> – Geographic Area Coordination Center
-(GACC) boundaries</li>
+<li>
+<code>5 MB EPARegions</code> – US EPA region boundaries</li>
+<li>
+<code>7 MB GACC</code> – Geographic Area Coordination Center (GACC)
+boundaries</li>
+<li>
+<code>5 MB NaturalEarthAdm0</code> – country level boundaries<br>
+</li>
 <li>
 <code>14 MB NaturalEarthAdm1</code> – state/province/oblast level
 boundaries<br>
 </li>
-<li>X <code>8 MB NWSFireZones</code> – “NWS weather forecast zones</li>
-<li>X <code>53 MB TerrestrialEcoregions</code> – terrestrial
-eco-regions</li>
+<li>
+<code>99 MB OSMTimezones</code> – OpenStreetMap time zones</li>
 <li>
 <code>3 MB TMWorldBorders</code> – high resolution country level
 boundaries</li>
-<li>X <code>7 MB USCensus116thCongress</code> – US congressional
+<li>
+<code>7 MB USCensus116thCongress</code> – 2019 US congressional
 districts</li>
-<li>X <code>34 MB USCensusCBSA</code> – US Core Based Statistical
+<li>
+<code>34 MB USCensusCBSA</code> – US Core Based Statistical
 Areas</li>
 <li>
 <code>12 MB USCensusCounties</code> – US county level
 boundaries</li>
-<li>X <code>3 MB USCensusStates</code> – US state level boundaries</li>
-<li>X <code>1 MB USIndianLands</code> – US tribal boundaries</li>
-<li>X <code>9 MB WeatherZones</code> – NWS public weather forecast
+<li>
+<code>3 MB USCensusStates</code> – US state level boundaries</li>
+<li>
+<code>23 MB WeatherZones</code> – US NWS public weather forecast
 zones</li>
-<li>X <code>16 MB WorldTimezones</code> – time zones</li>
 </ul>
 <p>Install these one at a time with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
@@ -264,18 +264,6 @@ match a particular pattern, <em>e.g</em>:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/loadSpatialData.html">loadSpatialData</a></span><span class="op">(</span><span class="st">'USCensusStates'</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/loadSpatialData.html">loadSpatialData</a></span><span class="op">(</span><span class="st">'USCensusCounties'</span><span class="op">)</span></span></code></pre></div>
-<p>Additional watershed data from the <a href="https://www.usgs.gov/national-hydrography" class="external-link">Watershed Boundary
-Dataset</a> are quite large and may be installed in the same way:</p>
-<ul>
-<li>X <code>40 MB WBDHU2.rda</code> – USGS level 2 watersheds</li>
-<li>X <code>127 MB WBDHU4.rda</code> – USGS level 4 watersheds</li>
-<li>X <code>157 MB WBDHU6.rda</code> – USGS level 6 watersheds</li>
-<li>X <code>337 MB WBDHU8.rda</code> – USGS level 8 watersheds</li>
-<li>X <code>??? MB WBDHU10.rda</code> – USGS level 10 watersheds
-(<em>not yet available</em>)</li>
-<li>X <code>??? Gb WBDHU12.rda</code> – USGS level 12 watersheds
-(<em>not yet available</em>)</li>
-</ul>
 </div>
 <div class="section level2">
 <h2 id="getcountry-and-getcountrycode">
@@ -322,9 +310,7 @@ points:</p>
 codes. They also take the same arguments. Adding the
 <code>countryCodes</code> argument is more important for
 <code><a href="../reference/getState.html">getState()</a></code> and <code><a href="../reference/getStateCode.html">getStateCode()</a></code> because the
-<code>NaturalEarthAdm1</code> dataset is fairly large. Lets use the same
-<code>latitude</code> and <code>longitude</code> variables as above and
-assign states to those locations.</p>
+<code>NaturalEarthAdm1</code> dataset is fairly large.</p>
 <p>These functions require installation of the large
 <code>NaturalEarthAdm1</code> dataset which is not distributed with the
 package.</p>

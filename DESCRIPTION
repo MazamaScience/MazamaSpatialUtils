@@ -1,6 +1,6 @@
 Type: Package
 Package: MazamaSpatialUtils
-Version: 0.8.1
+Version: 0.8.2
 Title: Spatial Data Download and Utility Functions
 Authors@R: c(
     person("Jonathan", "Callahan", email="jonathan.s.callahan@gmail.com", role=c("aut","cre")), 
@@ -57,4 +57,4 @@ Suggests:
 Encoding: UTF-8
 VignetteBuilder: knitr
 LazyData: true
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3

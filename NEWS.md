@@ -1,3 +1,7 @@
+# MazamaSpatialUtils 0.8.2
+
+* Documentation fixes associated with change from **sp** to **sf**.
+
 # MazamaSpatialUtils 0.8.1
 
 * Tweaks to satisfy CRAN submission checks.
