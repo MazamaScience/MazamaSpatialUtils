@@ -43,10 +43,23 @@ if ( FALSE ) {
 
   library(sf)
   load("Methow_HUC10_02.rda")
+
   plot(Methow$geometry)
   text(Methow$longitude, Methow$latitude, labels = Methow$HUCName)
-  # points(longitude, latitude, pch = 16, col = 'red')
-  # text(longitude, latitude, pos = 1, labels = "Winthrop")
+
+  # Mazama: 48.592551027443065, -120.4177752781122
+  # Winthrop: 48.48015332792662, -120.19323516010063
+  # Twisp: 48.36465095793504, -120.11910469051787
+  # Methow: 48.12855615502845, -120.01059487138704
+
+  lons <- c(-120.418, -120.193, -120.119, -120.011)
+  lats <- c(48.593, 48.480, 48.365, 48.129)
+  labels <- c("Mazama", "Winthrop", "Twisp", "Methow")
+
+  points(lons, lats, pch = 16, col = 'red')
+  text(lons, lats, labels = labels, pos = 4, col = 'red')
+
+
 
 }
 
