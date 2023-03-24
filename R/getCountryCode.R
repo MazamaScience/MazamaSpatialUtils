@@ -13,6 +13,9 @@
 #' @description Uses spatial comparison to determine which country polygons the
 #' locations fall into and returns the country code strings for those polygons.
 #'
+#' Specification of \code{countryCodes} limits spatial searching to the
+#' specified countries and greatly improves performance.
+#'
 #' If \code{allData = TRUE}, additional data is returned.
 #'
 #' @return Vector of ISO-3166-1 alpha-2 country codes.

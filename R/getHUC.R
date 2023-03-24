@@ -1,24 +1,32 @@
 #' @keywords locator
 #' @export
 #'
-#' @title Return HUC names at specified locations
+#' @title Return HUCs at specified locations
 #'
 #' @param longitude Vector of longitudes in decimal degrees East.
 #' @param latitude Vector of latitudes in decimal degrees North.
 #' @param dataset Name of spatial dataset to use.
-#' @param HUCs Vector of Hydrologic Unit Codes.
-#' @param allData Logical specifying whether a full dataframe should be returned
+#' @param HUCs Vector of Hydrologic Unit Codes used to limit searches.
+#' @param allData logical specifying whether a full dataframe should be returned
 #' @param useBuffering Logical flag specifying the use of location buffering to
-#' find the nearest polygon if not target polygon is found.
+#' find the nearest polygon if no target polygon is found.
 #'
 #' @description Uses spatial comparison to determine which HUC polygons the
-#' locations fall into and returns the HUC names for those polygons.
+#' locations fall into and returns the HUC identifier strings for those polygons.
+#'
+#' Specification of \code{HUCs} limits spatial searching to the
+#' specified HUCs and greatly improves performance. For instance, if searching
+#' for level 10 HUCs in the Upper Columbia basin, it would make sense to first
+#' search WBDHU4_01 to learn that the level 4 HUC is \code{1702}. Then you
+#' can greatly improve search times for higher level HUCs by specifying:
+#' \code{HUCs = c("1702")}.
 #'
 #' If \code{allData = TRUE}, additional data is returned.
-#' @return Vector of HUC names.
+#'
+#' @return Vector of HUC identifiers.
 #' @seealso getSpatialData
 
-getHUCName <- function(
+getHUC <- function(
   longitude = NULL,
   latitude = NULL,
   dataset = NULL,
@@ -72,7 +80,7 @@ getHUCName <- function(
 
   # ----- Return results ---------------------------------------------------------
 
-  if (allData) {
+  if ( allData ) {
 
     return(locationsDF)
 
@@ -81,8 +89,7 @@ getHUCName <- function(
     HUC <- locationsDF$HUC
     HUCName <- locationsDF$HUCName
 
-    return(HUCName)
-
+    return(HUC)
   }
 
 }

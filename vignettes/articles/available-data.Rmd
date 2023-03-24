@@ -52,6 +52,7 @@ pre-generated datasets, which can then be loaded with `loadSpatialData(<dataset>
  * [USCensusCBSA](#uscensuscbsa) -- US Core Based Statistical Areas
  * _USCensusCounties_ -- US county level boundaries
  * _USCensusStates_ -- US state level boundaries
+ * [WBDHUC](#wbdhuc) -- USGS Watershed Boundary Hydrologic Units
  * [WeatherZones](#Weatherzones) -- NWS public weather forecast zones
  
 The following list describes datasets that were available in earlier versions of the 
@@ -70,7 +71,6 @@ be updated and added on an as-needed basis.
  * [USCensusUrbanAreas](#uscensusurbanareas) -- US urban areas
  * [USFSRangerDistricts](usfsrangerdistricts) -- US Forest Service ranger districts
  * _USIndianLands_ -- US tribal boundaries
- * [WBDHU](#wbdhu) -- Watershed boundary units
  * [WorldEEZ](#worldeez) -- Country boundaries including Exclusive Economic Zones over water
  * _WorldTimezones_ -- Timezone
 
@@ -261,11 +261,12 @@ units that administer areas.
 
 Use `convertUSFSRangerDistricts()` to download and convert this data set.
 
-#### WBDHU
+#### WBDHUC
 
-This creates a simple features data frame that represents a specific level of 
-hydrologic unit  from national Watershed Boundary Dataset (WBD).  This is a 
-seamless, national dataset which represents the area of the landscape that 
+Each WBDHU# dataset contains a simple features data frame polygons delineating
+watersheds from the USGS Watershed Boundary Dataset (WBD) at different
+Hydrologic Unit levels.  This is a seamless, national dataset which each
+polygon represents the area of the landscape that 
 drains to a portion of the stream network.
 
 User input is required to specify the `level` of data to generate.   The `level` 

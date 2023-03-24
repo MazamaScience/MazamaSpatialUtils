@@ -14,6 +14,9 @@
 #' @description Uses spatial comparison to determine which country polygons the
 #' locations fall into and returns the country name for those polygons.
 #'
+#' Specification of \code{countryCodes} limits spatial searching to the
+#' specified countries and greatly improves performance.
+#'
 #' If \code{allData = TRUE}, additional data is returned.
 #'
 #' @return Vector of English language country names.

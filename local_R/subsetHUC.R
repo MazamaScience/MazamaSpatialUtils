@@ -3,7 +3,7 @@
 #'
 #' @title Subset pre-formatted HUC files into smaller groupings.
 #'
-#' @param SFDF a spatial polygons dataframe created using the convertUSGSHUC
+#' @param SFDF a simple features dataframe created using the convertUSGSHUC
 #' function
 #' @param parentHUCs Character vector specifying one or more containing HUCs.
 #' @param stateCodes Character vector specifying one or more containing states.

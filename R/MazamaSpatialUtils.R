@@ -278,9 +278,9 @@ stateToCode <- function(
 #' @param SFDF Object of class simple features data frame.
 #' @param keep Proportion of points to retain (0-1; default 0.05)
 #' @param ... Arguments passed to \code{rmapshaper::ms_simplify()}
-#' @description Simplify a spatial polygons dataframe. This is a convenience
+#' @description Simplify a simple features dataframe. This is a convenience
 #' wrapper for \code{\link[rmapshaper]{ms_simplify}}
-#' @return A simplified spatial polygons dataframe.
+#' @return A simplified simple features dataframe.
 #' @examples
 #' \dontrun{
 #' library(MazamaSpatialUtils)
@@ -318,9 +318,9 @@ simplify <- function(
 #' @param copy_fields Names of fields to copy. The first instance of each field will be
 #' copied to the aggregated feature
 #' @param ... arguments passed to \code{rmapshaper::ms_dissolve()}
-#' @description Aggregate shapes in a spatial polygons dataframe. This is a
+#' @description Aggregate shapes in a simple features dataframe. This is a
 #' convenience wrapper for \code{\link[rmapshaper]{ms_dissolve}}.
-#' @return A spatial polygons dataframe with aggregated shapes.
+#' @return A simple features dataframe with aggregated shapes.
 #' @examples
 #' \donttest{
 #' regions <- dissolve(SimpleCountries, field = "UN_region", sum_fields = "area")

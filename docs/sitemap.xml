@@ -100,6 +100,9 @@
     <loc>/reference/convertUSCensusStates.html</loc>
   </url>
   <url>
+    <loc>/reference/convertWBDHUC.html</loc>
+  </url>
+  <url>
     <loc>/reference/convertWeatherZones.html</loc>
   </url>
   <url>
@@ -122,6 +125,12 @@
   </url>
   <url>
     <loc>/reference/getCountryName.html</loc>
+  </url>
+  <url>
+    <loc>/reference/getHUC.html</loc>
+  </url>
+  <url>
+    <loc>/reference/getHUCName.html</loc>
   </url>
   <url>
     <loc>/reference/getPolygonID.html</loc>

@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.8.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.8.3</span>
       </span>
     </div>
 
@@ -64,6 +64,13 @@
     </div>
 
     <div class="section level2">
+<h2 class="page-header" data-toc-text="0.8.3" id="mazamaspatialutils-083">MazamaSpatialUtils 0.8.3<a class="anchor" aria-label="anchor" href="#mazamaspatialutils-083"></a></h2>
+<ul><li>Added handling of “Sparse geometry binary predicate list of length 1” error in <code><a href="../reference/getSpatialData.html">getSpatialData()</a></code> by simply choosing the first polygon returned.</li>
+<li>Added <code><a href="../reference/convertWBDHUC.html">convertWBDHUC()</a></code> and pre-generated spatial data files: <code>WBDHU2</code>, <code>WBDHU4</code>, <code>WBDHU6</code>.</li>
+<li>Added <code><a href="../reference/getHUC.html">getHUC()</a></code> and <code><a href="../reference/getHUCName.html">getHUCName()</a></code>.</li>
+</ul><p>Added the following datasets to the archive at: <a href="http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8/" class="external-link uri">http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8/</a> * <code>WBDHU2</code> (and simplified versions) * <code>WBDHU4</code> (and simplified versions) * <code>WBDHU6</code> (and simplified versions) * <code>WBDHU8</code> * <code>WBDHU10</code></p>
+</div>
+    <div class="section level2">
 <h2 class="page-header" data-toc-text="0.8.2" id="mazamaspatialutils-082">MazamaSpatialUtils 0.8.2<a class="anchor" aria-label="anchor" href="#mazamaspatialutils-082"></a></h2>
 <ul><li>Documentation fixes associated with change from <strong>sp</strong> to <strong>sf</strong>.</li>
 </ul></div>
@@ -108,7 +115,7 @@
 <ul><li>Reordered parameters in <code><a href="../reference/installSpatialData.html">installSpatialData()</a></code> so that <code>dataset</code> comes first.</li>
 <li>
 <code><a href="../reference/installSpatialData.html">installSpatialData()</a></code> attempts to install simplified versions of datasets: “_05”, “_02” and “_01”.</li>
-<li>Replacement of <code>lon</code> and <code>lat</code> in <code>getHUC()</code> and <code>getHUCName()</code>.</li>
+<li>Replacement of <code>lon</code> and <code>lat</code> in <code><a href="../reference/getHUC.html">getHUC()</a></code> and <code><a href="../reference/getHUCName.html">getHUCName()</a></code>.</li>
 <li>
 <code>subsetHUC()</code> now handles <code>NA</code> values in <code>SFDF$allStateCodes</code>.</li>
 <li>Congressional districts dataset name now includes session number:<br><code>USCensus116thCongress</code>.</li>
@@ -243,7 +250,7 @@
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.5.8" id="mazamaspatialutils-058">MazamaSpatialUtils 0.5.8<a class="anchor" aria-label="anchor" href="#mazamaspatialutils-058"></a></h2>
 <ul><li>New convert functions for weather zones</li>
-<li>Argument consistency with <code>getHUC()</code>
+<li>Argument consistency with <code><a href="../reference/getHUC.html">getHUC()</a></code>
 </li>
 <li>added <code><a href="../reference/dissolve.html">dissolve()</a></code> wrapper for <code><a href="https://rdrr.io/pkg/rmapshaper/man/ms_dissolve.html" class="external-link">rmapshaper::ms_dissolve()</a></code>
 </li>
@@ -338,7 +345,7 @@
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.4.4" id="mazamaspatialutils-044">MazamaSpatialUtils 0.4.4<a class="anchor" aria-label="anchor" href="#mazamaspatialutils-044"></a></h2>
 <ul><li>Fixed bug/typo in <code>findTimezones</code> demo.</li>
-<li>Fixed bugs/typos in <code>convertWBDHUC()</code> and <code>convertHMSSmoke()</code>.</li>
+<li>Fixed bugs/typos in <code><a href="../reference/convertWBDHUC.html">convertWBDHUC()</a></code> and <code>convertHMSSmoke()</code>.</li>
 </ul></div>
     <div class="section level2">
 <h2 class="page-header" data-toc-text="0.4.3" id="mazamaspatialutils-043">MazamaSpatialUtils 0.4.3<small>2016-02-17</small><a class="anchor" aria-label="anchor" href="#mazamaspatialutils-043"></a></h2>

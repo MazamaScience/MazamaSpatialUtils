@@ -19,10 +19,10 @@ copied to the aggregated feature}
 \item{...}{arguments passed to \code{rmapshaper::ms_dissolve()}}
 }
 \value{
-A spatial polygons dataframe with aggregated shapes.
+A simple features dataframe with aggregated shapes.
 }
 \description{
-Aggregate shapes in a spatial polygons dataframe. This is a
+Aggregate shapes in a simple features dataframe. This is a
 convenience wrapper for \code{\link[rmapshaper]{ms_dissolve}}.
 }
 \examples{

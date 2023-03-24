@@ -107,9 +107,17 @@ getSpatialData <- function(
                        ' to search through ', nrow(SFDF),
                        ' polygons ...'))
 
+        # NOTE:  Need to handle returns of type list with the following message:
+        #   "Sparse geometry binary predicate list of length 1, where the predicate was `is_within_distance'"
         polygonIndex <-
-          sf::st_is_within_distance(locationOfInterest, SFDF, radius) %>%
-          as.numeric()
+          sf::st_is_within_distance(locationOfInterest, SFDF, radius)
+
+        if ( "list" %in% class(polygonIndex) ) {
+          # Just choose the first one
+          polygonIndex <- unlist(polygonIndex)[1] %>% as.numeric()
+        } else {
+          polygonIndex <- as.numeric(polygonIndex)
+        }
 
         if ( is.na(polygonIndex) ) {
 

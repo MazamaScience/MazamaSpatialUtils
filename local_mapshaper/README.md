@@ -60,7 +60,7 @@ mapshaper provinces.shp -simplify dp 20% -o format=geojson out.json
 #### WBDHUC
 
 WBDHUC files are downloaded as .gdb from the 
-[USGS](https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Hydrography/WBD/National/GDB). 
+[USGS](https://prd-tnm.s3.amazonaws.com/index.html?prefix=StagedProducts/Hydrography/WBD/National/GDB).
 They must be converted into something that can be read by mapshaper. The most 
 efficient option is to convert them to Shapefiles. Note that converting to a 
 shapefile will automatically edit field names to be no longer than 10 characters, 

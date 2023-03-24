@@ -14,10 +14,10 @@ simplify(SFDF, keep = 0.05, ...)
 \item{...}{Arguments passed to \code{rmapshaper::ms_simplify()}}
 }
 \value{
-A simplified spatial polygons dataframe.
+A simplified simple features dataframe.
 }
 \description{
-Simplify a spatial polygons dataframe. This is a convenience
+Simplify a simple features dataframe. This is a convenience
 wrapper for \code{\link[rmapshaper]{ms_simplify}}
 }
 \examples{

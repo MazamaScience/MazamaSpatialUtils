@@ -40,7 +40,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.8.2</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.8.3</span>
       </span>
     </div>
 
@@ -178,6 +178,9 @@ Areas</li>
 <li>
 <em>USCensusStates</em> – US state level boundaries</li>
 <li>
+<a href="#wbdhuc">WBDHUC</a> – USGS Watershed Boundary Hydrologic
+Units</li>
+<li>
 <a href="#Weatherzones">WeatherZones</a> – NWS public weather
 forecast zones</li>
 </ul>
@@ -219,8 +222,6 @@ areas</li>
 Service ranger districts</li>
 <li>
 <em>USIndianLands</em> – US tribal boundaries</li>
-<li>
-<a href="#wbdhu">WBDHU</a> – Watershed boundary units</li>
 <li>
 <a href="#worldeez">WorldEEZ</a> – Country boundaries including
 Exclusive Economic Zones over water</li>
@@ -442,18 +443,19 @@ to identify the specific organizational units that administer areas.</p>
 this data set.</p>
 </div>
 <div class="section level4">
-<h4 id="wbdhu">WBDHU<a class="anchor" aria-label="anchor" href="#wbdhu"></a>
+<h4 id="wbdhuc">WBDHUC<a class="anchor" aria-label="anchor" href="#wbdhuc"></a>
 </h4>
-<p>This creates a simple features data frame that represents a specific
-level of hydrologic unit from national Watershed Boundary Dataset (WBD).
-This is a seamless, national dataset which represents the area of the
-landscape that drains to a portion of the stream network.</p>
+<p>Each WBDHU# dataset contains a simple features data frame polygons
+delineating watersheds from the USGS Watershed Boundary Dataset (WBD) at
+different Hydrologic Unit levels. This is a seamless, national dataset
+which each polygon represents the area of the landscape that drains to a
+portion of the stream network.</p>
 <p>User input is required to specify the <code>level</code> of data to
 generate. The <code>level</code> must be one of the following: [2, 4, 6,
 8, 10, 12 or 14]. To generate a Level 8 data set, run
 <code>convertWBDHUC(level = 8)</code> which will generate a file named
 <code>WBDHU8.rda</code>.</p>
-<p>Use <code>convertWBDHUC()</code> to download and convert this data
+<p>Use <code><a href="../reference/convertWBDHUC.html">convertWBDHUC()</a></code> to download and convert this data
 set.</p>
 </div>
 <div class="section level4">
