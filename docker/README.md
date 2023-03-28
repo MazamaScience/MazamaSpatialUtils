@@ -2,6 +2,11 @@
 
 A quick refresher on docker commands is available at the [docker cheatsheet](https://github.com/wsargent/docker-cheat-sheet).
 
+> _NOTE:_ To handle this error on newer Macs: "failed to solve with frontend dockerfile.v0", 
+> do this at the command line first:
+> `export DOCKER_BUILDKIT=0`
+> `export COMPOSE_DOCKER_CLI_BUILD=0`
+
 A docker image with all required prerequisites can be built with the `Makefile` in this directory:
 
 ```

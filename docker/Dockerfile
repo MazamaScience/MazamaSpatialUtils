@@ -1,47 +1,43 @@
 # https://hub.docker.com/r/rocker/geospatial/tags
-FROM rocker/geospatial:4.1.1
+FROM rocker/geospatial:4.2
 MAINTAINER Jonathan Callahan <jonathan@mazamascience.com>
 
 
 # For MazamaSpatialUtils
 RUN install2.r --error -r "https://cran.rstudio.com" \
-    rmapshaper \
-    MazamaSpatialUtils
+    rmapshaper
 
-# Add potentially useful spatial data for MazamaSpatialUtils 0.7.x
+RUN installGithub.r \
+    MazamaSpatialUtils@0.8.3
+
+# Add potentially useful spatial data for MazamaSpatialUtils 0.8.x
 RUN mkdir -p /home/mazama/data/Spatial \
-  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/CA_AirBasins.rda \
-  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/CA_AirBasins_02.rda \
-  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/CA_AirBasins_05.rda \
-  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/EEZCountries.rda \
-  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/EEZCountries_02.rda \
-  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/EEZCountries_05.rda \
-  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/EPARegions.rda \
-  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/EPARegions_02.rda \
-  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/EPARegions_05.rda \
-  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/NWSFireZones.rda \
-  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/NWSFireZones_02.rda \
-  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/NWSFireZones_05.rda \
-  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/NaturalEarthAdm1.rda \
-  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/NaturalEarthAdm1_02.rda \
-  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/NaturalEarthAdm1_05.rda \
-  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/OSMTimezones.rda \
-  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/OSMTimezones_02.rda \
-  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/OSMTimezones_05.rda \
-  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/TMWorldBorders.rda \
-  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/TMWorldBorders_02.rda \
-  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/TMWorldBorders_05.rda \
-  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/USCensusCBSA.rda \
-  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/USCensusCBSA_02.rda \
-  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/USCensusCBSA_05.rda \
-  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/USCensusCounties.rda \
-  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/USCensusCounties_02.rda \
-  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/USCensusCounties_05.rda \
-  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/USCensusStates.rda \
-  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/USCensusStates_02.rda \
-  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/USCensusStates_05.rda \
-  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/WorldTimezones.rda \
-  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/WorldTimezones_02.rda \
-  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.7/WorldTimezones_05.rda
+  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8/EEZCountries.rda \
+  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8/EEZCountries_02.rda \
+  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8/EEZCountries_05.rda \
+  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8/EPARegions.rda \
+  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8/EPARegions_02.rda \
+  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8/EPARegions_05.rda \
+  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8/NaturalEarthAdm1.rda \
+  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8/NaturalEarthAdm1_02.rda \
+  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8/NaturalEarthAdm1_05.rda \
+  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8/OSMTimezones.rda \
+  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8/OSMTimezones_02.rda \
+  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8/OSMTimezones_05.rda \
+  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8/TMWorldBorders.rda \
+  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8/TMWorldBorders_02.rda \
+  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8/TMWorldBorders_05.rda \
+  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8/USCensusCBSA.rda \
+  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8/USCensusCBSA_02.rda \
+  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8/USCensusCBSA_05.rda \
+  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8/USCensusCounties.rda \
+  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8/USCensusCounties_02.rda \
+  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8/USCensusCounties_05.rda \
+  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8/USCensusStates.rda \
+  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8/USCensusStates_02.rda \
+  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8/USCensusStates_05.rda \
+  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8/WeatherZones.rda \
+  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8/WeatherZones_02.rda \
+  && wget --directory-prefix /home/mazama/data/Spatial --no-host-directories --cut-dirs=2 http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8/WeatherZones_05.rda
 
 

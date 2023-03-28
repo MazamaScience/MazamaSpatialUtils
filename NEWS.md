@@ -3,7 +3,7 @@
 * Added handling of "Sparse geometry binary predicate list of length 1" error in 
 `getSpatialData()` by simply choosing the first polygon returned.
 * Added `convertWBDHUC()` and pre-generated spatial data files: `WBDHU2`, 
-`WBDHU4`, `WBDHU6`.
+`WBDHU4`, `WBDHU6`, `WBDHU8` and `WBDHU10`.
 * Added `getHUC()` and `getHUCName()`.
 
 Added the following datasets to the archive at: 
