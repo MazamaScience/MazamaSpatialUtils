@@ -2,10 +2,12 @@
 
 A quick refresher on docker commands is available at the [docker cheatsheet](https://github.com/wsargent/docker-cheat-sheet).
 
-> _NOTE:_ To handle this error on newer Macs: "failed to solve with frontend dockerfile.v0", 
-> do this at the command line first:
+> _NOTE:_ Issue on new Macs with M1 chips: "failed to solve with frontend dockerfile.v0", 
+> Partial solution involves issuing the following commands at the command line:
 > `export DOCKER_BUILDKIT=0`
 > `export COMPOSE_DOCKER_CLI_BUILD=0`
+>
+> For now, don't build on machines with M1 chips.
 
 A docker image with all required prerequisites can be built with the `Makefile` in this directory:
 
@@ -17,8 +19,8 @@ You should then be able to see something like the following:
 
 ```
 $ docker images | grep spatialutils
-mazamascience/spatialutils          0.6.6                   0378d2f89da7        4 minutes ago       2.54GB
-mazamascience/spatialutils          latest                  0378d2f89da7        4 minutes ago       2.54GB
+mazamascience/spatialutils        0.8.3     4742c9a4aaff   2 minutes ago   4.73GB
+mazamascience/spatialutils        latest    4742c9a4aaff   2 minutes ago   4.73GB
 ...
 ```
 
@@ -72,7 +74,7 @@ Loading required package: sp
 ```
 docker login
 ...
-docker push mazamascience/spatialutils:0.6.6
+docker push mazamascience/spatialutils:0.8.3
 ```
 
 
@@ -81,7 +83,7 @@ docker push mazamascience/spatialutils:0.6.6
 A recent image can also be obtained from DockerHub with:
 
 ```
-docker pull mazamascience/spatialutils:0.6.6
+docker pull mazamascience/spatialutils:0.8.3
 ```
 
 
