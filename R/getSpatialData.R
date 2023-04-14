@@ -1,4 +1,5 @@
 #' @export
+#' @importFrom sf st_as_sf st_set_crs st_intersects st_is_within_distance
 #'
 #' @title Return spatial data associated with a set of locations
 #'

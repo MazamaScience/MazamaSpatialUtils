@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.8.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.8.4</span>
       </span>
     </div>
 
@@ -64,9 +64,18 @@
     </div>
 
     <div class="section level2">
+<h2 class="page-header" data-toc-text="0.8.4" id="mazamaspatialutils-084">MazamaSpatialUtils 0.8.4<a class="anchor" aria-label="anchor" href="#mazamaspatialutils-084"></a></h2>
+<ul><li>Added dependency on <strong>sf</strong>.</li>
+</ul><p>This addresses the following error seen when using internal data in a <strong>dplyr</strong> context:</p>
+<pre><code>&gt; IS &lt;- SimpleCountriesEEZ %&gt;% dplyr::filter(countryCode == "IS")
+Error in `vec_size()`:
+! `x` must be a vector, not a &lt;sfc_MULTIPOLYGON/sfc&gt; object.</code></pre>
+<p>This error is explained here: <a href="https://www.mm218.dev/posts/2022-12-01-sf-in-packages/" class="external-link uri">https://www.mm218.dev/posts/2022-12-01-sf-in-packages/</a> and the simplest solution for this spatially-oriented package is to simply move <strong>sf</strong> from an <em>import</em> to a <em>dependency</em> (by moving it to the “Depends:” section of <code>DESCRIPTION</code>).</p>
+</div>
+    <div class="section level2">
 <h2 class="page-header" data-toc-text="0.8.3" id="mazamaspatialutils-083">MazamaSpatialUtils 0.8.3<a class="anchor" aria-label="anchor" href="#mazamaspatialutils-083"></a></h2>
 <ul><li>Added handling of “Sparse geometry binary predicate list of length 1” error in <code><a href="../reference/getSpatialData.html">getSpatialData()</a></code> by simply choosing the first polygon returned.</li>
-<li>Added <code><a href="../reference/convertWBDHUC.html">convertWBDHUC()</a></code> and pre-generated spatial data files: <code>WBDHU2</code>, <code>WBDHU4</code>, <code>WBDHU6</code>.</li>
+<li>Added <code><a href="../reference/convertWBDHUC.html">convertWBDHUC()</a></code> and pre-generated spatial data files: <code>WBDHU2</code>, <code>WBDHU4</code>, <code>WBDHU6</code>, <code>WBDHU8</code> and <code>WBDHU10</code>.</li>
 <li>Added <code><a href="../reference/getHUC.html">getHUC()</a></code> and <code><a href="../reference/getHUCName.html">getHUCName()</a></code>.</li>
 </ul><p>Added the following datasets to the archive at: <a href="http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8/" class="external-link uri">http://data.mazamascience.com/MazamaSpatialUtils/Spatial_0.8/</a> * <code>WBDHU2</code> (and simplified versions) * <code>WBDHU4</code> (and simplified versions) * <code>WBDHU6</code> (and simplified versions) * <code>WBDHU8</code> * <code>WBDHU10</code></p>
 </div>
@@ -185,7 +194,7 @@
 <h2 class="page-header" data-toc-text="0.6.9" id="mazamaspatialutils-069">MazamaSpatialUtils 0.6.9<a class="anchor" aria-label="anchor" href="#mazamaspatialutils-069"></a></h2>
 <ul><li>Changed <code>US_stateCodes</code> dataset to include only <code>stateName</code>, <code>stateCode</code> and <code>stateFIPS</code> columns. It is now more complete with codes for all states and territories.</li>
 <li>
-<code><a href="../reference/convertLayer.html">convertLayer()</a></code> now properly passes encoding to <code><a href="http://rgdal.r-forge.r-project.org/reference/readOGR.html" class="external-link">rgdal::readOGR()</a></code>.</li>
+<code><a href="../reference/convertLayer.html">convertLayer()</a></code> now properly passes encoding to <code><a href="http://rgdal.r-forge.r-project.org/reference/rgdal-deprecated.html" class="external-link">rgdal::readOGR()</a></code>.</li>
 <li>Updated <code><a href="../reference/convertUSCensusCounties.html">convertUSCensusCounties()</a></code> to use 2019 data.</li>
 </ul></div>
     <div class="section level2">
@@ -409,7 +418,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.7.</p>
 </div>
 
       </footer></div>
