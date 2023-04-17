@@ -3,28 +3,20 @@
 #' @importFrom cleangeo clgeo_IsValid
 #' @export
 #'
-#' @title Convert Global Administrative Areas (GADM) shape file
+#' @title Convert Global Administrative Areas (GADM) geopackage layer
 #'
 #' @param countryCode ISO-3166-1 alpha-2 country code.
 #' @param admLevel Administrative level to be downloaded.
-#' @param nameOnly Logical specifying whether to only return the name without
-#' creating the file.
 #' @param baseUrl Base URL for data queries.
 #'
 #' @description Create a simple features data frame for Global Administrative Areas.
 #'
-#' @details A pre-generated Global Administrative Areas simple features data frame
-#' is downloaded and amended with additional columns of data. The resulting file
+#' @details A layer from a Global Administrative Areas Geopackage is converted to a
+#' simple features data frame with additional columns of data. The resulting file
 #' will be created in the spatial data directory which is set with
 #' \code{setSpatialDataDir()}.
 #'
-#' Version 4.1 was released on 16 July 2022
-#'
-#' The \code{@data} slot of each simple features data frame is both simplified and
-#' modified to adhere to the \pkg{MazamaSpatialUtils} internal standards.
-#'
-#' @note Unlike other \code{convert~()} functions, no checks, cleanup or
-#' simplification is performed.
+#' Version 4.1 of GADM was released on 16 July 2022
 #'
 #' @note From the source documentation:
 #'
@@ -52,10 +44,9 @@
 #' @references \url{https://gadm.org/metadata.html}
 
 convertGADM <- function(
-  countryCode = NULL,
-  admLevel = 0,
-  nameOnly = FALSE,
-  baseUrl = "https://biogeo.ucdavis.edu/data/gadm3.6/Rsp"
+    countryCode = NULL,
+    admLevel = 0,
+    baseUrl = "https://geodata.ucdavis.edu/gadm/gadm4.1/gpkg"
 ) {
 
   # ----- Setup ----------------------------------------------------------------
@@ -65,9 +56,6 @@ convertGADM <- function(
 
   # Specify the name of the dataset and file being created
   datasetName <- paste0('GADM_', countryCode, '_', admLevel)
-
-  if (nameOnly)
-    return(datasetName)
 
   # Convert 2-character codes into ISO3
   ISO3 <- iso2ToIso3(countryCode)
@@ -84,24 +72,56 @@ convertGADM <- function(
 
   # ----- Get the data ---------------------------------------------------------
 
-  # Example:
-  #   https://biogeo.ucdavis.edu/data/gadm3.6/Rsp/gadm36_AGO_0_sp.rds
+  # NOTE:  We will use sf::st_read() below to read in a .gpkg file directly from
+  # NOTE:  a URL rather than downloading it first.
 
-  # Build appropriate request URL
-  url <- paste0(
-    baseUrl, '/gadm36_',
-    ISO3, '_', admLevel, '_sp.rds'
-  )
-
-  # Get the data
-  tempfile <- base::tempfile("spatial_data", fileext = ".rds")
-  utils::download.file(url, tempfile)
+  # NOTE:  The Contents of convertLayer() are copied in verbatim below because
+  # NOTE:  that function checks for the presence of downloaded data which we
+  # NOTE:  don't have in this case.
 
   # ----- Convert to SFDF ------------------------------------------------------
 
-  # Convert shapefile into simple features data frame
-  SFDF <- readRDS(tempfile)
-  base::file.remove(tempfile)
+  # Example:
+  #   https://geodata.ucdavis.edu/gadm/gadm4.1/gpkg/gadm41_GIN.gpkg
+
+  # > sf::st_layers(url)
+  # Driver: GPKG
+  # Available layers:
+  #   layer_name geometry_type features fields crs_name
+  # 1  ADM_ADM_0 Multi Polygon        1      2   WGS 84
+  # 2  ADM_ADM_1 Multi Polygon        8     11   WGS 84
+  # 3  ADM_ADM_2 Multi Polygon       34     13   WGS 84
+  # 4  ADM_ADM_3 Multi Polygon      336     16   WGS 84
+
+
+  # Build appropriate request URL
+  dsn <- paste0(baseUrl, '/gadm41_', ISO3, '.gpkg')
+  layer <- paste0("ADM_ADM_", admLevel)
+
+  SFDF <-
+
+    # Read in data on its native projection
+    sf::st_read(
+      dsn,
+      layer,
+      ###...,
+      query = NA,
+      options = NULL,
+      quiet = FALSE,
+      geometry_column = 1L,
+      type = 0,
+      promote_to_multi = TRUE,
+      stringsAsFactors = FALSE,                     # ensure FALSE
+      int64_as_string = FALSE,
+      check_ring_dir = TRUE,                        # change from default
+      fid_column_name = character(0),
+      drivers = character(0),
+      wkt_filter = character(0),
+      optional = FALSE
+    ) %>%
+
+    # Reproject to North America projection: https://epsg.io/4269
+    sf::st_transform(sf::st_crs(4269))
 
   # ----- Select useful columns and rename -------------------------------------
 
@@ -112,47 +132,57 @@ convertGADM <- function(
 
     # * Country level ----------------------------------------------------------
 
-    # > dplyr::glimpse(SFDF, width = 80)
+    # > dplyr::glimpse(SFDF, width = 75)
     # Rows: 1
-    # Columns: 2
-    # $ GID_0  <chr> "AGO"
-    # $ NAME_0 <chr> "Angola"
+    # Columns: 3
+    # $ GID_0   <chr> "GIN"
+    # $ COUNTRY <chr> "Guinea"
+    # $ geom    <MULTIPOLYGON [°]> MULTIPOLYGON (((-8.707271 7...
 
-    keepNames <- c("GID_0", "NAME_0")
 
-    data <- SFDF[, keepNames]
+    # Create the new dataframe in a specific column order
+    SFDF <-
+      SFDF %>%
+      dplyr::rename(
+        geometry = "geom"
+      ) %>%
+      dplyr::mutate(
+        countryCode = iso3ToIso2(.data$GID_0),
+        countryName = .data$COUNTRY
+      ) %>%
+      dplyr::mutate(
+        HASC = .data$countryCode
+      ) %>%
+      dplyr::select(
+        countryCode,
+        countryName,
+        HASC
+      )
 
-    names(data) <- c("ISO3", "countryName")
-    data$countryCode <- iso3ToIso2(data$ISO3)
-    data$HASC <- data$countryCode
-    data <- data[, c("countryCode", "countryName", "HASC")]
-
-    SFDF <- data
-
-    uniqueIdentifier <- "ISO3"
-
-  } else if ( admLevel == 1) {
+  } else if ( admLevel == 1 ) {
 
     # * State level ------------------------------------------------------------
 
-    # > dplyr::glimpse(SFDF, width = 80)
-    # Rows: 18
-    # Columns: 10
-    # $ GID_0     <chr> "AGO", "AGO", "AGO", "AGO", "AGO", "AGO", "AGO", "AGO", "AG…
-    # $ NAME_0    <chr> "Angola", "Angola", "Angola", "Angola", "Angola", "Angola",…
-    # $ GID_1     <chr> "AGO.1_1", "AGO.2_1", "AGO.3_1", "AGO.4_1", "AGO.5_1", "AGO…
-    # $ NAME_1    <chr> "Bengo", "Benguela", "Bié", "Cabinda", "Cuando Cubango", "C…
-    # $ VARNAME_1 <chr> NA, "Benguella", NA, NA, NA, "Cuanza-Nord|Kwanza Norte", "C…
-    # $ NL_NAME_1 <chr> NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA, NA,…
-    # $ TYPE_1    <chr> "Província", "Província", "Província", "Província", "Provín…
-    # $ ENGTYPE_1 <chr> "Province", "Province", "Province", "Province", "Province",…
-    # $ CC_1      <chr> "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "1…
-    # $ HASC_1    <chr> "AO.BO", "AO.BG", "AO.BI", "AO.CB", "AO.CC", "AO.CN", "AO.C…
+    # > dplyr::glimpse(SFDF, width = 75)
+    # Rows: 8
+    # Columns: 12
+    # $ GID_1     <chr> "GIN.1_1", "GIN.2_1", "GIN.3_1", "GIN.4_1", "GIN.5_1", …
+    # $ GID_0     <chr> "GIN", "GIN", "GIN", "GIN", "GIN", "GIN", "GIN", "GIN"
+    # $ COUNTRY   <chr> "Guinea", "Guinea", "Guinea", "Guinea", "Guinea", "Guin…
+    # $ NAME_1    <chr> "Boké", "Conakry", "Faranah", "Kankan", "Kindia", "Labé…
+    # $ VARNAME_1 <chr> "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA"
+    # $ NL_NAME_1 <chr> "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA"
+    # $ TYPE_1    <chr> "Region", "Region", "Region", "Region", "Region", "Regi…
+    # $ ENGTYPE_1 <chr> "Region", "Region", "Region", "Region", "Region", "Regi…
+    # $ CC_1      <chr> "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA"
+    # $ HASC_1    <chr> "NA", "NA", "NA", "NA", "NA", "NA", "NA", "NA"
+    # $ ISO_1     <chr> "NA", "GN-C", "NA", "GN-K", "NA", "NA", "NA", "NA"
+    # $ geom      <MULTIPOLYGON [°]> MULTIPOLYGON (((-14.62264 1..., MULTIPOLYGON (((-13.758…
 
     # Data Dictionary:
+    #   GID_1 --------> uniqueID
     #   GID_0 --------> ISO3
-    #   NAME_0 -------> countryName: English language name
-    #   GID_1 --------> (drop)
+    #   COUNTRY ------> countryName: English language name
     #   NAME_1 -------> stateName: English language name
     #   VARNAME_1 ----> (drop)
     #   NL_NAME_1 ----> (drop)
@@ -160,6 +190,7 @@ convertGADM <- function(
     #   ENGTYPE_1 ----> (drop)
     #   CC_1 ---------> (drop)
     #   HASC_1 -------> HASC_1
+    #   ISO_1 -------> HASC_1
 
     keepNames <- c("GID_0", "NAME_0", "NAME_1", "HASC_1")
 
@@ -247,76 +278,20 @@ convertGADM <- function(
 
   }
 
-  # ----- Clean SFDF -----------------------------------------------------------
+  # ----- Simplify and save ----------------------------------------------------
 
-  # # Group polygons with the same identifier (ISO3)
-  # SFDF <- organizePolygons(
-  #   SFDF,
-  #   uniqueID = 'ISO3',
-  #   sumColumns = NULL
-  # )
-  #
-  # # Clean topology errors
-  # if ( !cleangeo::clgeo_IsValid(SFDF) ) {
-  #   SFDF <- cleangeo::clgeo_Clean(SFDF, verbose = TRUE)
-  # }
+  uniqueIdentifier <- "HASC"
 
-  # ----- Name and save the data -----------------------------------------------
-
-  # Assign a name and save the data
-  message("Saving full resolution version...\n")
-  assign(datasetName, SFDF)
-  save(list = c(datasetName), file = paste0(dataDir, '/', datasetName, '.rda'))
-  rm(list = datasetName)
-
-  # ----- Simplify -------------------------------------------------------------
-
-  # if ( simplify ) {
-  #   # Create new, simplified datsets: one with 5%, 2%, and one with 1% of the vertices of the original
-  #   # NOTE:  This may take several minutes.
-  #   message("Simplifying to 5%...\n")
-  #   SFDF_05 <- rmapshaper::ms_simplify(SFDF, 0.05)
-  #   SFDF_05@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
-  #   # Clean topology errors
-  #   if ( !cleangeo::clgeo_IsValid(SFDF_05) ) {
-  #     SFDF_05 <- cleangeo::clgeo_Clean(SFDF_05)
-  #   }
-  #   datasetName_05 <- paste0(datasetName, "_05")
-  #   message("Saving 5% version...\n")
-  #   assign(datasetName_05, SFDF_05)
-  #   save(list = datasetName_05, file = paste0(dataDir,"/", datasetName_05, '.rda'))
-  #   rm(list = c("SFDF_05",datasetName_05))
-  #
-  #   message("Simplifying to 2%...\n")
-  #   SFDF_02 <- rmapshaper::ms_simplify(SFDF, 0.02)
-  #   SFDF_02@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
-  #   # Clean topology errors
-  #   if ( !cleangeo::clgeo_IsValid(SFDF_02) ) {
-  #     SFDF_02 <- cleangeo::clgeo_Clean(SFDF_02)
-  #   }
-  #   datasetName_02 <- paste0(datasetName, "_02")
-  #   message("Saving 2% version...\n")
-  #   assign(datasetName_02, SFDF_02)
-  #   save(list = datasetName_02, file = paste0(dataDir,"/", datasetName_02, '.rda'))
-  #   rm(list = c("SFDF_02",datasetName_02))
-  #
-  #   message("Simplifying to 1%...\n")
-  #   SFDF_01 <- rmapshaper::ms_simplify(SFDF, 0.01)
-  #   SFDF_01@data$rmapshaperid <- NULL # Remove automatically generated "rmapshaperid" column
-  #   # Clean topology errors
-  #   if ( !cleangeo::clgeo_IsValid(SFDF_01) ) {
-  #     SFDF_01 <- cleangeo::clgeo_Clean(SFDF_01)
-  #   }
-  #   datasetName_01 <- paste0(datasetName, "_01")
-  #   message("Saving 1% version...\n")
-  #   assign(datasetName_01, SFDF_01)
-  #   save(list = datasetName_01, file = paste0(dataDir,"/", datasetName_01, '.rda'))
-  #   rm(list = c("SFDF_01",datasetName_01))
-  # }
+  simplifyAndSave(
+    SFDF = SFDF,
+    datasetName = datasetName,
+    uniqueIdentifier = uniqueIdentifier,
+    dataDir = dataDir
+  )
 
   # ----- Clean up and return --------------------------------------------------
 
-  # Clean up
+  # # Clean up # NOTE:  No files were downloaded
   # unlink(filePath, force = TRUE)
   # unlink(dsnPath, recursive = TRUE, force = TRUE)
 

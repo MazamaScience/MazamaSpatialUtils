@@ -1,3 +1,7 @@
+# MazamaSpatialUtils 0.8.5rm 
+
+* Tweaks to satisfy CRAN submission checks.
+
 # MazamaSpatialUtils 0.8.4
 
 * Added dependency on **sf**.
