@@ -1,5 +1,6 @@
 #' @docType package
 #' @name MazamaSpatialUtils
+#' @aliases MazamaSpatialUtils-package
 #' @title Mazama Science spatial data and utility functions.
 #' @description This package contains code to convert various spatial datasets
 #' into .rda files with uniformly named identifiers including:

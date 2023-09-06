@@ -1,4 +1,10 @@
-# MazamaSpatialUtils 0.8.5rm 
+# MazamaSpatialUtils 0.8.6
+
+* Addressed CRAN package documentation issue.
+* Package-internal datasets can be loaded by `getCountryCode()`
+and `getTimezone()` without invoking `library MazamaSpatialUtils`.
+
+# MazamaSpatialUtils 0.8.5
 
 * Tweaks to satisfy CRAN submission checks.
 

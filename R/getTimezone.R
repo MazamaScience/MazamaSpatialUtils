@@ -49,20 +49,30 @@ getTimezone <- function(
   MazamaCoreUtils::stopIfNull(allData)
   MazamaCoreUtils::stopIfNull(useBuffering)
 
-  # Check existence of dataset
-  if ( !exists(datasetName) ) {
-    stop("Missing dataset. Please loadSpatialData(\"", datasetName, "\")",
-         call. = FALSE)
-  }
-
   MazamaCoreUtils::validateLonsLats(longitude, latitude, na.rm = TRUE)
+
+  # ----- Load datset ----------------------------------------------------------
+
+  if ( datasetName == "SimpleTimezones" ) {
+
+    SFDF <- MazamaSpatialUtils::SimpleTimezones
+
+  } else {
+
+    # Check existence of dataset
+    if ( !exists(datasetName) ) {
+      stop("Missing dataset. Please loadSpatialData(\"", datasetName, "\")",
+           call. = FALSE)
+    }
+
+    SFDF <- get(datasetName)
+
+  }
 
   # ----- Get the data ---------------------------------------------------------
 
-  SFDF <- get(datasetName)
-
   # Subset by country before searching
-  if (!is.null(countryCodes))
+  if ( !is.null(countryCodes) )
     SFDF <- SFDF[SFDF$countryCode %in% countryCodes,]
 
   SFDF <- getSpatialData(longitude, latitude, SFDF, useBuffering = useBuffering)

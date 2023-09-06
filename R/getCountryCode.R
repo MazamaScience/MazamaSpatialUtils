@@ -1,5 +1,6 @@
 #' @keywords locator
 #' @export
+#'
 #' @title Return country ISO codes at specified locations
 #'
 #' @param longitude Vector of longitudes in decimal degrees East.
@@ -49,20 +50,34 @@ getCountryCode <- function(
   MazamaCoreUtils::stopIfNull(allData)
   MazamaCoreUtils::stopIfNull(useBuffering)
 
-  # Check existence of dataset
-  if ( !exists(datasetName) ) {
-    stop("Missing dataset. Please loadSpatialData(\"", datasetName, "\")",
-         call. = FALSE)
-  }
-
   MazamaCoreUtils::validateLonsLats(longitude, latitude, na.rm = TRUE)
+
+  # ----- Load datset ----------------------------------------------------------
+
+  if ( datasetName == "SimpleCountriesEEZ" ) {
+
+    SFDF <- MazamaSpatialUtils::SimpleCountriesEEZ
+
+  } else if ( datasetName == "SimpleCountries" ) {
+
+    SFDF <- MazamaSpatialUtils::SimpleCountries
+
+  } else {
+
+    # Check existence of dataset
+    if ( !exists(datasetName) ) {
+      stop("Missing dataset. Please loadSpatialData(\"", datasetName, "\")",
+           call. = FALSE)
+    }
+
+    SFDF <- get(datasetName)
+
+  }
 
   # ----- Get the data ---------------------------------------------------------
 
-  SFDF <- get(datasetName)
-
   # Subset by country before searching
-  if (!is.null(countryCodes))
+  if ( !is.null(countryCodes) )
     SFDF <- SFDF[SFDF$countryCode %in% countryCodes,]
 
   locationsDF <- getSpatialData(longitude, latitude, SFDF, useBuffering = useBuffering)

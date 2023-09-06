@@ -33,12 +33,12 @@
 #' @seealso getSpatialData
 #'
 getCountry <- function(
-  longitude = NULL,
-  latitude = NULL,
-  datasetName = "SimpleCountriesEEZ",
-  countryCodes = NULL,
-  allData = FALSE,
-  useBuffering = FALSE
+    longitude = NULL,
+    latitude = NULL,
+    datasetName = "SimpleCountriesEEZ",
+    countryCodes = NULL,
+    allData = FALSE,
+    useBuffering = FALSE
 ) {
 
   # ----- Validate parameters --------------------------------------------------
@@ -49,17 +49,31 @@ getCountry <- function(
   MazamaCoreUtils::stopIfNull(allData)
   MazamaCoreUtils::stopIfNull(useBuffering)
 
-  # Check existence of dataset
-  if ( !exists(datasetName) ) {
-    stop("Missing dataset. Please loadSpatialData(\"", datasetName, "\")",
-         call. = FALSE)
-  }
-
   MazamaCoreUtils::validateLonsLats(longitude, latitude, na.rm = TRUE)
 
-  # ----- Get the data ---------------------------------------------------------
+  # ----- Load datset ----------------------------------------------------------
 
-  SFDF <- get(datasetName)
+  if ( datasetName == "SimpleCountriesEEZ" ) {
+
+    SFDF <- MazamaSpatialUtils::SimpleCountriesEEZ
+
+  } else if ( datasetName == "SimpleCountries" ) {
+
+    SFDF <- MazamaSpatialUtils::SimpleCountries
+
+  } else {
+
+    # Check existence of dataset
+    if ( !exists(datasetName) ) {
+      stop("Missing dataset. Please loadSpatialData(\"", datasetName, "\")",
+           call. = FALSE)
+    }
+
+    SFDF <- get(datasetName)
+
+  }
+
+  # ----- Get the data ---------------------------------------------------------
 
   # Subset by country before searching
   if ( !is.null(countryCodes) )
