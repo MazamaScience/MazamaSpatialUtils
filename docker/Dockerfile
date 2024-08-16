@@ -8,7 +8,8 @@ RUN install2.r --error -r "https://cran.rstudio.com" \
     rmapshaper
 
 RUN installGithub.r \
-    MazamaScience/MazamaSpatialUtils@0.8.3
+    MazamaScience/MazamaCoreUtils@0.4.16 \
+    MazamaScience/MazamaSpatialUtils@0.8.6
 
 # Add potentially useful spatial data for MazamaSpatialUtils 0.8.x
 RUN mkdir -p /home/mazama/data/Spatial \

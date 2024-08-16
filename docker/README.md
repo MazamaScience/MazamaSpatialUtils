@@ -19,7 +19,7 @@ You should then be able to see something like the following:
 
 ```
 $ docker images | grep spatialutils
-mazamascience/spatialutils        0.8.3     4742c9a4aaff   2 minutes ago   4.73GB
+mazamascience/spatialutils        0.8.6     4742c9a4aaff   2 minutes ago   4.73GB
 mazamascience/spatialutils        latest    4742c9a4aaff   2 minutes ago   4.73GB
 ...
 ```
@@ -74,7 +74,7 @@ Loading required package: sp
 ```
 docker login
 ...
-docker push mazamascience/spatialutils:0.8.3
+docker push mazamascience/spatialutils:0.8.6
 ```
 
 
@@ -83,7 +83,7 @@ docker push mazamascience/spatialutils:0.8.3
 A recent image can also be obtained from DockerHub with:
 
 ```
-docker pull mazamascience/spatialutils:0.8.3
+docker pull mazamascience/spatialutils:0.8.6
 ```
 
 
