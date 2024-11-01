@@ -350,7 +350,7 @@ generating warnings
 # MazamaSpatialUtils 0.4.3
 
 * New `convertHMSSmoke()` function for smoke data from the 
-[NOAA Hazard Mapping Service](https://www.ospo.noaa.gov/Products/land/hms.html).
+[NOAA Hazard Mapping Service](https://www.ospo.noaa.gov/products/land/hms.html).
 * Shapefiles with no projection information are assigned 
 `"+proj=longlat +ellps=GRS80 +datum=NAD83 +no_defs"`.
 * Added dependency on **lubridate** package.

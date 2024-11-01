@@ -16,7 +16,7 @@
 #'
 #' @return Name of the datasetName being created.
 #'
-#' @references \url{https://thematicmapping.org/downloads/}
+#' @references \url{https://thematicmapping.org/}
 #'
 
 convertTMWorldBorders <- function() {

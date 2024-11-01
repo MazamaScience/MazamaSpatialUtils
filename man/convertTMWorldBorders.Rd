@@ -23,5 +23,5 @@ simple features data frame with additional columns of data. The resulting file i
 created in the spatial data directory which is set with \code{setSpatialDataDir()}.
 }
 \references{
-\url{https://thematicmapping.org/downloads/}
+\url{https://thematicmapping.org/}
 }
