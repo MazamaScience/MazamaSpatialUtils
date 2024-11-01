@@ -17,7 +17,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">MazamaSpatialUtils</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.8.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.8.7</span>
       </span>
     </div>
 
@@ -64,7 +64,18 @@
     </div>
 
     <div class="section level2">
-<h2 class="page-header" data-toc-text="0.8.6" id="mazamaspatialutils-086">MazamaSpatialUtils 0.8.6<a class="anchor" aria-label="anchor" href="#mazamaspatialutils-086"></a></h2>
+<h2 class="page-header" data-toc-text="0.8.7" id="mazamaspatialutils-087">MazamaSpatialUtils 0.8.7<a class="anchor" aria-label="anchor" href="#mazamaspatialutils-087"></a></h2>
+<p>Added a new set of country code conversion functions whose names match those for state and county conversions:</p>
+<ul><li><code><a href="../reference/countryConversion.html">countryCodeToName()</a></code></li>
+<li><code><a href="../reference/countryConversion.html">countryCodeToFIPS()</a></code></li>
+<li><code><a href="../reference/countryConversion.html">countryFIPSToName()</a></code></li>
+<li><code><a href="../reference/countryConversion.html">countryCodeToCode()</a></code></li>
+<li><code><a href="../reference/countryConversion.html">countryNameToCode()</a></code></li>
+<li><code><a href="../reference/countryConversion.html">countryNameToFIPS()</a></code></li>
+</ul><p>These are now preferred over the older <code><a href="../reference/codeToCountry.html">codeToCountry()</a></code> and <code><a href="../reference/countryToCode.html">countryToCode()</a></code> functions which, while deprecated, are still supported for backwards compatibility.</p>
+</div>
+    <div class="section level2">
+<h2 class="page-header" data-toc-text="0.8.6" id="mazamaspatialutils-086">MazamaSpatialUtils 0.8.6<small>2023-09-06</small><a class="anchor" aria-label="anchor" href="#mazamaspatialutils-086"></a></h2>
 <ul><li>Addressed CRAN package documentation issue.</li>
 <li>Package-internal datasets can be loaded by <code><a href="../reference/getCountryCode.html">getCountryCode()</a></code> and <code><a href="../reference/getTimezone.html">getTimezone()</a></code> without invoking <code>library MazamaSpatialUtils</code>.</li>
 </ul></div>

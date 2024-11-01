@@ -3,32 +3,32 @@
 #' @aliases US_stateCodeToName US_stateCodeToFIPS
 #' @aliases US_stateFIPSToName US_stateCodeToCode
 #' @aliases US_stateNameToCode US_stateNameToFIPS
-#' 
+#'
 #' @title Conversion functions for US state names, codes and FIPS codes.
-#' 
+#'
 #' @param stateName Vector of English language state names.
 #' @param stateCode Vector of ISO 3166-2 alpha-2 codes.
 #' @param stateFIPS Vector of two-digit FIPS codes.
-#' 
+#'
 #' @return A vector of US state names or codes.
-#' 
+#'
 #' @description Converts a vector of US state names or codes from one system to
-#' another reuturning \code{NA} where no match is found.
-#' 
-#' @examples 
+#' another returning \code{NA} where no match is found.
+#'
+#' @examples
 #' library(MazamaSpatialUtils)
-#' 
+#'
 #' US_stateNameToCode("Washington")
 #' US_stateNameToFIPS("Washington")
-#' 
+#'
 #' postalCodes <- sample(US_stateCodes$stateCode, 30)
-#' 
+#'
 #' data.frame(
 #'   name = US_stateCodeToName(postalCodes),
 #'   code = postalCodes,
 #'   FIPS = US_stateCodeToFIPS(postalCodes)
 #' )
-#' 
+#'
 NULL
 
 #' @rdname US_stateConversion

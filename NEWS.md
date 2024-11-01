@@ -1,3 +1,18 @@
+# MazamaSpatialUtils 0.8.7
+
+Added a new set of country code conversion functions whose names match those
+for state and county conversions:
+
+- `countryCodeToName()`
+- `countryCodeToFIPS()`
+- `countryFIPSToName()`
+- `countryCodeToCode()`
+- `countryNameToCode()`
+- `countryNameToFIPS()`
+
+These are now preferred over the older `codeToCountry()` and `countryToCode()`
+functions which, while deprecated, are still supported for backwards compatibility.
+
 # MazamaSpatialUtils 0.8.6
 
 * Addressed CRAN package documentation issue.

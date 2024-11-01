@@ -22,8 +22,8 @@ evaluated to determine the type of input.}
 A vector of US county names or FIPS codes.
 }
 \description{
-Converts a vector of US county names or FIPS codes from one 
-system to another reuturning \code{NA} where no match is found.
+Converts a vector of US county names or FIPS codes from one
+system to another returning \code{NA} where no match is found.
 }
 \examples{
 library(MazamaSpatialUtils)
@@ -46,7 +46,7 @@ US_countyNameToFIPS(c("WA", "TX"), c("King", "Okanogan"))
 US_countyNameToFIPS(c("TX", "WA"), c("King", "Okanogan"))
 US_countyNameToFIPS(c("TX", "WA"), c("King", "King"))
 
-# The US_countyFIPSToName() function is included for symmetry but a 
+# The US_countyFIPSToName() function is included for symmetry but a
 # more typical usage of a 5-digit county FIPS would be to extract it from
 # the US_countyCodes package dataset:
 

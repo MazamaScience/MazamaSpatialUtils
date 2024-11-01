@@ -1,6 +1,6 @@
-#' @docType package
+#' @keywords internal
+#' "_PACKAGE"
 #' @name MazamaSpatialUtils
-#' @aliases MazamaSpatialUtils-package
 #' @title Mazama Science spatial data and utility functions.
 #' @description This package contains code to convert various spatial datasets
 #' into .rda files with uniformly named identifiers including:
@@ -150,13 +150,13 @@ iso3ToIso2 <- function(countryCodes) {
 #' @param countryCodes Vector of ISO 3166-1 alpha-2 country codes.
 #' @description Converts a vector of ISO 3166-1 alpha-2 codes to the
 #' corresponding English names.
+#'
+#' @note This function is deprecated as of \strong{MazamaSpatialUtils 0.8.7}.
+#' Please use \link{countryCodeToName} instead.
+#'
 #' @return A vector of English country names or NA.
 codeToCountry <- function(countryCodes) {
-  countryNames <- countrycode::countrycode(
-    countryCodes, "iso2c", "country.name",
-    custom_match = c("AN" = "Netherlands Antilles") # custom match for Netherlands Antilles
-  )
-  return(countryNames)
+  return(countryCodeToName(countryCodes));
 }
 
 #' @export
@@ -164,13 +164,13 @@ codeToCountry <- function(countryCodes) {
 #' @param countryNames Vector of English language country names.
 #' @description Converts a vector of English country names to the corresponding
 #' ISO 3166-1 alpha-2 codes.
+#'
+#' @note This function is deprecated as of \strong{MazamaSpatialUtils 0.8.7}.
+#' Please use \link{countryNameToCode} instead.
+#'
 #' @return A vector of ISO 3166-1 alpha-2 codes or NA.
 countryToCode <- function(countryNames) {
-  countryCodes <- countrycode::countrycode(
-    countryNames, "country.name", "iso2c",
-    custom_match = c("Netherlands Antilles" = "AN") # custom match for Netherlands Antilles
-  )
-  return(countryCodes)
+  return(countryNameToCode(countryNames));
 }
 
 #' @export

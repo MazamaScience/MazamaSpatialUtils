@@ -35,7 +35,7 @@ A vector of US state names or codes.
 }
 \description{
 Converts a vector of US state names or codes from one system to
-another reuturning \code{NA} where no match is found.
+another returning \code{NA} where no match is found.
 }
 \examples{
 library(MazamaSpatialUtils)

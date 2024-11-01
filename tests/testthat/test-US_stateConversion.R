@@ -1,4 +1,4 @@
-# ----- US_stateCodeToName ----------------------------------------------------------------
+# ----- US_stateCodeToName -----------------------------------------------------
 
 testthat::context("US_stateCodeToName()")
 
@@ -8,7 +8,7 @@ test_that("Returns expected output", {
                c("South Dakota", "New York", "Washington", "California"))
 })
 
-# ----- US_stateCodeToFIPS ----------------------------------------------------------------
+# ----- US_stateCodeToFIPS -----------------------------------------------------
 
 testthat::context("US_stateCodeToFIPS()")
 
@@ -18,7 +18,7 @@ test_that("Returns expected output", {
                c("08", "09", "12", "16"))
 })
 
-# ----- US_stateFIPSToName ----------------------------------------------------------------
+# ----- US_stateFIPSToName -----------------------------------------------------
 
 testthat::context("US_stateFIPSToName()")
 
@@ -28,7 +28,7 @@ test_that("Returns expected output", {
                c("Wisconsin","Texas", "Oregon", "Alabama"))
 })
 
-# ----- US_stateFIPSToCode ----------------------------------------------------------------
+# ----- US_stateFIPSToCode -----------------------------------------------------
 
 testthat::context("US_stateFIPSToCode()")
 
@@ -38,7 +38,7 @@ test_that("Returns expected output", {
                c("WI", "TX", "OR", "AL"))
 })
 
-# ----- US_stateNameToCode ----------------------------------------------------------------
+# ----- US_stateNameToCode -----------------------------------------------------
 
 testthat::context("US_stateNameToCode()")
 
@@ -48,7 +48,7 @@ test_that("Returns expected output", {
                c("IN", "KS", "ME", "NH"))
 })
 
-# ----- US_stateNameToFIPS ----------------------------------------------------------------
+# ----- US_stateNameToFIPS -----------------------------------------------------
 
 testthat::context("US_stateNameToFIPS()")
 

@@ -1,5 +1,5 @@
 # https://hub.docker.com/r/rocker/geospatial/tags
-FROM rocker/geospatial:4.2.3
+FROM rocker/geospatial:4.4.2
 MAINTAINER Jonathan Callahan <jonathan@mazamascience.com>
 
 
@@ -8,8 +8,8 @@ RUN install2.r --error -r "https://cran.rstudio.com" \
     rmapshaper
 
 RUN installGithub.r \
-    MazamaScience/MazamaCoreUtils@0.4.16 \
-    MazamaScience/MazamaSpatialUtils@0.8.6
+    MazamaScience/MazamaCoreUtils@0.5.2 \
+    MazamaScience/MazamaSpatialUtils@0.8.7
 
 # Add potentially useful spatial data for MazamaSpatialUtils 0.8.x
 RUN mkdir -p /home/mazama/data/Spatial \
