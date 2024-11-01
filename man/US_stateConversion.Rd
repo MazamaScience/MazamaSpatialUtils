@@ -5,10 +5,9 @@
 \alias{US_stateCodeToName}
 \alias{US_stateCodeToFIPS}
 \alias{US_stateFIPSToName}
-\alias{US_stateCodeToCode}
+\alias{US_stateFIPSToCode}
 \alias{US_stateNameToCode}
 \alias{US_stateNameToFIPS}
-\alias{US_stateFIPSToCode}
 \title{Conversion functions for US state names, codes and FIPS codes.}
 \usage{
 US_stateCodeToName(stateCode = NULL)

@@ -1,7 +1,7 @@
 #'
 #' @name US_stateConversion
 #' @aliases US_stateCodeToName US_stateCodeToFIPS
-#' @aliases US_stateFIPSToName US_stateCodeToCode
+#' @aliases US_stateFIPSToName US_stateFIPSToCode
 #' @aliases US_stateNameToCode US_stateNameToFIPS
 #'
 #' @title Conversion functions for US state names, codes and FIPS codes.

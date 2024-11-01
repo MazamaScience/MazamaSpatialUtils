@@ -1,7 +1,7 @@
 #'
 #' @name countryConversion
 #' @aliases countryCodeToName countryCodeToFIPS
-#' @aliases countryFIPSToName countryCodeToCode
+#' @aliases countryFIPSToName countryFIPSToCode
 #' @aliases countryNameToCode countryNameToFIPS
 #'
 #' @title Conversion functions for country names, codes and FIPS codes.

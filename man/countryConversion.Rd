@@ -5,10 +5,9 @@
 \alias{countryCodeToName}
 \alias{countryCodeToFIPS}
 \alias{countryFIPSToName}
-\alias{countryCodeToCode}
+\alias{countryFIPSToCode}
 \alias{countryNameToCode}
 \alias{countryNameToFIPS}
-\alias{countryFIPSToCode}
 \title{Conversion functions for country names, codes and FIPS codes.}
 \usage{
 countryCodeToName(countryCode = NULL)
