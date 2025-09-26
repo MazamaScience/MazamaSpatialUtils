@@ -1,11 +1,18 @@
 # Exporting version 0.8 data
 
+library(MazamaCoreUtils)
 library(MazamaSpatialUtils)
-
-setSpatialDataDir("~/Data/Spatial")
-loadSpatialData("EEZCountries_02")
+library(sf)
 
 source('global_vars.R')
+
+setSpatialDataDir("~/Data/Spatial")
+
+datasetNames <-
+  installedSpatialData(verbose = FALSE) %>%
+  stringr::str_subset("^Simple", negate = TRUE) %>%
+  stringr::str_subset("WBD", negate = TRUE) %>%
+  stringr::str_subset("_01$", negate = TRUE)
 
 # Create a DB connection
 db_conn <- DBI::dbConnect(
@@ -18,16 +25,30 @@ db_conn <- DBI::dbConnect(
   sslmode = "require"
 )
 
-# instance > database > schema
-# monitoring > monitoring > geographic_data
+for (datasetName in datasetNames) {
 
-sf::st_write(
-  obj = EEZCountries_02,
-  dsn = db_conn,
-  layer = RPostgres::Id(table = "eez_countries_02", schema = "geographic_data"),
-  append = FALSE,
-  delete_layer = FALSE,
-  geometry_name = "geometry"
-)
+  message(sprintf("Working on %s ...", datasetName))
+
+  dataset_name <- datasetName %>% snakecase::to_snake_case()
+
+  SPDF <- get(loadSpatialData(paste0(datasetName, ".rda")))
+  column_names <- colnames(SPDF) %>% snakecase::to_snake_case()
+  colnames(SPDF) <- column_names
+
+  # Drop any duplicates we may have created
+  keepers <- !duplicated(column_names)
+  SPDF <- SPDF[,keepers]
+
+  sf::st_write(
+    obj = SPDF,
+    dsn = db_conn,
+    layer = RPostgres::Id(table = dataset_name, schema = "geographic_data"),
+    append = FALSE,
+    delete_layer = TRUE,
+    geometry_name = "geometry"
+  )
+
+}
+
 
 
