@@ -25,3 +25,5 @@
 # Ignore configuration files for other tools
 ^\.travis\.yml$
 
+^\.positai$
+^\.claude$

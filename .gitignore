@@ -54,3 +54,4 @@ rsconnect/
 # Other
 localShiny/localCache
 global_vars.R
+.positai
